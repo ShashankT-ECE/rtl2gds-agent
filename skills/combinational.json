@@ -1,1 +1,165 @@
-{"version": "1.0", "skills": []}
+{
+  "version": "1.0",
+  "skills": [
+    {
+      "id": "combinational_0000",
+      "category": "combinational",
+      "error_type": "SYNTAX",
+      "pattern": "Invalid Python syntax on line 1 of the testbench file.",
+      "fix": "Correct the syntax error, such as fixing missing colons, parentheses, or invalid characters at the beginning of the file.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0001",
+      "category": "combinational",
+      "error_type": "SYNTAX",
+      "pattern": "The testbench file contains a syntax error on the first line, preventing the simulation from parsing correctly.",
+      "fix": "Correct the syntax error by reviewing line 1 of workspace/alu_8bit_tb.py for missing punctuation, incorrect indentation, or invalid Python constructs.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0002",
+      "category": "combinational",
+      "error_type": "SYNTAX",
+      "pattern": "The first line of the testbench file contains a syntax error, causing the simulation to fail.",
+      "fix": "Correct the syntax on line 1 of workspace/alu_8bit_tb.py, such as fixing a missing parenthesis, invalid import, or typo.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0003",
+      "category": "combinational",
+      "error_type": "SYNTAX",
+      "pattern": "A syntax error occurred on line 1 of the Python testbench file, likely due to missing punctuation or invalid code.",
+      "fix": "Check the first line of the file for missing parentheses, quotes, or other Python syntax issues and correct them.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0004",
+      "category": "combinational",
+      "error_type": "SYNTAX",
+      "pattern": "The Python testbench file contains a syntax error on the first line.",
+      "fix": "Correct the syntax error at line 1 of workspace/alu_8bit_tb.py (e.g., check for missing colons, parentheses, or invalid characters).",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0005",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The Python environment is missing the 'cocotb.runner' module required by the test script.",
+      "fix": "Install the correct version of cocotb that includes the runner module (e.g., `pip install cocotb` with appropriate version).",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0006",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The Python module 'cocotb.runner' is not installed or accessible in the current environment.",
+      "fix": "Install the cocotb package (e.g., `pip install cocotb`) or ensure the correct virtual environment is activated.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0007",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The required Python module 'cocotb.runner' is missing or not installed in the current environment.",
+      "fix": "Install the appropriate version of cocotb that includes the runner module, typically via `pip install cocotb` or by activating the correct Python environment.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0008",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The required Python module 'cocotb.runner' is missing from the environment.",
+      "fix": "Install the cocotb package (e.g., `pip install cocotb`) or activate the correct Python environment.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0009",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The Python script attempts to import 'cocotb.runner' but the cocotb package is not installed in the current environment.",
+      "fix": "Install cocotb by running 'pip install cocotb' or activate the correct Python environment where cocotb is available.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0010",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The build system cannot locate the required Makefile for the cocotb build directory.",
+      "fix": "Verify that the cocotb build directory exists and that the Makefile is generated or present at the expected path, or reconfigure the build environment.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0011",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The make command cannot find the Makefile because the specified path 'workspace/cocotb_build/Makefile' does not exist.",
+      "fix": "Verify that the cocotb build directory and Makefile are present, or update the build script to point to the correct path.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0012",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The build system fails because the specified Makefile does not exist in the expected path.",
+      "fix": "Verify that the workspace/cocotb_build directory and Makefile are present, or recreate the build environment.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0013",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The build system cannot find the Makefile at the specified path because it was either not generated or the path is incorrect.",
+      "fix": "Generate the Makefile using the appropriate cocotb configuration or correct the path in the make command.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0014",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The required Makefile for the cocotb build system is missing, causing the make command to fail.",
+      "fix": "Ensure the cocotb build directory is correctly generated by running the appropriate configuration or setup script before invoking make.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0015",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The build system cannot locate the required Makefile due to an incorrect path or missing directory.",
+      "fix": "Verify the cocotb project setup and ensure the Makefile exists at the expected location or update the make command path.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    }
+  ]
+}

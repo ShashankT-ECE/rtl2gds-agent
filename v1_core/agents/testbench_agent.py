@@ -11,12 +11,20 @@ from v1_core.utils import logger
 TB_PROMPT = """You are an expert verification engineer.
 Generate a basic cocotb testbench for the following Verilog RTL.
 
+IMPORTANT — cocotb 2.x API rules:
+- Use `unit='ns'` (not `units='ns'`) in Timer()
+- Use `int(dut.signal.value)` to read signal values (not `.value.integer`)
+- Use `dut.signal.value = val` to drive signals
+- `for` loop over `cocotb.types.LogicArray` is deprecated; use `int()` to compare
+- Do NOT import from `cocotb.binary` — that module was removed in cocotb 2.x
+- Do NOT import `BinaryValue` at all unless actually needed; compare with `int()`
+- End simulation cleanly with a log message
+
 Rules:
 - Output ONLY the Python cocotb testbench code, nothing else
 - No explanation, no markdown, no code fences
 - Use cocotb decorators correctly
 - Test basic functionality and edge cases
-- End simulation cleanly
 
 RTL Code:
 {rtl_code}

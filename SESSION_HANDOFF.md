@@ -18,20 +18,36 @@ Sprint goal: NL spec → RTL generation → cocotb simulation → log analysis �
 - [x] PROJECT_CONTEXT.md created
 - [x] SESSION_HANDOFF.md created
 - [x] model_router.py created
+- [x] trace2skill.py created
+- [x] logger.py created
+- [x] orchestrator.py created
+- [x] rtl_gen_agent.py created
+- [x] testbench_agent.py created
+- [x] simulation_server.py created
+- [x] simulation_agent.py created
+- [x] log_analysis_agent.py created
+- [x] fix_agent.py created
+- [x] pipeline.py created
+- [x] main.py created
+- [x] benchmark specs created
+- [x] All imports verified OK
+- [x] fix_agent import path corrected
+- [x] DEEPSEEK_API_KEY set in ~/.bashrc
 
 ## Exactly Where to Continue
-Next task: Create trace2skill.py in v1_core/utils/
-File to open: v1_core/utils/trace2skill.py
-This file handles storing and retrieving fixes from the skills/ JSON banks.
+Next task: First real test run on alu_8bit benchmark
+Command to run: python main.py --benchmark alu_8bit
+Expected: Pipeline calls DeepSeek, generates RTL, generates testbench, runs iverilog simulation
+Watch for: Any import errors, API errors, or simulation errors
 
 ## Blockers
-DEEPSEEK_API_KEY environment variable not set yet — needed before running any agent.
+None. Everything is in place for first real run.
 
 ## Test Results
-No tests run yet.
+No real runs yet — all syntax checks pass.
 
 ## Trace2Skill Stats
-All skill banks empty — 0 skills stored.
+All skill banks empty — 0 skills stored yet.
 
 ## Cost Tracking
-Session 1: $0 (setup only, no API calls made)
+Session 1: ~$0 (no API calls made yet)
