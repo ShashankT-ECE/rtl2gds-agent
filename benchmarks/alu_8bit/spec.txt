@@ -1,0 +1,14 @@
+Design: 8-bit ALU
+Inputs: A (8-bit), B (8-bit), opcode (3-bit)
+Output: Y (8-bit), zero_flag (1-bit)
+Operations:
+  000 - ADD: Y = A + B
+  001 - SUB: Y = A - B
+  010 - AND: Y = A & B
+  011 - OR:  Y = A | B
+  100 - XOR: Y = A ^ B
+  101 - NOT: Y = ~A
+  110 - SHL: Y = A << 1
+  111 - SHR: Y = A >> 1
+zero_flag: assertes to 1 when Y == 0
+Combinational design. No clock required.

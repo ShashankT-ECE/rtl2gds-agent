@@ -80,7 +80,7 @@ def fix_agent(state: PipelineState) -> PipelineState:
     logger.success("Fix generated — storing in Trace2Skill")
 
     # Store this fix in Trace2Skill memory
-    from log_analysis_agent import _guess_category
+    from v1_core.agents.log_analysis_agent import _guess_category
     category = _guess_category(state["design_name"])
 
     store_skill(

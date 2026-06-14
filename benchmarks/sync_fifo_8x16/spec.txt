@@ -1,0 +1,11 @@
+Design: Synchronous FIFO
+Depth: 16 entries
+Width: 8 bits
+Inputs: clk, rst_n, wr_en, rd_en, din (8-bit)
+Outputs: dout (8-bit), full, empty
+Behavior:
+  Write on rising edge of clk when wr_en=1 and full=0
+  Read on rising edge of clk when rd_en=1 and empty=0
+  full asserts when FIFO has 16 entries
+  empty asserts when FIFO has 0 entries
+  rst_n is active-low synchronous reset
