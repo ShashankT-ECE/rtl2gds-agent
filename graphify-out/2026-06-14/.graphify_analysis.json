@@ -1,0 +1,282 @@
+{
+  "communities": {
+    "0": [
+      "agents_fix_agent",
+      "agents_fix_agent_fix_agent",
+      "agents_fix_agent_rationale_1",
+      "agents_fix_agent_rationale_44",
+      "agents_log_analysis_agent",
+      "agents_log_analysis_agent_guess_category",
+      "agents_log_analysis_agent_log_analysis_agent",
+      "agents_log_analysis_agent_rationale_1",
+      "agents_log_analysis_agent_rationale_39",
+      "agents_log_analysis_agent_rationale_84",
+      "utils_trace2skill",
+      "utils_trace2skill_get_stats",
+      "utils_trace2skill_load",
+      "utils_trace2skill_rationale_1",
+      "utils_trace2skill_rationale_101",
+      "utils_trace2skill_rationale_33",
+      "utils_trace2skill_rationale_74",
+      "utils_trace2skill_retrieve_skills",
+      "utils_trace2skill_save",
+      "utils_trace2skill_store_skill",
+      "v1_core_agents_fix_agent_py_pipelinestate",
+      "v1_core_agents_log_analysis_agent_py_pipelinestate"
+    ],
+    "1": [
+      "agents_orchestrator_get_initial_state",
+      "agents_orchestrator_rationale_30",
+      "main",
+      "main_main",
+      "main_rationale_1",
+      "stategraph",
+      "v1_core_pipeline",
+      "v1_core_pipeline_build_pipeline",
+      "v1_core_pipeline_py_pipelinestate",
+      "v1_core_pipeline_rationale_1",
+      "v1_core_pipeline_rationale_18",
+      "v1_core_pipeline_rationale_35",
+      "v1_core_pipeline_rationale_78",
+      "v1_core_pipeline_run_pipeline",
+      "v1_core_pipeline_should_fix_or_end"
+    ],
+    "2": [
+      "agents_rtl_gen_agent",
+      "agents_rtl_gen_agent_rationale_1",
+      "agents_rtl_gen_agent_rationale_31",
+      "agents_rtl_gen_agent_rtl_gen_agent",
+      "agents_testbench_agent",
+      "agents_testbench_agent_rationale_1",
+      "agents_testbench_agent_rationale_60",
+      "agents_testbench_agent_testbench_agent",
+      "utils_init",
+      "utils_init_rationale_5",
+      "utils_init_strip_code_fences",
+      "utils_model_router_call_llm",
+      "utils_model_router_rationale_21",
+      "v1_core_agents_rtl_gen_agent_py_pipelinestate",
+      "v1_core_agents_testbench_agent_py_pipelinestate"
+    ],
+    "3": [
+      "claude_md_ai_driven_agentic_framework_for_rtl_to_gds",
+      "claude_md_cocotb",
+      "claude_md_deepseek_api",
+      "claude_md_fix_agent",
+      "claude_md_icarus_verilog",
+      "claude_md_langgraph",
+      "claude_md_log_analysis_agent",
+      "claude_md_mcp",
+      "claude_md_model_router",
+      "claude_md_orchestrator_agent",
+      "claude_md_rtl_gen_agent",
+      "claude_md_shashank_tumuluri",
+      "claude_md_simulation_agent",
+      "claude_md_testbench_agent",
+      "claude_md_trace2skill"
+    ],
+    "4": [
+      "alu_8bit_spec_alu_8bit",
+      "project_context_md_ai_driven_agentic_framework_for_automated_rtl_to_gds",
+      "project_context_md_alu_8bit",
+      "project_context_md_cocotb",
+      "project_context_md_deepseek_api",
+      "project_context_md_icarus_verilog",
+      "project_context_md_langgraph",
+      "project_context_md_mcp",
+      "project_context_md_model_router",
+      "project_context_md_shashank_tumuluri",
+      "project_context_md_sync_fifo_8x16",
+      "project_context_md_tessolve_semiconductors",
+      "project_context_md_trace2skill",
+      "sync_fifo_8x16_spec_sync_fifo_8x16"
+    ],
+    "5": [
+      "agents_orchestrator",
+      "agents_orchestrator_pipelinestate",
+      "agents_orchestrator_rationale_1",
+      "agents_orchestrator_rationale_11",
+      "agents_simulation_agent",
+      "agents_simulation_agent_rationale_1",
+      "agents_simulation_agent_rationale_16",
+      "agents_simulation_agent_simulation_agent",
+      "mcp_tools_simulation_server_rationale_16",
+      "mcp_tools_simulation_server_run_simulation",
+      "typeddict",
+      "v1_core_agents_simulation_agent_py_pipelinestate"
+    ],
+    "6": [
+      "mcp_tools_simulation_server",
+      "mcp_tools_simulation_server_rationale_1",
+      "utils_logger",
+      "utils_logger_agent",
+      "utils_logger_divider",
+      "utils_logger_error",
+      "utils_logger_info",
+      "utils_logger_rationale_1",
+      "utils_logger_success",
+      "utils_logger_warning",
+      "utils_model_router",
+      "utils_model_router_rationale_1"
+    ],
+    "7": [
+      "session_handoff_md_alu_8bit",
+      "session_handoff_md_cocotb",
+      "session_handoff_md_icarus_verilog",
+      "session_handoff_md_sync_fifo_8x16",
+      "session_handoff_md_trace2skill"
+    ],
+    "8": [
+      "session_handoff_md_docker",
+      "session_handoff_md_opensta",
+      "session_handoff_md_pyuvm",
+      "session_handoff_md_yosys"
+    ],
+    "9": [
+      "claude_md_claude_code",
+      "claude_md_project_context_md",
+      "claude_md_session_handoff_md"
+    ],
+    "10": [
+      "agents_init"
+    ],
+    "11": [
+      "mcp_tools_init"
+    ],
+    "12": [
+      "tests_init"
+    ],
+    "13": [
+      "v1_core_init"
+    ]
+  },
+  "cohesion": {
+    "0": 0.12987012987012986,
+    "1": 0.18095238095238095,
+    "2": 0.18095238095238095,
+    "3": 0.13333333333333333,
+    "4": 0.14285714285714285,
+    "5": 0.19696969696969696,
+    "6": 0.16666666666666666,
+    "7": 0.4,
+    "8": 0.6666666666666666,
+    "9": 0.6666666666666666,
+    "10": 1.0,
+    "11": 1.0,
+    "12": 1.0,
+    "13": 1.0
+  },
+  "gods": [
+    {
+      "id": "agents_orchestrator_pipelinestate",
+      "label": "PipelineState",
+      "degree": 17
+    },
+    {
+      "id": "utils_model_router_call_llm",
+      "label": "call_llm()",
+      "degree": 10
+    },
+    {
+      "id": "project_context_md_ai_driven_agentic_framework_for_automated_rtl_to_gds",
+      "label": "AI-Driven Agentic Framework for Automated RTL-to-GDS",
+      "degree": 10
+    },
+    {
+      "id": "agents_fix_agent_fix_agent",
+      "label": "fix_agent()",
+      "degree": 8
+    },
+    {
+      "id": "utils_init_strip_code_fences",
+      "label": "strip_code_fences()",
+      "degree": 8
+    },
+    {
+      "id": "agents_log_analysis_agent_log_analysis_agent",
+      "label": "log_analysis_agent()",
+      "degree": 7
+    },
+    {
+      "id": "v1_core_pipeline_run_pipeline",
+      "label": "run_pipeline()",
+      "degree": 7
+    },
+    {
+      "id": "claude_md_langgraph",
+      "label": "LangGraph",
+      "degree": 7
+    },
+    {
+      "id": "agents_rtl_gen_agent_rtl_gen_agent",
+      "label": "rtl_gen_agent()",
+      "degree": 6
+    },
+    {
+      "id": "agents_testbench_agent_testbench_agent",
+      "label": "testbench_agent()",
+      "degree": 6
+    }
+  ],
+  "surprises": [
+    {
+      "source": "main()",
+      "target": "get_stats()",
+      "source_files": [
+        "main.py",
+        "v1_core/utils/trace2skill.py"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "PipelineState",
+      "target": "PipelineState",
+      "source_files": [
+        "v1_core/agents/fix_agent.py",
+        "v1_core/agents/orchestrator.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "uses",
+      "why": "inferred connection - not explicitly stated in source; bridges separate communities; peripheral node `PipelineState` unexpectedly reaches hub `PipelineState`"
+    },
+    {
+      "source": "PipelineState",
+      "target": "PipelineState",
+      "source_files": [
+        "v1_core/agents/log_analysis_agent.py",
+        "v1_core/agents/orchestrator.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "uses",
+      "why": "inferred connection - not explicitly stated in source; bridges separate communities; peripheral node `PipelineState` unexpectedly reaches hub `PipelineState`"
+    },
+    {
+      "source": "StateGraph",
+      "target": "PipelineState",
+      "source_files": [
+        "v1_core/pipeline.py",
+        "v1_core/agents/orchestrator.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "uses",
+      "why": "inferred connection - not explicitly stated in source; bridges separate communities; peripheral node `StateGraph` unexpectedly reaches hub `PipelineState`"
+    },
+    {
+      "source": "PipelineState",
+      "target": "PipelineState",
+      "source_files": [
+        "v1_core/agents/rtl_gen_agent.py",
+        "v1_core/agents/orchestrator.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "uses",
+      "why": "inferred connection - not explicitly stated in source; bridges separate communities; peripheral node `PipelineState` unexpectedly reaches hub `PipelineState`"
+    }
+  ],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}

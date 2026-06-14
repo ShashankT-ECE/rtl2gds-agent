@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>rtl2gds-agent — Complete Call Flow &amp; Architecture Documentation</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+:root {
+  --bg: #0f172a; --surface: #1e293b; --border: #334155;
+  --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8;
+  --warn: #fbbf24; --err: #f87171; --ok: #34d399;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+h1 { font-size: 2.4rem; margin-bottom: 8px; background: linear-gradient(135deg, var(--accent), #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+h2 { font-size: 1.7rem; margin: 48px 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
+h3 { font-size: 1.25rem; margin: 32px 0 12px; color: var(--accent); }
+h4 { font-size: 1.05rem; margin: 20px 0 8px; color: var(--warn); }
+p { margin: 8px 0; color: var(--muted); }
+.subtitle { color: var(--muted); font-size: 1.1rem; margin-bottom: 32px; }
+.mermaid { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 20px 0; overflow-x: auto; position: relative; }
+.mermaid.is-enhanced { padding: 0; overflow: hidden; min-height: 260px; }
+.mermaid-viewport { padding: 54px 24px 24px; overflow: hidden; cursor: grab; touch-action: none; min-height: 260px; }
+.mermaid-viewport.is-dragging { cursor: grabbing; }
+.mermaid-viewport svg { max-width: none !important; height: auto; transform-origin: 0 0; transition: transform 120ms ease; }
+.mermaid-toolbar { position: absolute; top: 10px; right: 10px; z-index: 3; display: flex; align-items: center; gap: 6px; padding: 6px; background: rgba(15,23,42,0.92); border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.28); }
+.mermaid-toolbar button, .mermaid-toolbar .zoom-level { height: 28px; min-width: 32px; border: 1px solid var(--border); border-radius: 6px; background: #1e293b; color: var(--text); font: 600 0.78rem system-ui, sans-serif; display: inline-flex; align-items: center; justify-content: center; }
+.mermaid-toolbar button { cursor: pointer; }
+.mermaid-toolbar button:hover { border-color: var(--accent); color: var(--accent); }
+.mermaid-toolbar .zoom-level { min-width: 52px; color: var(--muted); background: transparent; }
+.call-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92rem; }
+.call-table th { background: #1a2744; color: var(--accent); text-align: left; padding: 10px 14px; border: 1px solid var(--border); }
+.call-table td { padding: 8px 14px; border: 1px solid var(--border); vertical-align: top; }
+.call-table tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
+.tag-async { background: #7c3aed33; color: #a78bfa; }
+.tag-class { background: #05966933; color: var(--ok); }
+.tag-func { background: #2563eb33; color: var(--accent); }
+.tag-cmd { background: #d9770633; color: var(--warn); }
+.tag-endpoint { background: #dc262633; color: var(--err); }
+.tag-hook { background: #db277733; color: #f472b6; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin: 16px 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; margin: 16px 0; }
+.arrow-chain { font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--accent); padding: 10px; background: rgba(56,189,248,0.06); border-radius: 6px; }
+code { font-family: 'Fira Code', 'Cascadia Code', monospace; background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 3px; font-size: 0.88em; }
+ul, ol { margin: 8px 0 8px 24px; color: var(--muted); }
+li { margin: 4px 0; }
+a { color: var(--accent); }
+hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+.nav { position: sticky; top: 0; background: var(--bg); z-index: 10; padding: 12px 0; border-bottom: 1px solid var(--border); display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.9rem; }
+.nav a { text-decoration: none; }
+.nav a:hover { text-decoration: underline; }
+@media (max-width: 768px) { .container { padding: 16px; } h1 { font-size: 1.8rem; } }
+
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>rtl2gds-agent — Complete Call Flow &amp; Architecture Documentation</h1>
+<p class="subtitle">Generated from graphify knowledge graph: 148 nodes, 188 edges, 17 communities. Commit: 6f26be5</p>
+
+<div class="nav">
+    <a href="#overview">Architecture Overview</a>
+    <a href="#analysis-clustering">Analysis &amp; Clustering</a>
+    <a href="#cli-skills">CLI &amp; Skill Installers</a>
+    <a href="#serve-api">Serving API</a>
+    <a href="#pipeline-state-simulation">Pipeline State &amp; Simulation</a>
+    <a href="#design-examples-tools">Design Examples &amp; Tools</a>
+    <a href="#eda-tools-docker">EDA Tools &amp; Docker</a>
+    <a href="#python-package-init">Python Package Init</a>
+    <a href="#python-package-init-d725c0">Python Package Init</a>
+    <a href="#python-package-init-2">Python Package Init</a>
+    <a href="#python-package-init-3">Python Package Init</a>
+</div>
+
+<!-- ====== Architecture Overview ====== -->
+<h2 id="overview">1. Architecture Overview</h2>
+
+<div class="mermaid">
+
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    ANALYSIS_CLUSTERING_C79796DA("Analysis &amp; Clustering<br/><small>8 nodes</small>")
+    class ANALYSIS_CLUSTERING_C79796DA module;
+    CLI_SKILLS_9964CBB8("CLI &amp; Skill Installers<br/><small>103 nodes</small>")
+    class CLI_SKILLS_9964CBB8 module;
+    SERVE_API_35EC8E86("Serving API<br/><small>14 nodes</small>")
+    class SERVE_API_35EC8E86 module;
+    PIPELINE_STATE_SIMULATION_113AA347("Pipeline State &amp; Simulation<br/><small>10 nodes</small>")
+    class PIPELINE_STATE_SIMULATION_113AA347 module;
+    DESIGN_EXAMPLES_TOOLS_D6FE8608("Design Examples &amp; Tools<br/><small>5 nodes</small>")
+    class DESIGN_EXAMPLES_TOOLS_D6FE8608 module;
+    EDA_TOOLS_DOCKER_7CAE9E41("EDA Tools &amp; Docker<br/><small>4 nodes</small>")
+    class EDA_TOOLS_DOCKER_7CAE9E41 module;
+    PYTHON_PACKAGE_INIT_F2C5EED5("Python Package Init<br/><small>1 nodes</small>")
+    class PYTHON_PACKAGE_INIT_F2C5EED5 module;
+    PYTHON_PACKAGE_INIT_D725C0_D2AE7712("Python Package Init<br/><small>1 nodes</small>")
+    class PYTHON_PACKAGE_INIT_D725C0_D2AE7712 module;
+    PYTHON_PACKAGE_INIT_2_840EAB41("Python Package Init<br/><small>1 nodes</small>")
+    class PYTHON_PACKAGE_INIT_2_840EAB41 module;
+    PYTHON_PACKAGE_INIT_3_F3ABBD23("Python Package Init<br/><small>1 nodes</small>")
+    class PYTHON_PACKAGE_INIT_3_F3ABBD23 module;
+    ANALYSIS_CLUSTERING_C79796DA -.-> CLI_SKILLS_9964CBB8
+    CLI_SKILLS_9964CBB8 -.-> SERVE_API_35EC8E86
+    SERVE_API_35EC8E86 -.-> PIPELINE_STATE_SIMULATION_113AA347
+    PIPELINE_STATE_SIMULATION_113AA347 -.-> DESIGN_EXAMPLES_TOOLS_D6FE8608
+    DESIGN_EXAMPLES_TOOLS_D6FE8608 -.-> EDA_TOOLS_DOCKER_7CAE9E41
+    EDA_TOOLS_DOCKER_7CAE9E41 -.-> PYTHON_PACKAGE_INIT_F2C5EED5
+    PYTHON_PACKAGE_INIT_F2C5EED5 -.-> PYTHON_PACKAGE_INIT_D725C0_D2AE7712
+    PYTHON_PACKAGE_INIT_D725C0_D2AE7712 -.-> PYTHON_PACKAGE_INIT_2_840EAB41
+    PYTHON_PACKAGE_INIT_2_840EAB41 -.-> PYTHON_PACKAGE_INIT_3_F3ABBD23
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h4>Architecture Layers</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>Layer</th><th>Nodes</th><th>Communities</th></tr>
+      <tr><td>Analysis &amp; Clustering</td><td>8</td><td><code>15</code></td></tr><tr><td>CLI &amp; Skill Installers</td><td>103</td><td><code>2, 6, 1, 3, 0, 14, 16, 9</code></td></tr><tr><td>Serving API</td><td>14</td><td><code>4</code></td></tr><tr><td>Pipeline State &amp; Simulation</td><td>10</td><td><code>5</code></td></tr><tr><td>Design Examples &amp; Tools</td><td>5</td><td><code>7</code></td></tr><tr><td>EDA Tools &amp; Docker</td><td>4</td><td><code>8</code></td></tr><tr><td>Python Package Init</td><td>1</td><td><code>10</code></td></tr><tr><td>Python Package Init</td><td>1</td><td><code>11</code></td></tr><tr><td>Python Package Init</td><td>1</td><td><code>12</code></td></tr><tr><td>Python Package Init</td><td>1</td><td><code>13</code></td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Core Flow</h4>
+    <div class="arrow-chain">Analysis &amp; Clustering -&gt; CLI &amp; Skill Installers -&gt; Serving API -&gt; Pipeline State &amp; Simulation -&gt; Design Examples &amp; Tools -&gt; EDA Tools &amp; Docker -&gt; Python Package Init</div>
+  </div>
+</div>
+<div class="grid">
+  <div class="card">
+    <h4>Graph Report Highlights</h4>
+    <ul>
+      <li>148 nodes · 188 edges · 17 communities</li>
+      <li>Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 11 edges (avg confidence: 0.59)</li>
+      <li>Token cost: 0 input · 0 output</li>
+      <li>1. `PipelineState` - 17 edges</li>
+      <li>2. `call_llm()` - 10 edges</li>
+      <li>3. `AI-Driven Agentic Framework for Automated RTL-to-GDS` - 10 edges</li>
+    </ul>
+  </div>
+</div>
+<hr>
+<!-- ====== 2. Analysis & Clustering ====== -->
+<h2 id="analysis-clustering">2. Analysis &amp; Clustering</h2>
+<p>Analysis &amp; Clustering groups implementation around project, contextmd, not, identity, mostly in PROJECT_CONTEXT.md. This section covers 8 nodes and 7 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Analysis &amp; Clustering (8 nodes, 7 edges)
+    project_context_project_context_md_7bad6585("PROJECT_CONTEXT.md")
+    project_context_88239873("PROJECT_CONTEXT.md")
+    project_context_architecture_decisions_do_not_ch_ff321459("Architecture Decisions — DO NOT CHANGE<br/><small>PROJECT_CONTEXT.md</small>")
+    project_context_benchmark_designs_7e40e47a("Benchmark Designs<br/><small>PROJECT_CONTEXT.md</small>")
+    project_context_deepseek_model_policy_15645021("DeepSeek Model Policy<br/><small>PROJECT_CONTEXT.md</small>")
+    project_context_excluded_from_v1_do_not_add_62f8f895("Excluded from V1 — Do Not Add<br/><small>PROJECT_CONTEXT.md</small>")
+    project_context_identity_9d63b449("Identity<br/><small>PROJECT_CONTEXT.md</small>")
+    project_context_version_status_1127e097("Version Status<br/><small>PROJECT_CONTEXT.md</small>")
+    project_context_88239873 -->|contains| project_context_project_context_md_7bad6585
+    project_context_project_context_md_7bad6585 -->|contains| project_context_architecture_decisions_do_not_ch_ff321459
+    project_context_project_context_md_7bad6585 -->|contains| project_context_benchmark_designs_7e40e47a
+    project_context_project_context_md_7bad6585 -->|contains| project_context_deepseek_model_policy_15645021
+    project_context_project_context_md_7bad6585 -->|contains| project_context_excluded_from_v1_do_not_add_62f8f895
+    project_context_project_context_md_7bad6585 -->|contains| project_context_identity_9d63b449
+    project_context_project_context_md_7bad6585 -->|contains| project_context_version_status_1127e097
+    class project_context_project_context_md_7bad6585 concept;
+    class project_context_88239873 concept;
+    class project_context_architecture_decisions_do_not_ch_ff321459 concept;
+    class project_context_benchmark_designs_7e40e47a concept;
+    class project_context_deepseek_model_policy_15645021 concept;
+    class project_context_excluded_from_v1_do_not_add_62f8f895 concept;
+    class project_context_identity_9d63b449 concept;
+    class project_context_version_status_1127e097 concept;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>PROJECT_CONTEXT.md</code><br><small style="color:var(--muted)">PROJECT_CONTEXT.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing PROJECT_CONTEXT.md.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>PROJECT_CONTEXT.md</code><br><small style="color:var(--muted)">PROJECT_CONTEXT.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing PROJECT_CONTEXT.md.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>Identity</code><br><small style="color:var(--muted)">PROJECT_CONTEXT.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Identity.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>Architecture Decisions — DO NOT CHANGE</code><br><small style="color:var(--muted)">PROJECT_CONTEXT.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Architecture Decisions — DO NOT CHANGE.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>Excluded from V1 — Do Not Add</code><br><small style="color:var(--muted)">PROJECT_CONTEXT.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Excluded from V1 — Do Not Add.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>Version Status</code><br><small style="color:var(--muted)">PROJECT_CONTEXT.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Version Status.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>DeepSeek Model Policy</code><br><small style="color:var(--muted)">PROJECT_CONTEXT.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing DeepSeek Model Policy.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>Benchmark Designs</code><br><small style="color:var(--muted)">PROJECT_CONTEXT.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Benchmark Designs.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>PROJECT_CONTEXT.md</code></td><td>8 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x7. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 3. CLI & Skill Installers ====== -->
+<h2 id="cli-skills">3. CLI &amp; Skill Installers</h2>
+<p>CLI &amp; Skill Installers groups implementation around agentpy, agents, claudemd, utils, mostly in CLAUDE.md, v1_core/pipeline.py, v1_core/utils/trace2skill.py. This section covers 103 nodes and 151 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: CLI &amp; Skill Installers (103 nodes, 151 edges)
+    subgraph cli_skills_v1_core_agents_log_analysis_agent_py_b4af963e["v1_core/agents/log_analysis_agent.py"]
+        agents_log_analysis_agent_eac6fe62("log_analysis_agent.py")
+        agents_log_analysis_agent_log_analysis_agent_8d9987f9("log_analysis_agent()<br/><small>v1_core/agents/log_analysis_agent.py</small>")
+        agents_log_analysis_agent_guess_category_642c9d6d("_guess_category()<br/><small>v1_core/agents/log_analysis_agent.py</small>")
+    end
+    subgraph cli_skills_v1_core_utils_trace2skill_py_687c061b["v1_core/utils/trace2skill.py"]
+        utils_trace2skill_get_stats_f7ddcbb5("get_stats()<br/><small>v1_core/utils/trace2skill.py</small>")
+        utils_trace2skill_store_skill_eae54e46("store_skill()<br/><small>v1_core/utils/trace2skill.py</small>")
+        utils_trace2skill_retrieve_skills_0f29546b("retrieve_skills()<br/><small>v1_core/utils/trace2skill.py</small>")
+    end
+    subgraph cli_skills_main_py_9040bb1f["main.py"]
+        main_b28b7af6("main.py")
+        main_main_4d9daec5("main()<br/><small>main.py</small>")
+    end
+    subgraph cli_skills_v1_core_agents_fix_agent_py_6d8801f6["v1_core/agents/fix_agent.py"]
+        agents_fix_agent_21a3cb0e("fix_agent.py")
+        agents_fix_agent_fix_agent_03592505("fix_agent()<br/><small>v1_core/agents/fix_agent.py</small>")
+    end
+    agents_orchestrator_get_initial_state_3f28d221("get_initial_state()<br/><small>v1_core/agents/orchestrator.py</small>")
+    agents_rtl_gen_agent_rtl_gen_agent_dbd4484a("rtl_gen_agent()<br/><small>v1_core/agents/rtl_gen_agent.py</small>")
+    agents_simulation_agent_simulation_agent_9a2eee04("simulation_agent()<br/><small>v1_core/agents/simulation_agent.py</small>")
+    agents_testbench_agent_testbench_agent_69d3a62c("testbench_agent()<br/><small>v1_core/agents/testbench_agent.py</small>")
+    mcp_tools_simulation_server_run_simulation_5b652d07("run_simulation()<br/><small>v1_core/mcp_tools/simulation_server.py</small>")
+    v1_core_pipeline_run_pipeline_0dfea0c7("run_pipeline()<br/><small>v1_core/pipeline.py</small>")
+    utils_init_strip_code_fences_cff383c8("strip_code_fences()<br/><small>v1_core/utils/__init__.py</small>")
+    utils_model_router_call_llm_9499ff7d("call_llm()<br/><small>v1_core/utils/model_router.py</small>")
+    main_main_4d9daec5 -->|calls| utils_trace2skill_get_stats_f7ddcbb5
+    main_main_4d9daec5 -->|calls| v1_core_pipeline_run_pipeline_0dfea0c7
+    agents_fix_agent_fix_agent_03592505 -->|calls| agents_log_analysis_agent_guess_category_642c9d6d
+    agents_fix_agent_fix_agent_03592505 -->|calls| utils_init_strip_code_fences_cff383c8
+    agents_fix_agent_fix_agent_03592505 -->|calls| utils_model_router_call_llm_9499ff7d
+    agents_fix_agent_fix_agent_03592505 -->|calls| utils_trace2skill_store_skill_eae54e46
+    agents_log_analysis_agent_log_analysis_agent_8d9987f9 -->|calls| agents_log_analysis_agent_guess_category_642c9d6d
+    agents_log_analysis_agent_log_analysis_agent_8d9987f9 -->|calls| utils_model_router_call_llm_9499ff7d
+    agents_log_analysis_agent_log_analysis_agent_8d9987f9 -->|calls| utils_trace2skill_retrieve_skills_0f29546b
+    agents_orchestrator_get_initial_state_3f28d221 -->|calls| v1_core_pipeline_run_pipeline_0dfea0c7
+    agents_rtl_gen_agent_rtl_gen_agent_dbd4484a -->|calls| utils_init_strip_code_fences_cff383c8
+    agents_rtl_gen_agent_rtl_gen_agent_dbd4484a -->|calls| utils_model_router_call_llm_9499ff7d
+    agents_simulation_agent_simulation_agent_9a2eee04 -->|calls| mcp_tools_simulation_server_run_simulation_5b652d07
+    agents_testbench_agent_testbench_agent_69d3a62c -->|calls| utils_init_strip_code_fences_cff383c8
+    agents_testbench_agent_testbench_agent_69d3a62c -->|calls| utils_model_router_call_llm_9499ff7d
+    main_b28b7af6 -->|imports| utils_trace2skill_get_stats_f7ddcbb5
+    main_b28b7af6 -->|imports| v1_core_pipeline_run_pipeline_0dfea0c7
+    agents_fix_agent_21a3cb0e -->|imports| agents_log_analysis_agent_guess_category_642c9d6d
+    agents_fix_agent_21a3cb0e -->|imports| utils_init_strip_code_fences_cff383c8
+    agents_fix_agent_21a3cb0e -->|imports| utils_model_router_call_llm_9499ff7d
+    agents_fix_agent_21a3cb0e -->|imports| utils_trace2skill_store_skill_eae54e46
+    agents_log_analysis_agent_eac6fe62 -->|imports| utils_model_router_call_llm_9499ff7d
+    agents_log_analysis_agent_eac6fe62 -->|imports| utils_trace2skill_retrieve_skills_0f29546b
+    %% Omitted for readability: 85 nodes, 0 edges
+    class agents_log_analysis_agent_eac6fe62 module;
+    class agents_log_analysis_agent_log_analysis_agent_8d9987f9 function;
+    class agents_log_analysis_agent_guess_category_642c9d6d function;
+    class utils_trace2skill_get_stats_f7ddcbb5 function;
+    class utils_trace2skill_store_skill_eae54e46 ui;
+    class utils_trace2skill_retrieve_skills_0f29546b function;
+    class main_b28b7af6 module;
+    class main_main_4d9daec5 function;
+    class agents_fix_agent_21a3cb0e module;
+    class agents_fix_agent_fix_agent_03592505 function;
+    class agents_orchestrator_get_initial_state_3f28d221 function;
+    class agents_rtl_gen_agent_rtl_gen_agent_dbd4484a function;
+    class agents_simulation_agent_simulation_agent_9a2eee04 function;
+    class agents_testbench_agent_testbench_agent_69d3a62c test;
+    class mcp_tools_simulation_server_run_simulation_5b652d07 function;
+    class v1_core_pipeline_run_pipeline_0dfea0c7 function;
+    class utils_init_strip_code_fences_cff383c8 function;
+    class utils_model_router_call_llm_9499ff7d function;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>fix_agent.py</code><br><small style="color:var(--muted)">v1_core/agents/fix_agent.py</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>_guess_category()</code><br><small style="color:var(--muted)">v1_core/agents/log_analysis_agent.py</small><br><code>call_llm()</code><br><small style="color:var(--muted)">v1_core/utils/model_router.py</small><br><code>logger.py</code><br><small style="color:var(--muted)">v1_core/utils/logger.py</small><br>+3 more</td>
+  <td>Module file in v1_core/agents/fix_agent.py.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>fix_agent()</code><br><small style="color:var(--muted)">v1_core/agents/fix_agent.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>_guess_category()</code><br><small style="color:var(--muted)">v1_core/agents/log_analysis_agent.py</small><br><code>call_llm()</code><br><small style="color:var(--muted)">v1_core/utils/model_router.py</small><br><code>pipeline.py</code><br><small style="color:var(--muted)">v1_core/pipeline.py</small><br>+2 more</td>
+  <td>fix_agent() node in v1_core/agents/fix_agent.py.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/fix_agent.py</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
+  <td>PipelineState node in v1_core/agents/fix_agent.py.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>fix_agent.py Fix Agent — LangGraph node. 1. Checks Trace2Skill hits from Log Ana</code><br><small style="color:var(--muted)">v1_core/agents/fix_agent.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for fix_agent.py Fix Agent — LangGraph node. 1. Checks Trace2Skill hits from Log Ana.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>LangGraph node — fixes RTL based on error analysis.     Input state fields used:</code><br><small style="color:var(--muted)">v1_core/agents/fix_agent.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for LangGraph node — fixes RTL based on error analysis.     Input state fields used:.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>orchestrator.py</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in v1_core/agents/orchestrator.py.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>fix_agent.py</code><br><small style="color:var(--muted)">v1_core/agents/fix_agent.py</small><br><code>log_analysis_agent.py</code><br><small style="color:var(--muted)">v1_core/agents/log_analysis_agent.py</small><br><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/log_analysis_agent.py</small><br>+1 more</td>
+  <td><code>pipeline.py</code><br><small style="color:var(--muted)">v1_core/pipeline.py</small><br><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/rtl_gen_agent.py</small><br><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/pipeline.py</small><br>+6 more</td>
+  <td>PipelineState node in v1_core/agents/orchestrator.py.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>TypedDict</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>TypedDict node in project.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>orchestrator.py LangGraph state definition and pipeline orchestration for V1. Th</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for orchestrator.py LangGraph state definition and pipeline orchestration for V1. Th.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>Shared state passed between all agents in the LangGraph pipeline.     Every agen</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for Shared state passed between all agents in the LangGraph pipeline.     Every agen.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>rtl_gen_agent.py</code><br><small style="color:var(--muted)">v1_core/agents/rtl_gen_agent.py</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
+  <td><code>call_llm()</code><br><small style="color:var(--muted)">v1_core/utils/model_router.py</small><br><code>logger.py</code><br><small style="color:var(--muted)">v1_core/utils/logger.py</small><br><code>strip_code_fences()</code><br><small style="color:var(--muted)">v1_core/utils/__init__.py</small></td>
+  <td>Module file in v1_core/agents/rtl_gen_agent.py.</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><code>rtl_gen_agent()</code><br><small style="color:var(--muted)">v1_core/agents/rtl_gen_agent.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>call_llm()</code><br><small style="color:var(--muted)">v1_core/utils/model_router.py</small><br><code>pipeline.py</code><br><small style="color:var(--muted)">v1_core/pipeline.py</small><br><code>strip_code_fences()</code><br><small style="color:var(--muted)">v1_core/utils/__init__.py</small></td>
+  <td>rtl_gen_agent() node in v1_core/agents/rtl_gen_agent.py.</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/rtl_gen_agent.py</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>PipelineState node in v1_core/agents/rtl_gen_agent.py.</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td><code>rtl_gen_agent.py RTL Generation Agent — LangGraph node. Takes natural language s</code><br><small style="color:var(--muted)">v1_core/agents/rtl_gen_agent.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for rtl_gen_agent.py RTL Generation Agent — LangGraph node. Takes natural language s.</td>
+</tr>
+<tr>
+  <td>15</td>
+  <td><code>LangGraph node — generates Verilog RTL from natural language spec.      Input st</code><br><small style="color:var(--muted)">v1_core/agents/rtl_gen_agent.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for LangGraph node — generates Verilog RTL from natural language spec.      Input st.</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td><code>testbench_agent.py</code><br><small style="color:var(--muted)">v1_core/agents/testbench_agent.py</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
+  <td><code>call_llm()</code><br><small style="color:var(--muted)">v1_core/utils/model_router.py</small><br><code>logger.py</code><br><small style="color:var(--muted)">v1_core/utils/logger.py</small><br><code>strip_code_fences()</code><br><small style="color:var(--muted)">v1_core/utils/__init__.py</small></td>
+  <td>Module file in v1_core/agents/testbench_agent.py.</td>
+</tr>
+<tr>
+  <td>17</td>
+  <td><code>testbench_agent()</code><br><small style="color:var(--muted)">v1_core/agents/testbench_agent.py</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>call_llm()</code><br><small style="color:var(--muted)">v1_core/utils/model_router.py</small><br><code>pipeline.py</code><br><small style="color:var(--muted)">v1_core/pipeline.py</small><br><code>strip_code_fences()</code><br><small style="color:var(--muted)">v1_core/utils/__init__.py</small></td>
+  <td>Verifies imports, entry points, or version behavior.</td>
+</tr>
+<tr>
+  <td>18</td>
+  <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/testbench_agent.py</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>PipelineState node in v1_core/agents/testbench_agent.py.</td>
+</tr>
+<tr>
+  <td>19</td>
+  <td><code>testbench_agent.py Testbench Agent — LangGraph node. Takes RTL code from state a</code><br><small style="color:var(--muted)">v1_core/agents/testbench_agent.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for testbench_agent.py Testbench Agent — LangGraph node. Takes RTL code from state a.</td>
+</tr>
+<tr>
+  <td>20</td>
+  <td><code>LangGraph node — generates cocotb testbench from RTL code.     Input state field</code><br><small style="color:var(--muted)">v1_core/agents/testbench_agent.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for LangGraph node — generates cocotb testbench from RTL code.     Input state field.</td>
+</tr>
+<tr>
+  <td>21</td>
+  <td><code>__init__.py</code><br><small style="color:var(--muted)">v1_core/utils/__init__.py</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in v1_core/utils/__init__.py.</td>
+</tr>
+<tr>
+  <td>22</td>
+  <td><code>strip_code_fences()</code><br><small style="color:var(--muted)">v1_core/utils/__init__.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>fix_agent()</code><br><small style="color:var(--muted)">v1_core/agents/fix_agent.py</small><br><code>fix_agent.py</code><br><small style="color:var(--muted)">v1_core/agents/fix_agent.py</small><br><code>rtl_gen_agent()</code><br><small style="color:var(--muted)">v1_core/agents/rtl_gen_agent.py</small><br>+3 more</td>
+  <td>No direct outbound edge</td>
+  <td>strip_code_fences() node in v1_core/utils/__init__.py.</td>
+</tr>
+<tr>
+  <td>23</td>
+  <td><code>Strip markdown code fences (```python, ```verilog, ``` or bare ```) from LLM out</code><br><small style="color:var(--muted)">v1_core/utils/__init__.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for Strip markdown code fences (```python, ```verilog, ``` or bare ```) from LLM out.</td>
+</tr>
+<tr>
+  <td>24</td>
+  <td><code>call_llm()</code><br><small style="color:var(--muted)">v1_core/utils/model_router.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>fix_agent()</code><br><small style="color:var(--muted)">v1_core/agents/fix_agent.py</small><br><code>fix_agent.py</code><br><small style="color:var(--muted)">v1_core/agents/fix_agent.py</small><br><code>log_analysis_agent()</code><br><small style="color:var(--muted)">v1_core/agents/log_analysis_agent.py</small><br>+5 more</td>
+  <td>No direct outbound edge</td>
+  <td>call_llm() node in v1_core/utils/model_router.py.</td>
+</tr>
+<tr>
+  <td>25</td>
+  <td><code>Call DeepSeek API and return the response text.      Args:         prompt: the f</code><br><small style="color:var(--muted)">v1_core/utils/model_router.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for Call DeepSeek API and return the response text.      Args:         prompt: the f.</td>
+</tr>
+<tr>
+  <td>26</td>
+  <td><code>simulation_agent.py</code><br><small style="color:var(--muted)">v1_core/agents/simulation_agent.py</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
+  <td><code>logger.py</code><br><small style="color:var(--muted)">v1_core/utils/logger.py</small><br><code>run_simulation()</code><br><small style="color:var(--muted)">v1_core/mcp_tools/simulation_server.py</small></td>
+  <td>Module file in v1_core/agents/simulation_agent.py.</td>
+</tr>
+<tr>
+  <td>27</td>
+  <td><code>simulation_agent()</code><br><small style="color:var(--muted)">v1_core/agents/simulation_agent.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>pipeline.py</code><br><small style="color:var(--muted)">v1_core/pipeline.py</small><br><code>run_simulation()</code><br><small style="color:var(--muted)">v1_core/mcp_tools/simulation_server.py</small></td>
+  <td>simulation_agent() node in v1_core/agents/simulation_agent.py.</td>
+</tr>
+<tr>
+  <td>28</td>
+  <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/simulation_agent.py</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>PipelineState node in v1_core/agents/simulation_agent.py.</td>
+</tr>
+<tr>
+  <td>29</td>
+  <td><code>simulation_agent.py Simulation Agent — LangGraph node. Writes RTL and testbench</code><br><small style="color:var(--muted)">v1_core/agents/simulation_agent.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for simulation_agent.py Simulation Agent — LangGraph node. Writes RTL and testbench.</td>
+</tr>
+<tr>
+  <td>30</td>
+  <td><code>LangGraph node — runs Icarus Verilog simulation.     Input state fields used: rt</code><br><small style="color:var(--muted)">v1_core/agents/simulation_agent.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for LangGraph node — runs Icarus Verilog simulation.     Input state fields used: rt.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>CLAUDE.md</code></td><td>27 nodes</td></tr>
+<tr><td><code>v1_core/pipeline.py</code></td><td>10 nodes</td></tr>
+<tr><td><code>v1_core/utils/trace2skill.py</code></td><td>10 nodes</td></tr>
+<tr><td><code>v1_core/utils/logger.py</code></td><td>8 nodes</td></tr>
+<tr><td><code>v1_core/agents/log_analysis_agent.py</code></td><td>7 nodes</td></tr>
+<tr><td><code>v1_core/agents/orchestrator.py</code></td><td>6 nodes</td></tr>
+<tr><td><code>v1_core/agents/fix_agent.py</code></td><td>5 nodes</td></tr>
+<tr><td><code>v1_core/agents/rtl_gen_agent.py</code></td><td>5 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x34, explains x29, imports x25, references x24. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 4. Serving API ====== -->
+<h2 id="serve-api">4. Serving API</h2>
+<p>Serving API groups implementation around project, contextmd, alu, fifo, mostly in PROJECT_CONTEXT.md, benchmarks/alu_8bit/spec.txt, benchmarks/sync_fifo_8x16/spec.txt. This section covers 14 nodes and 13 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Serving API (14 nodes, 13 edges)
+    subgraph serve_api_PROJECT_CONTEXT_md_a2b4d170["PROJECT_CONTEXT.md"]
+        project_context_md_ai_driven_agentic_framework_f_a7a62bbe("AI-Driven Agentic Framework for Automat...<br/><small>PROJECT_CONTEXT.md</small>")
+        project_context_md_alu_8bit_47b2471d("8-bit ALU<br/><small>PROJECT_CONTEXT.md</small>")
+        project_context_md_deepseek_api_6c6521e2("DeepSeek API<br/><small>PROJECT_CONTEXT.md</small>")
+        project_context_md_sync_fifo_8x16_fbd7e4bf("Sync FIFO 8x16<br/><small>PROJECT_CONTEXT.md</small>")
+        project_context_md_cocotb_615caa50("cocotb<br/><small>PROJECT_CONTEXT.md</small>")
+        project_context_md_icarus_verilog_ddc070cb("Icarus Verilog<br/><small>PROJECT_CONTEXT.md</small>")
+        project_context_md_langgraph_963a375e("LangGraph<br/><small>PROJECT_CONTEXT.md</small>")
+        project_context_md_mcp_f8bf3e80("MCP<br/><small>PROJECT_CONTEXT.md</small>")
+        project_context_md_shashank_tumuluri_808f21c2("Shashank Tumuluri<br/><small>PROJECT_CONTEXT.md</small>")
+        project_context_md_tessolve_semiconductors_3e0c259e("Tessolve Semiconductors<br/><small>PROJECT_CONTEXT.md</small>")
+        project_context_md_trace2skill_527a7ba1("Trace2Skill<br/><small>PROJECT_CONTEXT.md</small>")
+        project_context_md_model_router_0782c090("model_router.py<br/><small>PROJECT_CONTEXT.md</small>")
+    end
+    alu_8bit_spec_alu_8bit_2ed6bd7d("8-bit ALU<br/><small>benchmarks/alu_8bit/spec.txt</small>")
+    sync_fifo_8x16_spec_sync_fifo_8x16_b9405f0c("Synchronous FIFO<br/><small>benchmarks/sync_fifo_8x16/spec.txt</small>")
+    project_context_md_ai_driven_agentic_framework_f_a7a62bbe -->|references| project_context_md_alu_8bit_47b2471d
+    project_context_md_ai_driven_agentic_framework_f_a7a62bbe -->|references| project_context_md_cocotb_615caa50
+    project_context_md_ai_driven_agentic_framework_f_a7a62bbe -->|references| project_context_md_deepseek_api_6c6521e2
+    project_context_md_ai_driven_agentic_framework_f_a7a62bbe -->|references| project_context_md_icarus_verilog_ddc070cb
+    project_context_md_ai_driven_agentic_framework_f_a7a62bbe -->|references| project_context_md_langgraph_963a375e
+    project_context_md_ai_driven_agentic_framework_f_a7a62bbe -->|references| project_context_md_mcp_f8bf3e80
+    project_context_md_ai_driven_agentic_framework_f_a7a62bbe -->|relates| project_context_md_shashank_tumuluri_808f21c2
+    project_context_md_ai_driven_agentic_framework_f_a7a62bbe -->|references| project_context_md_sync_fifo_8x16_fbd7e4bf
+    project_context_md_ai_driven_agentic_framework_f_a7a62bbe -->|relates| project_context_md_tessolve_semiconductors_3e0c259e
+    project_context_md_ai_driven_agentic_framework_f_a7a62bbe -->|references| project_context_md_trace2skill_527a7ba1
+    project_context_md_deepseek_api_6c6521e2 -->|references| project_context_md_model_router_0782c090
+    project_context_md_alu_8bit_47b2471d -->|semantically similar to| alu_8bit_spec_alu_8bit_2ed6bd7d
+    project_context_md_sync_fifo_8x16_fbd7e4bf -->|semantically similar to| sync_fifo_8x16_spec_sync_fifo_8x16_b9405f0c
+    class project_context_md_ai_driven_agentic_framework_f_a7a62bbe klass;
+    class project_context_md_alu_8bit_47b2471d function;
+    class project_context_md_deepseek_api_6c6521e2 api;
+    class project_context_md_sync_fifo_8x16_fbd7e4bf klass;
+    class project_context_md_cocotb_615caa50 function;
+    class project_context_md_icarus_verilog_ddc070cb klass;
+    class project_context_md_langgraph_963a375e klass;
+    class project_context_md_mcp_f8bf3e80 klass;
+    class project_context_md_shashank_tumuluri_808f21c2 klass;
+    class project_context_md_tessolve_semiconductors_3e0c259e klass;
+    class project_context_md_trace2skill_527a7ba1 klass;
+    class project_context_md_model_router_0782c090 api;
+    class alu_8bit_spec_alu_8bit_2ed6bd7d test;
+    class sync_fifo_8x16_spec_sync_fifo_8x16_b9405f0c test;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>AI-Driven Agentic Framework for Automated RTL-to-GDS</code><br><small style="color:var(--muted)">PROJECT_CONTEXT.md</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>AI-Driven Agentic Framework for Automated RTL-to-GDS node in PROJECT_CONTEXT.md.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>Shashank Tumuluri</code><br><small style="color:var(--muted)">PROJECT_CONTEXT.md</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Caches analysis results or computes cache keys.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>Tessolve Semiconductors</code><br><small style="color:var(--muted)">PROJECT_CONTEXT.md</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Tessolve Semiconductors node in PROJECT_CONTEXT.md.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>LangGraph</code><br><small style="color:var(--muted)">PROJECT_CONTEXT.md</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Builds dependency relationships and graph data.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>DeepSeek API</code><br><small style="color:var(--muted)">PROJECT_CONTEXT.md</small></td>
+  <td><span class="tag tag-endpoint">API</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>DeepSeek API node in PROJECT_CONTEXT.md.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>model_router.py</code><br><small style="color:var(--muted)">PROJECT_CONTEXT.md</small></td>
+  <td><span class="tag tag-endpoint">API</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in PROJECT_CONTEXT.md.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>MCP</code><br><small style="color:var(--muted)">PROJECT_CONTEXT.md</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>MCP node in PROJECT_CONTEXT.md.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>Icarus Verilog</code><br><small style="color:var(--muted)">PROJECT_CONTEXT.md</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Icarus Verilog node in PROJECT_CONTEXT.md.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>cocotb</code><br><small style="color:var(--muted)">PROJECT_CONTEXT.md</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>cocotb node in PROJECT_CONTEXT.md.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>Trace2Skill</code><br><small style="color:var(--muted)">PROJECT_CONTEXT.md</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Trace2Skill node in PROJECT_CONTEXT.md.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>8-bit ALU</code><br><small style="color:var(--muted)">PROJECT_CONTEXT.md</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>8-bit ALU node in PROJECT_CONTEXT.md.</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><code>Sync FIFO 8x16</code><br><small style="color:var(--muted)">PROJECT_CONTEXT.md</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Sync FIFO 8x16 node in PROJECT_CONTEXT.md.</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><code>8-bit ALU</code><br><small style="color:var(--muted)">benchmarks/alu_8bit/spec.txt</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>8-bit ALU node in benchmarks/alu_8bit/spec.txt.</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td><code>Synchronous FIFO</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/spec.txt</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Synchronous FIFO node in benchmarks/sync_fifo_8x16/spec.txt.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>PROJECT_CONTEXT.md</code></td><td>12 nodes</td></tr>
+<tr><td><code>benchmarks/alu_8bit/spec.txt</code></td><td>1 nodes</td></tr>
+<tr><td><code>benchmarks/sync_fifo_8x16/spec.txt</code></td><td>1 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: references x9, relates x2, semantically similar to x2. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 5. Pipeline State & Simulation ====== -->
+<h2 id="pipeline-state-simulation">5. Pipeline State &amp; Simulation</h2>
+<p>Pipeline State &amp; Simulation groups implementation around session, handoffmd, last, updated, mostly in SESSION_HANDOFF.md. This section covers 10 nodes and 9 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Pipeline State &amp; Simulation (10 nodes, 9 edges)
+    session_handoff_session_handoff_md_9635532b("SESSION_HANDOFF.md")
+    session_handoff_f42e378e("SESSION_HANDOFF.md")
+    session_handoff_cost_tracking_b6d5a4b7("Cost Tracking<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_current_sprint_5962c863("Current Sprint<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_known_limitations_acceptable_for_b0c0363a("Known Limitations (acceptable for V1)<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_last_updated_64207192("Last Updated<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_next_session_855f6932("Next Session<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_test_results_f275a4a7("Test Results<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_trace2skill_stats_6bc3ac19("Trace2Skill Stats<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_v1_status_done_ab81b118("V1 Status: DONE<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_f42e378e -->|contains| session_handoff_session_handoff_md_9635532b
+    session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_cost_tracking_b6d5a4b7
+    session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_current_sprint_5962c863
+    session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_known_limitations_acceptable_for_b0c0363a
+    session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_last_updated_64207192
+    session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_next_session_855f6932
+    session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_test_results_f275a4a7
+    session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_trace2skill_stats_6bc3ac19
+    session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_v1_status_done_ab81b118
+    class session_handoff_session_handoff_md_9635532b concept;
+    class session_handoff_f42e378e concept;
+    class session_handoff_cost_tracking_b6d5a4b7 concept;
+    class session_handoff_current_sprint_5962c863 concept;
+    class session_handoff_known_limitations_acceptable_for_b0c0363a concept;
+    class session_handoff_last_updated_64207192 concept;
+    class session_handoff_next_session_855f6932 concept;
+    class session_handoff_test_results_f275a4a7 concept;
+    class session_handoff_trace2skill_stats_6bc3ac19 concept;
+    class session_handoff_v1_status_done_ab81b118 concept;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>SESSION_HANDOFF.md</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing SESSION_HANDOFF.md.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>SESSION_HANDOFF.md</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing SESSION_HANDOFF.md.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>Last Updated</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Last Updated.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>Current Sprint</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Current Sprint.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>V1 Status: DONE</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing V1 Status: DONE.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>Known Limitations (acceptable for V1)</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Known Limitations (acceptable for V1).</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>Next Session</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Next Session.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>Test Results</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Test Results.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>Trace2Skill Stats</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Trace2Skill Stats.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>Cost Tracking</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Cost Tracking.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>SESSION_HANDOFF.md</code></td><td>10 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x9. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 6. Design Examples & Tools ====== -->
+<h2 id="design-examples-tools">6. Design Examples &amp; Tools</h2>
+<p>Design Examples &amp; Tools groups implementation around session, handoffmd, alu, 8bit, mostly in SESSION_HANDOFF.md. This section covers 5 nodes and 4 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Design Examples &amp; Tools (5 nodes, 4 edges)
+    session_handoff_md_sync_fifo_8x16_5ba0a5b2("sync_fifo_8x16<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_md_cocotb_058b19a7("cocotb<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_md_icarus_verilog_08d5c910("Icarus Verilog<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_md_trace2skill_cdcb8797("Trace2Skill<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_md_alu_8bit_28c4f403("alu_8bit<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_md_sync_fifo_8x16_5ba0a5b2 -->|references| session_handoff_md_cocotb_058b19a7
+    session_handoff_md_sync_fifo_8x16_5ba0a5b2 -->|references| session_handoff_md_icarus_verilog_08d5c910
+    class session_handoff_md_sync_fifo_8x16_5ba0a5b2 function;
+    class session_handoff_md_cocotb_058b19a7 function;
+    class session_handoff_md_icarus_verilog_08d5c910 klass;
+    class session_handoff_md_trace2skill_cdcb8797 klass;
+    class session_handoff_md_alu_8bit_28c4f403 function;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>alu_8bit</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>alu_8bit node in SESSION_HANDOFF.md.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>sync_fifo_8x16</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>sync_fifo_8x16 node in SESSION_HANDOFF.md.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>Trace2Skill</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Trace2Skill node in SESSION_HANDOFF.md.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>cocotb</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>cocotb node in SESSION_HANDOFF.md.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>Icarus Verilog</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Icarus Verilog node in SESSION_HANDOFF.md.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>SESSION_HANDOFF.md</code></td><td>5 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: references x2. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 7. EDA Tools & Docker ====== -->
+<h2 id="eda-tools-docker">7. EDA Tools &amp; Docker</h2>
+<p>EDA Tools &amp; Docker groups implementation around session, handoffmd, pyuvm, yosys, mostly in SESSION_HANDOFF.md. This section covers 4 nodes and 4 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: EDA Tools &amp; Docker (4 nodes, 4 edges)
+    session_handoff_md_opensta_d32a0d51("OpenSTA<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_md_yosys_eac9767e("Yosys<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_md_docker_4efbe359("Docker<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_md_pyuvm_ed6271cd("PyUVM<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_md_yosys_eac9767e -->|references| session_handoff_md_docker_4efbe359
+    session_handoff_md_opensta_d32a0d51 -->|references| session_handoff_md_docker_4efbe359
+    class session_handoff_md_opensta_d32a0d51 klass;
+    class session_handoff_md_yosys_eac9767e klass;
+    class session_handoff_md_docker_4efbe359 klass;
+    class session_handoff_md_pyuvm_ed6271cd klass;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>PyUVM</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>PyUVM node in SESSION_HANDOFF.md.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>Yosys</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Yosys node in SESSION_HANDOFF.md.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>OpenSTA</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>OpenSTA node in SESSION_HANDOFF.md.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>Docker</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Docker node in SESSION_HANDOFF.md.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>SESSION_HANDOFF.md</code></td><td>4 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: references x2. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 8. Python Package Init ====== -->
+<h2 id="python-package-init">8. Python Package Init</h2>
+<p>Python Package Init groups implementation around agents, mostly in v1_core/agents/__init__.py. This section covers 1 nodes and 0 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Python Package Init (1 nodes, 0 edges)
+    agents_init_414f5132("__init__.py")
+    class agents_init_414f5132 module;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>__init__.py</code><br><small style="color:var(--muted)">v1_core/agents/__init__.py</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in v1_core/agents/__init__.py.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>v1_core/agents/__init__.py</code></td><td>1 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: No high-confidence call edges detected. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 9. Python Package Init ====== -->
+<h2 id="python-package-init-d725c0">9. Python Package Init</h2>
+<p>Python Package Init groups implementation around mcp, tools, mostly in v1_core/mcp_tools/__init__.py. This section covers 1 nodes and 0 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Python Package Init (1 nodes, 0 edges)
+    mcp_tools_init_a92ca646("__init__.py")
+    class mcp_tools_init_a92ca646 module;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>__init__.py</code><br><small style="color:var(--muted)">v1_core/mcp_tools/__init__.py</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in v1_core/mcp_tools/__init__.py.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>v1_core/mcp_tools/__init__.py</code></td><td>1 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: No high-confidence call edges detected. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 10. Python Package Init ====== -->
+<h2 id="python-package-init-2">10. Python Package Init</h2>
+<p>Python Package Init groups implementation around tests, mostly in v1_core/tests/__init__.py. This section covers 1 nodes and 0 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Python Package Init (1 nodes, 0 edges)
+    tests_init_a5c4ad93("__init__.py")
+    class tests_init_a5c4ad93 test;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>__init__.py</code><br><small style="color:var(--muted)">v1_core/tests/__init__.py</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in v1_core/tests/__init__.py.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>v1_core/tests/__init__.py</code></td><td>1 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: No high-confidence call edges detected. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 11. Python Package Init ====== -->
+<h2 id="python-package-init-3">11. Python Package Init</h2>
+<p>Python Package Init groups implementation around Python Package Init, mostly in v1_core/__init__.py. This section covers 1 nodes and 0 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Python Package Init (1 nodes, 0 edges)
+    v1_core_init_5211e398("__init__.py")
+    class v1_core_init_5211e398 module;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>__init__.py</code><br><small style="color:var(--muted)">v1_core/__init__.py</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in v1_core/__init__.py.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>v1_core/__init__.py</code></td><td>1 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: No high-confidence call edges detected. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<h2 id="stats">Project Statistics</h2>
+
+<div class="grid">
+  <div class="card">
+    <h4>Graph</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><td>Nodes</td><td>148</td></tr>
+      <tr><td>Edges</td><td>188</td></tr>
+      <tr><td>Hyperedges</td><td>0</td></tr>
+      <tr><td>Communities</td><td>17</td></tr>
+      <tr><td>Documented Sections</td><td>10</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Edge Confidence</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><td>EXTRACTED</td><td>177</td></tr>
+      <tr><td>INFERRED</td><td>11</td></tr>
+      <tr><td>AMBIGUOUS</td><td>0</td></tr>
+    </table>
+  </div>
+</div>
+
+<div style="text-align:center; padding:40px 0; color: var(--muted); font-size:0.9rem;">
+  <p>rtl2gds-agent — Architecture Documentation</p>
+  <p>Generated: 2026-06-14 07:27 UTC · graphify callflow-html</p>
+</div>
+
+</div><!-- .container -->
+
+<script>
+(function () {
+  const mermaidConfig = {
+    startOnLoad: false,
+    theme: 'dark',
+    securityLevel: 'loose',
+    flowchart: { htmlLabels: true, useMaxWidth: true },
+    themeVariables: {
+      primaryColor: '#1e293b',
+      primaryTextColor: '#e2e8f0',
+      primaryBorderColor: '#38bdf8',
+      secondaryColor: '#0f172a',
+      tertiaryColor: '#334155',
+      lineColor: '#64748b',
+      textColor: '#e2e8f0',
+    }
+  };
+
+  mermaid.initialize(mermaidConfig);
+
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function enhanceMermaidDiagrams() {
+    document.querySelectorAll('.mermaid').forEach((container) => {
+      if (container.dataset.zoomReady === 'true') return;
+      const svg = container.querySelector('svg');
+      if (!svg) return;
+
+      container.dataset.zoomReady = 'true';
+      container.classList.add('is-enhanced');
+
+      const viewport = document.createElement('div');
+      viewport.className = 'mermaid-viewport';
+      svg.parentNode.insertBefore(viewport, svg);
+      viewport.appendChild(svg);
+
+      const toolbar = document.createElement('div');
+      toolbar.className = 'mermaid-toolbar';
+      toolbar.innerHTML = [
+        '<button type="button" data-action="zoom-out" title="Zoom out">-</button>',
+        '<span class="zoom-level" data-role="level">100%</span>',
+        '<button type="button" data-action="zoom-in" title="Zoom in">+</button>',
+        '<button type="button" data-action="fit" title="Fit width">Fit</button>',
+        '<button type="button" data-action="reset" title="Reset view">Reset</button>'
+      ].join('');
+      container.insertBefore(toolbar, viewport);
+
+      const state = { scale: 1, x: 0, y: 0, dragging: false, startX: 0, startY: 0, originX: 0, originY: 0 };
+      const level = toolbar.querySelector('[data-role="level"]');
+
+      function applyTransform() {
+        svg.style.transform = `translate(${state.x}px, ${state.y}px) scale(${state.scale})`;
+        level.textContent = `${Math.round(state.scale * 100)}%`;
+      }
+
+      function zoomBy(delta) {
+        state.scale = clamp(state.scale + delta, 0.25, 3);
+        applyTransform();
+      }
+
+      function reset() {
+        state.scale = 1;
+        state.x = 0;
+        state.y = 0;
+        applyTransform();
+      }
+
+      function fitWidth() {
+        const rawWidth = svg.viewBox && svg.viewBox.baseVal && svg.viewBox.baseVal.width
+          ? svg.viewBox.baseVal.width
+          : svg.getBoundingClientRect().width / state.scale;
+        if (!rawWidth) {
+          reset();
+          return;
+        }
+        state.scale = clamp((viewport.clientWidth - 48) / rawWidth, 0.25, 1.4);
+        state.x = 0;
+        state.y = 0;
+        applyTransform();
+      }
+
+      toolbar.addEventListener('click', (event) => {
+        const button = event.target.closest('button[data-action]');
+        if (!button) return;
+        const action = button.dataset.action;
+        if (action === 'zoom-in') zoomBy(0.15);
+        if (action === 'zoom-out') zoomBy(-0.15);
+        if (action === 'fit') fitWidth();
+        if (action === 'reset') reset();
+      });
+
+      viewport.addEventListener('wheel', (event) => {
+        if (!event.ctrlKey && !event.metaKey) return;
+        event.preventDefault();
+        zoomBy(event.deltaY < 0 ? 0.1 : -0.1);
+      }, { passive: false });
+
+      viewport.addEventListener('pointerdown', (event) => {
+        if (event.button !== 0) return;
+        state.dragging = true;
+        state.startX = event.clientX;
+        state.startY = event.clientY;
+        state.originX = state.x;
+        state.originY = state.y;
+        viewport.classList.add('is-dragging');
+        viewport.setPointerCapture(event.pointerId);
+      });
+
+      viewport.addEventListener('pointermove', (event) => {
+        if (!state.dragging) return;
+        state.x = state.originX + event.clientX - state.startX;
+        state.y = state.originY + event.clientY - state.startY;
+        applyTransform();
+      });
+
+      function endDrag(event) {
+        if (!state.dragging) return;
+        state.dragging = false;
+        viewport.classList.remove('is-dragging');
+        if (viewport.hasPointerCapture(event.pointerId)) {
+          viewport.releasePointerCapture(event.pointerId);
+        }
+      }
+
+      viewport.addEventListener('pointerup', endDrag);
+      viewport.addEventListener('pointercancel', endDrag);
+      applyTransform();
+    });
+  }
+
+  function renderMermaid() {
+    const result = mermaid.run
+      ? mermaid.run({ querySelector: '.mermaid' })
+      : Promise.resolve();
+    Promise.resolve(result)
+      .then(enhanceMermaidDiagrams)
+      .catch((error) => {
+        console.error('Mermaid render failed:', error);
+        enhanceMermaidDiagrams();
+      });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderMermaid);
+  } else {
+    renderMermaid();
+  }
+})();
+</script>
+
+</body>
+</html>
