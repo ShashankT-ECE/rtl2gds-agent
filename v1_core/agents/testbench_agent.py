@@ -14,6 +14,8 @@ TB_PROMPT = """CRITICAL: You must generate a COMPLETE, FULLY FUNCTIONAL cocotb t
 You are an expert verification engineer.
 Generate a cocotb testbench for the following Verilog RTL.
 
+CRITICAL: The DUT toplevel module name is {design_name}. All references to dut must match this exact module name.
+
 IMPORTANT — cocotb 2.x API rules:
 - Use `unit='ns'` (not `units='ns'`) in Timer()
 - Use `int(dut.signal.value)` to read signal values (not `.value.integer`)
@@ -73,7 +75,7 @@ def testbench_agent(state: PipelineState) -> PipelineState:
     else:
         fifo_requirements = ""
 
-    prompt = TB_PROMPT.format(rtl_code=rtl_code, fifo_requirements=fifo_requirements)
+    prompt = TB_PROMPT.format(rtl_code=rtl_code, fifo_requirements=fifo_requirements, design_name=state["design_name"])
     if fifo_requirements:
         logger.info("Using deepseek-v4-flash for FIFO test generation")
     testbench_code = call_llm(prompt=prompt, task="testbench_generation", thinking=False)

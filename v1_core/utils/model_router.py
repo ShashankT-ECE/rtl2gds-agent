@@ -43,14 +43,16 @@ def call_llm(prompt: str, task: str = "general", thinking: bool = False, model: 
     request_body = {
         "model": model,
         "messages": messages,
-        "max_tokens": 8192,
+        "max_tokens": 16000,
+        # Thinking disabled by default for ALL tasks — prevents the model
+        # from burning all tokens on internal reasoning and returning
+        # empty content. Only enabled for root_cause/architecture tasks.
+        "thinking": {"type": "disabled"},
     }
 
-    # Disable thinking (internal reasoning) for code generation tasks
-    # to avoid consuming all tokens on reasoning and leaving nothing for output.
-    # Only enable thinking for root cause analysis and architecture decisions.
-    if not thinking and task not in ("root_cause", "architecture"):
-        request_body["thinking"] = {"type": "disabled"}
+    # Only enable thinking for tasks that genuinely need internal reasoning
+    if task in ("root_cause", "architecture"):
+        del request_body["thinking"]
 
     response = httpx.post(
         f"{DEEPSEEK_BASE_URL}/chat/completions",

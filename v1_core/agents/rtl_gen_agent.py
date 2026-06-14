@@ -20,6 +20,10 @@ Rules:
 - Use only synthesizable constructs
 - Follow clean coding style with comments
 - All ports must be explicitly declared
+- CRITICAL: The Verilog module name MUST exactly match the design name provided.
+  Design name: {design_name}
+  So the module declaration MUST be: module {design_name} (
+  Using any other module name will break the entire build system.
 
 Specification:
 {spec}
@@ -37,7 +41,7 @@ def rtl_gen_agent(state: PipelineState) -> PipelineState:
     """
     logger.agent("RTLGenAgent", f"Generating RTL for: {state['design_name']}")
 
-    prompt = RTL_PROMPT.format(spec=state["spec"])
+    prompt = RTL_PROMPT.format(spec=state["spec"], design_name=state["design_name"])
 
     rtl_code = call_llm(prompt=prompt, task="rtl_generation", thinking=False)
     rtl_code = strip_code_fences(rtl_code)

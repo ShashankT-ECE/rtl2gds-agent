@@ -9,7 +9,7 @@ import os
 from pathlib import Path
 from v1_core.utils import logger
 
-WORKSPACE = Path("workspace")
+WORKSPACE = Path("workspace").resolve()
 
 
 def run_simulation(rtl_file: str, tb_file: str) -> dict:
@@ -36,6 +36,7 @@ def run_simulation(rtl_file: str, tb_file: str) -> dict:
     import re
     m = re.search(r'^\s*module\s+(\w+)', rtl_source, re.MULTILINE)
     toplevel = m.group(1) if m else rtl_path.stem
+    logger.info(f"Detected Verilog module name: {toplevel}")
 
     build_dir = WORKSPACE / "cocotb_build"
     build_dir.mkdir(exist_ok=True)
@@ -76,7 +77,7 @@ include {makefiles_dir}/Makefile.sim
     }
 
     result = subprocess.run(
-        ["make", "-f", str(makefile)],
+        ["make", "-f", str(makefile.resolve())],
         capture_output=True,
         text=True,
         cwd=str(build_dir),
@@ -84,6 +85,10 @@ include {makefiles_dir}/Makefile.sim
     )
 
     log = result.stdout + result.stderr
+    if log:
+        logger.info(f"Simulation log (first 500 chars): {log[:500]}")
+    else:
+        logger.warning("Simulation log is empty!")
 
     # cocotb writes results.xml — check it for pass/fail
     results_file = build_dir / "results.xml"

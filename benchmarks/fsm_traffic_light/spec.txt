@@ -1,0 +1,45 @@
+Design: 3-State Traffic Light FSM
+States: RED, GREEN, YELLOW
+
+Inputs:
+  clk            (1-bit) — System clock
+  rst_n          (1-bit) — Active-low asynchronous reset
+
+Outputs:
+  red_light      (1-bit) — Asserted (1) in RED state
+  green_light    (1-bit) — Asserted (1) in GREEN state
+  yellow_light   (1-bit) — Asserted (1) in YELLOW state
+  state_out      (2-bit) — Encoded state output for observation:
+                            00 = RED, 01 = GREEN, 10 = YELLOW
+
+Timing Parameters (number of clock cycles spent in each state):
+  RED_COUNT    = 15  — Duration of RED state (15 clock cycles)
+  GREEN_COUNT  = 20  — Duration of GREEN state (20 clock cycles)
+  YELLOW_COUNT = 5   — Duration of YELLOW state (5 clock cycles)
+
+State Transitions:
+  RED    → GREEN    after RED_COUNT clock cycles in RED
+  GREEN  → YELLOW   after GREEN_COUNT clock cycles in GREEN
+  YELLOW → RED      after YELLOW_COUNT clock cycles in YELLOW
+
+Behavior:
+  1. On reset (rst_n=0):
+     - State = RED
+     - red_light = 1, green_light = 0, yellow_light = 0
+     - Internal counter = 0
+  2. Each state loads an internal counter at entry and counts up on each
+     rising clock edge. When the counter reaches its threshold minus 1,
+     the next rising edge transitions to the next state and resets the
+     counter to 0.
+  3. Only one light output is asserted at any time (one-hot encoding).
+  4. The FSM loops forever: RED → GREEN → YELLOW → RED → ...
+
+Output Assertion Table:
+  State   | red_light | green_light | yellow_light
+  --------+-----------+-------------+-------------
+  RED     |     1     |      0      |      0
+  GREEN   |     0     |      1      |      0
+  YELLOW  |     0     |      0      |      1
+
+All flip-flops are positive edge-triggered (posedge clk).
+rst_n is asynchronous reset (active low).

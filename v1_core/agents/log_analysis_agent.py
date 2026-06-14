@@ -43,6 +43,7 @@ def log_analysis_agent(state: PipelineState) -> PipelineState:
     Model used: deepseek-v4-flash
     """
     logger.agent("LogAnalysisAgent", "Analyzing simulation log")
+    logger.info(f"Simulation log received (first 300 chars): {state['sim_log'][:300]!r}")
 
     prompt = LOG_ANALYSIS_PROMPT.format(sim_log=state["sim_log"])
     response = call_llm(prompt=prompt, task="log_analysis")
