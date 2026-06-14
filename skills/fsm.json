@@ -44,9 +44,9 @@
     {
       "id": "fsm_0004",
       "category": "fsm",
-      "error_type": "UNKNOWN",
-      "pattern": "The simulation log shows a build system error where a required Makefile is missing, not an RTL simulation error.",
-      "fix": "Ensure the cocotb project is properly initialized by running the required setup steps or pointing the build to a valid Makefile path.",
+      "error_type": "LOGIC",
+      "pattern": "The counter is incremented before the comparison with RED_COUNT-1, causing the transition to occur one clock cycle later than expected.",
+      "fix": "Move the counter increment to after the next-state comparison, or adjust the transition condition to account for the counter being incremented before the comparison.",
       "design_name": "fsm_traffic_light",
       "success_count": 1,
       "last_seen": "fsm_traffic_light"
@@ -54,9 +54,9 @@
     {
       "id": "fsm_0005",
       "category": "fsm",
-      "error_type": "UNKNOWN",
-      "pattern": "The Makefile path is incorrect or missing, causing the build system to fail.",
-      "fix": "Verify the workspace directory structure and regenerate or correct the path to cocotb_build/Makefile.",
+      "error_type": "TIMING",
+      "pattern": "The RTL uses `counter == RED_COUNT - 2` for state transition instead of `counter == RED_COUNT - 1`, causing each state to last one cycle less than specified.",
+      "fix": "Change the counter comparison from `COUNT - 2` to `COUNT - 1` for all three states to match the spec durations.",
       "design_name": "fsm_traffic_light",
       "success_count": 1,
       "last_seen": "fsm_traffic_light"
@@ -64,9 +64,9 @@
     {
       "id": "fsm_0006",
       "category": "fsm",
-      "error_type": "UNKNOWN",
-      "pattern": "The build system cannot find the required Makefile, indicating a missing or misconfigured workspace setup.",
-      "fix": "Ensure the Cocotb project is properly initialized and the build directory exists before running the simulation.",
+      "error_type": "LOGIC",
+      "pattern": "The next_state logic uses counter == RED_COUNT-1 etc. but counter increments in the same clock edge as state transition, causing the state change to occur one cycle too late.",
+      "fix": "Change the next_state logic to compare counter against RED_COUNT, GREEN_COUNT, and YELLOW_COUNT instead of their minus-one values, and adjust the counter increment to happen before the comparison so that transitions occur at the correct timing.",
       "design_name": "fsm_traffic_light",
       "success_count": 1,
       "last_seen": "fsm_traffic_light"
@@ -74,9 +74,9 @@
     {
       "id": "fsm_0007",
       "category": "fsm",
-      "error_type": "SYNTAX",
-      "pattern": "The simulation build directory or required Makefile is missing, causing the Make build system to fail before any simulation runs.",
-      "fix": "Ensure the workspace/cocotb_build directory exists and contains a valid Makefile, or reconfigure the build environment (e.g., re-run cmake or setup scripts) to generate it.",
+      "error_type": "LOGIC",
+      "pattern": "The FSM counter is updated on the same clock edge as the state transition, causing the counter to hold the final count value for one extra cycle before the next_state logic triggers the transition, extending each state duration by one clock cycle.",
+      "fix": "Reduce all COUNT parameters by 1 to account for the counter increment occurring one cycle before the state transition condition is evaluated.",
       "design_name": "fsm_traffic_light",
       "success_count": 1,
       "last_seen": "fsm_traffic_light"
@@ -84,9 +84,9 @@
     {
       "id": "fsm_0008",
       "category": "fsm",
-      "error_type": "SYNTAX",
-      "pattern": "The build system cannot find the required Makefile because the path is missing or the file does not exist.",
-      "fix": "Ensure the workspace/cocotb_build directory and Makefile are generated before running make, or correct the make target path.",
+      "error_type": "LOGIC",
+      "pattern": "The counter increments in the same clock cycle as the state transition check, causing a mismatch in the number of cycles each state lasts compared to the spec.",
+      "fix": "Adjust the counter comparison thresholds to account for the counter incrementing on the same edge where the transition is evaluated.",
       "design_name": "fsm_traffic_light",
       "success_count": 1,
       "last_seen": "fsm_traffic_light"
@@ -94,9 +94,9 @@
     {
       "id": "fsm_0009",
       "category": "fsm",
-      "error_type": "SYNTAX",
-      "pattern": "The Makefile path does not exist, preventing the build system from finding the required build configuration.",
-      "fix": "Update the MAKEFILE_LIST or cocotb project settings to point to the correct Makefile location, or regenerate the build directory.",
+      "error_type": "LOGIC",
+      "pattern": "The counter is incremented on the same clock edge as the state transition, causing the counter value to be ahead by 1 when the next state checks the condition, resulting in premature state transitions.",
+      "fix": "Move the counter increment logic to use a single non-blocking assignment that checks if the state is staying the same, and ensure the counter is reset on state transition independently of the state update timing.",
       "design_name": "fsm_traffic_light",
       "success_count": 1,
       "last_seen": "fsm_traffic_light"
@@ -104,9 +104,9 @@
     {
       "id": "fsm_0010",
       "category": "fsm",
-      "error_type": "UNKNOWN",
-      "pattern": "The build system cannot find the required Makefile, likely because the workspace directory or Makefile was not properly generated or copied before running the simulation.",
-      "fix": "Ensure the workspace directory is correctly created and the Makefile exists, e.g., by running the preprocessing or initialization step before invoking make.",
+      "error_type": "LOGIC",
+      "pattern": "The counter increments before the state transition is evaluated, causing the comparision to miss by one cycle.",
+      "fix": "Initialize counter to 1 instead of 0 when state changes so that the count comparison aligns with the state duration.",
       "design_name": "fsm_traffic_light",
       "success_count": 1,
       "last_seen": "fsm_traffic_light"
@@ -114,9 +114,9 @@
     {
       "id": "fsm_0011",
       "category": "fsm",
-      "error_type": "UNKNOWN",
-      "pattern": "The build system cannot find the required Makefile in the specified workspace path, indicating a missing project configuration or incorrect directory setup.",
-      "fix": "Verify the existence and path of the Makefile, or regenerate the cocotb build environment using the appropriate setup command.",
+      "error_type": "LOGIC",
+      "pattern": "The counter reset value on state transition is set to 1 instead of 0, causing the first cycle after transition to start counting from 1, which shifts the timing of all subsequent transitions by one cycle.",
+      "fix": "Change the counter reset assignment on state transition from 1 to 0, because the counter should start from 0 at the beginning of each new state.",
       "design_name": "fsm_traffic_light",
       "success_count": 1,
       "last_seen": "fsm_traffic_light"
@@ -124,9 +124,9 @@
     {
       "id": "fsm_0012",
       "category": "fsm",
-      "error_type": "SYNTAX",
-      "pattern": "The Makefile path is missing or incorrect, causing make to fail with a missing target error.",
-      "fix": "Ensure the Makefile exists at 'workspace/cocotb_build/Makefile' or correct the path in the build configuration.",
+      "error_type": "WIDTH",
+      "pattern": "The counter register is declared as 5 bits wide but the maximum count value (RED_COUNT-1 = 14) exceeds 2^5-1 = 31, so it can never reach the GREEN_COUNT-1 = 18 needed for transition, causing state transitions to fail at the expected times.",
+      "fix": "Increase the counter width from 5 bits to at least 6 bits to support the maximum count value needed (GREEN_COUNT-1 = 18 fits in 5 bits since 2^5=32, so the actual error is that the counter resets to 0 when state changes, causing the test to miss transitions by checking at wrong times).",
       "design_name": "fsm_traffic_light",
       "success_count": 1,
       "last_seen": "fsm_traffic_light"
@@ -134,9 +134,9 @@
     {
       "id": "fsm_0013",
       "category": "fsm",
-      "error_type": "UNKNOWN",
-      "pattern": "The build environment is missing a required Makefile dependency.",
-      "fix": "Verify the project directory structure and ensure the Cocotb build files are generated before running the simulation.",
+      "error_type": "LOGIC",
+      "pattern": "The counter increments when `current_state == next_state`, but when transitioning to a new state, the counter also increments before being reset, causing state durations to be one cycle too long.",
+      "fix": "Set counter to 1 instead of 0 on state transition to account for the cycle where the state changes.",
       "design_name": "fsm_traffic_light",
       "success_count": 1,
       "last_seen": "fsm_traffic_light"
@@ -145,8 +145,8 @@
       "id": "fsm_0014",
       "category": "fsm",
       "error_type": "LOGIC",
-      "pattern": "The state transitions occur earlier than expected, indicating incorrect timing counter logic in the FSM design causing premature state changes.",
-      "fix": "Verify the counter threshold values and edge sensitivity (posedge vs negedge) in the Verilog FSM, ensuring the correct number of clock cycles for each state transition.",
+      "pattern": "The counter is incremented on the same clock edge that the state transitions, causing the new state to use the reset counter value (0) and count one extra cycle before the next transition.",
+      "fix": "Move the counter update and state transition into separate always blocks or use a different counter reset value to ensure the counter increments the correct number of cycles.",
       "design_name": "fsm_traffic_light",
       "success_count": 1,
       "last_seen": "fsm_traffic_light"
@@ -155,8 +155,8 @@
       "id": "fsm_0015",
       "category": "fsm",
       "error_type": "LOGIC",
-      "pattern": "The FSM gets stuck in GREEN state (state=1) and fails to transition to YELLOW state (state=2) after the expected 20 clock cycles.",
-      "fix": "Correct the FSM logic in the RTL to ensure the counter or state transition condition properly triggers the transition from GREEN to YELLOW state.",
+      "pattern": "The counter is reset to 1 instead of 0 after reaching the maximum count, causing the state to stay one cycle too long in each phase.",
+      "fix": "Change the counter wrap-around value from 1 to 0 so that the next state transition occurs after exactly RED_COUNT, GREEN_COUNT, or YELLOW_COUNT cycles respectively.",
       "design_name": "fsm_traffic_light",
       "success_count": 1,
       "last_seen": "fsm_traffic_light"
@@ -165,8 +165,158 @@
       "id": "fsm_0016",
       "category": "fsm",
       "error_type": "LOGIC",
-      "pattern": "The FSM fails to transition from YELLOW to RED state after the expected number of clock cycles, indicating a design bug in the state transition logic for the yellow-to-red path or the timer/counter.",
-      "fix": "Check the FSM RTL code's yellow state duration counter and next-state logic to ensure it correctly transitions to RED after the specified count.",
+      "pattern": "The RTL uses `RED_COUNT = 15` (counter counts 0-14) but the testbench expects the RED state to hold for 15 clock edges (transition at edge 14), yet the state transitions one cycle early because the counter is incremented in the same clock cycle the state changes.",
+      "fix": "Increase RED_COUNT by 1 to align the counter comparison with the testbench's expected timing, or adjust the testbench parameters to match the current counter behavior.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0017",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The counter is sampled and updated in the same clock cycle, but the next_state comparison uses the old counter value from the previous cycle instead of the updated counter value, causing state transitions to be delayed by one clock cycle.",
+      "fix": "Restructure the FSM to update the counter based on next_state (not state) in the clocked always block, and ensure the next_state combinational logic uses the current state and counter values correctly.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0018",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The next_state logic uses the counter from the *previous* state, but the counter is updated to the *current* state's conditions on the same clock edge, causing a mismatch in transition timing.",
+      "fix": "Change all three \"next_state\" comparisons in the counter update section to use \"state\" instead, so the counter counts in the current state before transitioning.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0019",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL code sets RED_COUNT=15 but the testbench expects it to be 19 based on the failing test red_to_green_transition at 190ns (15 cycles of 10ns clock from 20ns reset to 190ns should equal 17 cycles, but state transitions at 180ns instead of 200ns).",
+      "fix": "Update the RED_COUNT parameter value from 15 to 19 to match the specification.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0020",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The state transitions occur one clock cycle earlier than expected because the counter comparison uses `counter == RED_COUNT - 1` when the counter is incremented synchronously, causing the FSM to exit states prematurely.",
+      "fix": "Update all three counter comparison conditions (lines 55, 60, 65) to compare against the full COUNT value instead of COUNT-1.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0021",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The timing parameter RED_COUNT is set to 19 but the testbench expects the red-to-green transition to occur at count 19 (meaning 20 clock cycles), while the RTL uses counter == 19 as the comparison condition which causes the transition after 20 cycles instead of 19.",
+      "fix": "Change the RED_COUNT parameter value from 19 to 18 so that the transition from RED to GREEN occurs after 19 clock cycles (counter counts 0-18) as expected by the testbench.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0022",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RED state retains for only 18 cycles (counts 0 to 18) instead of the expected 19 cycles, because the counter starts at 0 and the equality check with RED_COUNT=18 triggers one cycle too early.",
+      "fix": "Change the RED_COUNT parameter value from 18 to 19 so that the RED state lasts the expected 19 clock cycles before transitioning to GREEN.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0023",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RED_COUNT parameter is set to 19, causing RED state to stay for 20 cycles (0 to 19) while the test expects only 19 cycles total (0 to 18), and similarly GREEN_COUNT (20) and YELLOW_COUNT (5) cause corresponding state duration mismatches.",
+      "fix": "Adjust the counter compare values to be one less than the desired cycle count (e.g., for N cycles, compare to N-1) since the counter starts at 0 and increments on each clock cycle before the comparison.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0024",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The counter increments on the same clock edge as the state transition, causing the next state to use an incorrect counter value on the first cycle of a new state.",
+      "fix": "Move the counter increment to occur before the state transition, or use a separate \"done\" signal that asserts when counter reaches the maximum value, and reset counter in the same cycle as the state change.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0025",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The counter increments in the cycle when the state transitions, causing each state to last one fewer clock cycle than specified by the COUNT parameter.",
+      "fix": "Change all three next-state comparisons from counter == COUNT-1 to counter == COUNT so the counter counts the full duration before transitioning.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0026",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The counter increments when state equals next_state, but on the first clock edge after a reset or state change, the counter starts at 0 and must increment to the specified count value before transitioning, causing the state to transition one clock cycle later than expected.",
+      "fix": "Change the counter increment condition to count from 0 to COUNT-1 by using `if (counter == RED_COUNT-1)` for the transition condition in the next state logic.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0027",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "In the sequential block, counter increments when state == next_state, but next_state is computed combinationally using the current value of state, so when state changes mid-cycle the condition state == next_state can be false on the first clock edge after reset causing the counter to be reset to 0 instead of starting at 0 and incrementing.",
+      "fix": "Replace the `if (state == next_state)` condition with a dedicated `counter_enable` signal that is asserted when the FSM is not about to transition, for example by comparing the counter against the state's max count minus 1.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0028",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The FSM transitions one clock cycle early because the counter compare uses `RED_COUNT-2` instead of `RED_COUNT-1`, causing state changes at count 13 instead of 14 for RED, 18 instead of 19 for GREEN, and 3 instead of 4 for YELLOW.",
+      "fix": "Change the counter comparison values in the next state logic from `COUNT-2` to `COUNT-1` to ensure the FSM stays in each state for the correct number of clock cycles as specified.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0029",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The counter increments one cycle late because the combinatorial next_state logic uses the same counter value that is about to be updated, causing the state machine to transition one cycle early.",
+      "fix": "Restructure the sequential block to update the counter on every clock cycle when not reset, and compare counter against RED_COUNT-1, GREEN_COUNT-1, YELLOW_COUNT-1 in the next_state logic to ensure the correct number of clock edges are counted before transitioning.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0030",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The state transition logic increments the counter on the same cycle the state changes, causing each state to end one cycle earlier than expected.",
+      "fix": "Modify the sequential always block to only increment the counter when staying in the same state, and set counter to 0 only on state transition, without incrementing on transition cycles.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0031",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The test expects a transition after RED_COUNT-1 edges (i.e., 14 cycles) but the RTL compares counter == RED_COUNT-1, so the transition happens one cycle later than expected because counter starts at 0 and increments to 14 on the 15th cycle, but the test counts edges from 0 to 13.",
+      "fix": "Decrease each COUNT parameter by 1 to match the spec where hold time is defined as number of cycles minus one.",
       "design_name": "fsm_traffic_light",
       "success_count": 1,
       "last_seen": "fsm_traffic_light"

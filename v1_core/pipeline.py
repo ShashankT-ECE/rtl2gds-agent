@@ -67,9 +67,10 @@ def build_pipeline(skip_rtl_gen: bool = False) -> StateGraph:
         }
     )
 
-    # Fix loop — after fix, go back to simulation
+    # Fix loop — after fix, regenerate testbench from corrected RTL, then re-simulate
     graph.add_edge("log_analysis", "fix")
-    graph.add_edge("fix", "simulation")
+    graph.add_edge("fix", "testbench")
+    graph.add_edge("testbench", "simulation")
 
     return graph.compile()
 

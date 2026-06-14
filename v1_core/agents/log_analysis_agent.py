@@ -23,16 +23,21 @@ ERROR_TYPES = {
 
 LOG_ANALYSIS_PROMPT = """You are an expert RTL verification engineer.
 Analyze the following simulation log and classify the error.
+Compare the RTL code against the spec to identify exact parameter/value mismatches.
 
 Respond in this exact format, nothing else:
 ERROR_TYPE: <one of SYNTAX, WIDTH, LOGIC, TIMING, COVERAGE, UNKNOWN>
 LOCATION: <file and line number if visible, else UNKNOWN>
 CAUSE: <one sentence explaining the root cause>
+EXACT_FIX: <the single exact change needed — for example: change GREEN_COUNT from 19 to 20, or change line 23 from X to Y. Compare RTL parameter values against spec values to find mismatches>
 FIX_SUGGESTION: <one sentence describing how to fix it>
 KEYWORDS: <3 to 5 comma separated keywords from the error>
 
 Simulation Log:
-{sim_log}"""
+{sim_log}
+
+RTL Code:
+{rtl_code}"""
 
 
 def log_analysis_agent(state: PipelineState) -> PipelineState:
@@ -45,7 +50,7 @@ def log_analysis_agent(state: PipelineState) -> PipelineState:
     logger.agent("LogAnalysisAgent", "Analyzing simulation log")
     logger.info(f"Simulation log received (first 300 chars): {state['sim_log'][:300]!r}")
 
-    prompt = LOG_ANALYSIS_PROMPT.format(sim_log=state["sim_log"])
+    prompt = LOG_ANALYSIS_PROMPT.format(sim_log=state["sim_log"], rtl_code=state.get("rtl_code", ""))
     response = call_llm(prompt=prompt, task="log_analysis")
 
     # Parse the structured response

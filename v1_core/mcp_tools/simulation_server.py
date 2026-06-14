@@ -84,14 +84,29 @@ include {makefiles_dir}/Makefile.sim
         env=env
     )
 
-    log = result.stdout + result.stderr
+    raw_log = result.stdout + result.stderr
+
+    # Extract cocotb-relevant portion — skip make/iverilog build noise
+    # Cocotb output starts with timestamp like "0.00ns" or "     0.00ns"
+    import re as _re
+    cocotb_match = _re.search(r'^\s*\d+\.\d+ns', raw_log, _re.MULTILINE)
+    if cocotb_match:
+        log = raw_log[cocotb_match.start():]
+    else:
+        log = raw_log  # fall back to full log if no cocotb output found
+
+    # Append results.xml content if it exists (structured failure data)
+    results_file = build_dir / "results.xml"
+    if results_file.exists():
+        xml_content = results_file.read_text()
+        log += "\n--- results.xml ---\n" + xml_content
+
     if log:
-        logger.info(f"Simulation log (first 500 chars): {log[:500]}")
+        logger.info(f"Simulation log (last 500 chars): {log[-500:]}")
     else:
         logger.warning("Simulation log is empty!")
 
     # cocotb writes results.xml — check it for pass/fail
-    results_file = build_dir / "results.xml"
     passed = False
     if results_file.exists():
         content = results_file.read_text()

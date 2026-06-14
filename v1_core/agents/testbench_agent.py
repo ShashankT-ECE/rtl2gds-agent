@@ -23,6 +23,8 @@ IMPORTANT — cocotb 2.x API rules:
 - `for` loop over `cocotb.types.LogicArray` is deprecated; use `int()` to compare
 - Do NOT import from `cocotb.binary` — that module was removed in cocotb 2.x
 - Do NOT import `BinaryValue` at all unless actually needed; compare with `int()`
+- Do NOT import anything from `cocotb.handle` — ModifiableObject and NonImplObject do not exist in cocotb 2.x
+- Do NOT import numpy — it is not needed for cocotb testbenches
 - End simulation cleanly with a log message
 
 Rules:
@@ -32,6 +34,8 @@ Rules:
 - Test basic functionality and edge cases
 
 {fifo_requirements}
+{timing_requirements}
+{regeneration_note}
 RTL Code:
 {rtl_code}
 
@@ -58,6 +62,42 @@ TEST — reset_check: After reset, assert empty==1 and full==0.
 FAILURE TO INCLUDE ALL THESE TESTS WILL CAUSE THE ENTIRE SIMULATION TO FAIL.
 """
 
+TIMING_TB_REQUIREMENTS = """MANDATORY TIMING TESTS — The RTL uses timing parameters (COUNT) with counter comparison at X_COUNT-1.
+
+CRITICAL TIMING RULE — Copy this exact pattern for each state:
+For a state with X_COUNT that transitions to NEXT_STATE, use this assertion pattern:
+
+    // State should stay for X_COUNT-1 edges
+    for i in range(X_COUNT - 1):
+        await RisingEdge(dut.clk)
+        assert int(dut.state_out) == THIS_STATE_ENCODING
+        assert int(dut.THIS_LIGHT) == 1
+
+    // After X_COUNT-1 edges, still current state (one RisingEdge before transition)
+    await RisingEdge(dut.clk)
+    assert int(dut.state_out) == THIS_STATE_ENCODING
+    assert int(dut.THIS_LIGHT) == 1
+
+    // After X_COUNT edges, HAS transitioned (the transition happened ON this edge)
+    await RisingEdge(dut.clk)
+    assert int(dut.state_out) == NEXT_STATE_ENCODING
+    assert int(dut.NEXT_LIGHT) == 1
+
+EXAMPLE for RED (encoding=0, RED_COUNT=15, transitions to GREEN encoding=1):
+    for i in range(14):
+        await RisingEdge(dut.clk)
+        assert int(dut.state_out) == 0
+        assert int(dut.red_light) == 1
+    await RisingEdge(dut.clk)
+    assert int(dut.state_out) == 0  # still RED
+    assert int(dut.red_light) == 1
+    await RisingEdge(dut.clk)
+    assert int(dut.state_out) == 1  # now GREEN
+    assert int(dut.green_light) == 1
+
+Apply this exact pattern for ALL three states using their actual parameter values.
+"""
+
 def testbench_agent(state: PipelineState) -> PipelineState:
     """
     LangGraph node — generates cocotb testbench from RTL code.
@@ -67,6 +107,17 @@ def testbench_agent(state: PipelineState) -> PipelineState:
     """
     logger.agent("TestbenchAgent", f"Generating testbench for: {state['design_name']}")
 
+    # If this is a regeneration after an RTL fix, add a regeneration note
+    regeneration_note = ""
+    if state.get("iteration", 0) > 0:
+        logger.info("Regenerating testbench after RTL fix — cleared stale testbench")
+        regeneration_note = (
+            "NOTE: This testbench is being regenerated after an RTL fix. "
+            "Generate tests based purely on the specification and RTL logic shown — "
+            "do NOT assume any specific parameter values. "
+            "Read parameter values from the RTL module directly and use them in your test calculations."
+        )
+
     # Detect if design is a FIFO and append FIFO-specific requirements
     rtl_code = state["rtl_code"]
     if "FIFO" in rtl_code or "fifo" in rtl_code:
@@ -75,7 +126,14 @@ def testbench_agent(state: PipelineState) -> PipelineState:
     else:
         fifo_requirements = ""
 
-    prompt = TB_PROMPT.format(rtl_code=rtl_code, fifo_requirements=fifo_requirements, design_name=state["design_name"])
+    # Detect timing parameters (COUNT, CYCLES) in the RTL and add timing boundary tests
+    if "COUNT" in rtl_code or "_COUNT" in rtl_code or "CYCLES" in rtl_code or "count" in rtl_code:
+        logger.info("Timing parameters detected — appending boundary timing test requirements")
+        timing_requirements = TIMING_TB_REQUIREMENTS
+    else:
+        timing_requirements = ""
+
+    prompt = TB_PROMPT.format(rtl_code=rtl_code, fifo_requirements=fifo_requirements, timing_requirements=timing_requirements, regeneration_note=regeneration_note, design_name=state["design_name"])
     if fifo_requirements:
         logger.info("Using deepseek-v4-flash for FIFO test generation")
     testbench_code = call_llm(prompt=prompt, task="testbench_generation", thinking=False)

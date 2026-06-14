@@ -14,7 +14,19 @@ from v1_core.utils import logger
 from v1_core.utils import strip_code_fences
 
 
-FIX_PROMPT = """You are an expert RTL design engineer fixing a Verilog bug.
+FIX_PROMPT = """EXACT FIX REQUIRED: {exact_fix}
+
+You must make ONLY this change and nothing else. Do not touch any other line. Do not improve anything else. Do not change comparison logic, thresholds, or structure unless the EXACT FIX explicitly says to.
+
+You are an expert RTL design engineer fixing a Verilog bug.
+
+CRITICAL RULES FOR FIXING:
+- Change ONLY the single line or value identified in the error analysis
+- Do NOT change anything else in the RTL
+- Do NOT refactor, rename, or restructure
+- Do NOT change multiple parameters when only one is wrong
+- If the error says a parameter like GREEN_COUNT is wrong, fix ONLY that parameter value
+- Make the minimal possible change that fixes the error — ideally one character
 
 Error Analysis:
 Type: {error_type}
@@ -22,14 +34,14 @@ Location: {location}
 Cause: {cause}
 Suggested Fix: {fix_suggestion}
 
-Known fixes from memory:
+The following are HINTS from memory — use them only if they directly match this exact error. Do NOT apply them blindly:
 {known_fixes}
 
 Original RTL Code:
 {rtl_code}
 
 CRITICAL RULES — read carefully:
-- Change ONLY the minimum lines needed to fix the bug. Ideally one line.
+- Change ONLY the minimum lines needed to fix the bug. Ideally one value on one line.
 - NEVER change the sensitivity list of always blocks.
 - NEVER change blocking ( = ) to non-blocking ( <= ) or vice versa.
 - NEVER change registered logic (always @(posedge clk)) to combinational (always @(*)) or vice versa.
@@ -53,8 +65,17 @@ def fix_agent(state: PipelineState) -> PipelineState:
     error_type = error_analysis.get("ERROR_TYPE", "UNKNOWN")
     hits = state["trace2skill_hits"]
 
-    # Format known fixes for the prompt
+    # Determine category
+    from v1_core.agents.log_analysis_agent import _guess_category
+    category = _guess_category(state["design_name"])
+
+    # Extract precise fix instruction from error analysis
+    exact_fix = error_analysis.get("EXACT_FIX", "See FIX_SUGGESTION below")
+
+    # Format known fixes for the prompt — limit to 1 hit for FSM to reduce noise
     if hits:
+        if category == "fsm":
+            hits = hits[:1]
         known_fixes_text = "\n".join([
             f"- Pattern: {h['pattern']} | Fix: {h['fix']}"
             for h in hits
@@ -67,6 +88,7 @@ def fix_agent(state: PipelineState) -> PipelineState:
     use_thinking = error_type in ["LOGIC", "TIMING"]
 
     prompt = FIX_PROMPT.format(
+        exact_fix=exact_fix,
         error_type=error_type,
         location=error_analysis.get("LOCATION", "UNKNOWN"),
         cause=error_analysis.get("CAUSE", ""),
@@ -84,10 +106,7 @@ def fix_agent(state: PipelineState) -> PipelineState:
 
     logger.success("Fix generated — storing in Trace2Skill")
 
-    # Store this fix in Trace2Skill memory
-    from v1_core.agents.log_analysis_agent import _guess_category
-    category = _guess_category(state["design_name"])
-
+    # Store this fix in Trace2Skill memory (category already computed above)
     store_skill(
         category=category,
         error_type=error_type,
@@ -99,6 +118,7 @@ def fix_agent(state: PipelineState) -> PipelineState:
     return {
         **state,
         "rtl_code": fixed_rtl,
+        "testbench_code": "",  # Force testbench regeneration from fixed RTL
         "iteration": state["iteration"] + 1,
         "stage": "fix_applied"
     }
