@@ -11,6 +11,7 @@ from v1_core.agents.orchestrator import PipelineState
 from v1_core.utils.model_router import call_llm
 from v1_core.utils.trace2skill import store_skill
 from v1_core.utils import logger
+from v1_core.utils import strip_code_fences
 
 
 FIX_PROMPT = """You are an expert RTL design engineer fixing a Verilog bug.
@@ -27,11 +28,14 @@ Known fixes from memory:
 Original RTL Code:
 {rtl_code}
 
-Rules:
-- Output ONLY the corrected Verilog code, nothing else
-- No explanation, no markdown, no code fences
-- Make minimal surgical changes — do not rewrite the whole module
-- Keep all original comments and structure
+CRITICAL RULES — read carefully:
+- Change ONLY the minimum lines needed to fix the bug. Ideally one line.
+- NEVER change the sensitivity list of always blocks.
+- NEVER change blocking ( = ) to non-blocking ( <= ) or vice versa.
+- NEVER change registered logic (always @(posedge clk)) to combinational (always @(*)) or vice versa.
+- NEVER add, remove, or restructure modules or always blocks.
+- Output the COMPLETE module, but with surgical changes only.
+- Keep all original comments, structure, and coding style exactly as-is.
 
 Generate the corrected Verilog now:"""
 
@@ -59,8 +63,8 @@ def fix_agent(state: PipelineState) -> PipelineState:
     else:
         known_fixes_text = "None available"
 
-    # Use thinking mode for complex errors
-    use_thinking = error_type in ["LOGIC", "TIMING", "UNKNOWN"]
+    # Use thinking mode for complex errors only — UNKNOWN should be simple
+    use_thinking = error_type in ["LOGIC", "TIMING"]
 
     prompt = FIX_PROMPT.format(
         error_type=error_type,
@@ -76,6 +80,7 @@ def fix_agent(state: PipelineState) -> PipelineState:
         task="rtl_fix",
         thinking=use_thinking
     )
+    fixed_rtl = strip_code_fences(fixed_rtl)
 
     logger.success("Fix generated — storing in Trace2Skill")
 

@@ -8,6 +8,7 @@ Uses model_router for all LLM calls — never calls DeepSeek directly.
 from v1_core.agents.orchestrator import PipelineState
 from v1_core.utils.model_router import call_llm
 from v1_core.utils import logger
+from v1_core.utils import strip_code_fences
 
 
 RTL_PROMPT = """You are an expert RTL design engineer.
@@ -38,7 +39,8 @@ def rtl_gen_agent(state: PipelineState) -> PipelineState:
 
     prompt = RTL_PROMPT.format(spec=state["spec"])
 
-    rtl_code = call_llm(prompt=prompt, task="rtl_generation")
+    rtl_code = call_llm(prompt=prompt, task="rtl_generation", thinking=False)
+    rtl_code = strip_code_fences(rtl_code)
 
     logger.success(f"RTL generated — {len(rtl_code)} characters")
 

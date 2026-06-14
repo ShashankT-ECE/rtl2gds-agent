@@ -29,10 +29,21 @@ def run_simulation(rtl_file: str, tb_file: str) -> dict:
     rtl_path = Path(rtl_file)
 
     tb_module = tb_path.stem        # e.g. alu_8bit_tb
-    toplevel = rtl_path.stem        # e.g. alu_8bit
+
+    # Auto-detect the toplevel module name from the RTL source
+    # (the filename may not match the module name)
+    rtl_source = rtl_path.read_text()
+    import re
+    m = re.search(r'^\s*module\s+(\w+)', rtl_source, re.MULTILINE)
+    toplevel = m.group(1) if m else rtl_path.stem
 
     build_dir = WORKSPACE / "cocotb_build"
     build_dir.mkdir(exist_ok=True)
+
+    # Clean old results before each run to avoid stale pass/fail detection
+    old_results = build_dir / "results.xml"
+    if old_results.exists():
+        old_results.unlink()
 
     # Get cocotb makefiles path
     makefiles_dir = subprocess.check_output(
@@ -53,9 +64,14 @@ include {makefiles_dir}/Makefile.sim
 
     logger.info(f"Running cocotb simulation for: {toplevel}")
 
+    # Append workspace dir to PYTHONPATH so cocotb can find the testbench module
+    workspace_dir = str(tb_path.parent.resolve())
+    existing_pp = os.environ.get("PYTHONPATH", "")
+    pythonpath = f"{workspace_dir}:{existing_pp}" if existing_pp else workspace_dir
+
     env = {
         **os.environ,
-        "PYTHONPATH": str(tb_path.parent.resolve()),
+        "PYTHONPATH": pythonpath,
         "COCOTB_REDUCED_LOG_FMT": "1",
     }
 

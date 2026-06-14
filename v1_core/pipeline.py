@@ -31,9 +31,13 @@ def should_fix_or_end(state: PipelineState) -> str:
     return "fix"
 
 
-def build_pipeline() -> StateGraph:
+def build_pipeline(skip_rtl_gen: bool = False) -> StateGraph:
     """
     Builds and compiles the V1 LangGraph pipeline.
+
+    Args:
+        skip_rtl_gen: if True, entry point is testbench instead of rtl_gen
+                      (used when rtl_code is provided directly)
     Returns compiled graph ready to run.
     """
     graph = StateGraph(PipelineState)
@@ -46,8 +50,11 @@ def build_pipeline() -> StateGraph:
     graph.add_node("fix", fix_agent)
 
     # Define edges — linear flow
-    graph.set_entry_point("rtl_gen")
-    graph.add_edge("rtl_gen", "testbench")
+    if skip_rtl_gen:
+        graph.set_entry_point("testbench")
+    else:
+        graph.set_entry_point("rtl_gen")
+        graph.add_edge("rtl_gen", "testbench")
     graph.add_edge("testbench", "simulation")
 
     # Conditional routing after simulation
@@ -67,23 +74,29 @@ def build_pipeline() -> StateGraph:
     return graph.compile()
 
 
-def run_pipeline(spec: str, design_name: str) -> PipelineState:
+def run_pipeline(spec: str, design_name: str, rtl_code: str = "") -> PipelineState:
     """
     Run the full V1 pipeline for a given spec.
 
     Args:
         spec: natural language hardware specification
         design_name: short name like alu_8bit
+        rtl_code: optional pre-existing RTL code to skip RTL generation
 
     Returns:
         final PipelineState after pipeline completes
     """
     logger.divider()
     logger.info(f"Starting V1 pipeline for: {design_name}")
+    if rtl_code:
+        logger.info("RTL code provided — skipping RTL generation step")
     logger.divider()
 
-    pipeline = build_pipeline()
+    skip_rtl_gen = bool(rtl_code)
+    pipeline = build_pipeline(skip_rtl_gen=skip_rtl_gen)
     initial_state = get_initial_state(spec=spec, design_name=design_name)
+    if rtl_code:
+        initial_state["rtl_code"] = rtl_code
     final_state = pipeline.invoke(initial_state)
 
     logger.divider()

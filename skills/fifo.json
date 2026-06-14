@@ -1,1 +1,55 @@
-{"version": "1.0", "skills": []}
+{
+  "version": "1.0",
+  "skills": [
+    {
+      "id": "fifo_0000",
+      "category": "fifo",
+      "error_type": "UNKNOWN",
+      "pattern": "The build system cannot find the required cocotb Makefile in the specified directory.",
+      "fix": "Ensure the cocotb project is properly initialized and the Makefile exists at workspace/cocotb_build/Makefile, or update the path in the simulation command.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0001",
+      "category": "fifo",
+      "error_type": "SYNTAX",
+      "pattern": "The Makefile required for building the Cocotb simulation environment is missing or the path is incorrect.",
+      "fix": "Ensure that the Makefile exists at the specified path, or correct the path to point to the correct Cocotb build directory.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0002",
+      "category": "fifo",
+      "error_type": "UNKNOWN",
+      "pattern": "The Makefile or its directory does not exist, preventing the build system from finding required build rules.",
+      "fix": "Ensure the Cocotb project is properly initialized and that the Makefile path is correctly set, or regenerate the build directory.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0003",
+      "category": "fifo",
+      "error_type": "SYNTAX",
+      "pattern": "The Makefile path does not exist or is missing, causing the build system to fail before simulation starts.",
+      "fix": "Ensure the workspace/cocotb_build directory and its Makefile are generated or correctly specified before running make.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0004",
+      "category": "fifo",
+      "error_type": "UNKNOWN",
+      "pattern": "The simulation environment is failing because the required Makefile in workspace/cocotb_build/ is missing or hasn't been generated.",
+      "fix": "Ensure that the cocotb build process (such as running the appropriate configuration or setup script) is completed before invoking make.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    }
+  ]
+}

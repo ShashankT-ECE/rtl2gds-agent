@@ -4,6 +4,7 @@ Entry point for the RTL-to-GDS V1 agent pipeline.
 Usage:
   python main.py --benchmark alu_8bit
   python main.py --spec "8-bit ALU with add sub and or xor" --name alu_test
+  python main.py --rtl broken_alu.v --spec "8-bit ALU with bug" --name alu_test
 """
 
 import argparse
@@ -18,7 +19,19 @@ def main():
     parser.add_argument("--benchmark", type=str, help="Run a benchmark from benchmarks/ folder")
     parser.add_argument("--spec", type=str, help="Natural language hardware specification")
     parser.add_argument("--name", type=str, help="Design name (required with --spec)")
+    parser.add_argument("--rtl", type=str, help="Path to existing RTL file (skips RTL generation)")
     args = parser.parse_args()
+
+    rtl_code = ""
+
+    # If --rtl is provided, read the file and skip RTL generation
+    if args.rtl:
+        rtl_path = Path(args.rtl)
+        if not rtl_path.exists():
+            logger.error(f"RTL file not found: {args.rtl}")
+            return
+        rtl_code = rtl_path.read_text()
+        logger.info(f"Loaded RTL file: {args.rtl} ({len(rtl_code.splitlines())} lines)")
 
     if args.benchmark:
         spec_path = Path(f"benchmarks/{args.benchmark}/spec.txt")
@@ -39,10 +52,11 @@ def main():
     else:
         logger.error("Usage: python main.py --benchmark alu_8bit")
         logger.error("       python main.py --spec 'your spec here' --name design_name")
+        logger.error("       python main.py --rtl <file.v> --spec 'spec' --name design_name")
         return
 
     # Run the pipeline
-    final_state = run_pipeline(spec=spec, design_name=design_name)
+    final_state = run_pipeline(spec=spec, design_name=design_name, rtl_code=rtl_code)
 
     # Print Trace2Skill stats after run
     logger.divider()

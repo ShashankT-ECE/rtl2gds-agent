@@ -6,6 +6,7 @@ No agent should call DeepSeek directly — always use this file.
 
 import os
 import httpx
+from v1_core.utils import logger
 
 DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
 DEEPSEEK_BASE_URL = "https://api.deepseek.com/v1"
@@ -16,26 +17,40 @@ FLASH_THINKING = "deepseek-v4-flash"  # use thinking=True for reasoning
 PRO = "deepseek-v4-pro"
 
 
-def call_llm(prompt: str, task: str = "general", thinking: bool = False) -> str:
+def call_llm(prompt: str, task: str = "general", thinking: bool = False, model: str = "") -> str:
     """
     Call DeepSeek API and return the response text.
 
     Args:
         prompt: the full prompt to send
-        task: what kind of task this is (for model selection)
+        task: what kind of task this is (for model selection when model is not overridden)
         thinking: set True for root cause reasoning tasks
+        model: explicit model override (e.g. "deepseek-v4-pro") — takes priority over task-based selection
 
     Returns:
         response text as string
     """
 
-    # Model selection based on task
-    if task == "architecture" or task == "hardest":
-        model = PRO
-    else:
-        model = FLASH
+    # Model selection — explicit override takes priority, else use task-based routing
+    if not model:
+        if task == "architecture" or task == "hardest":
+            model = PRO
+        else:
+            model = FLASH
 
     messages = [{"role": "user", "content": prompt}]
+
+    request_body = {
+        "model": model,
+        "messages": messages,
+        "max_tokens": 8192,
+    }
+
+    # Disable thinking (internal reasoning) for code generation tasks
+    # to avoid consuming all tokens on reasoning and leaving nothing for output.
+    # Only enable thinking for root cause analysis and architecture decisions.
+    if not thinking and task not in ("root_cause", "architecture"):
+        request_body["thinking"] = {"type": "disabled"}
 
     response = httpx.post(
         f"{DEEPSEEK_BASE_URL}/chat/completions",
@@ -43,14 +58,19 @@ def call_llm(prompt: str, task: str = "general", thinking: bool = False) -> str:
             "Authorization": f"Bearer {DEEPSEEK_API_KEY}",
             "Content-Type": "application/json"
         },
-        json={
-            "model": model,
-            "messages": messages,
-            "max_tokens": 2048
-        },
-        timeout=60.0
+        json=request_body,
+        timeout=120.0
     )
 
     response.raise_for_status()
     data = response.json()
-    return data["choices"][0]["message"]["content"]
+
+    content = data["choices"][0]["message"]["content"]
+    if not content or not content.strip():
+        logger.info(f"Full API response: {data}")
+        raise RuntimeError(
+            f"call_llm: DeepSeek returned empty response. "
+            f"Model={model}, task={task}, status={response.status_code}"
+        )
+
+    return content
