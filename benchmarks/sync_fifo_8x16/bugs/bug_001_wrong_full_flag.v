@@ -1,3 +1,6 @@
+// Bug injection: full threshold changed from 16 to 15 (count == 15 instead of count == 16)
+// The FIFO asserts full at 15 entries instead of 16, wasting one storage slot.
+
 module sync_fifo_8x16 (
     input  wire       clk,
     input  wire       rst_n,
@@ -62,7 +65,7 @@ module sync_fifo_8x16 (
         end
     end
 
-    assign full  = (count == 5'd16);
+    assign full  = (count == 5'd15);
     assign empty = (count == 5'd0);
 
 endmodule

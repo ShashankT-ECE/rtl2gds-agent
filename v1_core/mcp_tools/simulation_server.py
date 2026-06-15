@@ -118,4 +118,12 @@ include {makefiles_dir}/Makefile.sim
     else:
         logger.error("Simulation failed")
 
+    # Log VCD file path for debugging
+    vcd_path = build_dir / "dump.vcd"
+    if vcd_path.exists():
+        logger.info(f"VCD path for inspection: {vcd_path}")
+        logger.info(f"Open with: gtkwave {vcd_path}")
+    else:
+        logger.info(f"VCD not found at {vcd_path} — simulation may not have generated one")
+
     return {"passed": passed, "log": log}

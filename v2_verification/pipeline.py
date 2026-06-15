@@ -23,12 +23,14 @@ Flow:
 from langgraph.graph import StateGraph, END
 from v1_core.agents.orchestrator import PipelineState, get_initial_state
 from v1_core.agents.spec_parser_agent import spec_parser_agent
+from v1_core.agents.verification_planner_agent import verification_planner_agent
 from v1_core.agents.rtl_gen_agent import rtl_gen_agent
 from v1_core.agents.testbench_agent import testbench_agent
 from v1_core.agents.simulation_agent import simulation_agent
 from v1_core.agents.log_analysis_agent import log_analysis_agent
 from v1_core.agents.fix_agent import fix_agent
 from v1_core.utils import logger
+
 
 def _safe_agent_call(state: PipelineState, agent_fn, agent_name: str) -> PipelineState:
     """Wrap an agent call in try/except so a crash doesn't kill the pipeline."""
@@ -88,6 +90,37 @@ def should_fix_or_synthesize(state: PipelineState) -> str:
     if state["sim_passed"]:
         logger.success("Simulation passed -- proceeding to synthesis")
         return "synthesis"
+
+    # Convergence detection: if error_analysis repeats, increment stuck_count
+    current_error = state.get("error_analysis", {})
+    previous_error = state.get("previous_error_analysis", {})
+    stuck_count = state.get("stuck_count", 0)
+
+    if current_error and previous_error:
+        same_type = current_error.get("ERROR_TYPE") == previous_error.get("ERROR_TYPE")
+        same_cause = current_error.get("CAUSE") == previous_error.get("CAUSE")
+        if same_type and same_cause:
+            stuck_count += 1
+            logger.warning(
+                f"Convergence detector: identical error repeated ({stuck_count}x) -- "
+                f"ERROR_TYPE={current_error.get('ERROR_TYPE')}, "
+                f"CAUSE={current_error.get('CAUSE')}"
+            )
+        else:
+            stuck_count = 0  # different error, reset counter
+    else:
+        stuck_count = 0
+
+    # Persist convergence state
+    state["stuck_count"] = stuck_count
+    state["previous_error_analysis"] = current_error
+
+    if stuck_count >= 2:
+        logger.error(
+            f"Convergence detector: stuck at same error after {stuck_count} "
+            f"attempts -- routing to END"
+        )
+        return "end"
 
     if state["iteration"] >= state["max_iterations"]:
         logger.error(
@@ -190,6 +223,7 @@ def build_v2_pipeline(
 
     # ---- V1 nodes (wrapped for crash safety) ------------------------------
     graph.add_node("spec_parser", lambda s: _safe_agent_call(s, spec_parser_agent, "spec_parser"))
+    graph.add_node("verification_planner", lambda s: _safe_agent_call(s, verification_planner_agent, "verification_planner"))
     graph.add_node("rtl_gen", lambda s: _safe_agent_call(s, rtl_gen_agent, "rtl_gen"))
     graph.add_node("testbench", lambda s: _safe_agent_call(s, testbench_agent, "testbench"))
     graph.add_node("simulation", lambda s: _safe_agent_call(s, simulation_agent, "Simulation"))
@@ -210,13 +244,14 @@ def build_v2_pipeline(
 
     # ---- Entry point ------------------------------------------------------
     graph.set_entry_point("spec_parser")
+    graph.add_edge("spec_parser", "verification_planner")
     if skip_rtl_gen:
         if skip_testbench:
-            graph.add_edge("spec_parser", "simulation")
+            graph.add_edge("verification_planner", "simulation")
         else:
-            graph.add_edge("spec_parser", "testbench")
+            graph.add_edge("verification_planner", "testbench")
     else:
-        graph.add_edge("spec_parser", "rtl_gen")
+        graph.add_edge("verification_planner", "rtl_gen")
         if skip_testbench:
             graph.add_edge("rtl_gen", "simulation")
         else:

@@ -520,6 +520,86 @@
       "design_name": "uart_tx",
       "success_count": 1,
       "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0052",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "RTL sets tx_busy=1 in IDLE state, but should set it to 0 to correctly indicate the transmitter is not busy after reset and when idle.",
+      "fix": "In the IDLE state sequential logic, set tx_busy to 0 instead of 1 to match the spec requirement that tx_busy = 0 when the transmitter is idle.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0053",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL incorrectly asserts tx_busy only during START state but fails to maintain it high during IDLE state, causing tx_busy to drop low immediately after transmission completes.",
+      "fix": "Keep tx_busy high during IDLE state to properly gate the next transmission start, and only clear it when the module is truly idle after a complete frame.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0054",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The tx_busy signal is asserted during STOP state but never deasserted back to 0 in the IDLE state output logic due to the STOP->IDLE transition not being matched with a delayed tx_busy deassertion.",
+      "fix": "In the STOP case of the combinational output block, set tx_busy to 0 so it goes low exactly when the stop bit ends and the state returns to IDLE.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0055",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "In the STOP state, tx_busy stays high instead of going low after the stop bit completes, causing the assertion failure.",
+      "fix": "Set tx_busy to 0 in the STOP state combinational output to match the specification that tx_busy is low after transmission completes.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0056",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "In the STOP state, tx_busy is driven high instead of being deasserted after the stop bit is transmitted, causing the test to fail.",
+      "fix": "Change the combinational output logic for the STOP state so that tx_busy is 0, indicating the transmission is complete.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0057",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL does not de-assert tx_busy after the STOP state completes, causing tx_busy to remain high indefinitely.",
+      "fix": "Modify the combinational output logic case for the STOP state to set tx_busy to 0 instead of 1 so that it reflects the idle state after transmission.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0058",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "tx_busy does not deassert after the stop bit completes because the RTL keeps tx_busy high in STOP state and does not clear it upon transitioning to IDLE.",
+      "fix": "Ensure tx_busy goes low in the STOP state when the baud counter reaches the terminal count, transitioning the state to IDLE.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0059",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "tx_busy is deasserted in the STOP state's combinational output logic, but the sequential block also sets tx_busy to 0 after the stop bit completes\u2014however, the combinational block overrides it to 1 during the STOP state, causing tx_busy to remain high indefinitely after transmission.",
+      "fix": "Modify the combinational case statement for state STOP to set tx_busy = 1'b0, and delete the redundant sequential assignment in the STOP block.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
     }
   ]
 }

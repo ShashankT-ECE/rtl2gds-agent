@@ -500,6 +500,36 @@
       "design_name": "alu_8bit",
       "success_count": 1,
       "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0050",
+      "category": "combinational",
+      "error_type": "LOGIC",
+      "pattern": "The XOR operation (opcode 3'b100) incorrectly computes bitwise XNOR (~(A ^ B)) instead of bitwise XOR (A ^ B).",
+      "fix": "Replace the XNOR operator with XOR by removing the bitwise NOT from the XOR operation for opcode 100.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0051",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The test attempted to assign an integer value of 8 to a 3-bit signal 'opcode', which is out of range for a 3-bit signal (max value 7).",
+      "fix": "Widen the opcode port to 4 bits in the RTL or update the test to skip invalid opcodes beyond 3-bit range.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0052",
+      "category": "combinational",
+      "error_type": "LOGIC",
+      "pattern": "The zero_flag output register is declared but never assigned in the always block, leaving it in an unknown 'X' state.",
+      "fix": "Assign the zero_flag output based on whether Y is zero, matching the reference model where zero_flag = 1 if Y == 0 else 0.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
     }
   ]
 }

@@ -12,6 +12,7 @@ from v1_core.utils.model_router import call_llm
 from v1_core.utils.trace2skill import store_skill
 from v1_core.utils import logger
 from v1_core.utils import strip_code_fences
+import json
 
 
 FIX_PROMPT = """EXACT FIX REQUIRED: {exact_fix}
@@ -36,6 +37,13 @@ Suggested Fix: {fix_suggestion}
 
 The following are HINTS from memory — use them only if they directly match this exact error. Do NOT apply them blindly:
 {known_fixes}
+
+Verification Plan:
+{verification_plan_json}
+Failed test ID: {failed_test_id}
+Expected behavior: {expected_behavior}
+Actual behavior: {actual_behavior}
+Change ONLY what is needed to make the actual behavior match the expected behavior per the plan.
 
 Original RTL Code:
 {rtl_code}
@@ -87,6 +95,13 @@ def fix_agent(state: PipelineState) -> PipelineState:
     # Use thinking mode for complex errors only — UNKNOWN should be simple
     use_thinking = error_type in ["LOGIC", "TIMING"]
 
+    # Extract verification plan from state to guide fix
+    verification_plan = state.get("verification_plan", {})
+    verification_plan_json = json.dumps(verification_plan, indent=2)
+    failed_test_id = error_analysis.get("LOCATION", "UNKNOWN")
+    expected_behavior = "See verification_plan tiers"
+    actual_behavior = error_analysis.get("CAUSE", "Unknown")
+
     prompt = FIX_PROMPT.format(
         exact_fix=exact_fix,
         error_type=error_type,
@@ -94,6 +109,10 @@ def fix_agent(state: PipelineState) -> PipelineState:
         cause=error_analysis.get("CAUSE", ""),
         fix_suggestion=error_analysis.get("FIX_SUGGESTION", ""),
         known_fixes=known_fixes_text,
+        verification_plan_json=verification_plan_json,
+        failed_test_id=failed_test_id,
+        expected_behavior=expected_behavior,
+        actual_behavior=actual_behavior,
         rtl_code=state["rtl_code"]
     )
 

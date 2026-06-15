@@ -300,6 +300,106 @@
       "design_name": "sync_fifo_8x16",
       "success_count": 1,
       "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0030",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The FIFO's full flag is asserted when count equals 16, but the FIFO depth is 16 entries addressed by a 4-bit pointer, so full should be asserted when count equals 15 instead of 16.",
+      "fix": "Correct the full flag condition to match the FIFO depth of 16 by asserting full when count reaches 15 (the 16th entry fills the last slot), not 16.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0031",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The RTL sets the full flag when count equals 16, but the FIFO depth is 16 entries (addressable 0-15), so full should assert after 16 writes (when count == 16 matches spec), but the test expects full after 15 writes, indicating a mismatch between the test expectation and the RTL/spec.",
+      "fix": "Modify the full condition to match the spec: full should assert when count reaches 15 (after 15 writes), not 16.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0032",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The RTL asserts full when count == 5'd16, but the FIFO depth is 16 (indices 0-15), so full should be asserted when count == 5'd16 only after 16 writes, whereas test expects full after 15 writes.",
+      "fix": "Change the full flag threshold from 16 to 15 to match the specification that the FIFO becomes full after the 15th write (since depth is 16, but indexing starts at 0).",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0033",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "Parameter mismatch: the full flag is asserted when count equals 16, but a 16-deep FIFO with addresses 0-15 should assert full when count equals 15 (i.e., after 15 writes, not 16).",
+      "fix": "Change the full condition from count==16 to count==15 to match the 16-entry FIFO depth so that full asserts after 15 writes (entries 0-15) and prevents a 16th write.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0034",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The full flag is asserted when count equals 15 instead of 16, causing the FIFO to be considered full one entry too early.",
+      "fix": "Update the full flag logic to compare count against 5'd16 to match the FIFO depth of 16 entries.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0035",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The full flag logic uses a 5-bit counter that counts up to 16, but the FIFO's actual depth is 15 writes before full should assert (mem indices 0-14), while the count comparison sets full when count == 16 but the spec and test expect full after 15 writes.",
+      "fix": "Correct the full flag comparison threshold from 16 to 15, or adjust the counter logic to reflect the intended FIFO depth.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0036",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The full flag is asserted when count reaches 15 (FIFO_DEPTH-1) instead of 16 (FIFO_DEPTH).",
+      "fix": "Change the full flag comparison from count == 15 to count == 16 so the FIFO is full after 16 entries.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0037",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The full threshold is set to 15 entries instead of the spec-required 16 entries, causing the FIFO to assert full one slot early.",
+      "fix": "Change the full condition from count==15 to count==16 to match the FIFO depth.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0038",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The `full` signal is defined as `(count == 5'd16)` in RTL but the count threshold for full should be 16 based on the spec, yet the spec expects full==1 at 16 entries and the test fails show the RTL actually asserts full at 15 entries, which is a logic mismatch in the threshold condition.",
+      "fix": "Check the count increment logic to ensure it correctly increments to 16, and then set the full threshold to count == 5'd16, ensuring it only asserts when all 16 entries are filled.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0039",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The FIFO design incorrectly asserts full when count equals 15 instead of 16, wasting one storage slot and causing early full flag assertion.",
+      "fix": "Correct the full threshold in the RTL to compare count against 16 instead of 15.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
     }
   ]
 }

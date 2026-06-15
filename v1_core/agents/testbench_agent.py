@@ -8,6 +8,7 @@ from v1_core.agents.orchestrator import PipelineState
 from v1_core.utils.model_router import call_llm
 from v1_core.utils import logger
 from v1_core.utils import strip_code_fences
+import json
 
 TB_PROMPT = """CRITICAL: You must generate a COMPLETE, FULLY FUNCTIONAL cocotb testbench. Do not truncate. Do not summarize. Write every single test in full. Minimum 50 lines of actual test code.
 
@@ -51,6 +52,7 @@ Never hardcode expected values directly in assertions.
 {fifo_requirements}
 {timing_requirements}
 {regeneration_note}
+{verification_plan_section}
 Structured specification analysis: {spec_analysis}
 RTL Code:
 {rtl_code}
@@ -149,9 +151,22 @@ def testbench_agent(state: PipelineState) -> PipelineState:
     else:
         timing_requirements = ""
 
-    import json
+    # Extract verification plan from state and include it in the prompt
+    verification_plan = state.get("verification_plan", {})
+    verification_plan_json = json.dumps(verification_plan, indent=2)
+    reference_model_code = verification_plan.get("reference_model_code", "")
+    verification_plan_section = (
+        f"VERIFICATION PLAN:\n{verification_plan_json}\n\n"
+        f"REFERENCE MODEL (use this verbatim in the testbench):\n{reference_model_code}\n\n"
+        f"INSTRUCTIONS:\n"
+        f"- Generate tests for EVERY test_id in verification_tiers\n"
+        f"- Use the reference_model function for all assertions\n"
+        f"- Never hardcode expected values\n"
+        f"- Include the reference_model function verbatim at the top of the testbench file\n"
+        f"- Each @cocotb.test() function must correspond to one tier from verification_tiers\n"
+    )
 
-    prompt = TB_PROMPT.format(rtl_code=rtl_code, fifo_requirements=fifo_requirements, timing_requirements=timing_requirements, regeneration_note=regeneration_note, design_name=state["design_name"], spec_analysis=json.dumps(state.get("spec_analysis", {}), indent=2))
+    prompt = TB_PROMPT.format(rtl_code=rtl_code, fifo_requirements=fifo_requirements, timing_requirements=timing_requirements, regeneration_note=regeneration_note, design_name=state["design_name"], spec_analysis=json.dumps(state.get("spec_analysis", {}), indent=2), verification_plan_section=verification_plan_section)
     if fifo_requirements:
         logger.info("Using deepseek-v4-flash for FIFO test generation")
     testbench_code = call_llm(prompt=prompt, task="testbench_generation", thinking=False)

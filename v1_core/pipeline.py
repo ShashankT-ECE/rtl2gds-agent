@@ -7,6 +7,7 @@ This is the complete V1 pipeline graph.
 from langgraph.graph import StateGraph, END
 from v1_core.agents.orchestrator import PipelineState, get_initial_state
 from v1_core.agents.spec_parser_agent import spec_parser_agent
+from v1_core.agents.verification_planner_agent import verification_planner_agent
 from v1_core.agents.rtl_gen_agent import rtl_gen_agent
 from v1_core.agents.testbench_agent import testbench_agent
 from v1_core.agents.simulation_agent import simulation_agent
@@ -22,6 +23,37 @@ def should_fix_or_end(state: PipelineState) -> str:
     """
     if state["sim_passed"]:
         logger.success("Simulation passed — pipeline complete")
+        return "end"
+
+    # Convergence detection: if error_analysis repeats, increment stuck_count
+    current_error = state.get("error_analysis", {})
+    previous_error = state.get("previous_error_analysis", {})
+    stuck_count = state.get("stuck_count", 0)
+
+    if current_error and previous_error:
+        same_type = current_error.get("ERROR_TYPE") == previous_error.get("ERROR_TYPE")
+        same_cause = current_error.get("CAUSE") == previous_error.get("CAUSE")
+        if same_type and same_cause:
+            stuck_count += 1
+            logger.warning(
+                f"Convergence detector: identical error repeated ({stuck_count}x) — "
+                f"ERROR_TYPE={current_error.get('ERROR_TYPE')}, "
+                f"CAUSE={current_error.get('CAUSE')}"
+            )
+        else:
+            stuck_count = 0  # different error, reset counter
+    else:
+        stuck_count = 0
+
+    # Persist convergence state
+    state["stuck_count"] = stuck_count
+    state["previous_error_analysis"] = current_error
+
+    if stuck_count >= 2:
+        logger.error(
+            f"Convergence detector: stuck at same error after {stuck_count} "
+            f"attempts — routing to END"
+        )
         return "end"
 
     if state["iteration"] >= state["max_iterations"]:
@@ -45,6 +77,7 @@ def build_pipeline(skip_rtl_gen: bool = False, skip_testbench: bool = False) -> 
 
     # Add all agent nodes
     graph.add_node("spec_parser", spec_parser_agent)
+    graph.add_node("verification_planner", verification_planner_agent)
     graph.add_node("rtl_gen", rtl_gen_agent)
     graph.add_node("testbench", testbench_agent)
     graph.add_node("simulation", simulation_agent)
@@ -53,13 +86,14 @@ def build_pipeline(skip_rtl_gen: bool = False, skip_testbench: bool = False) -> 
 
     # Define edges — linear flow
     graph.set_entry_point("spec_parser")
+    graph.add_edge("spec_parser", "verification_planner")
     if skip_rtl_gen:
         if skip_testbench:
-            graph.add_edge("spec_parser", "simulation")
+            graph.add_edge("verification_planner", "simulation")
         else:
-            graph.add_edge("spec_parser", "testbench")
+            graph.add_edge("verification_planner", "testbench")
     else:
-        graph.add_edge("spec_parser", "rtl_gen")
+        graph.add_edge("verification_planner", "rtl_gen")
         if skip_testbench:
             graph.add_edge("rtl_gen", "simulation")
         else:

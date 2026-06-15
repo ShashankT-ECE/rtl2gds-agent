@@ -9,6 +9,7 @@ from v1_core.agents.orchestrator import PipelineState
 from v1_core.utils.model_router import call_llm
 from v1_core.utils.trace2skill import retrieve_skills
 from v1_core.utils import logger
+import json
 
 
 ERROR_TYPES = {
@@ -37,7 +38,8 @@ Simulation Log:
 {sim_log}
 
 RTL Code:
-{rtl_code}"""
+{rtl_code}
+{verification_plan_section}"""
 
 
 def log_analysis_agent(state: PipelineState) -> PipelineState:
@@ -50,7 +52,22 @@ def log_analysis_agent(state: PipelineState) -> PipelineState:
     logger.agent("LogAnalysisAgent", "Analyzing simulation log")
     logger.info(f"Simulation log received (first 300 chars): {state['sim_log'][:300]!r}")
 
-    prompt = LOG_ANALYSIS_PROMPT.format(sim_log=state["sim_log"], rtl_code=state.get("rtl_code", ""))
+    # Extract verification plan from state to guide error analysis
+    verification_plan = state.get("verification_plan", {})
+    verification_tiers = verification_plan.get("verification_tiers", [])
+    test_ids = []
+    for tier in verification_tiers:
+        for test in tier.get("tests", []):
+            test_ids.append(test.get("test_id", ""))
+    verification_plan_section = ""
+    if verification_plan:
+        verification_plan_section = (
+            f"Verification Plan: {json.dumps(verification_plan, indent=2)}\n"
+            f"Failed test likely corresponds to one of these test IDs: {', '.join(test_ids)}\n"
+            f"Expected behavior per plan: Review the verification_tiers for expected outputs\n"
+        )
+
+    prompt = LOG_ANALYSIS_PROMPT.format(sim_log=state["sim_log"], rtl_code=state.get("rtl_code", ""), verification_plan_section=verification_plan_section)
     response = call_llm(prompt=prompt, task="log_analysis")
 
     # Parse the structured response

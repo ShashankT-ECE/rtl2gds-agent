@@ -920,7 +920,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "main",
-      "community": 1,
+      "community": 6,
       "norm_label": "main.py"
     },
     {
@@ -930,7 +930,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "main_main",
-      "community": 1,
+      "community": 6,
       "norm_label": "main()"
     },
     {
@@ -940,7 +940,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "main_rationale_1",
-      "community": 1,
+      "community": 6,
       "norm_label": "main.py entry point for the rtl-to-gds v1 agent pipeline. usage:   python main.p"
     },
     {
@@ -970,7 +970,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "agents_fix_agent",
-      "community": 2,
+      "community": 1,
       "norm_label": "fix_agent.py"
     },
     {
@@ -980,7 +980,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "agents_fix_agent_fix_agent",
-      "community": 2,
+      "community": 1,
       "norm_label": "fix_agent()"
     },
     {
@@ -990,7 +990,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "v1_core_agents_fix_agent_py_pipelinestate",
-      "community": 2,
+      "community": 1,
       "norm_label": "pipelinestate"
     },
     {
@@ -1000,7 +1000,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "agents_fix_agent_rationale_1",
-      "community": 2,
+      "community": 1,
       "norm_label": "fix_agent.py fix agent \u2014 langgraph node. 1. checks trace2skill hits from log ana"
     },
     {
@@ -1010,7 +1010,7 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "agents_fix_agent_rationale_56",
-      "community": 2,
+      "community": 1,
       "norm_label": "langgraph node \u2014 fixes rtl based on error analysis.     input state fields used:"
     },
     {
@@ -1020,37 +1020,37 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "agents_log_analysis_agent",
-      "community": 2,
+      "community": 1,
       "norm_label": "log_analysis_agent.py"
     },
     {
       "label": "log_analysis_agent()",
       "file_type": "code",
       "source_file": "v1_core/agents/log_analysis_agent.py",
-      "source_location": "L43",
+      "source_location": "L45",
       "_origin": "ast",
       "id": "agents_log_analysis_agent_log_analysis_agent",
-      "community": 2,
+      "community": 1,
       "norm_label": "log_analysis_agent()"
     },
     {
       "label": "PipelineState",
       "file_type": "code",
       "source_file": "v1_core/agents/log_analysis_agent.py",
-      "source_location": "L43",
+      "source_location": "L45",
       "_origin": "ast",
       "id": "v1_core_agents_log_analysis_agent_py_pipelinestate",
-      "community": 2,
+      "community": 1,
       "norm_label": "pipelinestate"
     },
     {
       "label": "_guess_category()",
       "file_type": "code",
       "source_file": "v1_core/agents/log_analysis_agent.py",
-      "source_location": "L89",
+      "source_location": "L106",
       "_origin": "ast",
       "id": "agents_log_analysis_agent_guess_category",
-      "community": 2,
+      "community": 1,
       "norm_label": "_guess_category()"
     },
     {
@@ -1060,27 +1060,27 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "agents_log_analysis_agent_rationale_1",
-      "community": 2,
+      "community": 1,
       "norm_label": "log_analysis_agent.py log analysis agent \u2014 langgraph node. parses simulation log"
     },
     {
       "label": "LangGraph node \u2014 classifies simulation errors.     Input state fields used: sim_",
       "file_type": "rationale",
       "source_file": "v1_core/agents/log_analysis_agent.py",
-      "source_location": "L44",
+      "source_location": "L46",
       "_origin": "ast",
-      "id": "agents_log_analysis_agent_rationale_44",
-      "community": 2,
+      "id": "agents_log_analysis_agent_rationale_46",
+      "community": 1,
       "norm_label": "langgraph node \u2014 classifies simulation errors.     input state fields used: sim_"
     },
     {
       "label": "Guess skill category from design name.",
       "file_type": "rationale",
       "source_file": "v1_core/agents/log_analysis_agent.py",
-      "source_location": "L90",
+      "source_location": "L107",
       "_origin": "ast",
-      "id": "agents_log_analysis_agent_rationale_90",
-      "community": 2,
+      "id": "agents_log_analysis_agent_rationale_107",
+      "community": 1,
       "norm_label": "guess skill category from design name."
     },
     {
@@ -1090,7 +1090,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "agents_orchestrator",
-      "community": 1,
+      "community": 2,
       "norm_label": "orchestrator.py"
     },
     {
@@ -1117,10 +1117,10 @@
       "label": "get_initial_state()",
       "file_type": "code",
       "source_file": "v1_core/agents/orchestrator.py",
-      "source_location": "L39",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "agents_orchestrator_get_initial_state",
-      "community": 1,
+      "community": 2,
       "norm_label": "get_initial_state()"
     },
     {
@@ -1130,7 +1130,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "agents_orchestrator_rationale_1",
-      "community": 1,
+      "community": 2,
       "norm_label": "orchestrator.py langgraph state definition and pipeline orchestration for v1. th"
     },
     {
@@ -1147,10 +1147,10 @@
       "label": "Returns a fresh PipelineState for a new design run.      Args:         spec: nat",
       "file_type": "rationale",
       "source_file": "v1_core/agents/orchestrator.py",
-      "source_location": "L40",
+      "source_location": "L43",
       "_origin": "ast",
-      "id": "agents_orchestrator_rationale_40",
-      "community": 1,
+      "id": "agents_orchestrator_rationale_43",
+      "community": 2,
       "norm_label": "returns a fresh pipelinestate for a new design run.      args:         spec: nat"
     },
     {
@@ -1317,7 +1317,7 @@
       "label": "testbench_agent()",
       "file_type": "code",
       "source_file": "v1_core/agents/testbench_agent.py",
-      "source_location": "L117",
+      "source_location": "L119",
       "_origin": "ast",
       "id": "agents_testbench_agent_testbench_agent",
       "community": 2,
@@ -1327,7 +1327,7 @@
       "label": "PipelineState",
       "file_type": "code",
       "source_file": "v1_core/agents/testbench_agent.py",
-      "source_location": "L117",
+      "source_location": "L119",
       "_origin": "ast",
       "id": "v1_core_agents_testbench_agent_py_pipelinestate",
       "community": 2,
@@ -1347,11 +1347,61 @@
       "label": "LangGraph node \u2014 generates cocotb testbench from RTL code.     Input state field",
       "file_type": "rationale",
       "source_file": "v1_core/agents/testbench_agent.py",
-      "source_location": "L118",
+      "source_location": "L120",
       "_origin": "ast",
-      "id": "agents_testbench_agent_rationale_118",
+      "id": "agents_testbench_agent_rationale_120",
       "community": 2,
       "norm_label": "langgraph node \u2014 generates cocotb testbench from rtl code.     input state field"
+    },
+    {
+      "label": "verification_planner_agent.py",
+      "file_type": "code",
+      "source_file": "v1_core/agents/verification_planner_agent.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_verification_planner_agent",
+      "community": 2,
+      "norm_label": "verification_planner_agent.py"
+    },
+    {
+      "label": "verification_planner_agent()",
+      "file_type": "code",
+      "source_file": "v1_core/agents/verification_planner_agent.py",
+      "source_location": "L85",
+      "_origin": "ast",
+      "id": "agents_verification_planner_agent_verification_planner_agent",
+      "community": 2,
+      "norm_label": "verification_planner_agent()"
+    },
+    {
+      "label": "PipelineState",
+      "file_type": "code",
+      "source_file": "v1_core/agents/verification_planner_agent.py",
+      "source_location": "L85",
+      "_origin": "ast",
+      "id": "v1_core_agents_verification_planner_agent_py_pipelinestate",
+      "community": 2,
+      "norm_label": "pipelinestate"
+    },
+    {
+      "label": "verification_planner_agent.py Second agent in the pipeline. Takes spec_analysis",
+      "file_type": "rationale",
+      "source_file": "v1_core/agents/verification_planner_agent.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "agents_verification_planner_agent_rationale_1",
+      "community": 2,
+      "norm_label": "verification_planner_agent.py second agent in the pipeline. takes spec_analysis"
+    },
+    {
+      "label": "LangGraph node \u2014 generates a structured verification plan from spec_analysis.",
+      "file_type": "rationale",
+      "source_file": "v1_core/agents/verification_planner_agent.py",
+      "source_location": "L86",
+      "_origin": "ast",
+      "id": "agents_verification_planner_agent_rationale_86",
+      "community": 2,
+      "norm_label": "langgraph node \u2014 generates a structured verification plan from spec_analysis."
     },
     {
       "label": "__init__.py",
@@ -1410,57 +1460,57 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "v1_core_pipeline",
-      "community": 1,
+      "community": 2,
       "norm_label": "pipeline.py"
     },
     {
       "label": "should_fix_or_end()",
       "file_type": "code",
       "source_file": "v1_core/pipeline.py",
-      "source_location": "L18",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "v1_core_pipeline_should_fix_or_end",
-      "community": 1,
+      "community": 2,
       "norm_label": "should_fix_or_end()"
     },
     {
       "label": "PipelineState",
       "file_type": "code",
       "source_file": "v1_core/pipeline.py",
-      "source_location": "L18",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "v1_core_pipeline_py_pipelinestate",
-      "community": 1,
+      "community": 2,
       "norm_label": "pipelinestate"
     },
     {
       "label": "build_pipeline()",
       "file_type": "code",
       "source_file": "v1_core/pipeline.py",
-      "source_location": "L35",
+      "source_location": "L67",
       "_origin": "ast",
       "id": "v1_core_pipeline_build_pipeline",
-      "community": 1,
+      "community": 2,
       "norm_label": "build_pipeline()"
     },
     {
       "label": "StateGraph",
       "file_type": "code",
       "source_file": "v1_core/pipeline.py",
-      "source_location": "L35",
+      "source_location": "L67",
       "_origin": "ast",
       "id": "v1_core_pipeline_py_stategraph",
-      "community": 1,
+      "community": 2,
       "norm_label": "stategraph"
     },
     {
       "label": "run_pipeline()",
       "file_type": "code",
       "source_file": "v1_core/pipeline.py",
-      "source_location": "L92",
+      "source_location": "L126",
       "_origin": "ast",
       "id": "v1_core_pipeline_run_pipeline",
-      "community": 1,
+      "community": 2,
       "norm_label": "run_pipeline()"
     },
     {
@@ -1470,37 +1520,37 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "v1_core_pipeline_rationale_1",
-      "community": 1,
+      "community": 2,
       "norm_label": "pipeline.py wires all v1 agents into a langgraph state machine. this is the comp"
     },
     {
       "label": "Router function \u2014 decides next step after simulation.     Returns: \"fix\" if simu",
       "file_type": "rationale",
       "source_file": "v1_core/pipeline.py",
-      "source_location": "L19",
+      "source_location": "L20",
       "_origin": "ast",
-      "id": "v1_core_pipeline_rationale_19",
-      "community": 1,
+      "id": "v1_core_pipeline_rationale_20",
+      "community": 2,
       "norm_label": "router function \u2014 decides next step after simulation.     returns: \"fix\" if simu"
     },
     {
       "label": "Builds and compiles the V1 LangGraph pipeline.      Args:         skip_rtl_gen:",
       "file_type": "rationale",
       "source_file": "v1_core/pipeline.py",
-      "source_location": "L36",
+      "source_location": "L68",
       "_origin": "ast",
-      "id": "v1_core_pipeline_rationale_36",
-      "community": 1,
+      "id": "v1_core_pipeline_rationale_68",
+      "community": 2,
       "norm_label": "builds and compiles the v1 langgraph pipeline.      args:         skip_rtl_gen:"
     },
     {
       "label": "Run the full V1 pipeline for a given spec.      Args:         spec: natural lang",
       "file_type": "rationale",
       "source_file": "v1_core/pipeline.py",
-      "source_location": "L94",
+      "source_location": "L128",
       "_origin": "ast",
-      "id": "v1_core_pipeline_rationale_94",
-      "community": 1,
+      "id": "v1_core_pipeline_rationale_128",
+      "community": 2,
       "norm_label": "run the full v1 pipeline for a given spec.      args:         spec: natural lang"
     },
     {
@@ -1630,7 +1680,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_model_router",
-      "community": 6,
+      "community": 2,
       "norm_label": "model_router.py"
     },
     {
@@ -1650,7 +1700,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_model_router_rationale_1",
-      "community": 6,
+      "community": 2,
       "norm_label": "model_router.py single point of contact for all deepseek api calls. no agent sho"
     },
     {
@@ -1670,7 +1720,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_trace2skill",
-      "community": 2,
+      "community": 1,
       "norm_label": "trace2skill.py"
     },
     {
@@ -1680,7 +1730,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "utils_trace2skill_load",
-      "community": 2,
+      "community": 1,
       "norm_label": "_load()"
     },
     {
@@ -1690,7 +1740,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "utils_trace2skill_save",
-      "community": 2,
+      "community": 1,
       "norm_label": "_save()"
     },
     {
@@ -1700,7 +1750,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "utils_trace2skill_store_skill",
-      "community": 2,
+      "community": 1,
       "norm_label": "store_skill()"
     },
     {
@@ -1710,7 +1760,7 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "utils_trace2skill_retrieve_skills",
-      "community": 2,
+      "community": 1,
       "norm_label": "retrieve_skills()"
     },
     {
@@ -1730,7 +1780,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_trace2skill_rationale_1",
-      "community": 2,
+      "community": 1,
       "norm_label": "trace2skill.py persistent memory for the agent system. stores successful error f"
     },
     {
@@ -1740,7 +1790,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "utils_trace2skill_rationale_33",
-      "community": 2,
+      "community": 1,
       "norm_label": "store a successful fix in the skill bank.     called by fix agent after every su"
     },
     {
@@ -1750,7 +1800,7 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "utils_trace2skill_rationale_74",
-      "community": 2,
+      "community": 1,
       "norm_label": "retrieve relevant skills before calling the llm.     called by fix agent to chec"
     },
     {
@@ -1790,27 +1840,27 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "agents_sta_agent",
-      "community": 6,
+      "community": 21,
       "norm_label": "sta_agent.py"
     },
     {
       "label": "sta_agent()",
       "file_type": "code",
       "source_file": "v2_verification/agents/sta_agent.py",
-      "source_location": "L12",
+      "source_location": "L13",
       "_origin": "ast",
       "id": "agents_sta_agent_sta_agent",
-      "community": 6,
+      "community": 21,
       "norm_label": "sta_agent()"
     },
     {
       "label": "PipelineState",
       "file_type": "code",
       "source_file": "v2_verification/agents/sta_agent.py",
-      "source_location": "L12",
+      "source_location": "L13",
       "_origin": "ast",
       "id": "v2_verification_agents_sta_agent_py_pipelinestate",
-      "community": 6,
+      "community": 21,
       "norm_label": "pipelinestate"
     },
     {
@@ -1820,17 +1870,17 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "agents_sta_agent_rationale_1",
-      "community": 6,
+      "community": 21,
       "norm_label": "sta_agent.py sta (static timing analysis) agent \u2014 langgraph node. runs opensta t"
     },
     {
       "label": "LangGraph node \u2014 runs OpenSTA static timing analysis on the synthesized netlist.",
       "file_type": "rationale",
       "source_file": "v2_verification/agents/sta_agent.py",
-      "source_location": "L13",
+      "source_location": "L14",
       "_origin": "ast",
-      "id": "agents_sta_agent_rationale_13",
-      "community": 6,
+      "id": "agents_sta_agent_rationale_14",
+      "community": 21,
       "norm_label": "langgraph node \u2014 runs opensta static timing analysis on the synthesized netlist."
     },
     {
@@ -1950,7 +2000,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mcp_tools_sta_server",
-      "community": 6,
+      "community": 21,
       "norm_label": "sta_server.py"
     },
     {
@@ -1960,7 +2010,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "mcp_tools_sta_server_generate_tcl_script",
-      "community": 6,
+      "community": 21,
       "norm_label": "_generate_tcl_script()"
     },
     {
@@ -1980,7 +2030,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "mcp_tools_sta_server_parse_sta_output",
-      "community": 6,
+      "community": 21,
       "norm_label": "_parse_sta_output()"
     },
     {
@@ -1990,7 +2040,7 @@
       "source_location": "L164",
       "_origin": "ast",
       "id": "mcp_tools_sta_server_run_sta",
-      "community": 6,
+      "community": 21,
       "norm_label": "_run_sta()"
     },
     {
@@ -2000,7 +2050,7 @@
       "source_location": "L268",
       "_origin": "ast",
       "id": "mcp_tools_sta_server_sta_timing_analysis",
-      "community": 6,
+      "community": 21,
       "norm_label": "sta_timing_analysis()"
     },
     {
@@ -2010,7 +2060,7 @@
       "source_location": "L307",
       "_origin": "ast",
       "id": "mcp_tools_sta_server_main",
-      "community": 6,
+      "community": 21,
       "norm_label": "main()"
     },
     {
@@ -2020,7 +2070,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mcp_tools_sta_server_rationale_1",
-      "community": 6,
+      "community": 21,
       "norm_label": "sta_server.py mcp tool \u2014 runs opensta static timing analysis via tcl scripts. fo"
     },
     {
@@ -2030,7 +2080,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "mcp_tools_sta_server_rationale_32",
-      "community": 6,
+      "community": 21,
       "norm_label": "generate an opensta tcl script and return its path."
     },
     {
@@ -2040,7 +2090,7 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "mcp_tools_sta_server_rationale_66",
-      "community": 6,
+      "community": 21,
       "norm_label": "parse opensta output files and return structured timing results.      returns:"
     },
     {
@@ -2050,7 +2100,7 @@
       "source_location": "L170",
       "_origin": "ast",
       "id": "mcp_tools_sta_server_rationale_170",
-      "community": 6,
+      "community": 21,
       "norm_label": "run opensta static timing analysis.      generates a tcl script, executes `sta <"
     },
     {
@@ -2060,7 +2110,7 @@
       "source_location": "L274",
       "_origin": "ast",
       "id": "mcp_tools_sta_server_rationale_274",
-      "community": 6,
+      "community": 21,
       "norm_label": "run opensta static timing analysis on a synthesized netlist.          this tool"
     },
     {
@@ -2070,7 +2120,7 @@
       "source_location": "L308",
       "_origin": "ast",
       "id": "mcp_tools_sta_server_rationale_308",
-      "community": 6,
+      "community": 21,
       "norm_label": "run the sta mcp server via stdio transport."
     },
     {
@@ -2240,7 +2290,7 @@
       "source_location": "L293",
       "_origin": "ast",
       "id": "v2_verification_pipeline_run_v2_pipeline",
-      "community": 1,
+      "community": 6,
       "norm_label": "run_v2_pipeline()"
     },
     {
@@ -2310,7 +2360,7 @@
       "source_location": "L295",
       "_origin": "ast",
       "id": "v2_verification_pipeline_rationale_295",
-      "community": 1,
+      "community": 6,
       "norm_label": "run the full v2 pipeline (v1 + synthesis + sta) for a given spec.      args:"
     },
     {
@@ -2524,104 +2574,54 @@
       "norm_label": "last updated"
     },
     {
-      "label": "All 5 Benchmarks: V1 PASS + V2 COMPLETE",
+      "label": "PROJECT STATUS: V2 COMPLETE",
       "file_type": "document",
       "source_file": "SESSION_HANDOFF.md",
       "source_location": "L6",
       "_origin": "ast",
-      "id": "session_handoff_all_5_benchmarks_v1_pass_v2_complete",
+      "id": "session_handoff_project_status_v2_complete",
       "community": 5,
-      "norm_label": "all 5 benchmarks: v1 pass + v2 complete"
+      "norm_label": "project status: v2 complete"
     },
     {
-      "label": "Completed This Session",
+      "label": "All 5 Benchmarks \u2014 V1 + V2 Passing",
       "file_type": "document",
       "source_file": "SESSION_HANDOFF.md",
       "source_location": "L8",
       "_origin": "ast",
-      "id": "session_handoff_completed_this_session",
+      "id": "session_handoff_all_5_benchmarks_v1_v2_passing",
       "community": 5,
-      "norm_label": "completed this session"
+      "norm_label": "all 5 benchmarks \u2014 v1 + v2 passing"
     },
     {
-      "label": "Known Issues",
+      "label": "Infrastructure Complete",
       "file_type": "document",
       "source_file": "SESSION_HANDOFF.md",
-      "source_location": "L20",
+      "source_location": "L18",
       "_origin": "ast",
-      "id": "session_handoff_known_issues",
+      "id": "session_handoff_infrastructure_complete",
       "community": 5,
-      "norm_label": "known issues"
+      "norm_label": "infrastructure complete"
     },
     {
-      "label": "Complete Results",
+      "label": "Next Session \u2014 V3 Physical Design",
       "file_type": "document",
       "source_file": "SESSION_HANDOFF.md",
       "source_location": "L26",
       "_origin": "ast",
-      "id": "session_handoff_complete_results",
+      "id": "session_handoff_next_session_v3_physical_design",
       "community": 5,
-      "norm_label": "complete results"
+      "norm_label": "next session \u2014 v3 physical design"
     },
     {
-      "label": "Core Benchmarks",
+      "label": "Daily Startup",
       "file_type": "document",
       "source_file": "SESSION_HANDOFF.md",
-      "source_location": "L28",
+      "source_location": "L34",
       "_origin": "ast",
-      "id": "session_handoff_core_benchmarks",
+      "id": "session_handoff_daily_startup",
       "community": 5,
-      "norm_label": "core benchmarks"
-    },
-    {
-      "label": "New Benchmarks",
-      "file_type": "document",
-      "source_file": "SESSION_HANDOFF.md",
-      "source_location": "L35",
-      "_origin": "ast",
-      "id": "session_handoff_new_benchmarks",
-      "community": 5,
-      "norm_label": "new benchmarks"
-    },
-    {
-      "label": "Bugs Fixed This Session",
-      "file_type": "document",
-      "source_file": "SESSION_HANDOFF.md",
-      "source_location": "L41",
-      "_origin": "ast",
-      "id": "session_handoff_bugs_fixed_this_session",
-      "community": 5,
-      "norm_label": "bugs fixed this session"
-    },
-    {
-      "label": "Next Tasks (priority order)",
-      "file_type": "document",
-      "source_file": "SESSION_HANDOFF.md",
-      "source_location": "L47",
-      "_origin": "ast",
-      "id": "session_handoff_next_tasks_priority_order",
-      "community": 5,
-      "norm_label": "next tasks (priority order)"
-    },
-    {
-      "label": "Commands",
-      "file_type": "document",
-      "source_file": "SESSION_HANDOFF.md",
-      "source_location": "L53",
-      "_origin": "ast",
-      "id": "session_handoff_commands",
-      "community": 5,
-      "norm_label": "commands"
-    },
-    {
-      "label": "Cost Tracking",
-      "file_type": "document",
-      "source_file": "SESSION_HANDOFF.md",
-      "source_location": "L59",
-      "_origin": "ast",
-      "id": "session_handoff_cost_tracking",
-      "community": 5,
-      "norm_label": "cost tracking"
+      "norm_label": "daily startup"
     },
     {
       "label": "GRAPHIFY_RESULTS.md",
@@ -2670,7 +2670,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "docs_graphify_results_2_commands_executed",
-      "community": 21,
+      "community": 0,
       "norm_label": "2. commands executed"
     },
     {
@@ -2680,7 +2680,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "docs_graphify_results_2_1_initial_extraction_default_mode",
-      "community": 21,
+      "community": 0,
       "norm_label": "2.1 initial extraction (default mode)"
     },
     {
@@ -2690,7 +2690,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "docs_graphify_results_2_2_deep_mode_extraction_mode_deep",
-      "community": 21,
+      "community": 0,
       "norm_label": "2.2 deep mode extraction (`--mode deep`)"
     },
     {
@@ -2700,7 +2700,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "docs_graphify_results_2_3_force_update_no_llm_re_extract_ast_only",
-      "community": 21,
+      "community": 0,
       "norm_label": "2.3 force update (no llm, re-extract ast only)"
     },
     {
@@ -2710,7 +2710,7 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "docs_graphify_results_2_4_cluster_analysis_and_report",
-      "community": 21,
+      "community": 0,
       "norm_label": "2.4 cluster analysis and report"
     },
     {
@@ -2720,7 +2720,7 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "docs_graphify_results_2_5_call_flow_html",
-      "community": 21,
+      "community": 0,
       "norm_label": "2.5 call-flow html"
     },
     {
@@ -2730,7 +2730,7 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "docs_graphify_results_2_6_collapsible_tree_visualization",
-      "community": 21,
+      "community": 0,
       "norm_label": "2.6 collapsible tree visualization"
     },
     {
@@ -2740,7 +2740,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "docs_graphify_results_2_7_claude_code_integration",
-      "community": 21,
+      "community": 0,
       "norm_label": "2.7 claude code integration"
     },
     {
@@ -2750,7 +2750,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "docs_graphify_results_2_8_graph_health_checks",
-      "community": 21,
+      "community": 0,
       "norm_label": "2.8 graph health checks"
     },
     {
@@ -2850,7 +2850,7 @@
       "source_location": "L190",
       "_origin": "ast",
       "id": "docs_graphify_results_6_v1_agent_analysis",
-      "community": 0,
+      "community": 32,
       "norm_label": "6. v1 agent analysis"
     },
     {
@@ -2860,7 +2860,7 @@
       "source_location": "L192",
       "_origin": "ast",
       "id": "docs_graphify_results_6_1_orchestrator",
-      "community": 0,
+      "community": 32,
       "norm_label": "6.1 orchestrator"
     },
     {
@@ -2870,7 +2870,7 @@
       "source_location": "L199",
       "_origin": "ast",
       "id": "docs_graphify_results_6_2_rtl_generation_agent",
-      "community": 0,
+      "community": 32,
       "norm_label": "6.2 rtl generation agent"
     },
     {
@@ -2880,7 +2880,7 @@
       "source_location": "L210",
       "_origin": "ast",
       "id": "docs_graphify_results_6_3_testbench_agent",
-      "community": 0,
+      "community": 32,
       "norm_label": "6.3 testbench agent"
     },
     {
@@ -2890,7 +2890,7 @@
       "source_location": "L221",
       "_origin": "ast",
       "id": "docs_graphify_results_6_4_simulation_agent",
-      "community": 0,
+      "community": 32,
       "norm_label": "6.4 simulation agent"
     },
     {
@@ -2900,7 +2900,7 @@
       "source_location": "L231",
       "_origin": "ast",
       "id": "docs_graphify_results_6_5_log_analysis_agent",
-      "community": 0,
+      "community": 32,
       "norm_label": "6.5 log analysis agent"
     },
     {
@@ -2910,7 +2910,7 @@
       "source_location": "L243",
       "_origin": "ast",
       "id": "docs_graphify_results_6_6_fix_agent",
-      "community": 0,
+      "community": 32,
       "norm_label": "6.6 fix agent"
     },
     {
@@ -2920,7 +2920,7 @@
       "source_location": "L256",
       "_origin": "ast",
       "id": "docs_graphify_results_v1_architecture_mapping",
-      "community": 0,
+      "community": 32,
       "norm_label": "v1 architecture mapping"
     },
     {
@@ -3684,9 +3684,9 @@
       "source_file": "benchmarks/alu_8bit/reference_tb.py",
       "source_location": "L14",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "alu_8bit_reference_tb",
-      "target": "alu_8bit_reference_tb_reference_model",
-      "confidence_score": 1.0
+      "target": "alu_8bit_reference_tb_reference_model"
     },
     {
       "relation": "contains",
@@ -3694,9 +3694,9 @@
       "source_file": "benchmarks/alu_8bit/reference_tb.py",
       "source_location": "L84",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "alu_8bit_reference_tb",
-      "target": "alu_8bit_reference_tb_test_additional_edge_cases",
-      "confidence_score": 1.0
+      "target": "alu_8bit_reference_tb_test_additional_edge_cases"
     },
     {
       "relation": "contains",
@@ -3704,9 +3704,9 @@
       "source_file": "benchmarks/alu_8bit/reference_tb.py",
       "source_location": "L53",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "alu_8bit_reference_tb",
-      "target": "alu_8bit_reference_tb_test_all_opcodes_boundary_values",
-      "confidence_score": 1.0
+      "target": "alu_8bit_reference_tb_test_all_opcodes_boundary_values"
     },
     {
       "relation": "contains",
@@ -3714,9 +3714,9 @@
       "source_file": "benchmarks/alu_8bit/reference_tb.py",
       "source_location": "L125",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "alu_8bit_reference_tb",
-      "target": "alu_8bit_reference_tb_test_zero_flag_asserts",
-      "confidence_score": 1.0
+      "target": "alu_8bit_reference_tb_test_zero_flag_asserts"
     },
     {
       "relation": "contains",
@@ -3724,9 +3724,9 @@
       "source_file": "benchmarks/alu_8bit/reference_tb.py",
       "source_location": "L159",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "alu_8bit_reference_tb",
-      "target": "alu_8bit_reference_tb_test_zero_flag_not_asserted",
-      "confidence_score": 1.0
+      "target": "alu_8bit_reference_tb_test_zero_flag_not_asserted"
     },
     {
       "relation": "rationale_for",
@@ -3734,9 +3734,9 @@
       "source_file": "benchmarks/alu_8bit/reference_tb.py",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "alu_8bit_reference_tb_rationale_1",
-      "target": "alu_8bit_reference_tb",
-      "confidence_score": 1.0
+      "target": "alu_8bit_reference_tb"
     },
     {
       "relation": "rationale_for",
@@ -3744,9 +3744,9 @@
       "source_file": "benchmarks/alu_8bit/reference_tb.py",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "alu_8bit_reference_tb_rationale_15",
-      "target": "alu_8bit_reference_tb_reference_model",
-      "confidence_score": 1.0
+      "target": "alu_8bit_reference_tb_reference_model"
     },
     {
       "relation": "calls",
@@ -3755,9 +3755,9 @@
       "source_file": "benchmarks/alu_8bit/reference_tb.py",
       "source_location": "L112",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "alu_8bit_reference_tb_test_additional_edge_cases",
-      "target": "alu_8bit_reference_tb_reference_model",
-      "confidence_score": 1.0
+      "target": "alu_8bit_reference_tb_reference_model"
     },
     {
       "relation": "calls",
@@ -3766,9 +3766,9 @@
       "source_file": "benchmarks/alu_8bit/reference_tb.py",
       "source_location": "L67",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "alu_8bit_reference_tb_test_all_opcodes_boundary_values",
-      "target": "alu_8bit_reference_tb_reference_model",
-      "confidence_score": 1.0
+      "target": "alu_8bit_reference_tb_reference_model"
     },
     {
       "relation": "calls",
@@ -3777,9 +3777,9 @@
       "source_file": "benchmarks/alu_8bit/reference_tb.py",
       "source_location": "L147",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "alu_8bit_reference_tb_test_zero_flag_asserts",
-      "target": "alu_8bit_reference_tb_reference_model",
-      "confidence_score": 1.0
+      "target": "alu_8bit_reference_tb_reference_model"
     },
     {
       "relation": "calls",
@@ -3788,9 +3788,9 @@
       "source_file": "benchmarks/alu_8bit/reference_tb.py",
       "source_location": "L180",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "alu_8bit_reference_tb_test_zero_flag_not_asserted",
-      "target": "alu_8bit_reference_tb_reference_model",
-      "confidence_score": 1.0
+      "target": "alu_8bit_reference_tb_reference_model"
     },
     {
       "relation": "rationale_for",
@@ -3798,9 +3798,9 @@
       "source_file": "benchmarks/alu_8bit/reference_tb.py",
       "source_location": "L54",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "alu_8bit_reference_tb_rationale_54",
-      "target": "alu_8bit_reference_tb_test_all_opcodes_boundary_values",
-      "confidence_score": 1.0
+      "target": "alu_8bit_reference_tb_test_all_opcodes_boundary_values"
     },
     {
       "relation": "rationale_for",
@@ -3808,9 +3808,9 @@
       "source_file": "benchmarks/alu_8bit/reference_tb.py",
       "source_location": "L85",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "alu_8bit_reference_tb_rationale_85",
-      "target": "alu_8bit_reference_tb_test_additional_edge_cases",
-      "confidence_score": 1.0
+      "target": "alu_8bit_reference_tb_test_additional_edge_cases"
     },
     {
       "relation": "rationale_for",
@@ -3818,9 +3818,9 @@
       "source_file": "benchmarks/alu_8bit/reference_tb.py",
       "source_location": "L126",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "alu_8bit_reference_tb_rationale_126",
-      "target": "alu_8bit_reference_tb_test_zero_flag_asserts",
-      "confidence_score": 1.0
+      "target": "alu_8bit_reference_tb_test_zero_flag_asserts"
     },
     {
       "relation": "rationale_for",
@@ -3828,9 +3828,9 @@
       "source_file": "benchmarks/alu_8bit/reference_tb.py",
       "source_location": "L160",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "alu_8bit_reference_tb_rationale_160",
-      "target": "alu_8bit_reference_tb_test_zero_flag_not_asserted",
-      "confidence_score": 1.0
+      "target": "alu_8bit_reference_tb_test_zero_flag_not_asserted"
     },
     {
       "relation": "defines",
@@ -3848,9 +3848,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L38",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb",
-      "target": "apb_slave_reference_tb_apb_read",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_apb_read"
     },
     {
       "relation": "contains",
@@ -3858,9 +3858,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L60",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb",
-      "target": "apb_slave_reference_tb_apb_reset",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_apb_reset"
     },
     {
       "relation": "contains",
@@ -3868,9 +3868,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L20",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb",
-      "target": "apb_slave_reference_tb_apb_write",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_apb_write"
     },
     {
       "relation": "contains",
@@ -3878,9 +3878,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L133",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb",
-      "target": "apb_slave_reference_tb_test_invalid_addr",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_test_invalid_addr"
     },
     {
       "relation": "contains",
@@ -3888,9 +3888,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L146",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb",
-      "target": "apb_slave_reference_tb_test_read_before_write",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_test_read_before_write"
     },
     {
       "relation": "contains",
@@ -3898,9 +3898,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L76",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb",
-      "target": "apb_slave_reference_tb_test_reset",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_test_reset"
     },
     {
       "relation": "contains",
@@ -3908,9 +3908,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L105",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb",
-      "target": "apb_slave_reference_tb_test_write_read_all_regs",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_test_write_read_all_regs"
     },
     {
       "relation": "contains",
@@ -3918,9 +3918,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L90",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb",
-      "target": "apb_slave_reference_tb_test_write_read_reg0",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_test_write_read_reg0"
     },
     {
       "relation": "rationale_for",
@@ -3928,9 +3928,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb_rationale_1",
-      "target": "apb_slave_reference_tb",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb"
     },
     {
       "relation": "rationale_for",
@@ -3938,9 +3938,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb_rationale_21",
-      "target": "apb_slave_reference_tb_apb_write",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_apb_write"
     },
     {
       "relation": "calls",
@@ -3949,9 +3949,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L121",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb_test_write_read_all_regs",
-      "target": "apb_slave_reference_tb_apb_write",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_apb_write"
     },
     {
       "relation": "calls",
@@ -3960,9 +3960,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L97",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb_test_write_read_reg0",
-      "target": "apb_slave_reference_tb_apb_write",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_apb_write"
     },
     {
       "relation": "rationale_for",
@@ -3970,9 +3970,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L39",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb_rationale_39",
-      "target": "apb_slave_reference_tb_apb_read",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_apb_read"
     },
     {
       "relation": "calls",
@@ -3981,9 +3981,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L140",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb_test_invalid_addr",
-      "target": "apb_slave_reference_tb_apb_read",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_apb_read"
     },
     {
       "relation": "calls",
@@ -3992,9 +3992,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L154",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb_test_read_before_write",
-      "target": "apb_slave_reference_tb_apb_read",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_apb_read"
     },
     {
       "relation": "calls",
@@ -4003,9 +4003,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L125",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb_test_write_read_all_regs",
-      "target": "apb_slave_reference_tb_apb_read",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_apb_read"
     },
     {
       "relation": "calls",
@@ -4014,9 +4014,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L98",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb_test_write_read_reg0",
-      "target": "apb_slave_reference_tb_apb_read",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_apb_read"
     },
     {
       "relation": "rationale_for",
@@ -4024,9 +4024,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L61",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb_rationale_61",
-      "target": "apb_slave_reference_tb_apb_reset",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_apb_reset"
     },
     {
       "relation": "calls",
@@ -4035,9 +4035,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L138",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb_test_invalid_addr",
-      "target": "apb_slave_reference_tb_apb_reset",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_apb_reset"
     },
     {
       "relation": "calls",
@@ -4046,9 +4046,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L151",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb_test_read_before_write",
-      "target": "apb_slave_reference_tb_apb_reset",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_apb_reset"
     },
     {
       "relation": "calls",
@@ -4057,9 +4057,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L81",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb_test_reset",
-      "target": "apb_slave_reference_tb_apb_reset",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_apb_reset"
     },
     {
       "relation": "calls",
@@ -4068,9 +4068,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L110",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb_test_write_read_all_regs",
-      "target": "apb_slave_reference_tb_apb_reset",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_apb_reset"
     },
     {
       "relation": "calls",
@@ -4079,9 +4079,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L95",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb_test_write_read_reg0",
-      "target": "apb_slave_reference_tb_apb_reset",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_apb_reset"
     },
     {
       "relation": "rationale_for",
@@ -4089,9 +4089,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L77",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb_rationale_77",
-      "target": "apb_slave_reference_tb_test_reset",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_test_reset"
     },
     {
       "relation": "rationale_for",
@@ -4099,9 +4099,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L91",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb_rationale_91",
-      "target": "apb_slave_reference_tb_test_write_read_reg0",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_test_write_read_reg0"
     },
     {
       "relation": "rationale_for",
@@ -4109,9 +4109,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L106",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb_rationale_106",
-      "target": "apb_slave_reference_tb_test_write_read_all_regs",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_test_write_read_all_regs"
     },
     {
       "relation": "rationale_for",
@@ -4119,9 +4119,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L134",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb_rationale_134",
-      "target": "apb_slave_reference_tb_test_invalid_addr",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_test_invalid_addr"
     },
     {
       "relation": "rationale_for",
@@ -4129,9 +4129,9 @@
       "source_file": "benchmarks/apb_slave/reference_tb.py",
       "source_location": "L147",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "apb_slave_reference_tb_rationale_147",
-      "target": "apb_slave_reference_tb_test_read_before_write",
-      "confidence_score": 1.0
+      "target": "apb_slave_reference_tb_test_read_before_write"
     },
     {
       "relation": "defines",
@@ -4149,9 +4149,9 @@
       "source_file": "benchmarks/fsm_traffic_light/reference_tb.py",
       "source_location": "L53",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "fsm_traffic_light_reference_tb",
-      "target": "fsm_traffic_light_reference_tb_check_state",
-      "confidence_score": 1.0
+      "target": "fsm_traffic_light_reference_tb_check_state"
     },
     {
       "relation": "contains",
@@ -4159,9 +4159,9 @@
       "source_file": "benchmarks/fsm_traffic_light/reference_tb.py",
       "source_location": "L35",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "fsm_traffic_light_reference_tb",
-      "target": "fsm_traffic_light_reference_tb_do_reset",
-      "confidence_score": 1.0
+      "target": "fsm_traffic_light_reference_tb_do_reset"
     },
     {
       "relation": "contains",
@@ -4169,9 +4169,9 @@
       "source_file": "benchmarks/fsm_traffic_light/reference_tb.py",
       "source_location": "L46",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "fsm_traffic_light_reference_tb",
-      "target": "fsm_traffic_light_reference_tb_read_state",
-      "confidence_score": 1.0
+      "target": "fsm_traffic_light_reference_tb_read_state"
     },
     {
       "relation": "contains",
@@ -4179,9 +4179,9 @@
       "source_file": "benchmarks/fsm_traffic_light/reference_tb.py",
       "source_location": "L129",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "fsm_traffic_light_reference_tb",
-      "target": "fsm_traffic_light_reference_tb_test_green_to_yellow_transition",
-      "confidence_score": 1.0
+      "target": "fsm_traffic_light_reference_tb_test_green_to_yellow_transition"
     },
     {
       "relation": "contains",
@@ -4189,9 +4189,9 @@
       "source_file": "benchmarks/fsm_traffic_light/reference_tb.py",
       "source_location": "L85",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "fsm_traffic_light_reference_tb",
-      "target": "fsm_traffic_light_reference_tb_test_red_to_green_transition",
-      "confidence_score": 1.0
+      "target": "fsm_traffic_light_reference_tb_test_red_to_green_transition"
     },
     {
       "relation": "contains",
@@ -4199,9 +4199,9 @@
       "source_file": "benchmarks/fsm_traffic_light/reference_tb.py",
       "source_location": "L62",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "fsm_traffic_light_reference_tb",
-      "target": "fsm_traffic_light_reference_tb_test_reset_initial_state",
-      "confidence_score": 1.0
+      "target": "fsm_traffic_light_reference_tb_test_reset_initial_state"
     },
     {
       "relation": "contains",
@@ -4209,9 +4209,9 @@
       "source_file": "benchmarks/fsm_traffic_light/reference_tb.py",
       "source_location": "L173",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "fsm_traffic_light_reference_tb",
-      "target": "fsm_traffic_light_reference_tb_test_yellow_to_red_transition",
-      "confidence_score": 1.0
+      "target": "fsm_traffic_light_reference_tb_test_yellow_to_red_transition"
     },
     {
       "relation": "rationale_for",
@@ -4219,9 +4219,9 @@
       "source_file": "benchmarks/fsm_traffic_light/reference_tb.py",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "fsm_traffic_light_reference_tb_rationale_1",
-      "target": "fsm_traffic_light_reference_tb",
-      "confidence_score": 1.0
+      "target": "fsm_traffic_light_reference_tb"
     },
     {
       "relation": "rationale_for",
@@ -4229,9 +4229,9 @@
       "source_file": "benchmarks/fsm_traffic_light/reference_tb.py",
       "source_location": "L36",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "fsm_traffic_light_reference_tb_rationale_36",
-      "target": "fsm_traffic_light_reference_tb_do_reset",
-      "confidence_score": 1.0
+      "target": "fsm_traffic_light_reference_tb_do_reset"
     },
     {
       "relation": "calls",
@@ -4240,9 +4240,9 @@
       "source_file": "benchmarks/fsm_traffic_light/reference_tb.py",
       "source_location": "L55",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "fsm_traffic_light_reference_tb_check_state",
-      "target": "fsm_traffic_light_reference_tb_read_state",
-      "confidence_score": 1.0
+      "target": "fsm_traffic_light_reference_tb_read_state"
     },
     {
       "relation": "rationale_for",
@@ -4250,9 +4250,9 @@
       "source_file": "benchmarks/fsm_traffic_light/reference_tb.py",
       "source_location": "L47",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "fsm_traffic_light_reference_tb_rationale_47",
-      "target": "fsm_traffic_light_reference_tb_read_state",
-      "confidence_score": 1.0
+      "target": "fsm_traffic_light_reference_tb_read_state"
     },
     {
       "relation": "rationale_for",
@@ -4260,9 +4260,9 @@
       "source_file": "benchmarks/fsm_traffic_light/reference_tb.py",
       "source_location": "L54",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "fsm_traffic_light_reference_tb_rationale_54",
-      "target": "fsm_traffic_light_reference_tb_check_state",
-      "confidence_score": 1.0
+      "target": "fsm_traffic_light_reference_tb_check_state"
     },
     {
       "relation": "rationale_for",
@@ -4270,9 +4270,9 @@
       "source_file": "benchmarks/fsm_traffic_light/reference_tb.py",
       "source_location": "L63",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "fsm_traffic_light_reference_tb_rationale_63",
-      "target": "fsm_traffic_light_reference_tb_test_reset_initial_state",
-      "confidence_score": 1.0
+      "target": "fsm_traffic_light_reference_tb_test_reset_initial_state"
     },
     {
       "relation": "rationale_for",
@@ -4280,9 +4280,9 @@
       "source_file": "benchmarks/fsm_traffic_light/reference_tb.py",
       "source_location": "L86",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "fsm_traffic_light_reference_tb_rationale_86",
-      "target": "fsm_traffic_light_reference_tb_test_red_to_green_transition",
-      "confidence_score": 1.0
+      "target": "fsm_traffic_light_reference_tb_test_red_to_green_transition"
     },
     {
       "relation": "rationale_for",
@@ -4290,9 +4290,9 @@
       "source_file": "benchmarks/fsm_traffic_light/reference_tb.py",
       "source_location": "L130",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "fsm_traffic_light_reference_tb_rationale_130",
-      "target": "fsm_traffic_light_reference_tb_test_green_to_yellow_transition",
-      "confidence_score": 1.0
+      "target": "fsm_traffic_light_reference_tb_test_green_to_yellow_transition"
     },
     {
       "relation": "rationale_for",
@@ -4300,9 +4300,9 @@
       "source_file": "benchmarks/fsm_traffic_light/reference_tb.py",
       "source_location": "L174",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "fsm_traffic_light_reference_tb_rationale_174",
-      "target": "fsm_traffic_light_reference_tb_test_yellow_to_red_transition",
-      "confidence_score": 1.0
+      "target": "fsm_traffic_light_reference_tb_test_yellow_to_red_transition"
     },
     {
       "relation": "defines",
@@ -4320,9 +4320,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L37",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb",
-      "target": "sync_fifo_8x16_reference_tb_read_word",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_read_word"
     },
     {
       "relation": "contains",
@@ -4330,9 +4330,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L120",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb",
-      "target": "sync_fifo_8x16_reference_tb_test_fifteenth_write_full",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_test_fifteenth_write_full"
     },
     {
       "relation": "contains",
@@ -4340,9 +4340,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L189",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb",
-      "target": "sync_fifo_8x16_reference_tb_test_read_all_fifteen",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_test_read_all_fifteen"
     },
     {
       "relation": "contains",
@@ -4350,9 +4350,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L61",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb",
-      "target": "sync_fifo_8x16_reference_tb_test_reset",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_test_reset"
     },
     {
       "relation": "contains",
@@ -4360,9 +4360,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L232",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb",
-      "target": "sync_fifo_8x16_reference_tb_test_simultaneous_rw",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_test_simultaneous_rw"
     },
     {
       "relation": "contains",
@@ -4370,9 +4370,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L89",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb",
-      "target": "sync_fifo_8x16_reference_tb_test_write_fourteen_not_full",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_test_write_fourteen_not_full"
     },
     {
       "relation": "contains",
@@ -4380,9 +4380,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L151",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb",
-      "target": "sync_fifo_8x16_reference_tb_test_write_when_full_blocked",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_test_write_when_full_blocked"
     },
     {
       "relation": "contains",
@@ -4390,9 +4390,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L27",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb",
-      "target": "sync_fifo_8x16_reference_tb_write_word",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_write_word"
     },
     {
       "relation": "rationale_for",
@@ -4400,9 +4400,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb_rationale_1",
-      "target": "sync_fifo_8x16_reference_tb",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb"
     },
     {
       "relation": "rationale_for",
@@ -4410,9 +4410,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L28",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb_rationale_28",
-      "target": "sync_fifo_8x16_reference_tb_write_word",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_write_word"
     },
     {
       "relation": "calls",
@@ -4421,9 +4421,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L137",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb_test_fifteenth_write_full",
-      "target": "sync_fifo_8x16_reference_tb_write_word",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_write_word"
     },
     {
       "relation": "calls",
@@ -4432,9 +4432,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L208",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb_test_read_all_fifteen",
-      "target": "sync_fifo_8x16_reference_tb_write_word",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_write_word"
     },
     {
       "relation": "calls",
@@ -4443,9 +4443,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L252",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb_test_simultaneous_rw",
-      "target": "sync_fifo_8x16_reference_tb_write_word",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_write_word"
     },
     {
       "relation": "calls",
@@ -4454,9 +4454,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L107",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb_test_write_fourteen_not_full",
-      "target": "sync_fifo_8x16_reference_tb_write_word",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_write_word"
     },
     {
       "relation": "calls",
@@ -4465,9 +4465,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L170",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb_test_write_when_full_blocked",
-      "target": "sync_fifo_8x16_reference_tb_write_word",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_write_word"
     },
     {
       "relation": "rationale_for",
@@ -4475,9 +4475,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L38",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb_rationale_38",
-      "target": "sync_fifo_8x16_reference_tb_read_word",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_read_word"
     },
     {
       "relation": "calls",
@@ -4486,9 +4486,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L216",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb_test_read_all_fifteen",
-      "target": "sync_fifo_8x16_reference_tb_read_word",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_read_word"
     },
     {
       "relation": "calls",
@@ -4497,9 +4497,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L285",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb_test_simultaneous_rw",
-      "target": "sync_fifo_8x16_reference_tb_read_word",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_read_word"
     },
     {
       "relation": "rationale_for",
@@ -4507,9 +4507,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L62",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb_rationale_62",
-      "target": "sync_fifo_8x16_reference_tb_test_reset",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_test_reset"
     },
     {
       "relation": "rationale_for",
@@ -4517,9 +4517,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L90",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb_rationale_90",
-      "target": "sync_fifo_8x16_reference_tb_test_write_fourteen_not_full",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_test_write_fourteen_not_full"
     },
     {
       "relation": "rationale_for",
@@ -4527,9 +4527,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L121",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb_rationale_121",
-      "target": "sync_fifo_8x16_reference_tb_test_fifteenth_write_full",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_test_fifteenth_write_full"
     },
     {
       "relation": "rationale_for",
@@ -4537,9 +4537,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L152",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb_rationale_152",
-      "target": "sync_fifo_8x16_reference_tb_test_write_when_full_blocked",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_test_write_when_full_blocked"
     },
     {
       "relation": "rationale_for",
@@ -4547,9 +4547,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L190",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb_rationale_190",
-      "target": "sync_fifo_8x16_reference_tb_test_read_all_fifteen",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_test_read_all_fifteen"
     },
     {
       "relation": "rationale_for",
@@ -4557,9 +4557,9 @@
       "source_file": "benchmarks/sync_fifo_8x16/reference_tb.py",
       "source_location": "L233",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "sync_fifo_8x16_reference_tb_rationale_233",
-      "target": "sync_fifo_8x16_reference_tb_test_simultaneous_rw",
-      "confidence_score": 1.0
+      "target": "sync_fifo_8x16_reference_tb_test_simultaneous_rw"
     },
     {
       "relation": "defines",
@@ -4577,9 +4577,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb",
-      "target": "uart_tx_reference_tb_send_byte",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb_send_byte"
     },
     {
       "relation": "contains",
@@ -4587,9 +4587,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L53",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb",
-      "target": "uart_tx_reference_tb_test_reset",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb_test_reset"
     },
     {
       "relation": "contains",
@@ -4597,9 +4597,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L98",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb",
-      "target": "uart_tx_reference_tb_test_send_0x00",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb_test_send_0x00"
     },
     {
       "relation": "contains",
@@ -4607,9 +4607,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L69",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb",
-      "target": "uart_tx_reference_tb_test_send_0x55",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb_test_send_0x55"
     },
     {
       "relation": "contains",
@@ -4617,9 +4617,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L115",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb",
-      "target": "uart_tx_reference_tb_test_send_0xff",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb_test_send_0xff"
     },
     {
       "relation": "contains",
@@ -4627,9 +4627,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L132",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb",
-      "target": "uart_tx_reference_tb_test_tx_busy_behavior",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb_test_tx_busy_behavior"
     },
     {
       "relation": "contains",
@@ -4637,9 +4637,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb",
-      "target": "uart_tx_reference_tb_uart_monitor",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb_uart_monitor"
     },
     {
       "relation": "rationale_for",
@@ -4647,9 +4647,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb_rationale_1",
-      "target": "uart_tx_reference_tb",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb"
     },
     {
       "relation": "rationale_for",
@@ -4657,9 +4657,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb_rationale_18",
-      "target": "uart_tx_reference_tb_send_byte",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb_send_byte"
     },
     {
       "relation": "calls",
@@ -4668,9 +4668,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L110",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb_test_send_0x00",
-      "target": "uart_tx_reference_tb_send_byte",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb_send_byte"
     },
     {
       "relation": "calls",
@@ -4679,9 +4679,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L82",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb_test_send_0x55",
-      "target": "uart_tx_reference_tb_send_byte",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb_send_byte"
     },
     {
       "relation": "calls",
@@ -4690,9 +4690,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L127",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb_test_send_0xff",
-      "target": "uart_tx_reference_tb_send_byte",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb_send_byte"
     },
     {
       "relation": "calls",
@@ -4701,9 +4701,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L144",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb_test_tx_busy_behavior",
-      "target": "uart_tx_reference_tb_send_byte",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb_send_byte"
     },
     {
       "relation": "rationale_for",
@@ -4711,9 +4711,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L27",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb_rationale_27",
-      "target": "uart_tx_reference_tb_uart_monitor",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb_uart_monitor"
     },
     {
       "relation": "calls",
@@ -4722,9 +4722,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L111",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb_test_send_0x00",
-      "target": "uart_tx_reference_tb_uart_monitor",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb_uart_monitor"
     },
     {
       "relation": "calls",
@@ -4733,9 +4733,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L90",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb_test_send_0x55",
-      "target": "uart_tx_reference_tb_uart_monitor",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb_uart_monitor"
     },
     {
       "relation": "calls",
@@ -4744,9 +4744,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L128",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb_test_send_0xff",
-      "target": "uart_tx_reference_tb_uart_monitor",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb_uart_monitor"
     },
     {
       "relation": "calls",
@@ -4755,9 +4755,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L151",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb_test_tx_busy_behavior",
-      "target": "uart_tx_reference_tb_uart_monitor",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb_uart_monitor"
     },
     {
       "relation": "rationale_for",
@@ -4765,9 +4765,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L54",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb_rationale_54",
-      "target": "uart_tx_reference_tb_test_reset",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb_test_reset"
     },
     {
       "relation": "rationale_for",
@@ -4775,9 +4775,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L70",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb_rationale_70",
-      "target": "uart_tx_reference_tb_test_send_0x55",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb_test_send_0x55"
     },
     {
       "relation": "rationale_for",
@@ -4785,9 +4785,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L99",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb_rationale_99",
-      "target": "uart_tx_reference_tb_test_send_0x00",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb_test_send_0x00"
     },
     {
       "relation": "rationale_for",
@@ -4795,9 +4795,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L116",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb_rationale_116",
-      "target": "uart_tx_reference_tb_test_send_0xff",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb_test_send_0xff"
     },
     {
       "relation": "rationale_for",
@@ -4805,9 +4805,9 @@
       "source_file": "benchmarks/uart_tx/reference_tb.py",
       "source_location": "L133",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "uart_tx_reference_tb_rationale_133",
-      "target": "uart_tx_reference_tb_test_tx_busy_behavior",
-      "confidence_score": 1.0
+      "target": "uart_tx_reference_tb_test_tx_busy_behavior"
     },
     {
       "relation": "contains",
@@ -4870,9 +4870,9 @@
       "source_file": "main.py",
       "source_location": "L77",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "main",
-      "target": "v2_verification_pipeline_run_v2_pipeline",
-      "confidence_score": 1.0
+      "target": "v2_verification_pipeline_run_v2_pipeline"
     },
     {
       "relation": "rationale_for",
@@ -4924,9 +4924,9 @@
       "source_file": "main.py",
       "source_location": "L81",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "main_main",
-      "target": "v2_verification_pipeline_run_v2_pipeline",
-      "confidence_score": 1.0
+      "target": "v2_verification_pipeline_run_v2_pipeline"
     },
     {
       "relation": "contains",
@@ -5075,9 +5075,9 @@
       "source_file": "v1_core/agents/fix_agent.py",
       "source_location": "L56",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_fix_agent_rationale_56",
-      "target": "agents_fix_agent_fix_agent",
-      "confidence_score": 1.0
+      "target": "agents_fix_agent_fix_agent"
     },
     {
       "relation": "imports",
@@ -5097,9 +5097,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L30",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline",
-      "target": "agents_fix_agent_fix_agent",
-      "confidence_score": 1.0
+      "target": "agents_fix_agent_fix_agent"
     },
     {
       "relation": "uses",
@@ -5233,9 +5233,9 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "v1_core/agents/log_analysis_agent.py",
-      "source_location": "L44",
+      "source_location": "L46",
       "weight": 1.0,
-      "source": "agents_log_analysis_agent_rationale_44",
+      "source": "agents_log_analysis_agent_rationale_46",
       "target": "agents_log_analysis_agent_log_analysis_agent",
       "confidence_score": 1.0
     },
@@ -5257,9 +5257,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L29",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline",
-      "target": "agents_log_analysis_agent_log_analysis_agent",
-      "confidence_score": 1.0
+      "target": "agents_log_analysis_agent_log_analysis_agent"
     },
     {
       "relation": "uses",
@@ -5275,9 +5275,9 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "v1_core/agents/log_analysis_agent.py",
-      "source_location": "L90",
+      "source_location": "L107",
       "weight": 1.0,
-      "source": "agents_log_analysis_agent_rationale_90",
+      "source": "agents_log_analysis_agent_rationale_107",
       "target": "agents_log_analysis_agent_guess_category",
       "confidence_score": 1.0
     },
@@ -5371,9 +5371,9 @@
       "source_file": "v1_core/agents/spec_parser_agent.py",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_spec_parser_agent",
-      "target": "agents_orchestrator_pipelinestate",
-      "confidence_score": 1.0
+      "target": "agents_orchestrator_pipelinestate"
     },
     {
       "relation": "imports",
@@ -5382,9 +5382,9 @@
       "source_file": "v2_verification/agents/sta_agent.py",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_sta_agent",
-      "target": "agents_orchestrator_pipelinestate",
-      "confidence_score": 1.0
+      "target": "agents_orchestrator_pipelinestate"
     },
     {
       "relation": "imports",
@@ -5393,9 +5393,9 @@
       "source_file": "v2_verification/agents/synthesis_agent.py",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_synthesis_agent",
-      "target": "agents_orchestrator_pipelinestate",
-      "confidence_score": 1.0
+      "target": "agents_orchestrator_pipelinestate"
     },
     {
       "relation": "imports",
@@ -5415,9 +5415,20 @@
       "source_file": "v2_verification/agents/timing_opt_agent.py",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_timing_opt_agent",
-      "target": "agents_orchestrator_pipelinestate",
-      "confidence_score": 1.0
+      "target": "agents_orchestrator_pipelinestate"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "v1_core/agents/verification_planner_agent.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "agents_verification_planner_agent",
+      "target": "agents_orchestrator_pipelinestate"
     },
     {
       "relation": "uses",
@@ -5445,9 +5456,9 @@
       "source_file": "v1_core/agents/spec_parser_agent.py",
       "source_location": "L7",
       "weight": 0.8,
+      "confidence_score": 0.5,
       "source": "v1_core_agents_spec_parser_agent_py_pipelinestate",
-      "target": "agents_orchestrator_pipelinestate",
-      "confidence_score": 0.5
+      "target": "agents_orchestrator_pipelinestate"
     },
     {
       "relation": "uses",
@@ -5457,6 +5468,16 @@
       "weight": 0.8,
       "confidence_score": 0.5,
       "source": "v1_core_agents_testbench_agent_py_pipelinestate",
+      "target": "agents_orchestrator_pipelinestate"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "v1_core/agents/verification_planner_agent.py",
+      "source_location": "L8",
+      "weight": 0.8,
+      "confidence_score": 0.5,
+      "source": "v1_core_agents_verification_planner_agent_py_pipelinestate",
       "target": "agents_orchestrator_pipelinestate"
     },
     {
@@ -5486,9 +5507,9 @@
       "source_file": "v1_core/pipeline.py",
       "source_location": "L8",
       "weight": 0.8,
+      "confidence_score": 0.5,
       "source": "v1_core_pipeline_py_stategraph",
-      "target": "agents_orchestrator_pipelinestate",
-      "confidence_score": 0.5
+      "target": "agents_orchestrator_pipelinestate"
     },
     {
       "relation": "uses",
@@ -5496,9 +5517,9 @@
       "source_file": "v2_verification/agents/sta_agent.py",
       "source_location": "L7",
       "weight": 0.8,
+      "confidence_score": 0.5,
       "source": "v2_verification_agents_sta_agent_py_pipelinestate",
-      "target": "agents_orchestrator_pipelinestate",
-      "confidence_score": 0.5
+      "target": "agents_orchestrator_pipelinestate"
     },
     {
       "relation": "uses",
@@ -5506,9 +5527,9 @@
       "source_file": "v2_verification/agents/synthesis_agent.py",
       "source_location": "L10",
       "weight": 0.8,
+      "confidence_score": 0.5,
       "source": "v2_verification_agents_synthesis_agent_py_pipelinestate",
-      "target": "agents_orchestrator_pipelinestate",
-      "confidence_score": 0.5
+      "target": "agents_orchestrator_pipelinestate"
     },
     {
       "relation": "uses",
@@ -5516,9 +5537,9 @@
       "source_file": "v2_verification/agents/timing_opt_agent.py",
       "source_location": "L7",
       "weight": 0.8,
+      "confidence_score": 0.5,
       "source": "v2_verification_agents_timing_opt_agent_py_pipelinestate",
-      "target": "agents_orchestrator_pipelinestate",
-      "confidence_score": 0.5
+      "target": "agents_orchestrator_pipelinestate"
     },
     {
       "relation": "imports",
@@ -5527,9 +5548,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L24",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline",
-      "target": "agents_orchestrator_pipelinestate",
-      "confidence_score": 1.0
+      "target": "agents_orchestrator_pipelinestate"
     },
     {
       "relation": "uses",
@@ -5537,9 +5558,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L24",
       "weight": 0.8,
+      "confidence_score": 0.5,
       "source": "v2_verification_pipeline_py_pipelinestate",
-      "target": "agents_orchestrator_pipelinestate",
-      "confidence_score": 0.5
+      "target": "agents_orchestrator_pipelinestate"
     },
     {
       "relation": "uses",
@@ -5547,19 +5568,19 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L24",
       "weight": 0.8,
+      "confidence_score": 0.5,
       "source": "v2_verification_pipeline_py_stategraph",
-      "target": "agents_orchestrator_pipelinestate",
-      "confidence_score": 0.5
+      "target": "agents_orchestrator_pipelinestate"
     },
     {
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "v1_core/agents/orchestrator.py",
-      "source_location": "L40",
+      "source_location": "L43",
       "weight": 1.0,
-      "source": "agents_orchestrator_rationale_40",
-      "target": "agents_orchestrator_get_initial_state",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "agents_orchestrator_rationale_43",
+      "target": "agents_orchestrator_get_initial_state"
     },
     {
       "relation": "imports",
@@ -5590,9 +5611,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L24",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline",
-      "target": "agents_orchestrator_get_initial_state",
-      "confidence_score": 1.0
+      "target": "agents_orchestrator_get_initial_state"
     },
     {
       "relation": "calls",
@@ -5601,9 +5622,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L332",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline_run_v2_pipeline",
-      "target": "agents_orchestrator_get_initial_state",
-      "confidence_score": 1.0
+      "target": "agents_orchestrator_get_initial_state"
     },
     {
       "relation": "contains",
@@ -5664,9 +5685,9 @@
       "source_file": "v1_core/agents/rtl_gen_agent.py",
       "source_location": "L37",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_rtl_gen_agent_rationale_37",
-      "target": "agents_rtl_gen_agent_rtl_gen_agent",
-      "confidence_score": 1.0
+      "target": "agents_rtl_gen_agent_rtl_gen_agent"
     },
     {
       "relation": "calls",
@@ -5719,9 +5740,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline",
-      "target": "agents_rtl_gen_agent_rtl_gen_agent",
-      "confidence_score": 1.0
+      "target": "agents_rtl_gen_agent_rtl_gen_agent"
     },
     {
       "relation": "contains",
@@ -5826,9 +5847,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L28",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline",
-      "target": "agents_simulation_agent_simulation_agent",
-      "confidence_score": 1.0
+      "target": "agents_simulation_agent_simulation_agent"
     },
     {
       "relation": "contains",
@@ -5836,9 +5857,9 @@
       "source_file": "v1_core/agents/spec_parser_agent.py",
       "source_location": "L32",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_spec_parser_agent",
-      "target": "agents_spec_parser_agent_spec_parser_agent",
-      "confidence_score": 1.0
+      "target": "agents_spec_parser_agent_spec_parser_agent"
     },
     {
       "relation": "imports_from",
@@ -5847,9 +5868,9 @@
       "source_file": "v1_core/agents/spec_parser_agent.py",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_spec_parser_agent",
-      "target": "utils_logger",
-      "confidence_score": 1.0
+      "target": "utils_logger"
     },
     {
       "relation": "imports",
@@ -5858,9 +5879,9 @@
       "source_file": "v1_core/agents/spec_parser_agent.py",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_spec_parser_agent",
-      "target": "utils_model_router_call_llm",
-      "confidence_score": 1.0
+      "target": "utils_model_router_call_llm"
     },
     {
       "relation": "rationale_for",
@@ -5868,9 +5889,9 @@
       "source_file": "v1_core/agents/spec_parser_agent.py",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_spec_parser_agent_rationale_1",
-      "target": "agents_spec_parser_agent",
-      "confidence_score": 1.0
+      "target": "agents_spec_parser_agent"
     },
     {
       "relation": "rationale_for",
@@ -5878,9 +5899,9 @@
       "source_file": "v1_core/agents/spec_parser_agent.py",
       "source_location": "L33",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_spec_parser_agent_rationale_33",
-      "target": "agents_spec_parser_agent_spec_parser_agent",
-      "confidence_score": 1.0
+      "target": "agents_spec_parser_agent_spec_parser_agent"
     },
     {
       "relation": "calls",
@@ -5889,9 +5910,9 @@
       "source_file": "v1_core/agents/spec_parser_agent.py",
       "source_location": "L42",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_spec_parser_agent_spec_parser_agent",
-      "target": "utils_model_router_call_llm",
-      "confidence_score": 1.0
+      "target": "utils_model_router_call_llm"
     },
     {
       "relation": "references",
@@ -5900,9 +5921,9 @@
       "source_file": "v1_core/agents/spec_parser_agent.py",
       "source_location": "L32",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_spec_parser_agent_spec_parser_agent",
-      "target": "v1_core_agents_spec_parser_agent_py_pipelinestate",
-      "confidence_score": 1.0
+      "target": "v1_core_agents_spec_parser_agent_py_pipelinestate"
     },
     {
       "relation": "imports",
@@ -5911,9 +5932,9 @@
       "source_file": "v1_core/pipeline.py",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v1_core_pipeline",
-      "target": "agents_spec_parser_agent_spec_parser_agent",
-      "confidence_score": 1.0
+      "target": "agents_spec_parser_agent_spec_parser_agent"
     },
     {
       "relation": "imports",
@@ -5922,9 +5943,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L25",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline",
-      "target": "agents_spec_parser_agent_spec_parser_agent",
-      "confidence_score": 1.0
+      "target": "agents_spec_parser_agent_spec_parser_agent"
     },
     {
       "relation": "contains",
@@ -5983,9 +6004,9 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "v1_core/agents/testbench_agent.py",
-      "source_location": "L118",
+      "source_location": "L120",
       "weight": 1.0,
-      "source": "agents_testbench_agent_rationale_118",
+      "source": "agents_testbench_agent_rationale_120",
       "target": "agents_testbench_agent_testbench_agent",
       "confidence_score": 1.0
     },
@@ -6040,8 +6061,93 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L27",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline",
-      "target": "agents_testbench_agent_testbench_agent",
+      "target": "agents_testbench_agent_testbench_agent"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "v1_core/agents/verification_planner_agent.py",
+      "source_location": "L85",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "agents_verification_planner_agent",
+      "target": "agents_verification_planner_agent_verification_planner_agent"
+    },
+    {
+      "relation": "imports_from",
+      "context": "submodule_import",
+      "confidence": "EXTRACTED",
+      "source_file": "v1_core/agents/verification_planner_agent.py",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "agents_verification_planner_agent",
+      "target": "utils_logger"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "v1_core/agents/verification_planner_agent.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "agents_verification_planner_agent",
+      "target": "utils_model_router_call_llm"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "v1_core/agents/verification_planner_agent.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "agents_verification_planner_agent_rationale_1",
+      "target": "agents_verification_planner_agent"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "v1_core/agents/verification_planner_agent.py",
+      "source_location": "L86",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "agents_verification_planner_agent_rationale_86",
+      "target": "agents_verification_planner_agent_verification_planner_agent"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "v1_core/agents/verification_planner_agent.py",
+      "source_location": "L96",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "agents_verification_planner_agent_verification_planner_agent",
+      "target": "utils_model_router_call_llm"
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "v1_core/agents/verification_planner_agent.py",
+      "source_location": "L85",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "agents_verification_planner_agent_verification_planner_agent",
+      "target": "v1_core_agents_verification_planner_agent_py_pipelinestate"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "v1_core/pipeline.py",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "v1_core_pipeline",
+      "target": "agents_verification_planner_agent_verification_planner_agent",
       "confidence_score": 1.0
     },
     {
@@ -6151,9 +6257,9 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "v1_core/pipeline.py",
-      "source_location": "L19",
+      "source_location": "L20",
       "weight": 1.0,
-      "source": "v1_core_pipeline_rationale_19",
+      "source": "v1_core_pipeline_rationale_20",
       "target": "v1_core_pipeline_should_fix_or_end",
       "confidence_score": 1.0
     },
@@ -6186,17 +6292,17 @@
       "source_file": "v1_core/pipeline.py",
       "source_location": "L35",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v1_core_pipeline_build_pipeline",
-      "target": "v1_core_pipeline_py_stategraph",
-      "confidence_score": 1.0
+      "target": "v1_core_pipeline_py_stategraph"
     },
     {
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "v1_core/pipeline.py",
-      "source_location": "L36",
+      "source_location": "L68",
       "weight": 1.0,
-      "source": "v1_core_pipeline_rationale_36",
+      "source": "v1_core_pipeline_rationale_68",
       "target": "v1_core_pipeline_build_pipeline",
       "confidence_score": 1.0
     },
@@ -6215,9 +6321,9 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "v1_core/pipeline.py",
-      "source_location": "L94",
+      "source_location": "L128",
       "weight": 1.0,
-      "source": "v1_core_pipeline_rationale_94",
+      "source": "v1_core_pipeline_rationale_128",
       "target": "v1_core_pipeline_run_pipeline",
       "confidence_score": 1.0
     },
@@ -6238,9 +6344,9 @@
       "source_file": "v2_verification/agents/timing_opt_agent.py",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_timing_opt_agent",
-      "target": "utils_init_strip_code_fences",
-      "confidence_score": 1.0
+      "target": "utils_init_strip_code_fences"
     },
     {
       "relation": "calls",
@@ -6249,9 +6355,9 @@
       "source_file": "v2_verification/agents/timing_opt_agent.py",
       "source_location": "L87",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_timing_opt_agent_timing_opt_agent",
-      "target": "utils_init_strip_code_fences",
-      "confidence_score": 1.0
+      "target": "utils_init_strip_code_fences"
     },
     {
       "relation": "rationale_for",
@@ -6270,9 +6376,9 @@
       "source_file": "v2_verification/agents/sta_agent.py",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_sta_agent",
-      "target": "utils_logger",
-      "confidence_score": 1.0
+      "target": "utils_logger"
     },
     {
       "relation": "imports_from",
@@ -6281,9 +6387,9 @@
       "source_file": "v2_verification/agents/synthesis_agent.py",
       "source_location": "L11",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_synthesis_agent",
-      "target": "utils_logger",
-      "confidence_score": 1.0
+      "target": "utils_logger"
     },
     {
       "relation": "imports_from",
@@ -6292,9 +6398,9 @@
       "source_file": "v2_verification/agents/timing_opt_agent.py",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_timing_opt_agent",
-      "target": "utils_logger",
-      "confidence_score": 1.0
+      "target": "utils_logger"
     },
     {
       "relation": "imports_from",
@@ -6303,9 +6409,9 @@
       "source_file": "v2_verification/mcp_tools/sta_server.py",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_sta_server",
-      "target": "utils_logger",
-      "confidence_score": 1.0
+      "target": "utils_logger"
     },
     {
       "relation": "imports_from",
@@ -6314,9 +6420,9 @@
       "source_file": "v2_verification/mcp_tools/synthesis_server.py",
       "source_location": "L22",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_synthesis_server",
-      "target": "utils_logger",
-      "confidence_score": 1.0
+      "target": "utils_logger"
     },
     {
       "relation": "contains",
@@ -6406,9 +6512,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L31",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline",
-      "target": "utils_logger",
-      "confidence_score": 1.0
+      "target": "utils_logger"
     },
     {
       "relation": "contains",
@@ -6437,9 +6543,9 @@
       "source_file": "v2_verification/agents/timing_opt_agent.py",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_timing_opt_agent",
-      "target": "utils_model_router_call_llm",
-      "confidence_score": 1.0
+      "target": "utils_model_router_call_llm"
     },
     {
       "relation": "calls",
@@ -6448,9 +6554,9 @@
       "source_file": "v2_verification/agents/timing_opt_agent.py",
       "source_location": "L82",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_timing_opt_agent_timing_opt_agent",
-      "target": "utils_model_router_call_llm",
-      "confidence_score": 1.0
+      "target": "utils_model_router_call_llm"
     },
     {
       "relation": "rationale_for",
@@ -6602,9 +6708,9 @@
       "source_file": "v2_verification/agents/sta_agent.py",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_sta_agent",
-      "target": "agents_sta_agent_sta_agent",
-      "confidence_score": 1.0
+      "target": "agents_sta_agent_sta_agent"
     },
     {
       "relation": "imports",
@@ -6613,9 +6719,9 @@
       "source_file": "v2_verification/agents/sta_agent.py",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_sta_agent",
-      "target": "mcp_tools_sta_server_run_sta",
-      "confidence_score": 1.0
+      "target": "mcp_tools_sta_server_run_sta"
     },
     {
       "relation": "rationale_for",
@@ -6623,17 +6729,17 @@
       "source_file": "v2_verification/agents/sta_agent.py",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_sta_agent_rationale_1",
-      "target": "agents_sta_agent",
-      "confidence_score": 1.0
+      "target": "agents_sta_agent"
     },
     {
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "v2_verification/agents/sta_agent.py",
-      "source_location": "L13",
+      "source_location": "L14",
       "weight": 1.0,
-      "source": "agents_sta_agent_rationale_13",
+      "source": "agents_sta_agent_rationale_14",
       "target": "agents_sta_agent_sta_agent",
       "confidence_score": 1.0
     },
@@ -6644,9 +6750,9 @@
       "source_file": "v2_verification/agents/sta_agent.py",
       "source_location": "L29",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_sta_agent_sta_agent",
-      "target": "mcp_tools_sta_server_run_sta",
-      "confidence_score": 1.0
+      "target": "mcp_tools_sta_server_run_sta"
     },
     {
       "relation": "references",
@@ -6655,9 +6761,9 @@
       "source_file": "v2_verification/agents/sta_agent.py",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_sta_agent_sta_agent",
-      "target": "v2_verification_agents_sta_agent_py_pipelinestate",
-      "confidence_score": 1.0
+      "target": "v2_verification_agents_sta_agent_py_pipelinestate"
     },
     {
       "relation": "imports",
@@ -6666,9 +6772,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L58",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline",
-      "target": "agents_sta_agent_sta_agent",
-      "confidence_score": 1.0
+      "target": "agents_sta_agent_sta_agent"
     },
     {
       "relation": "contains",
@@ -6676,9 +6782,9 @@
       "source_file": "v2_verification/agents/synthesis_agent.py",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_synthesis_agent",
-      "target": "agents_synthesis_agent_synthesis_agent",
-      "confidence_score": 1.0
+      "target": "agents_synthesis_agent_synthesis_agent"
     },
     {
       "relation": "imports",
@@ -6687,9 +6793,9 @@
       "source_file": "v2_verification/agents/synthesis_agent.py",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_synthesis_agent",
-      "target": "mcp_tools_synthesis_server_run_synthesis",
-      "confidence_score": 1.0
+      "target": "mcp_tools_synthesis_server_run_synthesis"
     },
     {
       "relation": "rationale_for",
@@ -6697,9 +6803,9 @@
       "source_file": "v2_verification/agents/synthesis_agent.py",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_synthesis_agent_rationale_1",
-      "target": "agents_synthesis_agent",
-      "confidence_score": 1.0
+      "target": "agents_synthesis_agent"
     },
     {
       "relation": "rationale_for",
@@ -6707,9 +6813,9 @@
       "source_file": "v2_verification/agents/synthesis_agent.py",
       "source_location": "L20",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_synthesis_agent_rationale_20",
-      "target": "agents_synthesis_agent_synthesis_agent",
-      "confidence_score": 1.0
+      "target": "agents_synthesis_agent_synthesis_agent"
     },
     {
       "relation": "calls",
@@ -6718,9 +6824,9 @@
       "source_file": "v2_verification/agents/synthesis_agent.py",
       "source_location": "L36",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_synthesis_agent_synthesis_agent",
-      "target": "mcp_tools_synthesis_server_run_synthesis",
-      "confidence_score": 1.0
+      "target": "mcp_tools_synthesis_server_run_synthesis"
     },
     {
       "relation": "references",
@@ -6729,9 +6835,9 @@
       "source_file": "v2_verification/agents/synthesis_agent.py",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_synthesis_agent_synthesis_agent",
-      "target": "v2_verification_agents_synthesis_agent_py_pipelinestate",
-      "confidence_score": 1.0
+      "target": "v2_verification_agents_synthesis_agent_py_pipelinestate"
     },
     {
       "relation": "imports",
@@ -6740,9 +6846,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L51",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline",
-      "target": "agents_synthesis_agent_synthesis_agent",
-      "confidence_score": 1.0
+      "target": "agents_synthesis_agent_synthesis_agent"
     },
     {
       "relation": "contains",
@@ -6750,9 +6856,9 @@
       "source_file": "v2_verification/agents/timing_opt_agent.py",
       "source_location": "L36",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_timing_opt_agent",
-      "target": "agents_timing_opt_agent_timing_opt_agent",
-      "confidence_score": 1.0
+      "target": "agents_timing_opt_agent_timing_opt_agent"
     },
     {
       "relation": "rationale_for",
@@ -6760,9 +6866,9 @@
       "source_file": "v2_verification/agents/timing_opt_agent.py",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_timing_opt_agent_rationale_1",
-      "target": "agents_timing_opt_agent",
-      "confidence_score": 1.0
+      "target": "agents_timing_opt_agent"
     },
     {
       "relation": "rationale_for",
@@ -6770,9 +6876,9 @@
       "source_file": "v2_verification/agents/timing_opt_agent.py",
       "source_location": "L37",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_timing_opt_agent_rationale_37",
-      "target": "agents_timing_opt_agent_timing_opt_agent",
-      "confidence_score": 1.0
+      "target": "agents_timing_opt_agent_timing_opt_agent"
     },
     {
       "relation": "references",
@@ -6781,9 +6887,9 @@
       "source_file": "v2_verification/agents/timing_opt_agent.py",
       "source_location": "L36",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "agents_timing_opt_agent_timing_opt_agent",
-      "target": "v2_verification_agents_timing_opt_agent_py_pipelinestate",
-      "confidence_score": 1.0
+      "target": "v2_verification_agents_timing_opt_agent_py_pipelinestate"
     },
     {
       "relation": "imports",
@@ -6792,9 +6898,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L65",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline",
-      "target": "agents_timing_opt_agent_timing_opt_agent",
-      "confidence_score": 1.0
+      "target": "agents_timing_opt_agent_timing_opt_agent"
     },
     {
       "relation": "contains",
@@ -6802,9 +6908,9 @@
       "source_file": "v2_verification/mcp_tools/sta_server.py",
       "source_location": "L25",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_sta_server",
-      "target": "mcp_tools_sta_server_generate_tcl_script",
-      "confidence_score": 1.0
+      "target": "mcp_tools_sta_server_generate_tcl_script"
     },
     {
       "relation": "contains",
@@ -6812,9 +6918,9 @@
       "source_file": "v2_verification/mcp_tools/sta_server.py",
       "source_location": "L307",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_sta_server",
-      "target": "mcp_tools_sta_server_main",
-      "confidence_score": 1.0
+      "target": "mcp_tools_sta_server_main"
     },
     {
       "relation": "contains",
@@ -6822,9 +6928,9 @@
       "source_file": "v2_verification/mcp_tools/sta_server.py",
       "source_location": "L65",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_sta_server",
-      "target": "mcp_tools_sta_server_parse_sta_output",
-      "confidence_score": 1.0
+      "target": "mcp_tools_sta_server_parse_sta_output"
     },
     {
       "relation": "contains",
@@ -6832,9 +6938,9 @@
       "source_file": "v2_verification/mcp_tools/sta_server.py",
       "source_location": "L164",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_sta_server",
-      "target": "mcp_tools_sta_server_run_sta",
-      "confidence_score": 1.0
+      "target": "mcp_tools_sta_server_run_sta"
     },
     {
       "relation": "contains",
@@ -6842,9 +6948,9 @@
       "source_file": "v2_verification/mcp_tools/sta_server.py",
       "source_location": "L268",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_sta_server",
-      "target": "mcp_tools_sta_server_sta_timing_analysis",
-      "confidence_score": 1.0
+      "target": "mcp_tools_sta_server_sta_timing_analysis"
     },
     {
       "relation": "rationale_for",
@@ -6852,9 +6958,9 @@
       "source_file": "v2_verification/mcp_tools/sta_server.py",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_sta_server_rationale_1",
-      "target": "mcp_tools_sta_server",
-      "confidence_score": 1.0
+      "target": "mcp_tools_sta_server"
     },
     {
       "relation": "references",
@@ -6863,9 +6969,9 @@
       "source_file": "v2_verification/mcp_tools/sta_server.py",
       "source_location": "L25",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_sta_server_generate_tcl_script",
-      "target": "path",
-      "confidence_score": 1.0
+      "target": "path"
     },
     {
       "relation": "rationale_for",
@@ -6873,9 +6979,9 @@
       "source_file": "v2_verification/mcp_tools/sta_server.py",
       "source_location": "L32",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_sta_server_rationale_32",
-      "target": "mcp_tools_sta_server_generate_tcl_script",
-      "confidence_score": 1.0
+      "target": "mcp_tools_sta_server_generate_tcl_script"
     },
     {
       "relation": "calls",
@@ -6884,9 +6990,9 @@
       "source_file": "v2_verification/mcp_tools/sta_server.py",
       "source_location": "L189",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_sta_server_run_sta",
-      "target": "mcp_tools_sta_server_generate_tcl_script",
-      "confidence_score": 1.0
+      "target": "mcp_tools_sta_server_generate_tcl_script"
     },
     {
       "relation": "references",
@@ -6895,9 +7001,9 @@
       "source_file": "v2_verification/mcp_tools/sta_server.py",
       "source_location": "L65",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_sta_server_parse_sta_output",
-      "target": "path",
-      "confidence_score": 1.0
+      "target": "path"
     },
     {
       "relation": "calls",
@@ -6916,9 +7022,9 @@
       "source_file": "v2_verification/mcp_tools/sta_server.py",
       "source_location": "L66",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_sta_server_rationale_66",
-      "target": "mcp_tools_sta_server_parse_sta_output",
-      "confidence_score": 1.0
+      "target": "mcp_tools_sta_server_parse_sta_output"
     },
     {
       "relation": "calls",
@@ -6927,9 +7033,9 @@
       "source_file": "v2_verification/mcp_tools/sta_server.py",
       "source_location": "L245",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_sta_server_run_sta",
-      "target": "mcp_tools_sta_server_parse_sta_output",
-      "confidence_score": 1.0
+      "target": "mcp_tools_sta_server_parse_sta_output"
     },
     {
       "relation": "rationale_for",
@@ -6937,9 +7043,9 @@
       "source_file": "v2_verification/mcp_tools/sta_server.py",
       "source_location": "L170",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_sta_server_rationale_170",
-      "target": "mcp_tools_sta_server_run_sta",
-      "confidence_score": 1.0
+      "target": "mcp_tools_sta_server_run_sta"
     },
     {
       "relation": "calls",
@@ -6948,9 +7054,9 @@
       "source_file": "v2_verification/mcp_tools/sta_server.py",
       "source_location": "L299",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_sta_server_sta_timing_analysis",
-      "target": "mcp_tools_sta_server_run_sta",
-      "confidence_score": 1.0
+      "target": "mcp_tools_sta_server_run_sta"
     },
     {
       "relation": "rationale_for",
@@ -6958,9 +7064,9 @@
       "source_file": "v2_verification/mcp_tools/sta_server.py",
       "source_location": "L274",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_sta_server_rationale_274",
-      "target": "mcp_tools_sta_server_sta_timing_analysis",
-      "confidence_score": 1.0
+      "target": "mcp_tools_sta_server_sta_timing_analysis"
     },
     {
       "relation": "rationale_for",
@@ -6968,9 +7074,9 @@
       "source_file": "v2_verification/mcp_tools/sta_server.py",
       "source_location": "L308",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_sta_server_rationale_308",
-      "target": "mcp_tools_sta_server_main",
-      "confidence_score": 1.0
+      "target": "mcp_tools_sta_server_main"
     },
     {
       "relation": "contains",
@@ -6978,9 +7084,9 @@
       "source_file": "v2_verification/mcp_tools/synthesis_server.py",
       "source_location": "L256",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_synthesis_server",
-      "target": "mcp_tools_synthesis_server_main",
-      "confidence_score": 1.0
+      "target": "mcp_tools_synthesis_server_main"
     },
     {
       "relation": "contains",
@@ -6988,9 +7094,9 @@
       "source_file": "v2_verification/mcp_tools/synthesis_server.py",
       "source_location": "L31",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_synthesis_server",
-      "target": "mcp_tools_synthesis_server_run_synthesis",
-      "confidence_score": 1.0
+      "target": "mcp_tools_synthesis_server_run_synthesis"
     },
     {
       "relation": "contains",
@@ -6998,9 +7104,9 @@
       "source_file": "v2_verification/mcp_tools/synthesis_server.py",
       "source_location": "L220",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_synthesis_server",
-      "target": "mcp_tools_synthesis_server_synthesize",
-      "confidence_score": 1.0
+      "target": "mcp_tools_synthesis_server_synthesize"
     },
     {
       "relation": "rationale_for",
@@ -7008,9 +7114,9 @@
       "source_file": "v2_verification/mcp_tools/synthesis_server.py",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_synthesis_server_rationale_1",
-      "target": "mcp_tools_synthesis_server",
-      "confidence_score": 1.0
+      "target": "mcp_tools_synthesis_server"
     },
     {
       "relation": "rationale_for",
@@ -7018,9 +7124,9 @@
       "source_file": "v2_verification/mcp_tools/synthesis_server.py",
       "source_location": "L36",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_synthesis_server_rationale_36",
-      "target": "mcp_tools_synthesis_server_run_synthesis",
-      "confidence_score": 1.0
+      "target": "mcp_tools_synthesis_server_run_synthesis"
     },
     {
       "relation": "calls",
@@ -7029,9 +7135,9 @@
       "source_file": "v2_verification/mcp_tools/synthesis_server.py",
       "source_location": "L245",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_synthesis_server_synthesize",
-      "target": "mcp_tools_synthesis_server_run_synthesis",
-      "confidence_score": 1.0
+      "target": "mcp_tools_synthesis_server_run_synthesis"
     },
     {
       "relation": "rationale_for",
@@ -7039,9 +7145,9 @@
       "source_file": "v2_verification/mcp_tools/synthesis_server.py",
       "source_location": "L225",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_synthesis_server_rationale_225",
-      "target": "mcp_tools_synthesis_server_synthesize",
-      "confidence_score": 1.0
+      "target": "mcp_tools_synthesis_server_synthesize"
     },
     {
       "relation": "rationale_for",
@@ -7049,9 +7155,9 @@
       "source_file": "v2_verification/mcp_tools/synthesis_server.py",
       "source_location": "L257",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "mcp_tools_synthesis_server_rationale_257",
-      "target": "mcp_tools_synthesis_server_main",
-      "confidence_score": 1.0
+      "target": "mcp_tools_synthesis_server_main"
     },
     {
       "relation": "contains",
@@ -7059,9 +7165,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L173",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline",
-      "target": "v2_verification_pipeline_build_v2_pipeline",
-      "confidence_score": 1.0
+      "target": "v2_verification_pipeline_build_v2_pipeline"
     },
     {
       "relation": "contains",
@@ -7069,9 +7175,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L293",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline",
-      "target": "v2_verification_pipeline_run_v2_pipeline",
-      "confidence_score": 1.0
+      "target": "v2_verification_pipeline_run_v2_pipeline"
     },
     {
       "relation": "contains",
@@ -7079,9 +7185,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L33",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline",
-      "target": "v2_verification_pipeline_safe_agent_call",
-      "confidence_score": 1.0
+      "target": "v2_verification_pipeline_safe_agent_call"
     },
     {
       "relation": "contains",
@@ -7089,9 +7195,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L105",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline",
-      "target": "v2_verification_pipeline_should_end_or_optimize",
-      "confidence_score": 1.0
+      "target": "v2_verification_pipeline_should_end_or_optimize"
     },
     {
       "relation": "contains",
@@ -7099,9 +7205,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L80",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline",
-      "target": "v2_verification_pipeline_should_fix_or_synthesize",
-      "confidence_score": 1.0
+      "target": "v2_verification_pipeline_should_fix_or_synthesize"
     },
     {
       "relation": "contains",
@@ -7109,9 +7215,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L144",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline",
-      "target": "v2_verification_pipeline_should_run_sta_or_end",
-      "confidence_score": 1.0
+      "target": "v2_verification_pipeline_should_run_sta_or_end"
     },
     {
       "relation": "rationale_for",
@@ -7119,9 +7225,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline_rationale_1",
-      "target": "v2_verification_pipeline",
-      "confidence_score": 1.0
+      "target": "v2_verification_pipeline"
     },
     {
       "relation": "calls",
@@ -7130,9 +7236,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L192",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline_build_v2_pipeline",
-      "target": "v2_verification_pipeline_safe_agent_call",
-      "confidence_score": 1.0
+      "target": "v2_verification_pipeline_safe_agent_call"
     },
     {
       "relation": "rationale_for",
@@ -7140,9 +7246,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L34",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline_rationale_34",
-      "target": "v2_verification_pipeline_safe_agent_call",
-      "confidence_score": 1.0
+      "target": "v2_verification_pipeline_safe_agent_call"
     },
     {
       "relation": "references",
@@ -7151,9 +7257,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L33",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline_safe_agent_call",
-      "target": "v2_verification_pipeline_py_pipelinestate",
-      "confidence_score": 1.0
+      "target": "v2_verification_pipeline_py_pipelinestate"
     },
     {
       "relation": "references",
@@ -7162,9 +7268,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L105",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline_should_end_or_optimize",
-      "target": "v2_verification_pipeline_py_pipelinestate",
-      "confidence_score": 1.0
+      "target": "v2_verification_pipeline_py_pipelinestate"
     },
     {
       "relation": "references",
@@ -7173,9 +7279,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L80",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline_should_fix_or_synthesize",
-      "target": "v2_verification_pipeline_py_pipelinestate",
-      "confidence_score": 1.0
+      "target": "v2_verification_pipeline_py_pipelinestate"
     },
     {
       "relation": "references",
@@ -7184,9 +7290,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L144",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline_should_run_sta_or_end",
-      "target": "v2_verification_pipeline_py_pipelinestate",
-      "confidence_score": 1.0
+      "target": "v2_verification_pipeline_py_pipelinestate"
     },
     {
       "relation": "rationale_for",
@@ -7194,9 +7300,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L81",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline_rationale_81",
-      "target": "v2_verification_pipeline_should_fix_or_synthesize",
-      "confidence_score": 1.0
+      "target": "v2_verification_pipeline_should_fix_or_synthesize"
     },
     {
       "relation": "rationale_for",
@@ -7204,9 +7310,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L106",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline_rationale_106",
-      "target": "v2_verification_pipeline_should_end_or_optimize",
-      "confidence_score": 1.0
+      "target": "v2_verification_pipeline_should_end_or_optimize"
     },
     {
       "relation": "rationale_for",
@@ -7214,9 +7320,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L145",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline_rationale_145",
-      "target": "v2_verification_pipeline_should_run_sta_or_end",
-      "confidence_score": 1.0
+      "target": "v2_verification_pipeline_should_run_sta_or_end"
     },
     {
       "relation": "references",
@@ -7225,9 +7331,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L173",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline_build_v2_pipeline",
-      "target": "v2_verification_pipeline_py_stategraph",
-      "confidence_score": 1.0
+      "target": "v2_verification_pipeline_py_stategraph"
     },
     {
       "relation": "rationale_for",
@@ -7235,9 +7341,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L178",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline_rationale_178",
-      "target": "v2_verification_pipeline_build_v2_pipeline",
-      "confidence_score": 1.0
+      "target": "v2_verification_pipeline_build_v2_pipeline"
     },
     {
       "relation": "calls",
@@ -7246,9 +7352,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L326",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline_run_v2_pipeline",
-      "target": "v2_verification_pipeline_build_v2_pipeline",
-      "confidence_score": 1.0
+      "target": "v2_verification_pipeline_build_v2_pipeline"
     },
     {
       "relation": "rationale_for",
@@ -7256,9 +7362,9 @@
       "source_file": "v2_verification/pipeline.py",
       "source_location": "L295",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "v2_verification_pipeline_rationale_295",
-      "target": "v2_verification_pipeline_run_v2_pipeline",
-      "confidence_score": 1.0
+      "target": "v2_verification_pipeline_run_v2_pipeline"
     },
     {
       "relation": "contains",
@@ -7306,9 +7412,9 @@
       "source_file": "CLAUDE.md",
       "source_location": "L41",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "claude_claude_md",
-      "target": "claude_graphify",
-      "confidence_score": 1.0
+      "target": "claude_graphify"
     },
     {
       "relation": "contains",
@@ -7434,71 +7540,31 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "SESSION_HANDOFF.md",
-      "source_location": "L6",
-      "weight": 1.0,
-      "source": "session_handoff_session_handoff_md",
-      "target": "session_handoff_all_5_benchmarks_v1_pass_v2_complete",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "SESSION_HANDOFF.md",
-      "source_location": "L41",
-      "weight": 1.0,
-      "source": "session_handoff_session_handoff_md",
-      "target": "session_handoff_bugs_fixed_this_session",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "SESSION_HANDOFF.md",
-      "source_location": "L53",
-      "weight": 1.0,
-      "source": "session_handoff_session_handoff_md",
-      "target": "session_handoff_commands",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "SESSION_HANDOFF.md",
-      "source_location": "L26",
-      "weight": 1.0,
-      "source": "session_handoff_session_handoff_md",
-      "target": "session_handoff_complete_results",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "SESSION_HANDOFF.md",
       "source_location": "L8",
-      "weight": 1.0,
-      "source": "session_handoff_session_handoff_md",
-      "target": "session_handoff_completed_this_session",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "SESSION_HANDOFF.md",
-      "source_location": "L36",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "session_handoff_session_handoff_md",
-      "target": "session_handoff_cost_tracking"
+      "target": "session_handoff_all_5_benchmarks_v1_v2_passing"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "SESSION_HANDOFF.md",
-      "source_location": "L20",
+      "source_location": "L34",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "session_handoff_session_handoff_md",
-      "target": "session_handoff_known_issues",
-      "confidence_score": 1.0
+      "target": "session_handoff_daily_startup"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "SESSION_HANDOFF.md",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "session_handoff_session_handoff_md",
+      "target": "session_handoff_infrastructure_complete"
     },
     {
       "relation": "contains",
@@ -7514,31 +7580,21 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "SESSION_HANDOFF.md",
-      "source_location": "L47",
+      "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "session_handoff_session_handoff_md",
-      "target": "session_handoff_next_tasks_priority_order",
-      "confidence_score": 1.0
+      "target": "session_handoff_next_session_v3_physical_design"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "SESSION_HANDOFF.md",
-      "source_location": "L28",
+      "source_location": "L6",
       "weight": 1.0,
-      "source": "session_handoff_complete_results",
-      "target": "session_handoff_core_benchmarks",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "SESSION_HANDOFF.md",
-      "source_location": "L35",
-      "weight": 1.0,
-      "source": "session_handoff_complete_results",
-      "target": "session_handoff_new_benchmarks",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "session_handoff_session_handoff_md",
+      "target": "session_handoff_project_status_v2_complete"
     },
     {
       "relation": "contains",
@@ -7546,9 +7602,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results",
-      "target": "docs_graphify_results_graphify_integration_results",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_graphify_integration_results"
     },
     {
       "relation": "contains",
@@ -7556,9 +7612,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L321",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_graphify_integration_results",
-      "target": "docs_graphify_results_10_recommendations",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_10_recommendations"
     },
     {
       "relation": "contains",
@@ -7566,9 +7622,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L338",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_graphify_integration_results",
-      "target": "docs_graphify_results_11_claude_code_integration",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_11_claude_code_integration"
     },
     {
       "relation": "contains",
@@ -7576,9 +7632,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L369",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_graphify_integration_results",
-      "target": "docs_graphify_results_12_v2_handoff",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_12_v2_handoff"
     },
     {
       "relation": "contains",
@@ -7586,9 +7642,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_graphify_integration_results",
-      "target": "docs_graphify_results_1_dependencies_installed",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_1_dependencies_installed"
     },
     {
       "relation": "contains",
@@ -7596,9 +7652,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_graphify_integration_results",
-      "target": "docs_graphify_results_2_commands_executed",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_2_commands_executed"
     },
     {
       "relation": "contains",
@@ -7606,9 +7662,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L80",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_graphify_integration_results",
-      "target": "docs_graphify_results_3_generated_files",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_3_generated_files"
     },
     {
       "relation": "contains",
@@ -7616,9 +7672,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L103",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_graphify_integration_results",
-      "target": "docs_graphify_results_4_graph_statistics",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_4_graph_statistics"
     },
     {
       "relation": "contains",
@@ -7626,9 +7682,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L164",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_graphify_integration_results",
-      "target": "docs_graphify_results_5_python_modules_discovered",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_5_python_modules_discovered"
     },
     {
       "relation": "contains",
@@ -7636,9 +7692,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L190",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_graphify_integration_results",
-      "target": "docs_graphify_results_6_v1_agent_analysis",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_6_v1_agent_analysis"
     },
     {
       "relation": "contains",
@@ -7646,9 +7702,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L275",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_graphify_integration_results",
-      "target": "docs_graphify_results_7_verilog_systemverilog_coverage",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_7_verilog_systemverilog_coverage"
     },
     {
       "relation": "contains",
@@ -7656,9 +7712,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L288",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_graphify_integration_results",
-      "target": "docs_graphify_results_8_graphify_correctness_assessment",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_8_graphify_correctness_assessment"
     },
     {
       "relation": "contains",
@@ -7666,9 +7722,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L310",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_graphify_integration_results",
-      "target": "docs_graphify_results_9_limitations",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_9_limitations"
     },
     {
       "relation": "contains",
@@ -7676,9 +7732,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L419",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_graphify_integration_results",
-      "target": "docs_graphify_results_appendix_a_uv_tool_environment",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_appendix_a_uv_tool_environment"
     },
     {
       "relation": "contains",
@@ -7686,9 +7742,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L431",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_graphify_integration_results",
-      "target": "docs_graphify_results_appendix_b_token_cost",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_appendix_b_token_cost"
     },
     {
       "relation": "contains",
@@ -7696,9 +7752,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_1_dependencies_installed",
-      "target": "docs_graphify_results_install_command",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_install_command"
     },
     {
       "relation": "contains",
@@ -7706,9 +7762,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L28",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_2_commands_executed",
-      "target": "docs_graphify_results_2_1_initial_extraction_default_mode",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_2_1_initial_extraction_default_mode"
     },
     {
       "relation": "contains",
@@ -7716,9 +7772,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L36",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_2_commands_executed",
-      "target": "docs_graphify_results_2_2_deep_mode_extraction_mode_deep",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_2_2_deep_mode_extraction_mode_deep"
     },
     {
       "relation": "contains",
@@ -7726,9 +7782,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L43",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_2_commands_executed",
-      "target": "docs_graphify_results_2_3_force_update_no_llm_re_extract_ast_only",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_2_3_force_update_no_llm_re_extract_ast_only"
     },
     {
       "relation": "contains",
@@ -7736,9 +7792,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L49",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_2_commands_executed",
-      "target": "docs_graphify_results_2_4_cluster_analysis_and_report",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_2_4_cluster_analysis_and_report"
     },
     {
       "relation": "contains",
@@ -7746,9 +7802,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L54",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_2_commands_executed",
-      "target": "docs_graphify_results_2_5_call_flow_html",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_2_5_call_flow_html"
     },
     {
       "relation": "contains",
@@ -7756,9 +7812,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L59",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_2_commands_executed",
-      "target": "docs_graphify_results_2_6_collapsible_tree_visualization",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_2_6_collapsible_tree_visualization"
     },
     {
       "relation": "contains",
@@ -7766,9 +7822,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L64",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_2_commands_executed",
-      "target": "docs_graphify_results_2_7_claude_code_integration",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_2_7_claude_code_integration"
     },
     {
       "relation": "contains",
@@ -7776,9 +7832,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L69",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_2_commands_executed",
-      "target": "docs_graphify_results_2_8_graph_health_checks",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_2_8_graph_health_checks"
     },
     {
       "relation": "contains",
@@ -7786,9 +7842,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L95",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_3_generated_files",
-      "target": "docs_graphify_results_claude_integration_changes",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_claude_integration_changes"
     },
     {
       "relation": "contains",
@@ -7796,9 +7852,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L140",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_4_graph_statistics",
-      "target": "docs_graphify_results_communities",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_communities"
     },
     {
       "relation": "contains",
@@ -7806,9 +7862,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L114",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_4_graph_statistics",
-      "target": "docs_graphify_results_edge_counts",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_edge_counts"
     },
     {
       "relation": "contains",
@@ -7816,9 +7872,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L129",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_4_graph_statistics",
-      "target": "docs_graphify_results_extraction_quality",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_extraction_quality"
     },
     {
       "relation": "contains",
@@ -7826,9 +7882,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L105",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_4_graph_statistics",
-      "target": "docs_graphify_results_node_counts",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_node_counts"
     },
     {
       "relation": "contains",
@@ -7836,9 +7892,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L148",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_4_graph_statistics",
-      "target": "docs_graphify_results_top_god_nodes_most_connected",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_top_god_nodes_most_connected"
     },
     {
       "relation": "contains",
@@ -7846,9 +7902,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L192",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_6_v1_agent_analysis",
-      "target": "docs_graphify_results_6_1_orchestrator",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_6_1_orchestrator"
     },
     {
       "relation": "contains",
@@ -7856,9 +7912,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L199",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_6_v1_agent_analysis",
-      "target": "docs_graphify_results_6_2_rtl_generation_agent",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_6_2_rtl_generation_agent"
     },
     {
       "relation": "contains",
@@ -7866,9 +7922,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L210",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_6_v1_agent_analysis",
-      "target": "docs_graphify_results_6_3_testbench_agent",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_6_3_testbench_agent"
     },
     {
       "relation": "contains",
@@ -7876,9 +7932,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L221",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_6_v1_agent_analysis",
-      "target": "docs_graphify_results_6_4_simulation_agent",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_6_4_simulation_agent"
     },
     {
       "relation": "contains",
@@ -7886,9 +7942,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L231",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_6_v1_agent_analysis",
-      "target": "docs_graphify_results_6_5_log_analysis_agent",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_6_5_log_analysis_agent"
     },
     {
       "relation": "contains",
@@ -7896,9 +7952,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L243",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_6_v1_agent_analysis",
-      "target": "docs_graphify_results_6_6_fix_agent",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_6_6_fix_agent"
     },
     {
       "relation": "contains",
@@ -7906,9 +7962,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L256",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_6_v1_agent_analysis",
-      "target": "docs_graphify_results_v1_architecture_mapping",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_v1_architecture_mapping"
     },
     {
       "relation": "contains",
@@ -7916,9 +7972,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L303",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_8_graphify_correctness_assessment",
-      "target": "docs_graphify_results_what_could_be_improved",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_what_could_be_improved"
     },
     {
       "relation": "contains",
@@ -7926,9 +7982,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L299",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_8_graphify_correctness_assessment",
-      "target": "docs_graphify_results_what_the_graph_gets_partially",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_what_the_graph_gets_partially"
     },
     {
       "relation": "contains",
@@ -7936,9 +7992,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L290",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_8_graphify_correctness_assessment",
-      "target": "docs_graphify_results_what_the_graph_gets_right",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_what_the_graph_gets_right"
     },
     {
       "relation": "contains",
@@ -7946,9 +8002,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L331",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_10_recommendations",
-      "target": "docs_graphify_results_for_repository_organization",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_for_repository_organization"
     },
     {
       "relation": "contains",
@@ -7956,9 +8012,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L323",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_10_recommendations",
-      "target": "docs_graphify_results_for_v2_development",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_for_v2_development"
     },
     {
       "relation": "contains",
@@ -7966,9 +8022,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L354",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_11_claude_code_integration",
-      "target": "docs_graphify_results_impact",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_impact"
     },
     {
       "relation": "contains",
@@ -7976,9 +8032,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L340",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_11_claude_code_integration",
-      "target": "docs_graphify_results_what_was_installed",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_what_was_installed"
     },
     {
       "relation": "contains",
@@ -7986,9 +8042,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L360",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_11_claude_code_integration",
-      "target": "docs_graphify_results_what_was_not_changed",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_what_was_not_changed"
     },
     {
       "relation": "contains",
@@ -7996,9 +8052,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L371",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_12_v2_handoff",
-      "target": "docs_graphify_results_how_to_use_graphify_during_v2_development",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_how_to_use_graphify_during_v2_development"
     },
     {
       "relation": "contains",
@@ -8006,9 +8062,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L373",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_how_to_use_graphify_during_v2_development",
-      "target": "docs_graphify_results_daily_commands",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_daily_commands"
     },
     {
       "relation": "contains",
@@ -8016,9 +8072,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L385",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_how_to_use_graphify_during_v2_development",
-      "target": "docs_graphify_results_exploration_commands",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_exploration_commands"
     },
     {
       "relation": "contains",
@@ -8026,9 +8082,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L412",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_how_to_use_graphify_during_v2_development",
-      "target": "docs_graphify_results_graph_freshness_policy",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_graph_freshness_policy"
     },
     {
       "relation": "contains",
@@ -8036,9 +8092,9 @@
       "source_file": "docs/GRAPHIFY_RESULTS.md",
       "source_location": "L405",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_graphify_results_how_to_use_graphify_during_v2_development",
-      "target": "docs_graphify_results_v2_specific_recommendations",
-      "confidence_score": 1.0
+      "target": "docs_graphify_results_v2_specific_recommendations"
     },
     {
       "relation": "references",
@@ -8412,5 +8468,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "4a5727442eafe447a9016a3697e8991f6c20782d"
+  "built_at_commit": "0c662432ba73d546dd3e0467ecb47bddfa567d1a"
 }

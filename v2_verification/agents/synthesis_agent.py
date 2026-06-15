@@ -58,12 +58,6 @@ def synthesis_agent(state: PipelineState) -> PipelineState:
         if len(warnings) > 5:
             logger.warning(f"  ... and {len(warnings) - 5} more")
 
-    if latches_inferred:
-        logger.warning(
-            f"Design infers {latches_inferred} latch(es) — "
-            "check for incomplete case/if statements or missing default assignments"
-        )
-
     # ---- Build synthesis report text ----------------------------------------
     report_parts = [
         f"Synthesis Results for {state['design_name']}",
@@ -82,6 +76,31 @@ def synthesis_agent(state: PipelineState) -> PipelineState:
     synthesis_report = "\n".join(report_parts)
 
     logger.info(f"Synthesis report:\n{synthesis_report}")
+
+    # ---- Latch detection — route back to fix loop ---------------------------
+    if latches_inferred:
+        logger.warning(
+            f"Latch detection: {latches_inferred} latches inferred by Yosys — "
+            "routing back to fix loop (netlist_path set to empty)"
+        )
+        return {
+            **state,
+            "netlist_path": "",
+            "synthesis_report": synthesis_report,
+            "timing_met": False,
+            "wns": 0.0,
+            "tns": 0.0,
+            "critical_path": "",
+            "stage": "synthesis_done",
+            "error_analysis": {
+                "ERROR_TYPE": "LATCH",
+                "CAUSE": f"{latches_inferred} latches inferred by Yosys — fix RTL before synthesis",
+                "FIX_SUGGESTION": (
+                    "Replace latch-causing constructs with explicit always_ff "
+                    "or add missing else clauses"
+                ),
+            },
+        }
 
     return {
         **state,

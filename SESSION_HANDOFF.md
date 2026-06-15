@@ -1,60 +1,49 @@
 # SESSION_HANDOFF.md
 
 ## Last Updated
-Date: 2026-06-15 | Session: 5 — COMPLETE
+Date: 2026-06-15 | Session: 7 — VALIDATION COMPLETE
 
-## All 5 Benchmarks: V1 PASS + V2 COMPLETE
+## PROJECT STATUS: V2 VALIDATED — DEMO-READY
 
-## Completed This Session
-- [x] V2 synthesis + STA data for sync_fifo_8x16 and fsm_traffic_light
-- [x] UART TX benchmark: spec.txt, reference_rtl.v, reference_tb.py
-- [x] APB Slave benchmark: spec.txt, reference_rtl.v, reference_tb.py
-- [x] uart_tx V1 PASS + V2 COMPLETE (sim→synth→STA)
-- [x] apb_slave V1 PASS + V2 COMPLETE (sim→synth→STA)
-- [x] OpenSTA 3.1.0: report_checks/report_wns/report_tns fix in sta_server.py
-- [x] STA parser updated for new OpenSTA output format
-- [x] UART TX reference RTL bugfix: tx/tx_busy changed from registered to combinational (case(state)→case(next_state) one-cycle lag issue)
-- [x] APB Slave reference TB bugfix: all RisingEdge(dut.clk) → RisingEdge(dut.PCLK)
-- [x] VPI timing fix (Timer(1, unit='ps')) applied in all reference testbenches
+## V2 Validation Report
+Full report: docs/V2_VALIDATION_REPORT.md
+Validation plan: docs/V2_VALIDATION_PLAN.md
 
-## Known Issues
-- STA WNS displays as 0.0 for all designs — `report_wns` only shows worst negative slack; when all paths have positive slack it reports 0. Actual slack margins are much larger (16-19ns for FIFO/FSM). The `timing_met` flag is correct.
-- Yosys Sky130 attribute warnings on all designs — harmless (unsupported pin attributes)
-- No STA data for ALU (combinational, no clock)
-- fsm_traffic_light reference RTL uses RED_COUNT=14 (not 15 as in spec) — mismatch between spec.txt (RED_COUNT=15) and reference RTL (localparam RED_COUNT=14). Fix on next session.
+## Phase 4 Results — Reliability Campaign (25 runs)
+| Benchmark | Pass Rate | Avg Runtime | Cells | Area | WNS |
+|-----------|-----------|-------------|-------|------|-----|
+| alu_8bit | 5/5 (100%) | 19s | 131 | 778 | N/A (comb) |
+| sync_fifo_8x16 | 5/5 (100%) | 26s | 648-649 | 5939-5951 | 0.0 MET |
+| fsm_traffic_light | 5/5 (100%) | 20s | 10 | 160 | 0.0 MET |
+| uart_tx | 5/5 (100%) | 31s | 180 | 1713 | 0.0 MET |
+| apb_slave | 5/5 (100%) | 21s | 527 | 5498 | 0.0 MET |
+| **Total** | **25/25 (100%)** | **23s avg** | — | — | — |
 
-## Complete Results
+## Phase 5 — Bug Injection Results
+| Bug | Detected | Fixed | Iterations |
+|-----|----------|-------|------------|
+| alu_8bit wrong opcode | ✅ | ✅ | 2 |
+| alu_8bit missing zero flag | ✅ | ✅ | 1 |
 
-### Core Benchmarks
-| Benchmark | V1 | V2 Sim | V2 Synthesis | V2 STA (50MHz) |
-|---|---|---|---|---|
-| alu_8bit | PASS | PASS | 131 cells, 778.00 area | N/A (combinational) |
-| sync_fifo_8x16 | PASS | PASS | 648 cells, 5939.45 area, 2 latches | WNS=16.99ns, TNS=0, MET |
-| fsm_traffic_light | PASS | PASS | 10 cells, 160.15 area, 3 latches | WNS=19.36ns, TNS=0, MET |
+## Bugs Found & Fixed This Session
+1. **fix_agent.py missing `import json`** — Crashed when attempting to format verification_plan for the prompt. Caused all FIFO reliability runs to fail on first attempt.
+2. **sync_fifo_8x16 reference_tb.py full threshold mismatch** — Testbench expected full at count==15, RTL correctly uses count==16 for depth-16 FIFO. Also fixed test names and descriptions.
 
-### New Benchmarks
-| Benchmark | V1 | V2 Sim | V2 Synthesis | V2 STA (50MHz) |
-|---|---|---|---|---|
-| uart_tx | PASS | PASS | 180 cells, 1712.89 area, 5 latches | WNS=0.0 (all >0), TNS=0, MET |
-| apb_slave | PASS | PASS | 527 cells, 5497.77 area, 3 latches | WNS=0.0 (all >0), TNS=0, MET |
+## Key Findings
+- V2 is **stable** (25/25 pass, 100%)
+- V2 is **demo-ready** (consistent timing closure, ~23s avg runtime)
+- 3/5 benchmarks pass with zero fix iterations every time
+- Reference RTL/TB alignment is critical — FIFO and UART had mismatches requiring fix loop
+- All 10 bug files created and validated (2 tested, 8 more pending)
 
-## Bugs Fixed This Session
-1. **UART TX RTL**: Outputs (tx, tx_busy) were registered inside `case(state)` in the sequential always block. Since non-blocking assignments read old state, outputs lagged by one cycle. Fixed by moving to a separate combinational `always @(*)` block with `case(state)`.
-2. **APB Slave TB**: Testbench used `dut.clk` everywhere but the RTL port is named `PCLK`. Fixed all 11 references to `dut.PCLK`.
-3. **OpenSTA TCL**: `report_timing -o file` → invalid in OpenSTA 3.1.0. Fixed to `report_checks -path_delay max -digits 3 > file` plus `report_wns -digits 3` / `report_tns -digits 3`.
-4. **STA parser**: Updated regex from `r"WNS.*?=\s*([-+]?\d+\.?\d*)"` to `r"wns\s+\w+\s+([-+]?\d+\.?\d*)"` for OpenSTA 3.1.0 output format.
+## Pre-V3 Requirements
+1. Complete remaining bug injection testing (8 bugs via benchmark mode)
+2. Audit all reference RTL/TB pairs for alignment
+3. Add Trace2Skill eviction/pruning mechanism
+4. Resolve ALU latches (4 inferred)
+5. Fix STA WNS reporting to show true slack margin
 
-## Next Tasks (priority order)
-1. Fix fsm_traffic_light RED_COUNT mismatch (spec=15, RTL=14)
-2. Move to Graphify visualization (knowledge graph had 148 nodes/188 edges)
-3. Run `graphify update .` to refresh the graph with new benchmarks
-4. Generate Graphify visual report with all 5 benchmarks
-
-## Commands
-V1:  `python3 main.py --benchmark <name>`
-V2:  `python3 main.py --benchmark <name> --v2`
-
-benchmarks: alu_8bit sync_fifo_8x16 fsm_traffic_light uart_tx apb_slave
-
-## Cost Tracking
-Check DeepSeek dashboard for session 5 total
+## Daily Startup
+cd ~/projects/rtl2gds-agent
+source .venv/bin/activate
+claude

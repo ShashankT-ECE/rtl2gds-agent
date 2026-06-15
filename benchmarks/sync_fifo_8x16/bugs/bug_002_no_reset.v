@@ -1,3 +1,7 @@
+// Bug injection: rst_n condition removed from all sequential logic blocks.
+// The module still accepts rst_n as input but never uses it — state registers
+// and counters are not initialized on reset.
+
 module sync_fifo_8x16 (
     input  wire       clk,
     input  wire       rst_n,
@@ -14,52 +18,38 @@ module sync_fifo_8x16 (
     reg [4:0] rd_ptr;
     reg [4:0] count;
 
-    // Write pointer
+    // Write pointer — no reset
     always @(posedge clk) begin
-        if (!rst_n)
-            wr_ptr <= 5'b0;
-        else if (wr_en && !full)
+        if (wr_en && !full)
             wr_ptr <= wr_ptr + 1'b1;
     end
 
-    // Read pointer
+    // Read pointer — no reset
     always @(posedge clk) begin
-        if (!rst_n)
-            rd_ptr <= 5'b0;
-        else if (rd_en && !empty)
+        if (rd_en && !empty)
             rd_ptr <= rd_ptr + 1'b1;
     end
 
-    // Memory write
-    integer i;
+    // Memory write — no reset
     always @(posedge clk) begin
-        if (!rst_n) begin
-            for (i = 0; i < 16; i = i + 1)
-                mem[i] <= 8'b0;
-        end else if (wr_en && !full) begin
+        if (wr_en && !full) begin
             mem[wr_ptr[3:0]] <= din;
         end
     end
 
-    // Memory read
+    // Memory read — no reset
     always @(posedge clk) begin
-        if (!rst_n)
-            dout <= 8'b0;
-        else if (rd_en && !empty)
+        if (rd_en && !empty)
             dout <= (wr_en && !full && (wr_ptr[3:0] == rd_ptr[3:0])) ? din : mem[rd_ptr[3:0]];
     end
 
-    // Counter for full/empty
+    // Counter for full/empty — no reset
     always @(posedge clk) begin
-        if (!rst_n)
-            count <= 5'b0;
-        else begin
-            case ({wr_en && !full, rd_en && !empty})
-                2'b10: count <= count + 1'b1;
-                2'b01: count <= count - 1'b1;
-                default: count <= count;
-            endcase
-        end
+        case ({wr_en && !full, rd_en && !empty})
+            2'b10: count <= count + 1'b1;
+            2'b01: count <= count - 1'b1;
+            default: count <= count;
+        endcase
     end
 
     assign full  = (count == 5'd16);

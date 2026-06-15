@@ -24,6 +24,9 @@ class PipelineState(TypedDict):
     max_iterations: int          # maximum allowed iterations before halting
     stage: str                   # current pipeline stage name
     spec_analysis: dict          # structured analysis of the specification
+    verification_plan: dict      # structured verification plan from verification_planner_agent
+    previous_error_analysis: dict  # previous iteration's error_analysis for convergence detection
+    stuck_count: int             # number of consecutive identical errors (convergence detector)
     trace2skill_hits: list       # skills retrieved from memory for this error
     reference_tb_path: str       # path to reference testbench (skips LLM generation)
 
@@ -61,6 +64,9 @@ def get_initial_state(spec: str, design_name: str) -> PipelineState:
         stage="start",
         trace2skill_hits=[],
         spec_analysis={},
+        verification_plan={},
+        previous_error_analysis={},
+        stuck_count=0,
         reference_tb_path="",
         netlist_path="",
         synthesis_report={},
