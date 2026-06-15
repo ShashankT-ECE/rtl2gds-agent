@@ -1,0 +1,12 @@
+Design: APB Slave with 4 registers
+Module name: apb_slave
+Inputs: PCLK, PRESETn, PSEL, PENABLE, PWRITE, PADDR (8-bit), PWDATA (32-bit)
+Outputs: PRDATA (32-bit), PREADY (1-bit), PSLVERR (1-bit)
+Behavior:
+  Implements APB protocol (AMBA 2.0)
+  4 internal 32-bit registers at addresses 0x00 0x04 0x08 0x0C
+  Write: PSEL=1 PENABLE=1 PWRITE=1 - write PWDATA to PADDR register
+  Read: PSEL=1 PENABLE=1 PWRITE=0 - output register at PADDR on PRDATA
+  PREADY always 1 (zero wait states)
+  PSLVERR=1 if address out of range
+  PRESETn is active-low synchronous reset

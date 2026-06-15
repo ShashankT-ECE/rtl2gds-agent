@@ -23,6 +23,7 @@ class PipelineState(TypedDict):
     iteration: int               # current fix loop iteration count
     max_iterations: int          # maximum allowed iterations before halting
     stage: str                   # current pipeline stage name
+    spec_analysis: dict          # structured analysis of the specification
     trace2skill_hits: list       # skills retrieved from memory for this error
 
     # V2 fields — synthesis / physical design
@@ -58,6 +59,7 @@ def get_initial_state(spec: str, design_name: str) -> PipelineState:
         max_iterations=5,
         stage="start",
         trace2skill_hits=[],
+        spec_analysis={},
         netlist_path="",
         synthesis_report={},
         timing_met=False,

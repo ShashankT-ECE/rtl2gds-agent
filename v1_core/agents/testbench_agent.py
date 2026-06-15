@@ -33,9 +33,25 @@ Rules:
 - Use cocotb decorators correctly
 - Test basic functionality and edge cases
 
+MANDATORY REFERENCE MODEL:
+Before writing any @cocotb.test() functions, implement this function:
+
+def reference_model(inputs):
+    # Pure Python implementation of the design spec
+    # inputs: dict of signal names to values
+    # returns: dict of expected output signal names to values
+    # This function must NOT interact with the DUT
+
+All test assertions MUST use this pattern:
+    _expected = reference_model(dict(signal_name=int(dut.signal_name.value)))
+    assert int(dut.output.value) == _expected['output'], f'Expected ' + str(_expected['output']) + ', got ' + str(int(dut.output.value))
+
+Never hardcode expected values directly in assertions.
+
 {fifo_requirements}
 {timing_requirements}
 {regeneration_note}
+Structured specification analysis: {spec_analysis}
 RTL Code:
 {rtl_code}
 
@@ -133,7 +149,9 @@ def testbench_agent(state: PipelineState) -> PipelineState:
     else:
         timing_requirements = ""
 
-    prompt = TB_PROMPT.format(rtl_code=rtl_code, fifo_requirements=fifo_requirements, timing_requirements=timing_requirements, regeneration_note=regeneration_note, design_name=state["design_name"])
+    import json
+
+    prompt = TB_PROMPT.format(rtl_code=rtl_code, fifo_requirements=fifo_requirements, timing_requirements=timing_requirements, regeneration_note=regeneration_note, design_name=state["design_name"], spec_analysis=json.dumps(state.get("spec_analysis", {}), indent=2))
     if fifo_requirements:
         logger.info("Using deepseek-v4-flash for FIFO test generation")
     testbench_code = call_llm(prompt=prompt, task="testbench_generation", thinking=False)

@@ -56,6 +56,13 @@ def main():
         logger.error("       python main.py --rtl <file.v> --spec 'spec' --name design_name")
         return
 
+    # Auto-detect reference RTL from benchmarks folder
+    if not rtl_code and args.benchmark:
+        ref_path = Path(f"benchmarks/{design_name}/reference_rtl.v")
+        if ref_path.exists():
+            rtl_code = ref_path.read_text()
+            logger.info(f"Using reference RTL for {design_name} — skipping LLM generation")
+
     # Route to V2 or V1 pipeline
     if args.v2:
         try:
@@ -63,7 +70,7 @@ def main():
         except ImportError:
             logger.error("V2 pipeline not available. Install V2 dependencies or check v2_verification/")
             return
-        final_state = run_v2_pipeline(spec=spec, design_name=design_name)
+        final_state = run_v2_pipeline(spec=spec, design_name=design_name, rtl_code=rtl_code)
     else:
         final_state = run_pipeline(spec=spec, design_name=design_name, rtl_code=rtl_code)
 

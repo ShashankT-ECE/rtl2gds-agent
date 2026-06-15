@@ -6,6 +6,7 @@ All agents use this — never use print() directly in agent code.
 
 from rich.console import Console
 from rich.theme import Theme
+from rich.markup import escape
 
 theme = Theme({
     "info": "cyan",
@@ -19,23 +20,23 @@ console = Console(theme=theme)
 
 
 def info(msg: str):
-    console.print(f"[info][INFO][/info] {msg}")
+    console.print(f"[info][INFO][/info] {escape(str(msg))}")
 
 
 def success(msg: str):
-    console.print(f"[success][PASS][/success] {msg}")
+    console.print(f"[success][PASS][/success] {escape(str(msg))}")
 
 
 def warning(msg: str):
-    console.print(f"[warning][WARN][/warning] {msg}")
+    console.print(f"[warning][WARN][/warning] {escape(str(msg))}")
 
 
 def error(msg: str):
-    console.print(f"[error][FAIL][/error] {msg}")
+    console.print(f"[error][FAIL][/error] {escape(str(msg))}")
 
 
 def agent(name: str, msg: str):
-    console.print(f"[agent][{name}][/agent] {msg}")
+    console.print(f"[agent][{name}][/agent] {escape(str(msg))}")
 
 
 def divider():

@@ -28,6 +28,8 @@ Rules:
 Specification:
 {spec}
 
+Structured specification analysis: {spec_analysis}
+
 Generate the complete Verilog module now:"""
 
 
@@ -41,7 +43,9 @@ def rtl_gen_agent(state: PipelineState) -> PipelineState:
     """
     logger.agent("RTLGenAgent", f"Generating RTL for: {state['design_name']}")
 
-    prompt = RTL_PROMPT.format(spec=state["spec"], design_name=state["design_name"])
+    import json
+
+    prompt = RTL_PROMPT.format(spec=state["spec"], design_name=state["design_name"], spec_analysis=json.dumps(state.get("spec_analysis", {}), indent=2))
 
     rtl_code = call_llm(prompt=prompt, task="rtl_generation", thinking=False)
     rtl_code = strip_code_fences(rtl_code)

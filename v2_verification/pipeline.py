@@ -22,12 +22,25 @@ Flow:
 
 from langgraph.graph import StateGraph, END
 from v1_core.agents.orchestrator import PipelineState, get_initial_state
+from v1_core.agents.spec_parser_agent import spec_parser_agent
 from v1_core.agents.rtl_gen_agent import rtl_gen_agent
 from v1_core.agents.testbench_agent import testbench_agent
 from v1_core.agents.simulation_agent import simulation_agent
 from v1_core.agents.log_analysis_agent import log_analysis_agent
 from v1_core.agents.fix_agent import fix_agent
 from v1_core.utils import logger
+
+def _safe_agent_call(state: PipelineState, agent_fn, agent_name: str) -> PipelineState:
+    """Wrap an agent call in try/except so a crash doesn't kill the pipeline."""
+    try:
+        return agent_fn(state)
+    except Exception as e:
+        logger.error(f"{agent_name} crashed: {e}")
+        new_state = {**state, "stage": f"{agent_name.lower()}_failed"}
+        if agent_name == "Simulation":
+            new_state["sim_passed"] = False
+        return new_state
+
 
 # ---------------------------------------------------------------------------
 # V2 agent imports — each wraps an MCP tool and returns updated PipelineState.
@@ -174,30 +187,32 @@ def build_v2_pipeline(
     """
     graph = StateGraph(PipelineState)
 
-    # ---- V1 nodes ---------------------------------------------------------
-    graph.add_node("rtl_gen", rtl_gen_agent)
-    graph.add_node("testbench", testbench_agent)
-    graph.add_node("simulation", simulation_agent)
-    graph.add_node("log_analysis", log_analysis_agent)
-    graph.add_node("fix", fix_agent)
+    # ---- V1 nodes (wrapped for crash safety) ------------------------------
+    graph.add_node("spec_parser", lambda s: _safe_agent_call(s, spec_parser_agent, "spec_parser"))
+    graph.add_node("rtl_gen", lambda s: _safe_agent_call(s, rtl_gen_agent, "rtl_gen"))
+    graph.add_node("testbench", lambda s: _safe_agent_call(s, testbench_agent, "testbench"))
+    graph.add_node("simulation", lambda s: _safe_agent_call(s, simulation_agent, "Simulation"))
+    graph.add_node("log_analysis", lambda s: _safe_agent_call(s, log_analysis_agent, "log_analysis"))
+    graph.add_node("fix", lambda s: _safe_agent_call(s, fix_agent, "fix"))
 
     # ---- V2 nodes ---------------------------------------------------------
     v2_available = False
     if not skip_synthesis_sta:
         if _V2_SYNTHESIS_AVAILABLE:
-            graph.add_node("synthesis", synthesis_agent)
+            graph.add_node("synthesis", lambda s: _safe_agent_call(s, synthesis_agent, "Synthesis"))
             v2_available = True
         if _V2_STA_AVAILABLE:
-            graph.add_node("sta", sta_agent)
+            graph.add_node("sta", lambda s: _safe_agent_call(s, sta_agent, "STA"))
             v2_available = True
         if _V2_TIMING_OPT_AVAILABLE:
-            graph.add_node("timing_opt", timing_opt_agent)
+            graph.add_node("timing_opt", lambda s: _safe_agent_call(s, timing_opt_agent, "timing_opt"))
 
     # ---- Entry point ------------------------------------------------------
+    graph.set_entry_point("spec_parser")
     if skip_rtl_gen:
-        graph.set_entry_point("testbench")
+        graph.add_edge("spec_parser", "testbench")
     else:
-        graph.set_entry_point("rtl_gen")
+        graph.add_edge("spec_parser", "rtl_gen")
         graph.add_edge("rtl_gen", "testbench")
 
     # ---- Simulation pipeline (V1 flow) ------------------------------------
@@ -264,12 +279,13 @@ def build_v2_pipeline(
 # ---------------------------------------------------------------------------
 
 
-def run_v2_pipeline(spec: str, design_name: str) -> dict:
+def run_v2_pipeline(spec: str, design_name: str, rtl_code: str = "") -> dict:
     """Run the full V2 pipeline (V1 + synthesis + STA) for a given spec.
 
     Args:
         spec: Natural-language hardware specification.
         design_name: Short identifier such as ``alu_8bit`` or ``sync_fifo``.
+        rtl_code: Optional pre-existing RTL code to use (skips RTL generation).
 
     Returns:
         Final ``PipelineState`` as a plain dictionary after the pipeline
@@ -290,13 +306,16 @@ def run_v2_pipeline(spec: str, design_name: str) -> dict:
     logger.divider()
 
     # Build the graph (auto-detects which agents exist).
-    pipeline = build_v2_pipeline()
+    # Skip rtl_gen node if pre-existing RTL code was provided.
+    pipeline = build_v2_pipeline(skip_rtl_gen=bool(rtl_code))
 
     # Create initial state and extend with V2 fields.
     # The V2 fields (netlist_path, timing_met, etc.) are being added to
     # PipelineState / get_initial_state in orchestrator.py in parallel, but
     # we set them here explicitly so the pipeline is self-contained.
     initial_state = get_initial_state(spec=spec, design_name=design_name)
+    if rtl_code:
+        initial_state["rtl_code"] = rtl_code
     initial_state.update({
         "netlist_path": "",
         "synthesis_report": "",

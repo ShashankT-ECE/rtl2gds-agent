@@ -102,7 +102,8 @@ include {makefiles_dir}/Makefile.sim
         log += "\n--- results.xml ---\n" + xml_content
 
     if log:
-        logger.info(f"Simulation log (last 500 chars): {log[-500:]}")
+        safe_log = log.replace('[', '(').replace(']', ')')
+        logger.info(f"Simulation log (last 500 chars): {safe_log[-500:]}")
     else:
         logger.warning("Simulation log is empty!")
 
