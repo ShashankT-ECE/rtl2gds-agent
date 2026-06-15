@@ -530,6 +530,46 @@
       "design_name": "alu_8bit",
       "success_count": 1,
       "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0053",
+      "category": "combinational",
+      "error_type": "LOGIC",
+      "pattern": "XOR operation is implemented as XNOR (bitwise negation of XOR) instead of XOR, causing all XOR results to be inverted.",
+      "fix": "Remove the bitwise NOT operator from the XOR case in the case statement to compute XOR instead of XNOR.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0054",
+      "category": "combinational",
+      "error_type": "LOGIC",
+      "pattern": "zero_flag is declared but never assigned in any always block, causing it to remain in an unknown state (X).",
+      "fix": "Add combinational assignment for zero_flag based on whether Y equals 0.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0055",
+      "category": "combinational",
+      "error_type": "LOGIC",
+      "pattern": "The XOR operation (opcode 3'b100) is implemented as XNOR (~(A ^ B)) instead of XOR (A ^ B).",
+      "fix": "Remove the bitwise NOT operator from the XOR computation so that Y equals A XOR B instead of its complement.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0056",
+      "category": "combinational",
+      "error_type": "LOGIC",
+      "pattern": "The zero_flag output is declared but never assigned a value in the always block, leaving it as 'X'.",
+      "fix": "Assign zero_flag based on the Y result by adding zero_flag = (Y == 8'b0) after the case statement.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
     }
   ]
 }

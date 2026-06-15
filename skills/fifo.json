@@ -400,6 +400,146 @@
       "design_name": "sync_fifo_8x16",
       "success_count": 1,
       "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0040",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The RTL asserts full when count equals 15 instead of 16, causing the FIFO to waste one storage slot.",
+      "fix": "Change the full flag comparison from using 5'd15 to 5'd16 to match the correct FIFO depth threshold.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0041",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The rst_n input is declared but never used in any sequential always block, leaving all registers in unknown (X) state after reset.",
+      "fix": "Add synchronous reset condition to all always blocks to initialize wr_ptr, rd_ptr, count, and memory to known values when rst_n is low.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0042",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The full threshold is incorrectly set to 15 instead of 16, causing the FIFO to assert full one entry early and waste one storage slot.",
+      "fix": "Correct the full flag comparison to use the FIFO depth of 16 instead of 15.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0043",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The RTL code omits all `rst_n` logic, so registers like `wr_ptr`, `rd_ptr`, and `count` remain at 'X' after reset, causing all downstream reads to fail.",
+      "fix": "Add a reset branch in every sequential always block to initialize all registers when `rst_n` is low.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0044",
+      "category": "fifo",
+      "error_type": "WIDTH",
+      "pattern": "The FIFO count is declared as 5-bit but needs to hold values up to 16, requiring 5 bits to represent 0-16 inclusive, but the RTL incorrectly uses 5'd16 for full comparison instead of 5'd15, causing the full flag to assert incorrectly.",
+      "fix": "Correct the full flag comparison to match the FIFO depth of 16 entries by comparing count to 5'd15 instead of 5'd16.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0045",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The FIFO count is incorrectly based on write and read pointer increments instead of actual entries stored, and the full flag asserts when count equals 16 instead of when the FIFO has exactly 16 entries stored (i.e., the write pointer has wrapped but only 15 writes were performed).",
+      "fix": "Change the full threshold from 16 to 15 to match the FIFO depth of 16 entries where full should assert when 15 entries are written (i.e., after the 15th write, since the 16th write is blocked).",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0046",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "RTL uses `count == 5'd15` for full flag but spec requires full flag asserted when fifo has 16 elements, and the fifo depth is 16, so the correct full threshold should be `count == 5'd16`.",
+      "fix": "Update the full flag assignment to check `count == 5'd16` so that full goes high exactly when 16 entries are stored.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0047",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The RTL code sets dout only inside the synchronous block during a read operation, but the output dout is not assigned during reset, leaving it with an unknown value that cannot be converted to an integer.",
+      "fix": "Add an explicit assignment dout <= 8'd0 inside the reset condition of the always block to initialize the output to 0 during reset.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0048",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The full flag is asserted when count equals 15, but a 16-entry FIFO should assert full when count equals 16.",
+      "fix": "Change the full threshold comparison to 16 instead of 15 to correctly indicate when the FIFO is full after storing 16 entries.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0049",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The counter and flag logic transitions incorrectly because the condition for incrementing count uses `wr_en && !full` directly instead of registering whether a write or read actually occurred on the same clock edge.",
+      "fix": "Introduce registered signals `wr_en_reg` and `rd_en_reg` that capture the actual memory write and read operations to properly update the count and flag signals.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0050",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The RTL fails to assert `full` after 16 writes because the `count` register width is 5 bits but the comparison in the `full` assignment uses `5'd16`, which cannot be represented in 5 bits (max value 31), causing `count` to roll over to 0 incorrectly at the 16th write.",
+      "fix": "Correct the `full` condition to compare against the maximum count value of 15 instead of 16, since the count register increments from 0 and wraps incorrectly.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0051",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "After reset, the empty and full signals remain unknown (X) because the reset logic only initializes wr_ptr, rd_ptr, dout, and the memory, but fails to reset the count register, which drives the full and empty signals.",
+      "fix": "In the count register's always block, ensure that under reset (!rst_n) the count register is explicitly set to 0 to drive empty and full to known values.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0052",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The full flag is asserted when count equals 16, but the RTL code uses a 5-bit counter that can only count from 0 to 15, so full is never reached.",
+      "fix": "Change the full flag comparison to match the FIFO depth of 16 by using count == 5'd16, or adjust the design to use a wider counter.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0053",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "Full flag is asserted when count equals 15 instead of 16, causing the FIFO to report full after only 15 writes.",
+      "fix": "Correct the full flag threshold from 15 to 16 to match the 16-entry FIFO depth specification.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
     }
   ]
 }

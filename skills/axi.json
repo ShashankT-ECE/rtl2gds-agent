@@ -100,6 +100,26 @@
       "design_name": "apb_slave",
       "success_count": 1,
       "last_seen": "apb_slave"
+    },
+    {
+      "id": "axi_0010",
+      "category": "axi",
+      "error_type": "LOGIC",
+      "pattern": "The address decode uses PADDR[4:3] instead of PADDR[3:2], causing registers to map to incorrect APB addresses.",
+      "fix": "Correct the address decode by selecting bits [3:2] from PADDR to properly select the register based on word-aligned byte addresses.",
+      "design_name": "apb_slave",
+      "success_count": 1,
+      "last_seen": "apb_slave"
+    },
+    {
+      "id": "axi_0011",
+      "category": "axi",
+      "error_type": "LOGIC",
+      "pattern": "The PSLVERR signal is asserted for valid addresses instead of invalid addresses due to an inverted condition.",
+      "fix": "Invert the addr_valid condition in the PSLVERR assignment so that the error signal is asserted only for invalid addresses.",
+      "design_name": "apb_slave",
+      "success_count": 1,
+      "last_seen": "apb_slave"
     }
   ]
 }

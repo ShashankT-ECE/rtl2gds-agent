@@ -600,6 +600,246 @@
       "design_name": "uart_tx",
       "success_count": 1,
       "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0060",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL holds tx_busy high during the STOP state, but the test expects tx_busy to return to 0 by the time the stop bit completes, indicating an off-by-one error in deassertion timing.",
+      "fix": "Modify the combinational block so that tx_busy is 1 during START and DATA states but deasserts to 0 in the STOP state, matching the expected behavior where busy clears before the next idle cycle.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0061",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL parameter RED_COUNT is set to 10, but the specification requires it to be 15, causing the red-to-green transition to occur 5 clock cycles too early.",
+      "fix": "Update the RED_COUNT localparam in the RTL code to match the specification value of 15.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0062",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "Next-state logic swaps GREEN and YELLOW transition targets: GREEN goes to RED instead of YELLOW, YELLOW goes to GREEN instead of RED.",
+      "fix": "In the next-state case block, correct the GREEN branch to transition to YELLOW and the YELLOW branch to transition to RED.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0063",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL shifts left and outputs MSB first, while the spec requires LSB-first transmission, causing bit-reversal errors like expecting 0x55 but getting 0xAA.",
+      "fix": "Modify the shift register to shift right (LSB-first) and output from bit 0 instead of shifting left and outputting from bit 7.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0064",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL transmits the MSB (shift_reg[7]) instead of the LSB (shift_reg[0]) and shifts left instead of right, violating the LSB-first specification.",
+      "fix": "Swap the shift direction from right to left and take the MSB from shift_reg[7] for transmission to match the intended LSB-first protocol.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0065",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The design transmits data MSB-first from shift_reg[7] instead of LSB-first as required by the spec.",
+      "fix": "Modify the DATA state to output the LSB (shift_reg[0]) and shift right (LSB-first) instead of shifting left and outputting the MSB.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0066",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL transmits data MSB-first (using shift_reg[7]) instead of LSB-first (using shift_reg[0]) as required by the UART spec.",
+      "fix": "Change the shift register output from shift_reg[0] to shift_reg[7] to transmit MSB-first, matching the buggy RTL behavior.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0067",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL outputs shift_reg[7] (MSB) and shifts right via {1'b0, shift_reg[7:1]}, but the spec requires LSB-first transmission (output shift_reg[0]) with a right shift.",
+      "fix": "Change the DATA state's tx output to select shift_reg[0] instead of shift_reg[7] to transmit LSB-first as required by the specification.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0068",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The FSM next-state logic uses asynchronous reset to set state_out to RED, but the state machine immediately transitions to GREEN on the next clock edge after reset deassertion because the counter is cleared and the condition `counter == RED_COUNT - 1` is evaluated as true (0 == 14 is false, so transition should not happen; however, the actual bug is that state_out is updated with next_state in the same cycle as state, but the counter reset logic is based on `state != next_state`, causing a false transition detection when reset is deasserted).",
+      "fix": "Modify the counter sequential logic to only reset the counter when a state transition occurs, not when state == next_state during initialization.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0069",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The state machine transitions one cycle too early because the counter is loaded at the transition edge rather than after the full duration count.",
+      "fix": "Adjust the counter preload value from DUR-1 to DUR to account for the extra cycle consumed during state transition.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0070",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "State encoding mismatch \u2014 state_out value 1 corresponds to GREEN (2'b01) instead of RED (2'b00) after reset deassertion.",
+      "fix": "Modify the next state logic so that when current_state is RED, next_state is set to GREEN only after the RED duration expires, but ensure the initial state after reset is RED and the counter begins counting down from RED_DUR.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0071",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The counter reset value during state transitions is 1 instead of 0, causing a one-cycle offset in all state durations.",
+      "fix": "Change the counter reset value from 1 to 0 when a state transition occurs, so the counter starts counting from the correct initial value.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0072",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The next-state logic for RED is a self-loop (stays in RED) instead of transitioning to GREEN.",
+      "fix": "Change the combinatorial next-state assignment for RED to transition to GREEN instead of staying in RED.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0073",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "In the counter sequential logic, the condition for resetting the counter (state != next_state) uses state which is updated at posedge clk, not the current state, causing the counter to not reset when transitioning from RED to GREEN after reaching RED_COUNT-1.",
+      "fix": "Change the counter reset condition in the counter sequential always block to use a transition detection signal generated from the combinatorial next_state logic, e.g., compare the current state (from state register) with next_state to reset counter.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0074",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL loads the new duration counter value based on next_state instead of current_state, causing the counter to be set to the next state's duration when transitioning, rather than the correct current state's duration.",
+      "fix": "Replace \"case (next_state)\" with \"case (current_state)\" in the sequential always block to correctly load the duration counter for the state being entered.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0075",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "In the test_normal_cycle failure (Cycle 13: Expected state_out 1, got 0), the simulation log shows state_out staying at RED (0) when it should have transitioned to GREEN (1), likely due to incorrect transition logic for RED_COUNT.",
+      "fix": "Change the RED_COUNT parameter from 15 to 14 so the state transitions to GREEN after counting 0 to 14 (15 cycles), matching the spec's 15-cycle RED duration.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0076",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL loads the counter with the duration of the current state when counter reaches 0, instead of loading the next state's duration, causing a one-cycle state mismatch after reset deassertion.",
+      "fix": "Change the counter load logic to use next_state instead of current_state when counter reaches 0, so the new state gets the correct duration loaded.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0077",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL's RED_COUNT parameter is 14, but the verification plan specifies RED should last 15 cycles (counter check of 14 means transition after 14 increments = 15 cycles total, so RED_COUNT should be 15 not 14).",
+      "fix": "Change the RED_COUNT parameter value from 14 to 15 to match the specification requiring a 15-cycle RED state duration.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0078",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL drives tx_busy to 0 in the IDLE state unconditionally on every clock cycle, but the spec expects tx_busy to remain high until the stop bit completes and the FSM transitions to IDLE.",
+      "fix": "Change the IDLE state combinatorial outputs so that tx_busy is only set low when the FSM actually enters IDLE from the STOP state, not on every clock cycle that the IDLE state is active.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0079",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The combinational output logic sets tx = 1'b0 in START state, but in the IDLE state the transition to START (line 47) is not gated by tx_busy being low to prevent a re-entry if tx_start is already high, and the test expects tx=1 on cycle 0 before tx_start is sampled.",
+      "fix": "Ensure the tx output stays high for at least one clock cycle after tx_start is asserted before transitioning to the start bit.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0080",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The tx_busy signal remains high after the stop bit completes because the FSM never transitions to IDLE within the same clock cycle where tx_busy is deasserted.",
+      "fix": "Move tx_busy deassertion logic to occur when the STOP state completes, either by setting tx_busy <= 1'b0 in the STOP case when bit_counter == baud_div - 1, or by transitioning from STOP to IDLE on the same cycle that bit_counter wraps.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0081",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The next-state logic for START condition incorrectly requires tx_busy to be low, but tx_busy is generated combinationally from state, so in IDLE state tx_busy is 0; however the transition to START happens on the same cycle, causing the test to see tx_busy=1 one cycle earlier than expected.",
+      "fix": "Remove the !tx_busy condition from the IDLE to START transition, since tx_busy is always 0 in IDLE state and this check is unnecessary and causes a race condition.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0082",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL updates tx and tx_busy only on the next clock cycle after state transition, causing a one-cycle delay in the start bit and tx_busy assertion.",
+      "fix": "Move the tx and tx_busy assignments for START and DATA states to the next-state logic combinational block or use an additional register to output signals immediately on state entry.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0083",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "In the START state, tx is assigned to 0 continuously instead of only during the first baud cycle, causing the initial value comparison to fail and the subsequent data/stop bits to be offset by one cycle.",
+      "fix": "Modify the RTL so that tx is driven low only during the start bit period (i.e., when bit_counter is less than baud_div-1) and then driven with the first data bit when transitioning to DATA, or correct the testbench to sample tx one cycle later.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
     }
   ]
 }
