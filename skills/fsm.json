@@ -420,6 +420,106 @@
       "design_name": "fsm_traffic_light",
       "success_count": 1,
       "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0042",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL does not deassert tx_busy during the STOP state, causing it to remain high when transmission ends.",
+      "fix": "Set tx_busy = 1'b0 in the STOP state (or in the transition to IDLE) so that it goes low after the stop bit is sent.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0043",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "In the STOP state, tx_busy remains asserted (1) instead of being deasserted (0), causing the testbench to always see tx_busy = 1 during transmission and never 0 after the stop bit finishes.",
+      "fix": "Deassert tx_busy in the STOP state (or only assert it in START and DATA, not in STOP) so that tx_busy goes low when transmission is complete.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0044",
+      "category": "fsm",
+      "error_type": "SYNTAX",
+      "pattern": "Makefile has a missing tab separator on line 9, causing a syntax error in the build system.",
+      "fix": "Ensure all recipe lines in the Makefile start with a tab character, not spaces.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0045",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL deasserts tx_busy one cycle before transmission actually completes (during STOP state instead of keeping it asserted until after the stop bit is fully transmitted).",
+      "fix": "Change the STOP state to not deassert tx_busy; instead deassert tx_busy in the IDLE state when transitioning from STOP to IDLE, ensuring tx_busy stays high for the full stop bit duration.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0046",
+      "category": "fsm",
+      "error_type": "UNKNOWN",
+      "pattern": "The simulation log shows a Cocotb/VPI error where the simulator cannot find the root handle 'uart_tx', likely because the top-level module name in the testbench configuration does not match the RTL module name or the module is not compiled correctly.",
+      "fix": "Ensure the simulator top-level instance name matches the RTL module name 'uart_tx' and that the RTL file is included in the compilation.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0047",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL sets tx_busy=1'b0 in the STOP state, but the testbench expects tx_busy to remain 1 during transmission until the stop bit completes.",
+      "fix": "In the STOP state, set tx_busy to 1'b1 so that it remains asserted during the entire transmission including the stop bit, then deassert it in the IDLE state transition.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0048",
+      "category": "fsm",
+      "error_type": "SYNTAX",
+      "pattern": "The Makefile has a missing or incorrect separator (e.g., tab vs spaces) at line 9, causing make to abort.",
+      "fix": "Ensure all recipe lines in the Makefile begin with a tab, not spaces.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0049",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL keeps tx_busy asserted during STOP state but the spec expects tx_busy to deassert after the stop bit completes.",
+      "fix": "Change the STOP state output assignment for tx_busy from 1 to 0 so that tx_busy deasserts during the stop bit transmission, matching the expected behavior that tx_busy is 0 after transmission completes.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0050",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL does not deassert tx_busy after the stop bit transmission completes; tx_busy remains asserted when returning to IDLE state.",
+      "fix": "Modify the STOP state in the combinational output logic to set tx_busy = 1'b0 to deassert busy after the stop bit is transmitted.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0051",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The tx_busy signal stays high during the STOP state and never deasserts after transmission completes, because the IDLE state is entered in the next cycle after STOP finishes, but the combinational output for STOP drives tx_busy=1, and the transition to IDLE occurs one cycle later.",
+      "fix": "Modify the STOP case in the combinational output always block to set tx_busy to 0 instead of 1, so that tx_busy goes low as soon as the stop bit transmission begins.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
     }
   ]
 }

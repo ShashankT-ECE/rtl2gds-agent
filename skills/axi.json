@@ -1,1 +1,105 @@
-{"version": "1.0", "skills": []}
+{
+  "version": "1.0",
+  "skills": [
+    {
+      "id": "axi_0000",
+      "category": "axi",
+      "error_type": "SYNTAX",
+      "pattern": "The testbench tries to access `dut.clk` but the RTL module's clock port is named `PCLK`, not `clk`, causing an AttributeError.",
+      "fix": "Update the testbench to use the correct port name `PCLK` from the RTL module instead of the nonexistent `clk`.",
+      "design_name": "apb_slave",
+      "success_count": 1,
+      "last_seen": "apb_slave"
+    },
+    {
+      "id": "axi_0001",
+      "category": "axi",
+      "error_type": "LOGIC",
+      "pattern": "The testbench attempts to access a signal named `clk` on the DUT, but the RTL APB slave module defines the clock port as `PCLK`, causing an attribute error because the name does not match.",
+      "fix": "Rename all references from `dut.clk` to `dut.PCLK` in the testbench to match the RTL port name.",
+      "design_name": "apb_slave",
+      "success_count": 1,
+      "last_seen": "apb_slave"
+    },
+    {
+      "id": "axi_0002",
+      "category": "axi",
+      "error_type": "LOGIC",
+      "pattern": "The testbench references a port named \"clk\" but the RTL module defines the clock as \"PCLK\" instead.",
+      "fix": "Rename the port in the testbench from \"clk\" to match the RTL port name \"PCLK\".",
+      "design_name": "apb_slave",
+      "success_count": 1,
+      "last_seen": "apb_slave"
+    },
+    {
+      "id": "axi_0003",
+      "category": "axi",
+      "error_type": "SYNTAX",
+      "pattern": "The testbench file references macros (`reference_tb`, `dut`) that are undefined in the compilation context, causing a syntax error during parsing.",
+      "fix": "Define the macros `reference_tb` and `dut` in the Verilog/SystemVerilog testbench or replace them with actual module instantiation/hierarchy paths.",
+      "design_name": "apb_slave",
+      "success_count": 1,
+      "last_seen": "apb_slave"
+    },
+    {
+      "id": "axi_0004",
+      "category": "axi",
+      "error_type": "SYNTAX",
+      "pattern": "The testbench tries to access dut.clk but the RTL module has no port named \"clk\" \u2014 it uses \"PCLK\" instead.",
+      "fix": "Rename the clock signal reference in the testbench from \"clk\" to \"PCLK\" to match the RTL port name.",
+      "design_name": "apb_slave",
+      "success_count": 1,
+      "last_seen": "apb_slave"
+    },
+    {
+      "id": "axi_0005",
+      "category": "axi",
+      "error_type": "LOGIC",
+      "pattern": "The testbench references \"dut.clk\" but the RTL module port is named \"PCLK\", causing AttributeError.",
+      "fix": "Update all references from \"dut.clk\" to \"dut.PCLK\" in the testbench to match the actual RTL port name.",
+      "design_name": "apb_slave",
+      "success_count": 1,
+      "last_seen": "apb_slave"
+    },
+    {
+      "id": "axi_0006",
+      "category": "axi",
+      "error_type": "SYNTAX",
+      "pattern": "The Verilog file contains backtick macro references (`reference_tb`, `apb_slave`, `dut`) that are likely intended for a SystemVerilog/Verilog testbench but are causing syntax errors when compiled as pure Verilog without the macros being defined.",
+      "fix": "Remove the erroneous macro reference lines at the top of apb_slave.v so that only valid Verilog module code remains.",
+      "design_name": "apb_slave",
+      "success_count": 1,
+      "last_seen": "apb_slave"
+    },
+    {
+      "id": "axi_0007",
+      "category": "axi",
+      "error_type": "SYNTAX",
+      "pattern": "The testbench references `dut.clk` but the RTL module defines the clock port as `PCLK`, not `clk`, causing an attribute lookup failure.",
+      "fix": "Update all references from `dut.clk` to `dut.PCLK` in the testbench to match the RTL port name.",
+      "design_name": "apb_slave",
+      "success_count": 1,
+      "last_seen": "apb_slave"
+    },
+    {
+      "id": "axi_0008",
+      "category": "axi",
+      "error_type": "UNKNOWN",
+      "pattern": "The testbench is trying to access a signal named `clk` but the RTL module defines it as `PCLK`.",
+      "fix": "Rename the module port from `PCLK` to `clk` in the RTL, or update the testbench to use the correct port name `dut.PCLK`.",
+      "design_name": "apb_slave",
+      "success_count": 1,
+      "last_seen": "apb_slave"
+    },
+    {
+      "id": "axi_0009",
+      "category": "axi",
+      "error_type": "LOGIC",
+      "pattern": "The testbench references `dut.clk` but the RTL module port is named `PCLK`, not `clk`.",
+      "fix": "Rename the RTL port from `PCLK` to `clk`, or update the testbench to reference `dut.PCLK`.",
+      "design_name": "apb_slave",
+      "success_count": 1,
+      "last_seen": "apb_slave"
+    }
+  ]
+}

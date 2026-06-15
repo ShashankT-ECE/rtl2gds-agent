@@ -51,9 +51,9 @@ link_design {top_module}
 create_clock -name clk -period {clock_period_ns} [get_ports clk]
 
 # Report timing results to files for parsing
-report_timing -o {sta_dir}/timing.rpt
-report_wns -o {sta_dir}/wns.rpt
-report_tns -o {sta_dir}/tns.rpt
+report_checks -path_delay max -digits 3 > {sta_dir}/timing.rpt
+report_wns -digits 3 > {sta_dir}/wns.rpt
+report_tns -digits 3 > {sta_dir}/tns.rpt
 
 exit
 """
@@ -85,7 +85,8 @@ def _parse_sta_output(sta_dir: Path, raw_log: str) -> dict:
         wns_text = wns_path.read_text()
         log_parts.append("--- WNS Report ---\n" + wns_text)
 
-        match = re.search(r"WNS.*?=\s*([-+]?\d+\.?\d*)", wns_text)
+        # OpenSTA 3.1.0 format: "wns max 0.000" or "wns max -0.123"
+        match = re.search(r"wns\s+\w+\s+([-+]?\d+\.?\d*)", wns_text)
         if match:
             result["wns"] = float(match.group(1))
             logger.info(f"Parsed WNS: {result['wns']}")
@@ -96,7 +97,8 @@ def _parse_sta_output(sta_dir: Path, raw_log: str) -> dict:
         tns_text = tns_path.read_text()
         log_parts.append("\n--- TNS Report ---\n" + tns_text)
 
-        match = re.search(r"TNS.*?=\s*([-+]?\d+\.?\d*)", tns_text)
+        # OpenSTA 3.1.0 format: "tns max 0.000"
+        match = re.search(r"tns\s+\w+\s+([-+]?\d+\.?\d*)", tns_text)
         if match:
             result["tns"] = float(match.group(1))
             logger.info(f"Parsed TNS: {result['tns']}")
@@ -111,27 +113,45 @@ def _parse_sta_output(sta_dir: Path, raw_log: str) -> dict:
         endpoint = None
         slack = None
 
+        # report_checks format: "Startpoint: _10_"
         m_start = re.search(r"Startpoint:\s*(.+)", timing_text)
         m_end = re.search(r"Endpoint:\s*(.+)", timing_text)
-        m_slack = re.search(r"slack\s+([-+]?\d+\.?\d*)", timing_text)
+        # report_checks format: "slack (MET)" with preceding slack value
+        # Look for the last slack value before (MET) or (VIOLATED)
+        m_slack = re.search(r"slack\s+\(([^)]+)\)", timing_text)
+        if m_slack:
+            # The line before has the actual slack value, get it from the table
+            # Format includes: "          -0.519   data arrival time"
+            # Right before "data required time" - "data arrival time" = slack
+            # Better: look for the numeric value in the slack summary line
+            slack_lines = re.findall(r"(-?\d+\.?\d*)\s+slack\s+\((?:MET|VIOLATED)\)", timing_text)
+            if slack_lines:
+                slack = float(slack_lines[0])
+        else:
+            # Fallback: try older format
+            m_slack_old = re.search(r"slack\s+([-+]?\d+\.?\d*)", timing_text)
+            if m_slack_old:
+                slack = float(m_slack_old.group(1))
 
         if m_start:
             startpoint = m_start.group(1).strip()
         if m_end:
             endpoint = m_end.group(1).strip()
-        if m_slack:
-            slack = m_slack.group(1).strip()
 
         path_parts = []
         if startpoint:
             path_parts.append(f"Startpoint: {startpoint}")
         if endpoint:
             path_parts.append(f"Endpoint: {endpoint}")
-        if slack:
+        if slack is not None:
             path_parts.append(f"Slack: {slack}")
 
         if path_parts:
             result["critical_path"] = " | ".join(path_parts)
+
+        # If we parsed a slack value from the timing report, use it as WNS
+        if slack is not None and result["wns"] is None:
+            result["wns"] = slack
 
     # --- Determine timing closure ---
     if result["wns"] is not None:

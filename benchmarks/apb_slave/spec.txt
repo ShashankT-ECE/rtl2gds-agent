@@ -1,12 +1,31 @@
-Design: APB Slave with 4 registers
+Design: APB Slave with 4 Registers
 Module name: apb_slave
-Inputs: PCLK, PRESETn, PSEL, PENABLE, PWRITE, PADDR (8-bit), PWDATA (32-bit)
-Outputs: PRDATA (32-bit), PREADY (1-bit), PSLVERR (1-bit)
+Inputs:
+  PCLK    (1-bit)   — APB clock
+  PRESETn (1-bit)   — APB active-low synchronous reset
+  PSEL    (1-bit)   — APB select (indicates slave is selected)
+  PENABLE (1-bit)   — APB enable (qualifies transfer)
+  PWRITE  (1-bit)   — APB write (1=write, 0=read)
+  PADDR   (8-bit)   — APB address (byte address, word-aligned)
+  PWDATA  (32-bit)  — APB write data bus
+Outputs:
+  PRDATA  (32-bit)  — APB read data bus
+  PREADY  (1-bit)   — APB ready (always 1, zero wait states)
+  PSLVERR (1-bit)   — APB slave error (1 on invalid address)
 Behavior:
-  Implements APB protocol (AMBA 2.0)
-  4 internal 32-bit registers at addresses 0x00 0x04 0x08 0x0C
-  Write: PSEL=1 PENABLE=1 PWRITE=1 - write PWDATA to PADDR register
-  Read: PSEL=1 PENABLE=1 PWRITE=0 - output register at PADDR on PRDATA
-  PREADY always 1 (zero wait states)
-  PSLVERR=1 if address out of range
-  PRESETn is active-low synchronous reset
+  Four internal 32-bit registers at word-aligned addresses:
+    reg0: 0x00
+    reg1: 0x04
+    reg2: 0x08
+    reg3: 0x0C
+  Write transfer: PSEL=1 & PENABLE=1 & PWRITE=1
+    → Write PWDATA to register selected by PADDR[3:2]
+  Read transfer:  PSEL=1 & PENABLE=1 & PWRITE=0
+    → Output register selected by PADDR[3:2] on PRDATA
+  PREADY is always 1 (zero wait states).
+  PSLVERR=1 if PSEL=1 and PENABLE=1 and PADDR[3:2] selects outside {0x00,0x04,0x08,0x0C}
+  PSLVERR=0 otherwise.
+  PRESETn active-low synchronous reset: all registers clear to 0x00000000.
+  All registers are 32-bit.
+  PREADY=1 (tie high).
+  Both PSEL and PENABLE must be high for a valid transfer.

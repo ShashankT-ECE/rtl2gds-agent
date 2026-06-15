@@ -1,11 +1,24 @@
-Design: UART Transmitter (TX only)
+Design: UART Transmitter
 Module name: uart_tx
-Inputs: clk, rst_n, tx_start (1-bit), tx_data (8-bit), baud_div (16-bit)
-Outputs: tx (1-bit serial output), tx_busy (1-bit)
+Inputs:
+  clk      (1-bit)  — System clock
+  rst_n    (1-bit)  — Active-low synchronous reset
+  tx_start (1-bit)  — Pulse high to begin transmission
+  tx_data  (8-bit)  — Data byte to transmit
+  baud_div (16-bit) — Baud rate divisor (clk cycles per bit)
+Outputs:
+  tx       (1-bit)  — Serial output line (idle high)
+  tx_busy  (1-bit)  — High during transmission, low when idle
 Behavior:
-  When tx_start=1 and tx_busy=0, begin transmission
-  Transmit: 1 start bit (0), 8 data bits LSB first, 1 stop bit (1)
-  tx_busy=1 during transmission, 0 when idle
-  baud_div sets clock divider for baud rate generation
-  After stop bit, return to idle state
-  rst_n is active-low synchronous reset
+  When tx_start=1 and tx_busy=0, latch tx_data and start transmission.
+  Frame format: 1 start bit (low), 8 data bits (LSB first), 1 stop bit (high).
+  tx_busy=1 for the entire transmission duration, 0 when idle.
+  baud_div sets the number of clock cycles per baud period.
+  The tx line idles high (stop bit level).
+  After stop bit completes, return to IDLE state: tx=1, tx_busy=0.
+  rst_n is active-low synchronous reset. On reset: tx=1, tx_busy=0.
+State Machine:
+  IDLE  — Wait for tx_start. tx=1, tx_busy=0.
+  START — Drive tx=0 for baud_div cycles. tx_busy=1.
+  DATA  — Shift out 8 data bits, LSB first, each for baud_div cycles. tx_busy=1.
+  STOP  — Drive tx=1 for baud_div cycles. tx_busy=1. Then → IDLE.
