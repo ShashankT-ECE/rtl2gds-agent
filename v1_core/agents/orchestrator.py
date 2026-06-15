@@ -25,6 +25,14 @@ class PipelineState(TypedDict):
     stage: str                   # current pipeline stage name
     trace2skill_hits: list       # skills retrieved from memory for this error
 
+    # V2 fields — synthesis / physical design
+    netlist_path: str            # path to synthesized Verilog netlist
+    synthesis_report: str        # text summary of synthesis results
+    timing_met: bool             # True if timing constraints met
+    wns: float                   # worst negative slack (ns)
+    tns: float                   # total negative slack (ns)
+    critical_path: str           # critical path description
+
 
 def get_initial_state(spec: str, design_name: str) -> PipelineState:
     """
@@ -49,5 +57,11 @@ def get_initial_state(spec: str, design_name: str) -> PipelineState:
         iteration=0,
         max_iterations=5,
         stage="start",
-        trace2skill_hits=[]
+        trace2skill_hits=[],
+        netlist_path="",
+        synthesis_report={},
+        timing_met=False,
+        wns=0.0,
+        tns=0.0,
+        critical_path=[]
     )

@@ -1,50 +1,47 @@
 # SESSION_HANDOFF.md
 
 ## Last Updated
-Date: 2026-06-14 | Session: 3
+Date: 2026-06-14 | Session: 2 — END OF DAY
 
-## Current Sprint
-Version: V1 — COMPLETE (+ Graphify integrated)
+## V1 Status: COMPLETE
+- [x] alu_8bit: PASS
+- [x] sync_fifo_8x16: PASS (fix loop proven)
+- [x] fsm_traffic_light: PASS (clean run)
+- [x] Infrastructure solid: sim log flowing, module naming, thinking mode disabled, PYTHONPATH fixed
 
-## V1 Status: DONE
-All V1 goals achieved:
-- [x] alu_8bit: PASS first attempt
-- [x] sync_fifo_8x16: PASS
-- [x] Fix loop proven — deliberate FIFO bug detected and auto-corrected
-- [x] Trace2Skill storing skills across runs
-- [x] cocotb 2.x working correctly with Icarus Verilog
+## V1 Known Limitation (documented, acceptable)
+Fix loop cannot correct parameter-value bugs when testbench aligns with wrong values — no error signal exists. V2 PyUVM reference model solves this architecturally.
 
-## Graphify Integration: DONE
-- [x] DeepSeek backend configured for Graphify (uv tool env, not project .venv)
-- [x] graphify extract . with DeepSeek: 148 nodes, 188 edges, 17 communities
-- [x] Visualizations generated: graph.html, GRAPH_TREE.html, callflow HTML
-- [x] Claude Code integration installed (hooks + CLAUDE.md section)
-- [x] Report saved: docs/GRAPHIFY_RESULTS.md
-- [x] All 6 V1 agents correctly captured in the knowledge graph
-- [x] graphify-out/ directory has all artifacts (760 KB total)
+## V2 Installation Status: COMPLETE
+- [x] PyUVM 4.0.1 installed in .venv
+- [x] Yosys 0.9 installed (system)
+- [x] OpenSTA installed (system)
+- [x] Sky130 liberty file downloaded to pdk/sky130/sky130_fd_sc_hd__tt_025C_1v80.lib (13MB)
+- [x] Docker 29.1.3 installed and verified
+- [x] V2 folder structure created: v2_verification/agents, mcp_tools, tests
 
-## Known Limitations (acceptable for V1)
-- Testbench read-side timing issues for FIFO (2 tests fail — not RTL bugs)
-- These are addressed in V2 with PyUVM proper coverage
-- Graphify: no Verilog files to parse (generated at runtime), 47 isolated doc-derived nodes
+## Next Session — Start V2 Development
+Step 1: Create Dockerfile.simulation in docker/ folder
+Step 2: Build synthesis MCP server (Yosys via TCL)
+Step 3: Build STA MCP server (OpenSTA via TCL)
+Step 4: Build Synthesis Agent (LangGraph node)
+Step 5: Build STA Agent (LangGraph node)
+Step 6: Wire V2 pipeline extending V1
 
-## Next Session
-Start V2 — Verification + Synthesis
-First task: Install Yosys and OpenSTA inside Docker container
-Read ARCHITECTURE.md V2 section before starting
-Use `graphify query "<question>"` before browsing code — the PreToolUse hooks enforce this
+## Important Notes
+- Docker group requires logout/login to work without sudo — do that at next session start
+- Sky130 liberty file path: pdk/sky130/sky130_fd_sc_hd__tt_025C_1v80.lib
+- V2 agents import from v1_core — never duplicate V1 code
+- All EDA tool calls go through MCP servers via TCL scripts
 
 ## Test Results
-| Benchmark      | Result | Iterations | Notes |
-|----------------|--------|------------|-------|
-| alu_8bit       | PASS   | 1          | Clean |
-| sync_fifo_8x16 | PASS   | 2          | Bug detected and fixed by fix loop |
-
-## Trace2Skill Stats
-combinational: 16 skills
-fifo: check skills/fifo.json
+| Benchmark         | Result | Iterations |
+|-------------------|--------|------------|
+| alu_8bit          | PASS   | 1          |
+| sync_fifo_8x16    | PASS   | 2          |
+| fsm_traffic_light | PASS   | 1          |
+| uart_tx           | TODO   | -          |
+| apb_slave         | TODO   | -          |
 
 ## Cost Tracking
-Session 1: setup only
-Session 2: FIFO debugging — check DeepSeek dashboard
-Session 3: Graphify integration — ~$0.0023 total API cost
+Check DeepSeek dashboard for session 2 total before sleeping

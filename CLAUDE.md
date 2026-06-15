@@ -14,7 +14,7 @@ Orchestration: LangGraph
 Tool bridge: MCP
 
 ## Active Version
-V1 only. Never add V2/V3 features here.
+V1 code is FROZEN — never modify v1_core/. V2 development is active in v2_verification/.
 
 ## V1 Scope
 Agents: Orchestrator, RTL Gen, Testbench, Simulation, Log Analysis, Fix

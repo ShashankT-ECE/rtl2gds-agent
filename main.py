@@ -20,6 +20,7 @@ def main():
     parser.add_argument("--spec", type=str, help="Natural language hardware specification")
     parser.add_argument("--name", type=str, help="Design name (required with --spec)")
     parser.add_argument("--rtl", type=str, help="Path to existing RTL file (skips RTL generation)")
+    parser.add_argument("--v2", action="store_true", help="Run V2 pipeline with synthesis and STA")
     args = parser.parse_args()
 
     rtl_code = ""
@@ -55,8 +56,16 @@ def main():
         logger.error("       python main.py --rtl <file.v> --spec 'spec' --name design_name")
         return
 
-    # Run the pipeline
-    final_state = run_pipeline(spec=spec, design_name=design_name, rtl_code=rtl_code)
+    # Route to V2 or V1 pipeline
+    if args.v2:
+        try:
+            from v2_verification.pipeline import run_v2_pipeline
+        except ImportError:
+            logger.error("V2 pipeline not available. Install V2 dependencies or check v2_verification/")
+            return
+        final_state = run_v2_pipeline(spec=spec, design_name=design_name)
+    else:
+        final_state = run_pipeline(spec=spec, design_name=design_name, rtl_code=rtl_code)
 
     # Print Trace2Skill stats after run
     logger.divider()
