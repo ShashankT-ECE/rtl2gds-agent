@@ -160,6 +160,16 @@
       "design_name": "alu_8bit",
       "success_count": 1,
       "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0016",
+      "category": "combinational",
+      "error_type": "LOGIC",
+      "pattern": "The zero_flag is not being asserted for opcode 5 (3'b101, NOT operation) when both inputs are zero because the RTL computes ~A which for A=0 becomes 8'hFF, which is non-zero.",
+      "fix": "Either update the test to expect zero_flag=0 for NOT operation with zero inputs (since ~0 = 255, which is non-zero), or if zero_flag should be 1 for all operations with zero results, verify the RTL's NOT behavior is as intended.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
     }
   ]
 }

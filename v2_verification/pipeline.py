@@ -95,11 +95,20 @@ def should_end_or_optimize(state: PipelineState) -> str:
     Returns the destination label:
       "end"      -- timing is met, pipeline complete.
       "optimize" -- timing not met but iterations remain, enter opt loop.
+      "end"      -- WNS is None (STA couldn't analyze), end pipeline.
       "end"      -- timing not met AND max timing iterations exhausted.
     """
+    wns = state.get("wns")
+    if wns is None:
+        logger.warning(
+            "STA produced no timing data (design may be combinational "
+            "or missing a clock) -- ending pipeline"
+        )
+        return "end"
+
     if state.get("timing_met", False):
         logger.success(
-            f"Timing met (WNS={state.get('wns', 'N/A')}) -- pipeline complete"
+            f"Timing met (WNS={wns}) -- pipeline complete"
         )
         return "end"
 
@@ -117,6 +126,30 @@ def should_end_or_optimize(state: PipelineState) -> str:
         f"(iteration {timing_iters + 1}/{MAX_TIMING_ITERATIONS})"
     )
     return "optimize"
+
+
+def should_run_sta_or_end(state: PipelineState) -> str:
+    """Router after the synthesis node.
+
+    If synthesis failed (no netlist, zero cells) we skip STA and end the
+    pipeline with a clear error message rather than crashing into OpenSTA
+    with a missing netlist file.
+
+    Returns:
+      "sta" -- synthesis succeeded, proceed to STA.
+      "end" -- synthesis failed, stop the pipeline.
+    """
+    netlist = state.get("netlist_path", "")
+    cell_count = state.get("cell_count", 0)
+    if not netlist:
+        logger.error(
+            f"Synthesis produced no valid netlist "
+            f"(netlist='{netlist}') -- "
+            f"skipping STA and halting pipeline"
+        )
+        return "end"
+    logger.success(f"Synthesis produced netlist -- proceeding to STA")
+    return "sta"
 
 
 # ---------------------------------------------------------------------------
@@ -193,7 +226,15 @@ def build_v2_pipeline(
 
     # ---- Synthesis / STA flow (V2) ----------------------------------------
     if v2_available:
-        graph.add_edge("synthesis", "sta")
+        # Synthesis -> {sta | END} (guards against failed synthesis)
+        graph.add_conditional_edges(
+            "synthesis",
+            should_run_sta_or_end,
+            {
+                "sta": "sta",
+                "end": END,
+            },
+        )
 
         # STA -> {END | timing_opt}
         sta_route_map = {

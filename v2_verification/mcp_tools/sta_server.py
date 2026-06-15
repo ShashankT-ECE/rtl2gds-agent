@@ -51,9 +51,9 @@ link_design {top_module}
 create_clock -name clk -period {clock_period_ns} [get_ports clk]
 
 # Report timing results to files for parsing
-report_timing > {sta_dir}/timing.rpt
-report_wns   > {sta_dir}/wns.rpt
-report_tns   > {sta_dir}/tns.rpt
+report_timing -o {sta_dir}/timing.rpt
+report_wns -o {sta_dir}/wns.rpt
+report_tns -o {sta_dir}/tns.rpt
 
 exit
 """
@@ -189,10 +189,13 @@ def _run_sta(
         raw_log = result.stdout + result.stderr
 
         if raw_log:
-            logger.info(f"STA output (last 300 chars): {raw_log[-300:]}")
+            logger.info(f"STA output (first 300 chars): {raw_log[:300]}")
+        else:
+            logger.warning("OpenSTA produced no output")
 
         if result.returncode != 0:
             logger.error(f"OpenSTA exited with code {result.returncode}")
+            logger.warning(f"OpenSTA stderr: {result.stderr}")
 
     except FileNotFoundError:
         error_msg = (

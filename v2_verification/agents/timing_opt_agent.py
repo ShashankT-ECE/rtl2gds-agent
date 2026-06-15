@@ -50,11 +50,18 @@ def timing_opt_agent(state: PipelineState) -> PipelineState:
     """
     logger.agent("TimingOptAgent", "Checking timing constraints")
 
-    wns = state.get("wns", 0.0)
+    wns = state.get("wns")  # keep as-is — could be None
     tns = state.get("tns", 0.0)
     critical_path = state.get("critical_path", "Not available")
 
-    # Skip if timing is already met
+    # Skip if STA didn't produce timing data or timing is already met
+    if wns is None:
+        logger.info("No STA timing data available (design may be combinational) — skipping optimization")
+        return {
+            **state,
+            "stage": "timing_opt_done"
+        }
+
     if wns >= 0:
         logger.info(f"Timing met (WNS={wns:.3f} ns) — no optimization needed")
         return {
@@ -63,7 +70,7 @@ def timing_opt_agent(state: PipelineState) -> PipelineState:
         }
 
     logger.info(f"Timing violation detected: WNS={wns:.3f} ns, TNS={tns:.3f} ns")
-    logger.info(f"Critical path: {critical_path[:200] if len(str(critical_path)) > 200 else critical_path}...")  # truncate for readability
+    logger.info(f"Critical path: {str(critical_path)[:200]}..." if len(str(critical_path)) > 200 else f"Critical path: {critical_path}")
 
     prompt = TIMING_OPT_PROMPT.format(
         wns=wns,
