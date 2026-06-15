@@ -25,6 +25,7 @@ class PipelineState(TypedDict):
     stage: str                   # current pipeline stage name
     spec_analysis: dict          # structured analysis of the specification
     trace2skill_hits: list       # skills retrieved from memory for this error
+    reference_tb_path: str       # path to reference testbench (skips LLM generation)
 
     # V2 fields — synthesis / physical design
     netlist_path: str            # path to synthesized Verilog netlist
@@ -60,6 +61,7 @@ def get_initial_state(spec: str, design_name: str) -> PipelineState:
         stage="start",
         trace2skill_hits=[],
         spec_analysis={},
+        reference_tb_path="",
         netlist_path="",
         synthesis_report={},
         timing_met=False,

@@ -32,7 +32,7 @@ def should_fix_or_end(state: PipelineState) -> str:
     return "fix"
 
 
-def build_pipeline(skip_rtl_gen: bool = False) -> StateGraph:
+def build_pipeline(skip_rtl_gen: bool = False, skip_testbench: bool = False) -> StateGraph:
     """
     Builds and compiles the V1 LangGraph pipeline.
 
@@ -54,11 +54,19 @@ def build_pipeline(skip_rtl_gen: bool = False) -> StateGraph:
     # Define edges — linear flow
     graph.set_entry_point("spec_parser")
     if skip_rtl_gen:
-        graph.add_edge("spec_parser", "testbench")
+        if skip_testbench:
+            graph.add_edge("spec_parser", "simulation")
+        else:
+            graph.add_edge("spec_parser", "testbench")
     else:
         graph.add_edge("spec_parser", "rtl_gen")
-        graph.add_edge("rtl_gen", "testbench")
-    graph.add_edge("testbench", "simulation")
+        if skip_testbench:
+            graph.add_edge("rtl_gen", "simulation")
+        else:
+            graph.add_edge("rtl_gen", "testbench")
+
+    if not skip_testbench:
+        graph.add_edge("testbench", "simulation")
 
     # Conditional routing after simulation
     graph.add_conditional_edges(
@@ -72,13 +80,17 @@ def build_pipeline(skip_rtl_gen: bool = False) -> StateGraph:
 
     # Fix loop — after fix, regenerate testbench from corrected RTL, then re-simulate
     graph.add_edge("log_analysis", "fix")
-    graph.add_edge("fix", "testbench")
-    graph.add_edge("testbench", "simulation")
+    if skip_testbench:
+        graph.add_edge("fix", "simulation")
+    else:
+        graph.add_edge("fix", "testbench")
+        graph.add_edge("testbench", "simulation")
 
     return graph.compile()
 
 
-def run_pipeline(spec: str, design_name: str, rtl_code: str = "") -> PipelineState:
+def run_pipeline(spec: str, design_name: str, rtl_code: str = "",
+                 reference_tb_path: str = "") -> PipelineState:
     """
     Run the full V1 pipeline for a given spec.
 
@@ -86,6 +98,7 @@ def run_pipeline(spec: str, design_name: str, rtl_code: str = "") -> PipelineSta
         spec: natural language hardware specification
         design_name: short name like alu_8bit
         rtl_code: optional pre-existing RTL code to skip RTL generation
+        reference_tb_path: optional path to reference testbench (skips LLM testbench gen)
 
     Returns:
         final PipelineState after pipeline completes
@@ -94,13 +107,18 @@ def run_pipeline(spec: str, design_name: str, rtl_code: str = "") -> PipelineSta
     logger.info(f"Starting V1 pipeline for: {design_name}")
     if rtl_code:
         logger.info("RTL code provided — skipping RTL generation step")
+    if reference_tb_path:
+        logger.info(f"Reference testbench provided — skipping LLM testbench generation")
     logger.divider()
 
     skip_rtl_gen = bool(rtl_code)
-    pipeline = build_pipeline(skip_rtl_gen=skip_rtl_gen)
+    skip_testbench = bool(reference_tb_path)
+    pipeline = build_pipeline(skip_rtl_gen=skip_rtl_gen, skip_testbench=skip_testbench)
     initial_state = get_initial_state(spec=spec, design_name=design_name)
     if rtl_code:
         initial_state["rtl_code"] = rtl_code
+    if reference_tb_path:
+        initial_state["reference_tb_path"] = reference_tb_path
     final_state = pipeline.invoke(initial_state)
 
     logger.divider()

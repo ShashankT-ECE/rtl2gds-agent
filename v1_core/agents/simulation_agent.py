@@ -23,15 +23,18 @@ def simulation_agent(state: PipelineState) -> PipelineState:
     WORKSPACE.mkdir(exist_ok=True)
 
     rtl_path = WORKSPACE / f"{state['design_name']}.v"
-    tb_path = WORKSPACE / f"{state['design_name']}_tb.py"
-
     rtl_path.write_text(state["rtl_code"])
-    tb_path.write_text(state["testbench_code"])
 
-    result = run_simulation(
-        rtl_file=str(rtl_path),
-        tb_file=str(tb_path)
-    )
+    # If a reference testbench path is provided, use it directly
+    reference_tb_path = state.get("reference_tb_path", "")
+    if reference_tb_path:
+        tb_path = Path(reference_tb_path)
+        logger.info(f"Using reference testbench file: {tb_path}")
+    else:
+        tb_path = WORKSPACE / f"{state['design_name']}_tb.py"
+        tb_path.write_text(state["testbench_code"])
+
+    result = run_simulation(rtl_file=str(rtl_path), tb_file=str(tb_path))
 
     if result["passed"]:
         logger.success("Simulation passed")

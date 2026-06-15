@@ -200,6 +200,106 @@
       "design_name": "sync_fifo_8x16",
       "success_count": 1,
       "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0020",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The full flag asserts at count=15 instead of count=16 after 16 writes (FIFO depth is 16).",
+      "fix": "Change the full flag comparison from `count == 5'd15` to `count == 5'd16` to match the actual FIFO depth of 16 entries.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0021",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The FIFO depth is 16 entries (addressable by 4-bit pointers), but the full flag triggers at count == 16, meaning 16 writes are needed to assert full, while the test expects full after 15 writes (index 0-14).",
+      "fix": "Change the full flag assignment to assert when count equals 15 (5'd15), since the FIFO has 16 locations indexed 0-15 but the design uses 5-bit counters and the test expects full after 15 writes.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0022",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The FIFO has 16 entries (mem[0:15]) so full should assert when count equals 16, but the RTL compares count to 15.",
+      "fix": "Change the full flag threshold from 15 to 16 to match the 16-entry FIFO depth.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0023",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The full flag asserts when count equals 16, but the FIFO has only 15 entries (addressable by 4-bit pointers), so full should assert when count equals 15.",
+      "fix": "Change the full threshold from 16 to 15 to match the actual FIFO depth of 15 entries.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0024",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The FIFO depth is 16 entries, but full is asserted when count == 15, which only allows 15 instead of 16 valid entries before overflow.",
+      "fix": "Change the `full` threshold to match the FIFO depth of 16 entries instead of 15.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0025",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The full flag asserts when count reaches 15 instead of 16, and the empty flag asserts when count reaches 0, but the reset_check test expects empty=1 after reset which requires count to be 0, yet the simultaneous_write_read test expects data at cycle 0 when count should be 0.",
+      "fix": "Update the full threshold comparison from 15 to 16 to match the FIFO depth of 16 entries, ensuring full asserts only when all slots are occupied.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0026",
+      "category": "fifo",
+      "error_type": "WIDTH",
+      "pattern": "Testbench attempted to assign value 300 to an 8-bit signal (din), which exceeds the maximum value of 255 for 8-bit unsigned integers.",
+      "fix": "Constrain the data values generated in the testbench to the 0-255 range to match the 8-bit width of the din port.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0027",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The FIFO uses a 5-bit counter (count) with a maximum value of 31, but spec requires 16 entries, causing full to assert at count==16 instead of count==15 due to incorrect write pointer and comparison logic.",
+      "fix": "Reduce the write pointer, read pointer, and count register widths to 4 bits (0-15), and adjust the full flag to assert when count equals 5'd15 (since count increments after write, full should assert before the 16th write is stored).",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0028",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The full flag is asserted when count reaches 15, but a 16-entry FIFO should assert full when count reaches 16.",
+      "fix": "Increase the count register width from 4 bits to 5 bits to support values 0-16, and change the full threshold from 15 to 16.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0029",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The FIFO depth is 16 but the full flag asserts when count equals 16, which never happens because count is a 5-bit value that wraps at 32, and the counter logic only increments for valid writes without saturation at 16.",
+      "fix": "Either change the full flag to assert when count reaches 15 instead of 16, or add saturation logic to the counter so it stops incrementing when count reaches 16.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
     }
   ]
 }

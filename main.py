@@ -63,6 +63,14 @@ def main():
             rtl_code = ref_path.read_text()
             logger.info(f"Using reference RTL for {design_name} — skipping LLM generation")
 
+    # Auto-detect reference testbench from benchmarks folder
+    reference_tb_path = ""
+    if args.benchmark:
+        tb_ref_path = Path(f"benchmarks/{design_name}/reference_tb.py")
+        if tb_ref_path.exists():
+            reference_tb_path = str(tb_ref_path.resolve())
+            logger.info(f"Using reference testbench for {design_name} — skipping LLM generation")
+
     # Route to V2 or V1 pipeline
     if args.v2:
         try:
@@ -70,9 +78,19 @@ def main():
         except ImportError:
             logger.error("V2 pipeline not available. Install V2 dependencies or check v2_verification/")
             return
-        final_state = run_v2_pipeline(spec=spec, design_name=design_name, rtl_code=rtl_code)
+        final_state = run_v2_pipeline(
+            spec=spec,
+            design_name=design_name,
+            rtl_code=rtl_code,
+            reference_tb_path=reference_tb_path,
+        )
     else:
-        final_state = run_pipeline(spec=spec, design_name=design_name, rtl_code=rtl_code)
+        final_state = run_pipeline(
+            spec=spec,
+            design_name=design_name,
+            rtl_code=rtl_code,
+            reference_tb_path=reference_tb_path
+        )
 
     # Print Trace2Skill stats after run
     logger.divider()

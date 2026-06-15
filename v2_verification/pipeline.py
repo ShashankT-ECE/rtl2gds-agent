@@ -173,6 +173,7 @@ def should_run_sta_or_end(state: PipelineState) -> str:
 def build_v2_pipeline(
     skip_rtl_gen: bool = False,
     skip_synthesis_sta: bool = False,
+    skip_testbench: bool = False,
 ) -> StateGraph:
     """Build and compile the V2 LangGraph pipeline.
 
@@ -210,13 +211,20 @@ def build_v2_pipeline(
     # ---- Entry point ------------------------------------------------------
     graph.set_entry_point("spec_parser")
     if skip_rtl_gen:
-        graph.add_edge("spec_parser", "testbench")
+        if skip_testbench:
+            graph.add_edge("spec_parser", "simulation")
+        else:
+            graph.add_edge("spec_parser", "testbench")
     else:
         graph.add_edge("spec_parser", "rtl_gen")
-        graph.add_edge("rtl_gen", "testbench")
+        if skip_testbench:
+            graph.add_edge("rtl_gen", "simulation")
+        else:
+            graph.add_edge("rtl_gen", "testbench")
 
     # ---- Simulation pipeline (V1 flow) ------------------------------------
-    graph.add_edge("testbench", "simulation")
+    if not skip_testbench:
+        graph.add_edge("testbench", "simulation")
 
     # Simulation -> {synthesis | log_analysis | END}
     simulation_route_map = {
@@ -235,9 +243,12 @@ def build_v2_pipeline(
         simulation_route_map,
     )
 
-    # Fix loop: log_analysis -> fix -> testbench
+    # Fix loop: log_analysis -> fix -> {testbench | simulation}
     graph.add_edge("log_analysis", "fix")
-    graph.add_edge("fix", "testbench")
+    if skip_testbench:
+        graph.add_edge("fix", "simulation")
+    else:
+        graph.add_edge("fix", "testbench")
 
     # ---- Synthesis / STA flow (V2) ----------------------------------------
     if v2_available:
@@ -279,7 +290,8 @@ def build_v2_pipeline(
 # ---------------------------------------------------------------------------
 
 
-def run_v2_pipeline(spec: str, design_name: str, rtl_code: str = "") -> dict:
+def run_v2_pipeline(spec: str, design_name: str, rtl_code: str = "",
+                    reference_tb_path: str = "") -> dict:
     """Run the full V2 pipeline (V1 + synthesis + STA) for a given spec.
 
     Args:
@@ -294,6 +306,11 @@ def run_v2_pipeline(spec: str, design_name: str, rtl_code: str = "") -> dict:
     logger.divider()
     logger.info(f"Starting V2 pipeline for: {design_name}")
 
+    if rtl_code:
+        logger.info("RTL code provided -- skipping RTL generation")
+    if reference_tb_path:
+        logger.info("Reference testbench provided -- skipping LLM generation")
+
     # Warn if V2 agents are missing so the user knows what is unavailable.
     if not _V2_SYNTHESIS_AVAILABLE:
         logger.warning("synthesis_agent not found -- pipeline will run in V1 mode")
@@ -306,16 +323,17 @@ def run_v2_pipeline(spec: str, design_name: str, rtl_code: str = "") -> dict:
     logger.divider()
 
     # Build the graph (auto-detects which agents exist).
-    # Skip rtl_gen node if pre-existing RTL code was provided.
-    pipeline = build_v2_pipeline(skip_rtl_gen=bool(rtl_code))
+    pipeline = build_v2_pipeline(
+        skip_rtl_gen=bool(rtl_code),
+        skip_testbench=bool(reference_tb_path),
+    )
 
     # Create initial state and extend with V2 fields.
-    # The V2 fields (netlist_path, timing_met, etc.) are being added to
-    # PipelineState / get_initial_state in orchestrator.py in parallel, but
-    # we set them here explicitly so the pipeline is self-contained.
     initial_state = get_initial_state(spec=spec, design_name=design_name)
     if rtl_code:
         initial_state["rtl_code"] = rtl_code
+    if reference_tb_path:
+        initial_state["reference_tb_path"] = reference_tb_path
     initial_state.update({
         "netlist_path": "",
         "synthesis_report": "",

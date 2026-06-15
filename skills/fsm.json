@@ -320,6 +320,106 @@
       "design_name": "fsm_traffic_light",
       "success_count": 1,
       "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0032",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The counter reset condition checks `state != next_state` which is evaluated in the same clock cycle as the transition, but `next_state` is computed from current `state` before the transition, causing the counter to reset one cycle early.",
+      "fix": "Use the terminal count comparison directly in the counter block to reset the counter when the state transition condition is met.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0033",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The counter reset logic uses ORed equality checks for all state thresholds, causing the counter to reset prematurely during the RED state when it reaches 13 (RED_COUNT-1=13) but also when it reaches 18 (GREEN_COUNT-1=18) or 3 (YELLOW_COUNT-1=3), rather than only resetting when the threshold for the current state is reached.",
+      "fix": "Add state-dependent conditions to the counter reset logic so that the counter only resets when the threshold for the current FSM state is reached, preventing spurious resets.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0034",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "Counter never increments because the counter update condition in the sequential block uses the current state to detect end-of-count, but the next_state logic also uses the same counter value, causing the counter to be reset prematurely before incrementing.",
+      "fix": "Modify the counter sequential logic to reset only when the counter reaches the max count for the current state, using the state-dependent threshold condition correctly evaluated on the current clock cycle.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0035",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The counter update uses `state` (current state) and `next_state` computed in the same cycle, causing a race condition because `next_state` is combinatorial and changes immediately when `state` is used in the condition, leading to incorrect transition timing.",
+      "fix": "Replace the counter reset condition with a check that counter has reached the max count for the current state, so counter resets exactly when the state transition should occur.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0036",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The counter is decremented from RED_COUNT-1 (13) down to 0 instead of incrementing up to RED_COUNT-1, causing incorrect state transition timing.",
+      "fix": "Implement an incrementing counter from 0 to the count-1 value for each state instead of a decrementing counter.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0037",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "RTL counter logic resets on the same cycle that state transitions, but the counter increment is based on combinatorial next_state evaluation causing off-by-one timing.",
+      "fix": "Change counter threshold comparisons from (RED_COUNT-1) to (RED_COUNT) to match spec timing of 14 RED cycles.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0038",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The GREEN_COUNT parameter is 19 in the RTL, but the test expects the state transition from RED to GREEN to occur after 13 clock cycles (RED_COUNT=14 with 0-based counting), indicating the spec requires RED_COUNT=13 or a different timing count.",
+      "fix": "Reduce RED_COUNT by 1 to match the expected timing where the transition to GREEN occurs at the 13th clock edge instead of the 14th.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0039",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The state_out is updated with next_state on every clock cycle instead of only being updated when the state actually transitions, causing output timing mismatches.",
+      "fix": "Update state_out with the current state (state) instead of next_state to reflect the actual FSM state at the correct time.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0040",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "Counter increment condition and reset logic cause one extra clock cycle before transition, making the state machine stay in RED for 14 cycles instead of the specified 13.",
+      "fix": "Modify all three transition comparisons in the next state logic to subtract 1 from the count parameters (RED_COUNT-1, GREEN_COUNT-1, YELLOW_COUNT-1) so the state transitions occur after the correct number of clock edges.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0041",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RED_COUNT parameter is set to 13, causing the RED state to timeout after 13 clocks, but the test expects a longer RED duration before transitioning to GREEN.",
+      "fix": "Increase RED_COUNT to match the specification value of 20 to ensure correct timing for the RED to GREEN transition.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
     }
   ]
 }

@@ -170,6 +170,336 @@
       "design_name": "alu_8bit",
       "success_count": 1,
       "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0017",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The simulation log shows a cocotb test discovery failure \u2014 no test functions were found in the testbench module `alu_8bit_tb`, likely because the testbench file is missing or improperly structured.",
+      "fix": "Create or correct the Python testbench file so that it defines a test function with the `@cocotb.test()` decorator and is located where cocotb can discover it.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0018",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The simulation failed because no cocotb test functions were detected in the testbench module, causing a runtime error before any RTL simulation could occur.",
+      "fix": "Create or modify the testbench file `alu_8bit_tb.py` to include a test function with the `@cocotb.test()` decorator that drives the DUT inputs and checks outputs.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0019",
+      "category": "combinational",
+      "error_type": "SYNTAX",
+      "pattern": "Verilog source file contains macro-like syntax (`alu_8bit_tb` and `python`) that is not valid Verilog, causing syntax errors during compilation.",
+      "fix": "Ensure the Verilog file contains only valid RTL code, and place the cocotb testbench in a separate Python file following the correct cocotb framework syntax.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0020",
+      "category": "combinational",
+      "error_type": "SYNTAX",
+      "pattern": "Cocotb test discovery failed because no test functions were found in the testbench module.",
+      "fix": "Create a valid cocotb test file (`alu_8bit_tb.py`) with a test function decorated with `@cocotb.test()`.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0021",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "Cocotb test discovery failed because no test functions were found in the testbench module `alu_8bit_tb`.",
+      "fix": "Add a properly decorated cocotb test function to the testbench module or correct the module name used in the cocotb configuration.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0022",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The simulation log shows a test discovery failure, not a mismatch between RTL and spec; no error in RTL logic, width, syntax, or timing is present in the provided code.",
+      "fix": "Ensure the testbench file defines at least one cocotb test function so that the regression manager can discover and run tests.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0023",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The testbench module `alu_8bit_tb` contains no discoverable test functions, causing the simulation to fail during test discovery.",
+      "fix": "Add at least one cocotb test function decorated with `@cocotb.test()` in the testbench module to enable test discovery.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0024",
+      "category": "combinational",
+      "error_type": "SYNTAX",
+      "pattern": "The testbench code is incorrectly placed inside a Verilog module instead of being a separate Python-based cocotb test file.",
+      "fix": "Move the cocotb test code from the Verilog file to a separate Python test file as cocotb tests cannot be embedded directly in Verilog modules.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0025",
+      "category": "combinational",
+      "error_type": "COVERAGE",
+      "pattern": "The simulation failed because cocotb could not find any test functions in the testbench module 'alu_8bit_tb', causing a runtime error.",
+      "fix": "Implement a simple test in alu_8bit_tb that applies all opcodes and checks Y and zero_flag against expected values.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0026",
+      "category": "combinational",
+      "error_type": "SYNTAX",
+      "pattern": "The RTL file contains a mix of Verilog and Python-like testbench code (import cocotb, @cocotb.test(), async def) in the same file, which is not valid Verilog syntax.",
+      "fix": "Move the cocotb testbench code from the Verilog module file into a separate Python test file to avoid syntax errors from the simulator.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0027",
+      "category": "combinational",
+      "error_type": "SYNTAX",
+      "pattern": "The cocotb testbench module 'alu_8bit_tb' does not contain any test functions, causing a test discovery failure.",
+      "fix": "Modify the testbench file to include at least one cocotb test function decorated with @cocotb.test() and verify the module name matches the expected import.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0028",
+      "category": "combinational",
+      "error_type": "SYNTAX",
+      "pattern": "The RTL code has a syntax error due to an extra `endmodule` or mismatched module/endmodule pair, but line 28 is likely the stray `endmodule` after the testbench Python code comment.",
+      "fix": "Delete the extra `endmodule` keyword and verify the `alu_8bit` module has exactly one matching `endmodule` on the last line of the RTL code.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0029",
+      "category": "combinational",
+      "error_type": "SYNTAX",
+      "pattern": "The RTL file contains mixed Verilog and Python code, and the interpreter encounters Python syntax inside the .v file.",
+      "fix": "Separate the Verilog RTL and Python testbench into different files (alu_8bit.v and alu_8bit_tb.py), not combined in a single file.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0030",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The simulation log shows a Python/cocotb test discovery failure, not an RTL simulation error, so no RTL coding or parameter mismatch is present.",
+      "fix": "Create or correct the Python test module to define a cocotb test function so the regression manager can find and run tests.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0031",
+      "category": "combinational",
+      "error_type": "SYNTAX",
+      "pattern": "The testbench module `alu_8bit_tb` exists but contains no discovered test functions, causing cocotb to abort with a runtime error.",
+      "fix": "Ensure the testbench file has at least one cocotb test coroutine decorated with `@cocotb.test()` and that the module name matches the file name or is properly imported.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0032",
+      "category": "combinational",
+      "error_type": "COVERAGE",
+      "pattern": "The testbench module 'alu_8bit_tb' does not contain any cocotb test functions (decorated with @cocotb.test()), so the regression manager cannot discover and run any tests.",
+      "fix": "Define at least one test coroutine in the alu_8bit_tb module using the @cocotb.test() decorator so that the regression manager can discover and execute tests.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0033",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The simulation failed because the testbench module `alu_8bit_tb` does not exist or is not properly named/structured for cocotb discovery.",
+      "fix": "Ensure the testbench file is named `alu_8bit_tb.py` and contains the cocotb test functions; alternatively, set the `MODULE` environment variable to the correct Python module path.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0034",
+      "category": "combinational",
+      "error_type": "SYNTAX",
+      "pattern": "The embedded SystemVerilog/Verilog testbench code is incorrectly placed inside an RTL module using `ifdef` directives without proper tool support for mixed-language testbench integration.",
+      "fix": "Move the cocotb testbench code from within the Verilog module to a standalone Python test file with the correct test function name and import path.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0035",
+      "category": "combinational",
+      "error_type": "COVERAGE",
+      "pattern": "The cocotb testbench was unable to discover any test functions in the Python module 'alu_8bit_tb', causing the simulation to abort.",
+      "fix": "Add a properly decorated cocotb test function to the testbench module file.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0036",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The testbench module `alu_8bit_tb` was not found or does not contain any test functions, causing cocotb to fail with a runtime error.",
+      "fix": "Create a test function in `alu_8bit_tb` using `@cocotb.test()` decorator to define test cases for the ALU operations.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0037",
+      "category": "combinational",
+      "error_type": "COVERAGE",
+      "pattern": "The testbench file 'alu_8bit_tb' is missing or does not contain any discoverable test functions/coroutines, causing cocotb to fail with a runtime error.",
+      "fix": "Add a cocotb test file for the alu_8bit module that defines at least one test coroutine using the @cocotb.test() decorator.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0038",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The simulation log indicates that cocotb could not discover any test in the testbench module `alu_8bit_tb`, likely because the testbench Python file was not created or is improperly named/placed.",
+      "fix": "Ensure the testbench file `alu_8bit_tb.py` is present in the correct directory and contains properly decorated cocotb test functions.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0039",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The simulation failed because cocotb could not find any tests in the testbench module 'alu_8bit_tb', as the testbench file 'alu_8bit_tb.py' was never created or placed properly.",
+      "fix": "Place the 'alu_8bit_tb.py' file in the directory where cocotb expects it, typically the same directory as the Makefile or the module search path.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0040",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The simulation log shows a cocotb test discovery error, not a direct RTL simulation mismatch.",
+      "fix": "Verify that the cocotb test file contains a test class with a name that matches the module string 'alu_8bit_tb' and that the file is discoverable.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0041",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The simulation log shows a test discovery failure (no tests found in module 'alu_8bit_tb'), not a direct RTL error, and the RTL code itself appears syntactically correct and matches the spec for an 8-bit ALU.",
+      "fix": "Rename or modify the testbench file so that cocotb can discover tests, or correct the module name passed to cocotb.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0042",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The simulation aborted because no cocotb tests were discovered in the Python test module `alu_8bit_tb`, meaning the test file either doesn't exist or lacks the proper test function decorator.",
+      "fix": "Create or verify the Python test file `alu_8bit_tb.py` with a properly decorated test function to match the cocotb test discovery requirements.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0043",
+      "category": "combinational",
+      "error_type": "COVERAGE",
+      "pattern": "The testbench failed to run because no test functions were discovered in the test module 'alu_8bit_tb'; this indicates a missing or misconfigured test discovery, not an RTL logic error.",
+      "fix": "Ensure the testbench file defines cocotb test coroutines and that the module name is correctly passed to cocotb.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0044",
+      "category": "combinational",
+      "error_type": "COVERAGE",
+      "pattern": "No test cases were discovered in the testbench module 'alu_8bit_tb', indicating a missing or misconfigured test file.",
+      "fix": "Write a cocotb testbench file that includes at least one test function with the @cocotb.test() decorator to drive the ALU inputs and check outputs.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0045",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The simulation failed due to a Python test discovery issue, not an RTL logic or syntax error.",
+      "fix": "Add a valid cocotb test function inside the testbench file `alu_8bit_tb.py` and re-run the simulation.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0046",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The simulation log shows a testbench discovery failure (no tests found in module alu_8bit_tb), not an RTL logic error; the error is in testbench configuration, not in the RTL design itself.",
+      "fix": "Create or correct the testbench Python module to include proper cocotb test functions so they can be discovered by the regression manager.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0047",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The simulation log shows a runtime error because cocotb could not find any test functions in the `alu_8bit_tb` Python module, not an RTL logic error.",
+      "fix": "Add at least one `@cocotb.test()` decorated async function to the `alu_8bit_tb` Python test file.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0048",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The simulation log shows a test discovery failure because cocotb could not find any tests in the module 'alu_8bit_tb', not a design error in the RTL.",
+      "fix": "Create or verify that the testbench file 'alu_8bit_tb.py' exists in the proper location and contains valid cocotb test functions.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0049",
+      "category": "combinational",
+      "error_type": "UNKNOWN",
+      "pattern": "The simulation log shows a runtime error indicating no tests were discovered in the testbench module, not a functional RTL error.",
+      "fix": "Ensure the testbench file (alu_8bit_tb.py) contains a valid cocotb test function decorated with @cocotb.test() and is correctly named.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
     }
   ]
 }
