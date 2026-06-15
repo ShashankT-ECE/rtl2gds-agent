@@ -13,9 +13,9 @@ module fsm_traffic_light (
     localparam YELLOW = 2'b10;
 
     // Timing parameters
-    localparam RED_COUNT    = 14;
-    localparam GREEN_COUNT  = 19;
-    localparam YELLOW_COUNT = 4;
+    localparam RED_COUNT    = 15;
+    localparam GREEN_COUNT  = 20;
+    localparam YELLOW_COUNT = 5;
 
     // State and counter registers
     reg [1:0] state, next_state;

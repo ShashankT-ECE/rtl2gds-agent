@@ -27,9 +27,9 @@ GREEN  = 1
 YELLOW = 2
 
 # Timing parameters matching reference_rtl.v
-RED_COUNT    = 14
-GREEN_COUNT  = 19
-YELLOW_COUNT = 4
+RED_COUNT    = 15
+GREEN_COUNT  = 20
+YELLOW_COUNT = 5
 
 
 async def do_reset(dut):

@@ -60,20 +60,25 @@ hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
 <div class="container">
 
 <h1>rtl2gds-agent — Complete Call Flow &amp; Architecture Documentation</h1>
-<p class="subtitle">Generated from graphify knowledge graph: 148 nodes, 188 edges, 17 communities. Commit: 6f26be5</p>
+<p class="subtitle">Generated from graphify knowledge graph: 353 nodes, 459 edges, 32 communities. Commit: 4a57274</p>
 
 <div class="nav">
     <a href="#overview">Architecture Overview</a>
+    <a href="#extract-pipeline">Extraction Pipeline</a>
+    <a href="#build-graph">Graph Build</a>
     <a href="#analysis-clustering">Analysis &amp; Clustering</a>
     <a href="#cli-skills">CLI &amp; Skill Installers</a>
     <a href="#serve-api">Serving API</a>
+    <a href="#tests-fixtures">Tests &amp; Fixtures</a>
     <a href="#pipeline-state-simulation">Pipeline State &amp; Simulation</a>
     <a href="#design-examples-tools">Design Examples &amp; Tools</a>
     <a href="#eda-tools-docker">EDA Tools &amp; Docker</a>
-    <a href="#python-package-init">Python Package Init</a>
-    <a href="#python-package-init-d725c0">Python Package Init</a>
-    <a href="#python-package-init-2">Python Package Init</a>
-    <a href="#python-package-init-3">Python Package Init</a>
+    <a href="#community-22">Community 22</a>
+    <a href="#community-23">Community 23</a>
+    <a href="#community-24">Community 24</a>
+    <a href="#community-25">Community 25</a>
+    <a href="#community-26">Community 26</a>
+    <a href="#other">Other</a>
 </div>
 
 <!-- ====== Architecture Overview ====== -->
@@ -83,35 +88,39 @@ hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
 
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
+    EXTRACT_PIPELINE_5F350230("Extraction Pipeline<br/><small>9 nodes</small>")
+    class EXTRACT_PIPELINE_5F350230 module;
+    BUILD_GRAPH_321CBB04("Graph Build<br/><small>14 nodes</small>")
+    class BUILD_GRAPH_321CBB04 module;
     ANALYSIS_CLUSTERING_C79796DA("Analysis &amp; Clustering<br/><small>8 nodes</small>")
     class ANALYSIS_CLUSTERING_C79796DA module;
-    CLI_SKILLS_9964CBB8("CLI &amp; Skill Installers<br/><small>103 nodes</small>")
+    CLI_SKILLS_9964CBB8("CLI &amp; Skill Installers<br/><small>189 nodes</small>")
     class CLI_SKILLS_9964CBB8 module;
     SERVE_API_35EC8E86("Serving API<br/><small>14 nodes</small>")
     class SERVE_API_35EC8E86 module;
-    PIPELINE_STATE_SIMULATION_113AA347("Pipeline State &amp; Simulation<br/><small>10 nodes</small>")
+    TESTS_FIXTURES_B84B1DCC("Tests &amp; Fixtures<br/><small>80 nodes</small>")
+    class TESTS_FIXTURES_B84B1DCC module;
+    PIPELINE_STATE_SIMULATION_113AA347("Pipeline State &amp; Simulation<br/><small>13 nodes</small>")
     class PIPELINE_STATE_SIMULATION_113AA347 module;
     DESIGN_EXAMPLES_TOOLS_D6FE8608("Design Examples &amp; Tools<br/><small>5 nodes</small>")
     class DESIGN_EXAMPLES_TOOLS_D6FE8608 module;
     EDA_TOOLS_DOCKER_7CAE9E41("EDA Tools &amp; Docker<br/><small>4 nodes</small>")
     class EDA_TOOLS_DOCKER_7CAE9E41 module;
-    PYTHON_PACKAGE_INIT_F2C5EED5("Python Package Init<br/><small>1 nodes</small>")
-    class PYTHON_PACKAGE_INIT_F2C5EED5 module;
-    PYTHON_PACKAGE_INIT_D725C0_D2AE7712("Python Package Init<br/><small>1 nodes</small>")
-    class PYTHON_PACKAGE_INIT_D725C0_D2AE7712 module;
-    PYTHON_PACKAGE_INIT_2_840EAB41("Python Package Init<br/><small>1 nodes</small>")
-    class PYTHON_PACKAGE_INIT_2_840EAB41 module;
-    PYTHON_PACKAGE_INIT_3_F3ABBD23("Python Package Init<br/><small>1 nodes</small>")
-    class PYTHON_PACKAGE_INIT_3_F3ABBD23 module;
-    ANALYSIS_CLUSTERING_C79796DA -.-> CLI_SKILLS_9964CBB8
-    CLI_SKILLS_9964CBB8 -.-> SERVE_API_35EC8E86
-    SERVE_API_35EC8E86 -.-> PIPELINE_STATE_SIMULATION_113AA347
-    PIPELINE_STATE_SIMULATION_113AA347 -.-> DESIGN_EXAMPLES_TOOLS_D6FE8608
-    DESIGN_EXAMPLES_TOOLS_D6FE8608 -.-> EDA_TOOLS_DOCKER_7CAE9E41
-    EDA_TOOLS_DOCKER_7CAE9E41 -.-> PYTHON_PACKAGE_INIT_F2C5EED5
-    PYTHON_PACKAGE_INIT_F2C5EED5 -.-> PYTHON_PACKAGE_INIT_D725C0_D2AE7712
-    PYTHON_PACKAGE_INIT_D725C0_D2AE7712 -.-> PYTHON_PACKAGE_INIT_2_840EAB41
-    PYTHON_PACKAGE_INIT_2_840EAB41 -.-> PYTHON_PACKAGE_INIT_3_F3ABBD23
+    COMMUNITY_22_65038249("Community 22<br/><small>2 nodes</small>")
+    class COMMUNITY_22_65038249 module;
+    COMMUNITY_23_58D9DE5D("Community 23<br/><small>2 nodes</small>")
+    class COMMUNITY_23_58D9DE5D module;
+    COMMUNITY_24_ECF60D36("Community 24<br/><small>2 nodes</small>")
+    class COMMUNITY_24_ECF60D36 module;
+    COMMUNITY_25_B1CFFD78("Community 25<br/><small>2 nodes</small>")
+    class COMMUNITY_25_B1CFFD78 module;
+    COMMUNITY_26_029F571A("Community 26<br/><small>2 nodes</small>")
+    class COMMUNITY_26_029F571A module;
+    OTHER_D0941E68("Other<br/><small>7 nodes</small>")
+    class OTHER_D0941E68 module;
+    CLI_SKILLS_9964CBB8 -->|imports x12| BUILD_GRAPH_321CBB04
+    BUILD_GRAPH_321CBB04 -->|contains x2| CLI_SKILLS_9964CBB8
+    CLI_SKILLS_9964CBB8 -->|contains| EXTRACT_PIPELINE_5F350230
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -128,30 +137,361 @@ flowchart LR
     <h4>Architecture Layers</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>Layer</th><th>Nodes</th><th>Communities</th></tr>
-      <tr><td>Analysis &amp; Clustering</td><td>8</td><td><code>15</code></td></tr><tr><td>CLI &amp; Skill Installers</td><td>103</td><td><code>2, 6, 1, 3, 0, 14, 16, 9</code></td></tr><tr><td>Serving API</td><td>14</td><td><code>4</code></td></tr><tr><td>Pipeline State &amp; Simulation</td><td>10</td><td><code>5</code></td></tr><tr><td>Design Examples &amp; Tools</td><td>5</td><td><code>7</code></td></tr><tr><td>EDA Tools &amp; Docker</td><td>4</td><td><code>8</code></td></tr><tr><td>Python Package Init</td><td>1</td><td><code>10</code></td></tr><tr><td>Python Package Init</td><td>1</td><td><code>11</code></td></tr><tr><td>Python Package Init</td><td>1</td><td><code>12</code></td></tr><tr><td>Python Package Init</td><td>1</td><td><code>13</code></td></tr>
+      <tr><td>Extraction Pipeline</td><td>9</td><td><code>21</code></td></tr><tr><td>Graph Build</td><td>14</td><td><code>18</code></td></tr><tr><td>Analysis &amp; Clustering</td><td>8</td><td><code>15</code></td></tr><tr><td>CLI &amp; Skill Installers</td><td>189</td><td><code>2, 0, 6, 1, 3, 19, 14, 9</code></td></tr><tr><td>Serving API</td><td>14</td><td><code>4</code></td></tr><tr><td>Tests &amp; Fixtures</td><td>80</td><td><code>10, 11, 16, 17, 20</code></td></tr><tr><td>Pipeline State &amp; Simulation</td><td>13</td><td><code>5</code></td></tr><tr><td>Design Examples &amp; Tools</td><td>5</td><td><code>7</code></td></tr><tr><td>EDA Tools &amp; Docker</td><td>4</td><td><code>8</code></td></tr><tr><td>Community 22</td><td>2</td><td><code>22</code></td></tr><tr><td>Community 23</td><td>2</td><td><code>23</code></td></tr><tr><td>Community 24</td><td>2</td><td><code>24</code></td></tr><tr><td>Community 25</td><td>2</td><td><code>25</code></td></tr><tr><td>Community 26</td><td>2</td><td><code>26</code></td></tr><tr><td>Other</td><td>7</td><td><code>12, 13, 27, 28, 29, 30, 31</code></td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Core Flow</h4>
-    <div class="arrow-chain">Analysis &amp; Clustering -&gt; CLI &amp; Skill Installers -&gt; Serving API -&gt; Pipeline State &amp; Simulation -&gt; Design Examples &amp; Tools -&gt; EDA Tools &amp; Docker -&gt; Python Package Init</div>
+    <div class="arrow-chain">Analysis &amp; Clustering -&gt; Extraction Pipeline -&gt; Graph Build -&gt; CLI &amp; Skill Installers -&gt; Serving API -&gt; Tests &amp; Fixtures -&gt; Pipeline State &amp; Simulation</div>
   </div>
 </div>
 <div class="grid">
   <div class="card">
     <h4>Graph Report Highlights</h4>
     <ul>
-      <li>148 nodes · 188 edges · 17 communities</li>
-      <li>Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 11 edges (avg confidence: 0.59)</li>
+      <li>353 nodes · 459 edges · 32 communities (27 shown, 5 thin omitted)</li>
+      <li>Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 21 edges (avg confidence: 0.6)</li>
       <li>Token cost: 0 input · 0 output</li>
-      <li>1. `PipelineState` - 17 edges</li>
-      <li>2. `call_llm()` - 10 edges</li>
-      <li>3. `AI-Driven Agentic Framework for Automated RTL-to-GDS` - 10 edges</li>
+      <li>1. `PipelineState` - 28 edges</li>
+      <li>2. `Graphify Integration Results` - 15 edges</li>
+      <li>3. `call_llm()` - 14 edges</li>
     </ul>
   </div>
 </div>
 <hr>
-<!-- ====== 2. Analysis & Clustering ====== -->
-<h2 id="analysis-clustering">2. Analysis &amp; Clustering</h2>
+<!-- ====== 2. Extraction Pipeline ====== -->
+<h2 id="extract-pipeline">2. Extraction Pipeline</h2>
+<p>Extraction Pipeline groups implementation around docs, graphify, resultsmd, mode, mostly in docs/GRAPHIFY_RESULTS.md. This section covers 9 nodes and 8 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Extraction Pipeline (9 nodes, 8 edges)
+    docs_graphify_results_2_commands_executed_04ed090c("2. Commands Executed<br/><small>docs/GRAPHIFY_RESULTS.md</small>")
+    docs_graphify_results_2_1_initial_extraction_def_26c7cb8b("2.1 Initial extraction (default mode)<br/><small>docs/GRAPHIFY_RESULTS.md</small>")
+    docs_graphify_results_2_2_deep_mode_extraction_m_cef98e63("2.2 Deep mode extraction (--mode deep)<br/><small>docs/GRAPHIFY_RESULTS.md</small>")
+    docs_graphify_results_2_3_force_update_no_llm_re_a4ad9441("2.3 Force update (no LLM, re-extract AS...<br/><small>docs/GRAPHIFY_RESULTS.md</small>")
+    docs_graphify_results_2_4_cluster_analysis_and_r_f44e5500("2.4 Cluster analysis and report<br/><small>docs/GRAPHIFY_RESULTS.md</small>")
+    docs_graphify_results_2_5_call_flow_html_51fea368("2.5 Call-flow HTML<br/><small>docs/GRAPHIFY_RESULTS.md</small>")
+    docs_graphify_results_2_6_collapsible_tree_visua_d6ebd372("2.6 Collapsible tree visualization<br/><small>docs/GRAPHIFY_RESULTS.md</small>")
+    docs_graphify_results_2_7_claude_code_integratio_221fd286("2.7 Claude Code integration<br/><small>docs/GRAPHIFY_RESULTS.md</small>")
+    docs_graphify_results_2_8_graph_health_checks_2d1ab1d9("2.8 Graph health checks<br/><small>docs/GRAPHIFY_RESULTS.md</small>")
+    docs_graphify_results_2_commands_executed_04ed090c -->|contains| docs_graphify_results_2_1_initial_extraction_def_26c7cb8b
+    docs_graphify_results_2_commands_executed_04ed090c -->|contains| docs_graphify_results_2_2_deep_mode_extraction_m_cef98e63
+    docs_graphify_results_2_commands_executed_04ed090c -->|contains| docs_graphify_results_2_3_force_update_no_llm_re_a4ad9441
+    docs_graphify_results_2_commands_executed_04ed090c -->|contains| docs_graphify_results_2_4_cluster_analysis_and_r_f44e5500
+    docs_graphify_results_2_commands_executed_04ed090c -->|contains| docs_graphify_results_2_5_call_flow_html_51fea368
+    docs_graphify_results_2_commands_executed_04ed090c -->|contains| docs_graphify_results_2_6_collapsible_tree_visua_d6ebd372
+    docs_graphify_results_2_commands_executed_04ed090c -->|contains| docs_graphify_results_2_7_claude_code_integratio_221fd286
+    docs_graphify_results_2_commands_executed_04ed090c -->|contains| docs_graphify_results_2_8_graph_health_checks_2d1ab1d9
+    class docs_graphify_results_2_commands_executed_04ed090c concept;
+    class docs_graphify_results_2_1_initial_extraction_def_26c7cb8b concept;
+    class docs_graphify_results_2_2_deep_mode_extraction_m_cef98e63 concept;
+    class docs_graphify_results_2_3_force_update_no_llm_re_a4ad9441 concept;
+    class docs_graphify_results_2_4_cluster_analysis_and_r_f44e5500 concept;
+    class docs_graphify_results_2_5_call_flow_html_51fea368 concept;
+    class docs_graphify_results_2_6_collapsible_tree_visua_d6ebd372 concept;
+    class docs_graphify_results_2_7_claude_code_integratio_221fd286 concept;
+    class docs_graphify_results_2_8_graph_health_checks_2d1ab1d9 concept;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>2. Commands Executed</code><br><small style="color:var(--muted)">docs/GRAPHIFY_RESULTS.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 2. Commands Executed.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>2.1 Initial extraction (default mode)</code><br><small style="color:var(--muted)">docs/GRAPHIFY_RESULTS.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 2.1 Initial extraction (default mode).</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>2.2 Deep mode extraction (`--mode deep`)</code><br><small style="color:var(--muted)">docs/GRAPHIFY_RESULTS.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 2.2 Deep mode extraction (`--mode deep`).</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>2.3 Force update (no LLM, re-extract AST only)</code><br><small style="color:var(--muted)">docs/GRAPHIFY_RESULTS.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 2.3 Force update (no LLM, re-extract AST only).</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>2.4 Cluster analysis and report</code><br><small style="color:var(--muted)">docs/GRAPHIFY_RESULTS.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 2.4 Cluster analysis and report.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>2.5 Call-flow HTML</code><br><small style="color:var(--muted)">docs/GRAPHIFY_RESULTS.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 2.5 Call-flow HTML.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>2.6 Collapsible tree visualization</code><br><small style="color:var(--muted)">docs/GRAPHIFY_RESULTS.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 2.6 Collapsible tree visualization.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>2.7 Claude Code integration</code><br><small style="color:var(--muted)">docs/GRAPHIFY_RESULTS.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 2.7 Claude Code integration.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>2.8 Graph health checks</code><br><small style="color:var(--muted)">docs/GRAPHIFY_RESULTS.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 2.8 Graph health checks.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>docs/GRAPHIFY_RESULTS.md</code></td><td>9 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x8. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 3. Graph Build ====== -->
+<h2 id="build-graph">3. Graph Build</h2>
+<p>Graph Build groups implementation around pipelinepy, verification, pipeline, should, mostly in v2_verification/pipeline.py. This section covers 14 nodes and 17 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Graph Build (14 nodes, 17 edges)
+    v2_verification_pipeline_safe_agent_call_5b4c37b0("_safe_agent_call()<br/><small>v2_verification/pipeline.py</small>")
+    v2_verification_pipeline_build_v2_pipeline_cb747c91("build_v2_pipeline()<br/><small>v2_verification/pipeline.py</small>")
+    v2_verification_pipeline_py_pipelinestate_0695b241("PipelineState<br/><small>v2_verification/pipeline.py</small>")
+    v2_verification_pipeline_py_stategraph_26ee422a("StateGraph<br/><small>v2_verification/pipeline.py</small>")
+    v2_verification_pipeline_0ca72aa9("pipeline.py")
+    v2_verification_pipeline_should_end_or_optimize_ab8d84f6("should_end_or_optimize()<br/><small>v2_verification/pipeline.py</small>")
+    v2_verification_pipeline_should_fix_or_synthesiz_2574a19f("should_fix_or_synthesize()<br/><small>v2_verification/pipeline.py</small>")
+    v2_verification_pipeline_should_run_sta_or_end_27306624("should_run_sta_or_end()<br/><small>v2_verification/pipeline.py</small>")
+    v2_verification_pipeline_rationale_178_f612eb57("Build and compile the V2 LangGraph pipe...<br/><small>v2_verification/pipeline.py</small>")
+    v2_verification_pipeline_rationale_106_d1dff133("Router after the STA node. Returns the...<br/><small>v2_verification/pipeline.py</small>")
+    v2_verification_pipeline_rationale_81_36d4f15e("Router after the simulation node. Retur...<br/><small>v2_verification/pipeline.py</small>")
+    v2_verification_pipeline_rationale_145_5a57907d("Router after the synthesis node. If syn...<br/><small>v2_verification/pipeline.py</small>")
+    v2_verification_pipeline_rationale_34_c557fc71("Wrap an agent call in try/except so a c...<br/><small>v2_verification/pipeline.py</small>")
+    v2_verification_pipeline_rationale_1_874f1844("pipeline.py V2 LangGraph pipeline exten...<br/><small>v2_verification/pipeline.py</small>")
+    v2_verification_pipeline_safe_agent_call_5b4c37b0 -->|calls| v2_verification_pipeline_build_v2_pipeline_cb747c91
+    class v2_verification_pipeline_safe_agent_call_5b4c37b0 function;
+    class v2_verification_pipeline_build_v2_pipeline_cb747c91 function;
+    class v2_verification_pipeline_py_pipelinestate_0695b241 klass;
+    class v2_verification_pipeline_py_stategraph_26ee422a klass;
+    class v2_verification_pipeline_0ca72aa9 module;
+    class v2_verification_pipeline_should_end_or_optimize_ab8d84f6 function;
+    class v2_verification_pipeline_should_fix_or_synthesiz_2574a19f function;
+    class v2_verification_pipeline_should_run_sta_or_end_27306624 function;
+    class v2_verification_pipeline_rationale_178_f612eb57 concept;
+    class v2_verification_pipeline_rationale_106_d1dff133 concept;
+    class v2_verification_pipeline_rationale_81_36d4f15e concept;
+    class v2_verification_pipeline_rationale_145_5a57907d concept;
+    class v2_verification_pipeline_rationale_34_c557fc71 concept;
+    class v2_verification_pipeline_rationale_1_874f1844 concept;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>pipeline.py</code><br><small style="color:var(--muted)">v2_verification/pipeline.py</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in v2_verification/pipeline.py.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>_safe_agent_call()</code><br><small style="color:var(--muted)">v2_verification/pipeline.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>build_v2_pipeline()</code><br><small style="color:var(--muted)">v2_verification/pipeline.py</small></td>
+  <td>_safe_agent_call() node in v2_verification/pipeline.py.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>PipelineState</code><br><small style="color:var(--muted)">v2_verification/pipeline.py</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>PipelineState node in v2_verification/pipeline.py.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>should_fix_or_synthesize()</code><br><small style="color:var(--muted)">v2_verification/pipeline.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>should_fix_or_synthesize() node in v2_verification/pipeline.py.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>should_end_or_optimize()</code><br><small style="color:var(--muted)">v2_verification/pipeline.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>should_end_or_optimize() node in v2_verification/pipeline.py.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>should_run_sta_or_end()</code><br><small style="color:var(--muted)">v2_verification/pipeline.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>should_run_sta_or_end() node in v2_verification/pipeline.py.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>build_v2_pipeline()</code><br><small style="color:var(--muted)">v2_verification/pipeline.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>_safe_agent_call()</code><br><small style="color:var(--muted)">v2_verification/pipeline.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>build_v2_pipeline() node in v2_verification/pipeline.py.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>StateGraph</code><br><small style="color:var(--muted)">v2_verification/pipeline.py</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Builds dependency relationships and graph data.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>pipeline.py V2 LangGraph pipeline extending V1 with synthesis and static timing</code><br><small style="color:var(--muted)">v2_verification/pipeline.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for pipeline.py V2 LangGraph pipeline extending V1 with synthesis and static timing.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>Wrap an agent call in try/except so a crash doesn&#x27;t kill the pipeline.</code><br><small style="color:var(--muted)">v2_verification/pipeline.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for Wrap an agent call in try/except so a crash doesn&#x27;t kill the pipeline..</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>Router after the simulation node.      Returns the destination label:       &quot;syn</code><br><small style="color:var(--muted)">v2_verification/pipeline.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for Router after the simulation node.      Returns the destination label:       &quot;syn.</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><code>Router after the STA node.      Returns the destination label:       &quot;end&quot;</code><br><small style="color:var(--muted)">v2_verification/pipeline.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for Router after the STA node.      Returns the destination label:       &quot;end&quot;.</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><code>Router after the synthesis node.      If synthesis failed (no netlist, zero cell</code><br><small style="color:var(--muted)">v2_verification/pipeline.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for Router after the synthesis node.      If synthesis failed (no netlist, zero cell.</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td><code>Build and compile the V2 LangGraph pipeline.      Args:         skip_rtl_gen: If</code><br><small style="color:var(--muted)">v2_verification/pipeline.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for Build and compile the V2 LangGraph pipeline.      Args:         skip_rtl_gen: If.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>v2_verification/pipeline.py</code></td><td>14 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: explains x6, contains x5, references x5, calls x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 4. Analysis & Clustering ====== -->
+<h2 id="analysis-clustering">4. Analysis &amp; Clustering</h2>
 <p>Analysis &amp; Clustering groups implementation around project, contextmd, not, identity, mostly in PROJECT_CONTEXT.md. This section covers 8 nodes and 7 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
@@ -283,14 +623,14 @@ flowchart LR
 </div>
 <hr>
 
-<!-- ====== 3. CLI & Skill Installers ====== -->
-<h2 id="cli-skills">3. CLI &amp; Skill Installers</h2>
-<p>CLI &amp; Skill Installers groups implementation around agentpy, agents, claudemd, utils, mostly in CLAUDE.md, v1_core/pipeline.py, v1_core/utils/trace2skill.py. This section covers 103 nodes and 151 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<!-- ====== 5. CLI & Skill Installers ====== -->
+<h2 id="cli-skills">5. CLI &amp; Skill Installers</h2>
+<p>CLI &amp; Skill Installers groups implementation around agentpy, agents, graphify, resultsmd, mostly in docs/GRAPHIFY_RESULTS.md, CLAUDE.md, v2_verification/mcp_tools/sta_server.py. This section covers 189 nodes and 266 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: CLI &amp; Skill Installers (103 nodes, 151 edges)
+    %% Section: CLI &amp; Skill Installers (189 nodes, 266 edges)
     subgraph cli_skills_v1_core_agents_log_analysis_agent_py_b4af963e["v1_core/agents/log_analysis_agent.py"]
         agents_log_analysis_agent_eac6fe62("log_analysis_agent.py")
         agents_log_analysis_agent_log_analysis_agent_8d9987f9("log_analysis_agent()<br/><small>v1_core/agents/log_analysis_agent.py</small>")
@@ -309,16 +649,19 @@ flowchart LR
         agents_fix_agent_21a3cb0e("fix_agent.py")
         agents_fix_agent_fix_agent_03592505("fix_agent()<br/><small>v1_core/agents/fix_agent.py</small>")
     end
-    agents_orchestrator_get_initial_state_3f28d221("get_initial_state()<br/><small>v1_core/agents/orchestrator.py</small>")
+    subgraph cli_skills_v1_core_agents_orchestrator_py_259a5a51["v1_core/agents/orchestrator.py"]
+        agents_orchestrator_pipelinestate_57cad605("PipelineState<br/><small>v1_core/agents/orchestrator.py</small>")
+        agents_orchestrator_get_initial_state_3f28d221("get_initial_state()<br/><small>v1_core/agents/orchestrator.py</small>")
+    end
     agents_rtl_gen_agent_rtl_gen_agent_dbd4484a("rtl_gen_agent()<br/><small>v1_core/agents/rtl_gen_agent.py</small>")
     agents_simulation_agent_simulation_agent_9a2eee04("simulation_agent()<br/><small>v1_core/agents/simulation_agent.py</small>")
-    agents_testbench_agent_testbench_agent_69d3a62c("testbench_agent()<br/><small>v1_core/agents/testbench_agent.py</small>")
-    mcp_tools_simulation_server_run_simulation_5b652d07("run_simulation()<br/><small>v1_core/mcp_tools/simulation_server.py</small>")
     v1_core_pipeline_run_pipeline_0dfea0c7("run_pipeline()<br/><small>v1_core/pipeline.py</small>")
     utils_init_strip_code_fences_cff383c8("strip_code_fences()<br/><small>v1_core/utils/__init__.py</small>")
     utils_model_router_call_llm_9499ff7d("call_llm()<br/><small>v1_core/utils/model_router.py</small>")
+    v2_verification_pipeline_run_v2_pipeline_9c39c936("run_v2_pipeline()<br/><small>v2_verification/pipeline.py</small>")
     main_main_4d9daec5 -->|calls| utils_trace2skill_get_stats_f7ddcbb5
     main_main_4d9daec5 -->|calls| v1_core_pipeline_run_pipeline_0dfea0c7
+    main_main_4d9daec5 -->|calls| v2_verification_pipeline_run_v2_pipeline_9c39c936
     agents_fix_agent_fix_agent_03592505 -->|calls| agents_log_analysis_agent_guess_category_642c9d6d
     agents_fix_agent_fix_agent_03592505 -->|calls| utils_init_strip_code_fences_cff383c8
     agents_fix_agent_fix_agent_03592505 -->|calls| utils_model_router_call_llm_9499ff7d
@@ -327,20 +670,20 @@ flowchart LR
     agents_log_analysis_agent_log_analysis_agent_8d9987f9 -->|calls| utils_model_router_call_llm_9499ff7d
     agents_log_analysis_agent_log_analysis_agent_8d9987f9 -->|calls| utils_trace2skill_retrieve_skills_0f29546b
     agents_orchestrator_get_initial_state_3f28d221 -->|calls| v1_core_pipeline_run_pipeline_0dfea0c7
+    agents_orchestrator_get_initial_state_3f28d221 -->|calls| v2_verification_pipeline_run_v2_pipeline_9c39c936
     agents_rtl_gen_agent_rtl_gen_agent_dbd4484a -->|calls| utils_init_strip_code_fences_cff383c8
     agents_rtl_gen_agent_rtl_gen_agent_dbd4484a -->|calls| utils_model_router_call_llm_9499ff7d
-    agents_simulation_agent_simulation_agent_9a2eee04 -->|calls| mcp_tools_simulation_server_run_simulation_5b652d07
-    agents_testbench_agent_testbench_agent_69d3a62c -->|calls| utils_init_strip_code_fences_cff383c8
-    agents_testbench_agent_testbench_agent_69d3a62c -->|calls| utils_model_router_call_llm_9499ff7d
     main_b28b7af6 -->|imports| utils_trace2skill_get_stats_f7ddcbb5
     main_b28b7af6 -->|imports| v1_core_pipeline_run_pipeline_0dfea0c7
+    main_b28b7af6 -->|imports| v2_verification_pipeline_run_v2_pipeline_9c39c936
     agents_fix_agent_21a3cb0e -->|imports| agents_log_analysis_agent_guess_category_642c9d6d
+    agents_fix_agent_21a3cb0e -->|imports| agents_orchestrator_pipelinestate_57cad605
     agents_fix_agent_21a3cb0e -->|imports| utils_init_strip_code_fences_cff383c8
     agents_fix_agent_21a3cb0e -->|imports| utils_model_router_call_llm_9499ff7d
     agents_fix_agent_21a3cb0e -->|imports| utils_trace2skill_store_skill_eae54e46
+    agents_log_analysis_agent_eac6fe62 -->|imports| agents_orchestrator_pipelinestate_57cad605
     agents_log_analysis_agent_eac6fe62 -->|imports| utils_model_router_call_llm_9499ff7d
-    agents_log_analysis_agent_eac6fe62 -->|imports| utils_trace2skill_retrieve_skills_0f29546b
-    %% Omitted for readability: 85 nodes, 0 edges
+    %% Omitted for readability: 171 nodes, 1 edges
     class agents_log_analysis_agent_eac6fe62 module;
     class agents_log_analysis_agent_log_analysis_agent_8d9987f9 function;
     class agents_log_analysis_agent_guess_category_642c9d6d function;
@@ -351,14 +694,14 @@ flowchart LR
     class main_main_4d9daec5 function;
     class agents_fix_agent_21a3cb0e module;
     class agents_fix_agent_fix_agent_03592505 function;
+    class agents_orchestrator_pipelinestate_57cad605 klass;
     class agents_orchestrator_get_initial_state_3f28d221 function;
     class agents_rtl_gen_agent_rtl_gen_agent_dbd4484a function;
     class agents_simulation_agent_simulation_agent_9a2eee04 function;
-    class agents_testbench_agent_testbench_agent_69d3a62c test;
-    class mcp_tools_simulation_server_run_simulation_5b652d07 function;
     class v1_core_pipeline_run_pipeline_0dfea0c7 function;
     class utils_init_strip_code_fences_cff383c8 function;
     class utils_model_router_call_llm_9499ff7d function;
+    class v2_verification_pipeline_run_v2_pipeline_9c39c936 function;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -422,22 +765,70 @@ flowchart LR
 </tr>
 <tr>
   <td>6</td>
-  <td><code>orchestrator.py</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
+  <td><code>log_analysis_agent.py</code><br><small style="color:var(--muted)">v1_core/agents/log_analysis_agent.py</small></td>
   <td><span class="tag tag-class">Module</span></td>
   <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Module file in v1_core/agents/orchestrator.py.</td>
+  <td><code>call_llm()</code><br><small style="color:var(--muted)">v1_core/utils/model_router.py</small><br><code>logger.py</code><br><small style="color:var(--muted)">v1_core/utils/logger.py</small><br><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small><br>+1 more</td>
+  <td>Module file in v1_core/agents/log_analysis_agent.py.</td>
 </tr>
 <tr>
   <td>7</td>
-  <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
-  <td><span class="tag tag-class">Class</span></td>
-  <td><code>fix_agent.py</code><br><small style="color:var(--muted)">v1_core/agents/fix_agent.py</small><br><code>log_analysis_agent.py</code><br><small style="color:var(--muted)">v1_core/agents/log_analysis_agent.py</small><br><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/log_analysis_agent.py</small><br>+1 more</td>
-  <td><code>pipeline.py</code><br><small style="color:var(--muted)">v1_core/pipeline.py</small><br><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/rtl_gen_agent.py</small><br><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/pipeline.py</small><br>+6 more</td>
-  <td>PipelineState node in v1_core/agents/orchestrator.py.</td>
+  <td><code>log_analysis_agent()</code><br><small style="color:var(--muted)">v1_core/agents/log_analysis_agent.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>_guess_category()</code><br><small style="color:var(--muted)">v1_core/agents/log_analysis_agent.py</small><br><code>call_llm()</code><br><small style="color:var(--muted)">v1_core/utils/model_router.py</small><br><code>pipeline.py</code><br><small style="color:var(--muted)">v1_core/pipeline.py</small><br>+1 more</td>
+  <td>Orchestrates analysis and returns structured documentation data.</td>
 </tr>
 <tr>
   <td>8</td>
+  <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/log_analysis_agent.py</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
+  <td>PipelineState node in v1_core/agents/log_analysis_agent.py.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>_guess_category()</code><br><small style="color:var(--muted)">v1_core/agents/log_analysis_agent.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>fix_agent()</code><br><small style="color:var(--muted)">v1_core/agents/fix_agent.py</small><br><code>fix_agent.py</code><br><small style="color:var(--muted)">v1_core/agents/fix_agent.py</small><br><code>log_analysis_agent()</code><br><small style="color:var(--muted)">v1_core/agents/log_analysis_agent.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>_guess_category() node in v1_core/agents/log_analysis_agent.py.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>log_analysis_agent.py Log Analysis Agent — LangGraph node. Parses simulation log</code><br><small style="color:var(--muted)">v1_core/agents/log_analysis_agent.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for log_analysis_agent.py Log Analysis Agent — LangGraph node. Parses simulation log.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>LangGraph node — classifies simulation errors.     Input state fields used: sim_</code><br><small style="color:var(--muted)">v1_core/agents/log_analysis_agent.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for LangGraph node — classifies simulation errors.     Input state fields used: sim_.</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><code>Guess skill category from design name.</code><br><small style="color:var(--muted)">v1_core/agents/log_analysis_agent.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for Guess skill category from design name..</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>fix_agent.py</code><br><small style="color:var(--muted)">v1_core/agents/fix_agent.py</small><br><code>log_analysis_agent.py</code><br><small style="color:var(--muted)">v1_core/agents/log_analysis_agent.py</small><br><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/fix_agent.py</small><br>+1 more</td>
+  <td><code>pipeline.py</code><br><small style="color:var(--muted)">v1_core/pipeline.py</small><br><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/pipeline.py</small><br><code>PipelineState</code><br><small style="color:var(--muted)">v2_verification/agents/synthesis_agent.py</small><br>+14 more</td>
+  <td>PipelineState node in v1_core/agents/orchestrator.py.</td>
+</tr>
+<tr>
+  <td>14</td>
   <td><code>TypedDict</code><br><small style="color:var(--muted)"></small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td>External entry / no inbound edge</td>
@@ -445,15 +836,7 @@ flowchart LR
   <td>TypedDict node in project.</td>
 </tr>
 <tr>
-  <td>9</td>
-  <td><code>orchestrator.py LangGraph state definition and pipeline orchestration for V1. Th</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
-  <td><span class="tag tag-func">Concept</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Design note for orchestrator.py LangGraph state definition and pipeline orchestration for V1. Th.</td>
-</tr>
-<tr>
-  <td>10</td>
+  <td>15</td>
   <td><code>Shared state passed between all agents in the LangGraph pipeline.     Every agen</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
@@ -461,7 +844,7 @@ flowchart LR
   <td>Design note for Shared state passed between all agents in the LangGraph pipeline.     Every agen.</td>
 </tr>
 <tr>
-  <td>11</td>
+  <td>16</td>
   <td><code>rtl_gen_agent.py</code><br><small style="color:var(--muted)">v1_core/agents/rtl_gen_agent.py</small></td>
   <td><span class="tag tag-class">Module</span></td>
   <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
@@ -469,7 +852,7 @@ flowchart LR
   <td>Module file in v1_core/agents/rtl_gen_agent.py.</td>
 </tr>
 <tr>
-  <td>12</td>
+  <td>17</td>
   <td><code>rtl_gen_agent()</code><br><small style="color:var(--muted)">v1_core/agents/rtl_gen_agent.py</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -477,7 +860,7 @@ flowchart LR
   <td>rtl_gen_agent() node in v1_core/agents/rtl_gen_agent.py.</td>
 </tr>
 <tr>
-  <td>13</td>
+  <td>18</td>
   <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/rtl_gen_agent.py</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
@@ -485,7 +868,7 @@ flowchart LR
   <td>PipelineState node in v1_core/agents/rtl_gen_agent.py.</td>
 </tr>
 <tr>
-  <td>14</td>
+  <td>19</td>
   <td><code>rtl_gen_agent.py RTL Generation Agent — LangGraph node. Takes natural language s</code><br><small style="color:var(--muted)">v1_core/agents/rtl_gen_agent.py</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
@@ -493,7 +876,7 @@ flowchart LR
   <td>Design note for rtl_gen_agent.py RTL Generation Agent — LangGraph node. Takes natural language s.</td>
 </tr>
 <tr>
-  <td>15</td>
+  <td>20</td>
   <td><code>LangGraph node — generates Verilog RTL from natural language spec.      Input st</code><br><small style="color:var(--muted)">v1_core/agents/rtl_gen_agent.py</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
@@ -501,7 +884,47 @@ flowchart LR
   <td>Design note for LangGraph node — generates Verilog RTL from natural language spec.      Input st.</td>
 </tr>
 <tr>
-  <td>16</td>
+  <td>21</td>
+  <td><code>spec_parser_agent.py</code><br><small style="color:var(--muted)">v1_core/agents/spec_parser_agent.py</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
+  <td><code>call_llm()</code><br><small style="color:var(--muted)">v1_core/utils/model_router.py</small><br><code>logger.py</code><br><small style="color:var(--muted)">v1_core/utils/logger.py</small></td>
+  <td>Module file in v1_core/agents/spec_parser_agent.py.</td>
+</tr>
+<tr>
+  <td>22</td>
+  <td><code>spec_parser_agent()</code><br><small style="color:var(--muted)">v1_core/agents/spec_parser_agent.py</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>call_llm()</code><br><small style="color:var(--muted)">v1_core/utils/model_router.py</small><br><code>pipeline.py</code><br><small style="color:var(--muted)">v1_core/pipeline.py</small></td>
+  <td>spec_parser_agent() node in v1_core/agents/spec_parser_agent.py.</td>
+</tr>
+<tr>
+  <td>23</td>
+  <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/spec_parser_agent.py</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>PipelineState node in v1_core/agents/spec_parser_agent.py.</td>
+</tr>
+<tr>
+  <td>24</td>
+  <td><code>spec_parser_agent.py First agent in the pipeline. Parses natural language spec i</code><br><small style="color:var(--muted)">v1_core/agents/spec_parser_agent.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for spec_parser_agent.py First agent in the pipeline. Parses natural language spec i.</td>
+</tr>
+<tr>
+  <td>25</td>
+  <td><code>LangGraph node — parses spec into structured format.     Must be the FIRST node</code><br><small style="color:var(--muted)">v1_core/agents/spec_parser_agent.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for LangGraph node — parses spec into structured format.     Must be the FIRST node.</td>
+</tr>
+<tr>
+  <td>26</td>
   <td><code>testbench_agent.py</code><br><small style="color:var(--muted)">v1_core/agents/testbench_agent.py</small></td>
   <td><span class="tag tag-func">Test</span></td>
   <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
@@ -509,7 +932,7 @@ flowchart LR
   <td>Module file in v1_core/agents/testbench_agent.py.</td>
 </tr>
 <tr>
-  <td>17</td>
+  <td>27</td>
   <td><code>testbench_agent()</code><br><small style="color:var(--muted)">v1_core/agents/testbench_agent.py</small></td>
   <td><span class="tag tag-func">Test</span></td>
   <td>External entry / no inbound edge</td>
@@ -517,7 +940,7 @@ flowchart LR
   <td>Verifies imports, entry points, or version behavior.</td>
 </tr>
 <tr>
-  <td>18</td>
+  <td>28</td>
   <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/testbench_agent.py</small></td>
   <td><span class="tag tag-func">Test</span></td>
   <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
@@ -525,7 +948,7 @@ flowchart LR
   <td>PipelineState node in v1_core/agents/testbench_agent.py.</td>
 </tr>
 <tr>
-  <td>19</td>
+  <td>29</td>
   <td><code>testbench_agent.py Testbench Agent — LangGraph node. Takes RTL code from state a</code><br><small style="color:var(--muted)">v1_core/agents/testbench_agent.py</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
@@ -533,92 +956,12 @@ flowchart LR
   <td>Design note for testbench_agent.py Testbench Agent — LangGraph node. Takes RTL code from state a.</td>
 </tr>
 <tr>
-  <td>20</td>
+  <td>30</td>
   <td><code>LangGraph node — generates cocotb testbench from RTL code.     Input state field</code><br><small style="color:var(--muted)">v1_core/agents/testbench_agent.py</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
   <td>Design note for LangGraph node — generates cocotb testbench from RTL code.     Input state field.</td>
-</tr>
-<tr>
-  <td>21</td>
-  <td><code>__init__.py</code><br><small style="color:var(--muted)">v1_core/utils/__init__.py</small></td>
-  <td><span class="tag tag-class">Module</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Module file in v1_core/utils/__init__.py.</td>
-</tr>
-<tr>
-  <td>22</td>
-  <td><code>strip_code_fences()</code><br><small style="color:var(--muted)">v1_core/utils/__init__.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>fix_agent()</code><br><small style="color:var(--muted)">v1_core/agents/fix_agent.py</small><br><code>fix_agent.py</code><br><small style="color:var(--muted)">v1_core/agents/fix_agent.py</small><br><code>rtl_gen_agent()</code><br><small style="color:var(--muted)">v1_core/agents/rtl_gen_agent.py</small><br>+3 more</td>
-  <td>No direct outbound edge</td>
-  <td>strip_code_fences() node in v1_core/utils/__init__.py.</td>
-</tr>
-<tr>
-  <td>23</td>
-  <td><code>Strip markdown code fences (```python, ```verilog, ``` or bare ```) from LLM out</code><br><small style="color:var(--muted)">v1_core/utils/__init__.py</small></td>
-  <td><span class="tag tag-func">Concept</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Design note for Strip markdown code fences (```python, ```verilog, ``` or bare ```) from LLM out.</td>
-</tr>
-<tr>
-  <td>24</td>
-  <td><code>call_llm()</code><br><small style="color:var(--muted)">v1_core/utils/model_router.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>fix_agent()</code><br><small style="color:var(--muted)">v1_core/agents/fix_agent.py</small><br><code>fix_agent.py</code><br><small style="color:var(--muted)">v1_core/agents/fix_agent.py</small><br><code>log_analysis_agent()</code><br><small style="color:var(--muted)">v1_core/agents/log_analysis_agent.py</small><br>+5 more</td>
-  <td>No direct outbound edge</td>
-  <td>call_llm() node in v1_core/utils/model_router.py.</td>
-</tr>
-<tr>
-  <td>25</td>
-  <td><code>Call DeepSeek API and return the response text.      Args:         prompt: the f</code><br><small style="color:var(--muted)">v1_core/utils/model_router.py</small></td>
-  <td><span class="tag tag-func">Concept</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Design note for Call DeepSeek API and return the response text.      Args:         prompt: the f.</td>
-</tr>
-<tr>
-  <td>26</td>
-  <td><code>simulation_agent.py</code><br><small style="color:var(--muted)">v1_core/agents/simulation_agent.py</small></td>
-  <td><span class="tag tag-class">Module</span></td>
-  <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
-  <td><code>logger.py</code><br><small style="color:var(--muted)">v1_core/utils/logger.py</small><br><code>run_simulation()</code><br><small style="color:var(--muted)">v1_core/mcp_tools/simulation_server.py</small></td>
-  <td>Module file in v1_core/agents/simulation_agent.py.</td>
-</tr>
-<tr>
-  <td>27</td>
-  <td><code>simulation_agent()</code><br><small style="color:var(--muted)">v1_core/agents/simulation_agent.py</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td>External entry / no inbound edge</td>
-  <td><code>pipeline.py</code><br><small style="color:var(--muted)">v1_core/pipeline.py</small><br><code>run_simulation()</code><br><small style="color:var(--muted)">v1_core/mcp_tools/simulation_server.py</small></td>
-  <td>simulation_agent() node in v1_core/agents/simulation_agent.py.</td>
-</tr>
-<tr>
-  <td>28</td>
-  <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/simulation_agent.py</small></td>
-  <td><span class="tag tag-class">Class</span></td>
-  <td><code>PipelineState</code><br><small style="color:var(--muted)">v1_core/agents/orchestrator.py</small></td>
-  <td>No direct outbound edge</td>
-  <td>PipelineState node in v1_core/agents/simulation_agent.py.</td>
-</tr>
-<tr>
-  <td>29</td>
-  <td><code>simulation_agent.py Simulation Agent — LangGraph node. Writes RTL and testbench</code><br><small style="color:var(--muted)">v1_core/agents/simulation_agent.py</small></td>
-  <td><span class="tag tag-func">Concept</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Design note for simulation_agent.py Simulation Agent — LangGraph node. Writes RTL and testbench.</td>
-</tr>
-<tr>
-  <td>30</td>
-  <td><code>LangGraph node — runs Icarus Verilog simulation.     Input state fields used: rt</code><br><small style="color:var(--muted)">v1_core/agents/simulation_agent.py</small></td>
-  <td><span class="tag tag-func">Concept</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Design note for LangGraph node — runs Icarus Verilog simulation.     Input state fields used: rt.</td>
 </tr>
 </table>
 
@@ -627,25 +970,25 @@ flowchart LR
     <h4>Key Files</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
-      <tr><td><code>CLAUDE.md</code></td><td>27 nodes</td></tr>
+      <tr><td><code>docs/GRAPHIFY_RESULTS.md</code></td><td>42 nodes</td></tr>
+<tr><td><code>CLAUDE.md</code></td><td>28 nodes</td></tr>
+<tr><td><code>v2_verification/mcp_tools/sta_server.py</code></td><td>13 nodes</td></tr>
 <tr><td><code>v1_core/pipeline.py</code></td><td>10 nodes</td></tr>
 <tr><td><code>v1_core/utils/trace2skill.py</code></td><td>10 nodes</td></tr>
 <tr><td><code>v1_core/utils/logger.py</code></td><td>8 nodes</td></tr>
+<tr><td><code>v2_verification/mcp_tools/synthesis_server.py</code></td><td>8 nodes</td></tr>
 <tr><td><code>v1_core/agents/log_analysis_agent.py</code></td><td>7 nodes</td></tr>
-<tr><td><code>v1_core/agents/orchestrator.py</code></td><td>6 nodes</td></tr>
-<tr><td><code>v1_core/agents/fix_agent.py</code></td><td>5 nodes</td></tr>
-<tr><td><code>v1_core/agents/rtl_gen_agent.py</code></td><td>5 nodes</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: contains x34, explains x29, imports x25, references x24. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x88, explains x48, imports x36, calls x31. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
 
-<!-- ====== 4. Serving API ====== -->
-<h2 id="serve-api">4. Serving API</h2>
+<!-- ====== 6. Serving API ====== -->
+<h2 id="serve-api">6. Serving API</h2>
 <p>Serving API groups implementation around project, contextmd, alu, fifo, mostly in PROJECT_CONTEXT.md, benchmarks/alu_8bit/spec.txt, benchmarks/sync_fifo_8x16/spec.txt. This section covers 14 nodes and 13 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
@@ -847,43 +1190,403 @@ flowchart LR
 </div>
 <hr>
 
-<!-- ====== 5. Pipeline State & Simulation ====== -->
-<h2 id="pipeline-state-simulation">5. Pipeline State &amp; Simulation</h2>
-<p>Pipeline State &amp; Simulation groups implementation around session, handoffmd, last, updated, mostly in SESSION_HANDOFF.md. This section covers 10 nodes and 9 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<!-- ====== 7. Tests & Fixtures ====== -->
+<h2 id="tests-fixtures">7. Tests &amp; Fixtures</h2>
+<p>Tests &amp; Fixtures groups implementation around reference, tbpy, benchmarks, test, mostly in benchmarks/apb_slave/reference_tb.py, benchmarks/sync_fifo_8x16/reference_tb.py, benchmarks/fsm_traffic_light/reference_tb.py. This section covers 80 nodes and 106 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Pipeline State &amp; Simulation (10 nodes, 9 edges)
+    %% Section: Tests &amp; Fixtures (80 nodes, 106 edges)
+    subgraph tests_fixtures_benchmarks_apb_slave_reference_tb_1557d438["benchmarks/apb_slave/reference_tb.py"]
+        apb_slave_reference_tb_apb_reset_2461437e("apb_reset()<br/><small>benchmarks/apb_slave/reference_tb.py</small>")
+        apb_slave_reference_tb_apb_read_6df2749c("apb_read()<br/><small>benchmarks/apb_slave/reference_tb.py</small>")
+        apb_slave_reference_tb_apb_write_766786ec("apb_write()<br/><small>benchmarks/apb_slave/reference_tb.py</small>")
+        apb_slave_reference_tb_test_write_read_all_regs_b39800a4("test_write_read_all_regs()<br/><small>benchmarks/apb_slave/reference_tb.py</small>")
+        apb_slave_reference_tb_test_write_read_reg0_2496536f("test_write_read_reg0()<br/><small>benchmarks/apb_slave/reference_tb.py</small>")
+        apb_slave_reference_tb_test_invalid_addr_7efac8ac("test_invalid_addr()<br/><small>benchmarks/apb_slave/reference_tb.py</small>")
+        apb_slave_reference_tb_test_read_before_write_7d39b63f("test_read_before_write()<br/><small>benchmarks/apb_slave/reference_tb.py</small>")
+        apb_slave_reference_tb_test_reset_5c001533("test_reset()<br/><small>benchmarks/apb_slave/reference_tb.py</small>")
+    end
+    subgraph tests_fixtures_benchmarks_alu_8bit_reference_tb_e96d5ec0["benchmarks/alu_8bit/reference_tb.py"]
+        alu_8bit_reference_tb_reference_model_7b6e3f7d("reference_model()<br/><small>benchmarks/alu_8bit/reference_tb.py</small>")
+        alu_8bit_reference_tb_test_additional_edge_cases_c4ccb833("test_additional_edge_cases()<br/><small>benchmarks/alu_8bit/reference_tb.py</small>")
+        alu_8bit_reference_tb_test_all_opcodes_boundary_050b2604("opcodes boundary values()<br/><small>benchmarks/alu_8bit/reference_tb.py</small>")
+        alu_8bit_reference_tb_test_zero_flag_asserts_b19eceef("test_zero_flag_asserts()<br/><small>benchmarks/alu_8bit/reference_tb.py</small>")
+        alu_8bit_reference_tb_test_zero_flag_not_asserte_64c7f651("flag not asserted()<br/><small>benchmarks/alu_8bit/reference_tb.py</small>")
+    end
+    subgraph tests_fixtures_benchmarks_fsm_traffic_light_refe_40f9d2c4["benchmarks/fsm_traffic_light/reference_tb.py"]
+        fsm_traffic_light_reference_tb_read_state_06cdfc33("read_state()<br/><small>benchmarks/fsm_traffic_light/reference_tb.py</small>")
+        fsm_traffic_light_reference_tb_check_state_784ed95b("check_state()<br/><small>benchmarks/fsm_traffic_light/reference_tb.py</small>")
+    end
+    subgraph tests_fixtures_benchmarks_uart_tx_reference_tb_p_80291ec3["benchmarks/uart_tx/reference_tb.py"]
+        uart_tx_reference_tb_send_byte_adfdbcd1("send_byte()<br/><small>benchmarks/uart_tx/reference_tb.py</small>")
+        uart_tx_reference_tb_uart_monitor_511da43d("uart_monitor()<br/><small>benchmarks/uart_tx/reference_tb.py</small>")
+    end
+    sync_fifo_8x16_reference_tb_write_word_0bfd0c51("write_word()<br/><small>benchmarks/sync_fifo_8x16/reference_tb.py</small>")
+    alu_8bit_reference_tb_reference_model_7b6e3f7d -->|calls| alu_8bit_reference_tb_test_additional_edge_cases_c4ccb833
+    alu_8bit_reference_tb_reference_model_7b6e3f7d -->|calls| alu_8bit_reference_tb_test_all_opcodes_boundary_050b2604
+    alu_8bit_reference_tb_reference_model_7b6e3f7d -->|calls| alu_8bit_reference_tb_test_zero_flag_asserts_b19eceef
+    alu_8bit_reference_tb_reference_model_7b6e3f7d -->|calls| alu_8bit_reference_tb_test_zero_flag_not_asserte_64c7f651
+    apb_slave_reference_tb_apb_write_766786ec -->|calls| apb_slave_reference_tb_test_write_read_all_regs_b39800a4
+    apb_slave_reference_tb_apb_write_766786ec -->|calls| apb_slave_reference_tb_test_write_read_reg0_2496536f
+    apb_slave_reference_tb_apb_read_6df2749c -->|calls| apb_slave_reference_tb_test_invalid_addr_7efac8ac
+    apb_slave_reference_tb_apb_read_6df2749c -->|calls| apb_slave_reference_tb_test_read_before_write_7d39b63f
+    apb_slave_reference_tb_apb_read_6df2749c -->|calls| apb_slave_reference_tb_test_write_read_all_regs_b39800a4
+    apb_slave_reference_tb_apb_read_6df2749c -->|calls| apb_slave_reference_tb_test_write_read_reg0_2496536f
+    apb_slave_reference_tb_apb_reset_2461437e -->|calls| apb_slave_reference_tb_test_invalid_addr_7efac8ac
+    apb_slave_reference_tb_apb_reset_2461437e -->|calls| apb_slave_reference_tb_test_read_before_write_7d39b63f
+    apb_slave_reference_tb_apb_reset_2461437e -->|calls| apb_slave_reference_tb_test_reset_5c001533
+    apb_slave_reference_tb_apb_reset_2461437e -->|calls| apb_slave_reference_tb_test_write_read_all_regs_b39800a4
+    apb_slave_reference_tb_apb_reset_2461437e -->|calls| apb_slave_reference_tb_test_write_read_reg0_2496536f
+    fsm_traffic_light_reference_tb_read_state_06cdfc33 -->|calls| fsm_traffic_light_reference_tb_check_state_784ed95b
+    %% Omitted for readability: 62 nodes, 0 edges
+    class apb_slave_reference_tb_apb_reset_2461437e function;
+    class apb_slave_reference_tb_apb_read_6df2749c function;
+    class apb_slave_reference_tb_apb_write_766786ec function;
+    class apb_slave_reference_tb_test_write_read_all_regs_b39800a4 test;
+    class apb_slave_reference_tb_test_write_read_reg0_2496536f test;
+    class apb_slave_reference_tb_test_invalid_addr_7efac8ac test;
+    class apb_slave_reference_tb_test_read_before_write_7d39b63f test;
+    class apb_slave_reference_tb_test_reset_5c001533 test;
+    class alu_8bit_reference_tb_reference_model_7b6e3f7d function;
+    class alu_8bit_reference_tb_test_additional_edge_cases_c4ccb833 test;
+    class alu_8bit_reference_tb_test_all_opcodes_boundary_050b2604 test;
+    class alu_8bit_reference_tb_test_zero_flag_asserts_b19eceef test;
+    class alu_8bit_reference_tb_test_zero_flag_not_asserte_64c7f651 test;
+    class fsm_traffic_light_reference_tb_read_state_06cdfc33 function;
+    class fsm_traffic_light_reference_tb_check_state_784ed95b function;
+    class uart_tx_reference_tb_send_byte_adfdbcd1 function;
+    class uart_tx_reference_tb_uart_monitor_511da43d function;
+    class sync_fifo_8x16_reference_tb_write_word_0bfd0c51 function;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>reference_tb.py</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in benchmarks/apb_slave/reference_tb.py.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>apb_write()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>test_write_read_all_regs()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small><br><code>test_write_read_reg0()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td>apb_write() node in benchmarks/apb_slave/reference_tb.py.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>apb_read()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>test_invalid_addr()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small><br><code>test_read_before_write()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small><br><code>test_write_read_all_regs()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small><br>+1 more</td>
+  <td>apb_read() node in benchmarks/apb_slave/reference_tb.py.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>apb_reset()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>test_invalid_addr()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small><br><code>test_read_before_write()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small><br><code>test_reset()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small><br>+2 more</td>
+  <td>apb_reset() node in benchmarks/apb_slave/reference_tb.py.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>test_reset()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td><code>apb_reset()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>Verifies imports, entry points, or version behavior.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>test_write_read_reg0()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td><code>apb_read()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small><br><code>apb_reset()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small><br><code>apb_write()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>Verifies imports, entry points, or version behavior.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>test_write_read_all_regs()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td><code>apb_read()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small><br><code>apb_reset()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small><br><code>apb_write()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>Verifies imports, entry points, or version behavior.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>test_invalid_addr()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td><code>apb_read()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small><br><code>apb_reset()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>Verifies imports, entry points, or version behavior.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>test_read_before_write()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td><code>apb_read()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small><br><code>apb_reset()</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>Verifies imports, entry points, or version behavior.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>reference_tb.py Hand-written reference testbench for APB Slave (apb_slave). Grou</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for reference_tb.py Hand-written reference testbench for APB Slave (apb_slave). Grou.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>APB write transfer to given word-aligned address.</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for APB write transfer to given word-aligned address..</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><code>APB read transfer from given word-aligned address. Returns data.</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for APB read transfer from given word-aligned address. Returns data..</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><code>Assert PRESETn for 3 clock cycles, then release.</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for Assert PRESETn for 3 clock cycles, then release..</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td><code>After reset, verify PRDATA=0, PREADY=1, PSLVERR=0.</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for After reset, verify PRDATA=0, PREADY=1, PSLVERR=0..</td>
+</tr>
+<tr>
+  <td>15</td>
+  <td><code>Write 0xDEADBEEF to address 0x00, read back and verify.</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for Write 0xDEADBEEF to address 0x00, read back and verify..</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td><code>Write different values to all 4 registers, read all back.</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for Write different values to all 4 registers, read all back..</td>
+</tr>
+<tr>
+  <td>17</td>
+  <td><code>Read from invalid address 0xFF — verify PSLVERR=1.</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for Read from invalid address 0xFF — verify PSLVERR=1..</td>
+</tr>
+<tr>
+  <td>18</td>
+  <td><code>Read from all registers before writing — verify 0 (reset value).</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for Read from all registers before writing — verify 0 (reset value)..</td>
+</tr>
+<tr>
+  <td>19</td>
+  <td><code>reference_tb.py</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in benchmarks/sync_fifo_8x16/reference_tb.py.</td>
+</tr>
+<tr>
+  <td>20</td>
+  <td><code>write_word()</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>fourteen not full()</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small><br><code>test_fifteenth_write_full()</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small><br><code>test_read_all_fifteen()</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small><br>+2 more</td>
+  <td>write_word() node in benchmarks/sync_fifo_8x16/reference_tb.py.</td>
+</tr>
+<tr>
+  <td>21</td>
+  <td><code>read_word()</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>test_read_all_fifteen()</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small><br><code>test_simultaneous_rw()</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small></td>
+  <td>read_word() node in benchmarks/sync_fifo_8x16/reference_tb.py.</td>
+</tr>
+<tr>
+  <td>22</td>
+  <td><code>test_reset()</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Verifies imports, entry points, or version behavior.</td>
+</tr>
+<tr>
+  <td>23</td>
+  <td><code>test_write_fourteen_not_full()</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td><code>write_word()</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>Verifies imports, entry points, or version behavior.</td>
+</tr>
+<tr>
+  <td>24</td>
+  <td><code>test_fifteenth_write_full()</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td><code>write_word()</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>Verifies imports, entry points, or version behavior.</td>
+</tr>
+<tr>
+  <td>25</td>
+  <td><code>test_write_when_full_blocked()</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td><code>write_word()</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>Verifies imports, entry points, or version behavior.</td>
+</tr>
+<tr>
+  <td>26</td>
+  <td><code>test_read_all_fifteen()</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td><code>read_word()</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small><br><code>write_word()</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>Verifies imports, entry points, or version behavior.</td>
+</tr>
+<tr>
+  <td>27</td>
+  <td><code>test_simultaneous_rw()</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td><code>read_word()</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small><br><code>write_word()</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small></td>
+  <td>No direct outbound edge</td>
+  <td>Verifies imports, entry points, or version behavior.</td>
+</tr>
+<tr>
+  <td>28</td>
+  <td><code>reference_tb.py Hand-written reference testbench for synchronous FIFO (sync_fifo</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for reference_tb.py Hand-written reference testbench for synchronous FIFO (sync_fifo.</td>
+</tr>
+<tr>
+  <td>29</td>
+  <td><code>Write one word to FIFO. Drives signals AFTER RisingEdge.</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for Write one word to FIFO. Drives signals AFTER RisingEdge..</td>
+</tr>
+<tr>
+  <td>30</td>
+  <td><code>Read one word from FIFO. Returns data after it&#x27;s stable.      NOTE: The Timer(1p</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_tb.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for Read one word from FIFO. Returns data after it&#x27;s stable.      NOTE: The Timer(1p.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>benchmarks/apb_slave/reference_tb.py</code></td><td>18 nodes</td></tr>
+<tr><td><code>benchmarks/sync_fifo_8x16/reference_tb.py</code></td><td>18 nodes</td></tr>
+<tr><td><code>benchmarks/fsm_traffic_light/reference_tb.py</code></td><td>16 nodes</td></tr>
+<tr><td><code>benchmarks/uart_tx/reference_tb.py</code></td><td>16 nodes</td></tr>
+<tr><td><code>benchmarks/alu_8bit/reference_tb.py</code></td><td>12 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: explains x40, contains x35, calls x31. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 8. Pipeline State & Simulation ====== -->
+<h2 id="pipeline-state-simulation">8. Pipeline State &amp; Simulation</h2>
+<p>Pipeline State &amp; Simulation groups implementation around session, handoffmd, benchmarks, complete, mostly in SESSION_HANDOFF.md. This section covers 13 nodes and 12 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Pipeline State &amp; Simulation (13 nodes, 12 edges)
     session_handoff_session_handoff_md_9635532b("SESSION_HANDOFF.md")
+    session_handoff_complete_results_2e68a03f("Complete Results<br/><small>SESSION_HANDOFF.md</small>")
     session_handoff_f42e378e("SESSION_HANDOFF.md")
+    session_handoff_all_5_benchmarks_v1_pass_v2_comp_6f0ba797("All 5 Benchmarks: V1 PASS + V2 COMPLETE<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_bugs_fixed_this_session_6f7fa2e3("Bugs Fixed This Session<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_commands_e19d8eaf("Commands<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_completed_this_session_a73d9ced("Completed This Session<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_core_benchmarks_6134fe44("Core Benchmarks<br/><small>SESSION_HANDOFF.md</small>")
     session_handoff_cost_tracking_b6d5a4b7("Cost Tracking<br/><small>SESSION_HANDOFF.md</small>")
-    session_handoff_current_sprint_5962c863("Current Sprint<br/><small>SESSION_HANDOFF.md</small>")
-    session_handoff_known_limitations_acceptable_for_b0c0363a("Known Limitations (acceptable for V1)<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_known_issues_33c4322b("Known Issues<br/><small>SESSION_HANDOFF.md</small>")
     session_handoff_last_updated_64207192("Last Updated<br/><small>SESSION_HANDOFF.md</small>")
-    session_handoff_next_session_855f6932("Next Session<br/><small>SESSION_HANDOFF.md</small>")
-    session_handoff_test_results_f275a4a7("Test Results<br/><small>SESSION_HANDOFF.md</small>")
-    session_handoff_trace2skill_stats_6bc3ac19("Trace2Skill Stats<br/><small>SESSION_HANDOFF.md</small>")
-    session_handoff_v1_status_done_ab81b118("V1 Status: DONE<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_new_benchmarks_0cd29a3e("New Benchmarks<br/><small>SESSION_HANDOFF.md</small>")
+    session_handoff_next_tasks_priority_order_aadf652c("Next Tasks (priority order)<br/><small>SESSION_HANDOFF.md</small>")
     session_handoff_f42e378e -->|contains| session_handoff_session_handoff_md_9635532b
+    session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_all_5_benchmarks_v1_pass_v2_comp_6f0ba797
+    session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_bugs_fixed_this_session_6f7fa2e3
+    session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_commands_e19d8eaf
+    session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_complete_results_2e68a03f
+    session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_completed_this_session_a73d9ced
     session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_cost_tracking_b6d5a4b7
-    session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_current_sprint_5962c863
-    session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_known_limitations_acceptable_for_b0c0363a
+    session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_known_issues_33c4322b
     session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_last_updated_64207192
-    session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_next_session_855f6932
-    session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_test_results_f275a4a7
-    session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_trace2skill_stats_6bc3ac19
-    session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_v1_status_done_ab81b118
+    session_handoff_session_handoff_md_9635532b -->|contains| session_handoff_next_tasks_priority_order_aadf652c
+    session_handoff_complete_results_2e68a03f -->|contains| session_handoff_core_benchmarks_6134fe44
+    session_handoff_complete_results_2e68a03f -->|contains| session_handoff_new_benchmarks_0cd29a3e
     class session_handoff_session_handoff_md_9635532b concept;
+    class session_handoff_complete_results_2e68a03f concept;
     class session_handoff_f42e378e concept;
+    class session_handoff_all_5_benchmarks_v1_pass_v2_comp_6f0ba797 concept;
+    class session_handoff_bugs_fixed_this_session_6f7fa2e3 concept;
+    class session_handoff_commands_e19d8eaf concept;
+    class session_handoff_completed_this_session_a73d9ced concept;
+    class session_handoff_core_benchmarks_6134fe44 concept;
     class session_handoff_cost_tracking_b6d5a4b7 concept;
-    class session_handoff_current_sprint_5962c863 concept;
-    class session_handoff_known_limitations_acceptable_for_b0c0363a concept;
+    class session_handoff_known_issues_33c4322b concept;
     class session_handoff_last_updated_64207192 concept;
-    class session_handoff_next_session_855f6932 concept;
-    class session_handoff_test_results_f275a4a7 concept;
-    class session_handoff_trace2skill_stats_6bc3ac19 concept;
-    class session_handoff_v1_status_done_ab81b118 concept;
+    class session_handoff_new_benchmarks_0cd29a3e concept;
+    class session_handoff_next_tasks_priority_order_aadf652c concept;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -931,54 +1634,78 @@ flowchart LR
 </tr>
 <tr>
   <td>4</td>
-  <td><code>Current Sprint</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><code>All 5 Benchmarks: V1 PASS + V2 COMPLETE</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Current Sprint.</td>
+  <td>Documentation node describing All 5 Benchmarks: V1 PASS + V2 COMPLETE.</td>
 </tr>
 <tr>
   <td>5</td>
-  <td><code>V1 Status: DONE</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><code>Completed This Session</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing V1 Status: DONE.</td>
+  <td>Documentation node describing Completed This Session.</td>
 </tr>
 <tr>
   <td>6</td>
-  <td><code>Known Limitations (acceptable for V1)</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><code>Known Issues</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Known Limitations (acceptable for V1).</td>
+  <td>Documentation node describing Known Issues.</td>
 </tr>
 <tr>
   <td>7</td>
-  <td><code>Next Session</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><code>Complete Results</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Next Session.</td>
+  <td>Documentation node describing Complete Results.</td>
 </tr>
 <tr>
   <td>8</td>
-  <td><code>Test Results</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><code>Core Benchmarks</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Test Results.</td>
+  <td>Documentation node describing Core Benchmarks.</td>
 </tr>
 <tr>
   <td>9</td>
-  <td><code>Trace2Skill Stats</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><code>New Benchmarks</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Documentation node describing Trace2Skill Stats.</td>
+  <td>Documentation node describing New Benchmarks.</td>
 </tr>
 <tr>
   <td>10</td>
+  <td><code>Bugs Fixed This Session</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Bugs Fixed This Session.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>Next Tasks (priority order)</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Next Tasks (priority order).</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><code>Commands</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Commands.</td>
+</tr>
+<tr>
+  <td>13</td>
   <td><code>Cost Tracking</code><br><small style="color:var(--muted)">SESSION_HANDOFF.md</small></td>
   <td><span class="tag tag-func">Concept</span></td>
   <td>External entry / no inbound edge</td>
@@ -992,18 +1719,18 @@ flowchart LR
     <h4>Key Files</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
-      <tr><td><code>SESSION_HANDOFF.md</code></td><td>10 nodes</td></tr>
+      <tr><td><code>SESSION_HANDOFF.md</code></td><td>13 nodes</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: contains x9. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x12. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
 
-<!-- ====== 6. Design Examples & Tools ====== -->
-<h2 id="design-examples-tools">6. Design Examples &amp; Tools</h2>
+<!-- ====== 9. Design Examples & Tools ====== -->
+<h2 id="design-examples-tools">9. Design Examples &amp; Tools</h2>
 <p>Design Examples &amp; Tools groups implementation around session, handoffmd, alu, 8bit, mostly in SESSION_HANDOFF.md. This section covers 5 nodes and 4 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
@@ -1100,8 +1827,8 @@ flowchart LR
 </div>
 <hr>
 
-<!-- ====== 7. EDA Tools & Docker ====== -->
-<h2 id="eda-tools-docker">7. EDA Tools &amp; Docker</h2>
+<!-- ====== 10. EDA Tools & Docker ====== -->
+<h2 id="eda-tools-docker">10. EDA Tools &amp; Docker</h2>
 <p>EDA Tools &amp; Docker groups implementation around session, handoffmd, pyuvm, yosys, mostly in SESSION_HANDOFF.md. This section covers 4 nodes and 4 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
@@ -1188,16 +1915,19 @@ flowchart LR
 </div>
 <hr>
 
-<!-- ====== 8. Python Package Init ====== -->
-<h2 id="python-package-init">8. Python Package Init</h2>
-<p>Python Package Init groups implementation around agents, mostly in v1_core/agents/__init__.py. This section covers 1 nodes and 0 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<!-- ====== 11. Community 22 ====== -->
+<h2 id="community-22">11. Community 22</h2>
+<p>Community 22 groups implementation around reference, rtlv, alu, 8bit, mostly in benchmarks/alu_8bit/reference_rtl.v. This section covers 2 nodes and 1 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Python Package Init (1 nodes, 0 edges)
-    agents_init_414f5132("__init__.py")
-    class agents_init_414f5132 module;
+    %% Section: Community 22 (2 nodes, 1 edges)
+    alu_8bit_reference_rtl_6628b028("reference_rtl.v")
+    alu_8bit_reference_rtl_alu_8bit_894e90ac("alu_8bit<br/><small>benchmarks/alu_8bit/reference_rtl.v</small>")
+    alu_8bit_reference_rtl_6628b028 -->|defines| alu_8bit_reference_rtl_alu_8bit_894e90ac
+    class alu_8bit_reference_rtl_6628b028 function;
+    class alu_8bit_reference_rtl_alu_8bit_894e90ac function;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -1221,11 +1951,19 @@ flowchart LR
 </tr>
 <tr>
   <td>1</td>
-  <td><code>__init__.py</code><br><small style="color:var(--muted)">v1_core/agents/__init__.py</small></td>
-  <td><span class="tag tag-class">Module</span></td>
+  <td><code>reference_rtl.v</code><br><small style="color:var(--muted)">benchmarks/alu_8bit/reference_rtl.v</small></td>
+  <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Module file in v1_core/agents/__init__.py.</td>
+  <td>reference_rtl.v node in benchmarks/alu_8bit/reference_rtl.v.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>alu_8bit</code><br><small style="color:var(--muted)">benchmarks/alu_8bit/reference_rtl.v</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>alu_8bit node in benchmarks/alu_8bit/reference_rtl.v.</td>
 </tr>
 </table>
 
@@ -1234,26 +1972,29 @@ flowchart LR
     <h4>Key Files</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
-      <tr><td><code>v1_core/agents/__init__.py</code></td><td>1 nodes</td></tr>
+      <tr><td><code>benchmarks/alu_8bit/reference_rtl.v</code></td><td>2 nodes</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: No high-confidence call edges detected. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: defines x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
 
-<!-- ====== 9. Python Package Init ====== -->
-<h2 id="python-package-init-d725c0">9. Python Package Init</h2>
-<p>Python Package Init groups implementation around mcp, tools, mostly in v1_core/mcp_tools/__init__.py. This section covers 1 nodes and 0 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<!-- ====== 12. Community 23 ====== -->
+<h2 id="community-23">12. Community 23</h2>
+<p>Community 23 groups implementation around reference, rtlv, apb, slave, mostly in benchmarks/apb_slave/reference_rtl.v. This section covers 2 nodes and 1 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Python Package Init (1 nodes, 0 edges)
-    mcp_tools_init_a92ca646("__init__.py")
-    class mcp_tools_init_a92ca646 module;
+    %% Section: Community 23 (2 nodes, 1 edges)
+    apb_slave_reference_rtl_7b2c4f7c("reference_rtl.v")
+    apb_slave_reference_rtl_apb_slave_e3df1b7b("apb_slave<br/><small>benchmarks/apb_slave/reference_rtl.v</small>")
+    apb_slave_reference_rtl_7b2c4f7c -->|defines| apb_slave_reference_rtl_apb_slave_e3df1b7b
+    class apb_slave_reference_rtl_7b2c4f7c function;
+    class apb_slave_reference_rtl_apb_slave_e3df1b7b function;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -1277,11 +2018,19 @@ flowchart LR
 </tr>
 <tr>
   <td>1</td>
-  <td><code>__init__.py</code><br><small style="color:var(--muted)">v1_core/mcp_tools/__init__.py</small></td>
-  <td><span class="tag tag-class">Module</span></td>
+  <td><code>reference_rtl.v</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_rtl.v</small></td>
+  <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Module file in v1_core/mcp_tools/__init__.py.</td>
+  <td>reference_rtl.v node in benchmarks/apb_slave/reference_rtl.v.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>apb_slave</code><br><small style="color:var(--muted)">benchmarks/apb_slave/reference_rtl.v</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>apb_slave node in benchmarks/apb_slave/reference_rtl.v.</td>
 </tr>
 </table>
 
@@ -1290,26 +2039,239 @@ flowchart LR
     <h4>Key Files</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
-      <tr><td><code>v1_core/mcp_tools/__init__.py</code></td><td>1 nodes</td></tr>
+      <tr><td><code>benchmarks/apb_slave/reference_rtl.v</code></td><td>2 nodes</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: No high-confidence call edges detected. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: defines x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
 
-<!-- ====== 10. Python Package Init ====== -->
-<h2 id="python-package-init-2">10. Python Package Init</h2>
-<p>Python Package Init groups implementation around tests, mostly in v1_core/tests/__init__.py. This section covers 1 nodes and 0 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<!-- ====== 13. Community 24 ====== -->
+<h2 id="community-24">13. Community 24</h2>
+<p>Community 24 groups implementation around reference, rtlv, fsm, traffic, mostly in benchmarks/fsm_traffic_light/reference_rtl.v. This section covers 2 nodes and 1 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Python Package Init (1 nodes, 0 edges)
+    %% Section: Community 24 (2 nodes, 1 edges)
+    fsm_traffic_light_reference_rtl_eb2e213d("reference_rtl.v")
+    fsm_traffic_light_reference_rtl_fsm_traffic_ligh_e201ca04("fsm_traffic_light<br/><small>benchmarks/fsm_traffic_light/reference_rtl.v</small>")
+    fsm_traffic_light_reference_rtl_eb2e213d -->|defines| fsm_traffic_light_reference_rtl_fsm_traffic_ligh_e201ca04
+    class fsm_traffic_light_reference_rtl_eb2e213d function;
+    class fsm_traffic_light_reference_rtl_fsm_traffic_ligh_e201ca04 function;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>reference_rtl.v</code><br><small style="color:var(--muted)">benchmarks/fsm_traffic_light/reference_rtl.v</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>reference_rtl.v node in benchmarks/fsm_traffic_light/reference_rtl.v.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>fsm_traffic_light</code><br><small style="color:var(--muted)">benchmarks/fsm_traffic_light/reference_rtl.v</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>fsm_traffic_light node in benchmarks/fsm_traffic_light/reference_rtl.v.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>benchmarks/fsm_traffic_light/reference_rtl.v</code></td><td>2 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: defines x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 14. Community 25 ====== -->
+<h2 id="community-25">14. Community 25</h2>
+<p>Community 25 groups implementation around reference, rtlv, sync, fifo, mostly in benchmarks/sync_fifo_8x16/reference_rtl.v. This section covers 2 nodes and 1 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Community 25 (2 nodes, 1 edges)
+    sync_fifo_8x16_reference_rtl_5681286e("reference_rtl.v")
+    sync_fifo_8x16_reference_rtl_sync_fifo_8x16_e44d07c8("sync_fifo_8x16<br/><small>benchmarks/sync_fifo_8x16/reference_rtl.v</small>")
+    sync_fifo_8x16_reference_rtl_5681286e -->|defines| sync_fifo_8x16_reference_rtl_sync_fifo_8x16_e44d07c8
+    class sync_fifo_8x16_reference_rtl_5681286e function;
+    class sync_fifo_8x16_reference_rtl_sync_fifo_8x16_e44d07c8 function;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>reference_rtl.v</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_rtl.v</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>reference_rtl.v node in benchmarks/sync_fifo_8x16/reference_rtl.v.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>sync_fifo_8x16</code><br><small style="color:var(--muted)">benchmarks/sync_fifo_8x16/reference_rtl.v</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>sync_fifo_8x16 node in benchmarks/sync_fifo_8x16/reference_rtl.v.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>benchmarks/sync_fifo_8x16/reference_rtl.v</code></td><td>2 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: defines x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 15. Community 26 ====== -->
+<h2 id="community-26">15. Community 26</h2>
+<p>Community 26 groups implementation around reference, rtlv, uart, benchmarks, mostly in benchmarks/uart_tx/reference_rtl.v. This section covers 2 nodes and 1 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Community 26 (2 nodes, 1 edges)
+    uart_tx_reference_rtl_db69fe9f("reference_rtl.v")
+    uart_tx_reference_rtl_uart_tx_a5aeb3dc("uart_tx<br/><small>benchmarks/uart_tx/reference_rtl.v</small>")
+    uart_tx_reference_rtl_db69fe9f -->|defines| uart_tx_reference_rtl_uart_tx_a5aeb3dc
+    class uart_tx_reference_rtl_db69fe9f function;
+    class uart_tx_reference_rtl_uart_tx_a5aeb3dc function;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>reference_rtl.v</code><br><small style="color:var(--muted)">benchmarks/uart_tx/reference_rtl.v</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>reference_rtl.v node in benchmarks/uart_tx/reference_rtl.v.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>uart_tx</code><br><small style="color:var(--muted)">benchmarks/uart_tx/reference_rtl.v</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>uart_tx node in benchmarks/uart_tx/reference_rtl.v.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>benchmarks/uart_tx/reference_rtl.v</code></td><td>2 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: defines x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 16. Other ====== -->
+<h2 id="other">16. Other</h2>
+<p>Other groups implementation around verification, agents, mcp, tools, mostly in v1_core/tests/__init__.py, v1_core/__init__.py, v1_core/agents/__init__.py. This section covers 7 nodes and 0 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Other (7 nodes, 0 edges)
+    v1_core_init_5211e398("__init__.py")
+    v1_core_agents_init_py_agents_init_703ab111("__init__.py")
+    v1_core_mcp_tools_init_py_mcp_tools_init_39fdcdb8("__init__.py")
     tests_init_a5c4ad93("__init__.py")
+    v2_verification_init_aa5dff84("__init__.py")
+    v2_verification_agents_init_py_agents_init_0af0cf47("__init__.py")
+    v2_verification_mcp_tools_init_py_mcp_tools_init_59b19e03("__init__.py")
+    class v1_core_init_5211e398 module;
+    class v1_core_agents_init_py_agents_init_703ab111 module;
+    class v1_core_mcp_tools_init_py_mcp_tools_init_39fdcdb8 module;
     class tests_init_a5c4ad93 test;
+    class v2_verification_init_aa5dff84 module;
+    class v2_verification_agents_init_py_agents_init_0af0cf47 module;
+    class v2_verification_mcp_tools_init_py_mcp_tools_init_59b19e03 module;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -1339,61 +2301,53 @@ flowchart LR
   <td>No direct outbound edge</td>
   <td>Module file in v1_core/tests/__init__.py.</td>
 </tr>
-</table>
-
-<div class="grid">
-  <div class="card">
-    <h4>Key Files</h4>
-    <table style="width:100%;font-size:0.85rem;">
-      <tr><th>File</th><th>Coverage</th></tr>
-      <tr><td><code>v1_core/tests/__init__.py</code></td><td>1 nodes</td></tr>
-    </table>
-  </div>
-  <div class="card">
-    <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: No high-confidence call edges detected. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
-  </div>
-</div>
-<hr>
-
-<!-- ====== 11. Python Package Init ====== -->
-<h2 id="python-package-init-3">11. Python Package Init</h2>
-<p>Python Package Init groups implementation around Python Package Init, mostly in v1_core/__init__.py. This section covers 1 nodes and 0 internal edges; the diagram shows only representative relationships to stay readable.</p>
-
-<div class="mermaid">
-%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
-flowchart LR
-    %% Section: Python Package Init (1 nodes, 0 edges)
-    v1_core_init_5211e398("__init__.py")
-    class v1_core_init_5211e398 module;
-    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
-    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
-    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
-    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
-    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
-    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
-    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
-    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
-    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
-</div>
-
-<h3>Call Details</h3>
-<table class="call-table">
 <tr>
-  <th style="width:5%">#</th>
-  <th style="width:28%">Node</th>
-  <th style="width:10%">Type</th>
-  <th style="width:17%">Caller</th>
-  <th style="width:20%">Callees</th>
-  <th style="width:20%">Description</th>
-</tr>
-<tr>
-  <td>1</td>
+  <td>2</td>
   <td><code>__init__.py</code><br><small style="color:var(--muted)">v1_core/__init__.py</small></td>
   <td><span class="tag tag-class">Module</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
   <td>Module file in v1_core/__init__.py.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>__init__.py</code><br><small style="color:var(--muted)">v1_core/agents/__init__.py</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in v1_core/agents/__init__.py.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>__init__.py</code><br><small style="color:var(--muted)">v1_core/mcp_tools/__init__.py</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in v1_core/mcp_tools/__init__.py.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>__init__.py</code><br><small style="color:var(--muted)">v2_verification/agents/__init__.py</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in v2_verification/agents/__init__.py.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>__init__.py</code><br><small style="color:var(--muted)">v2_verification/__init__.py</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in v2_verification/__init__.py.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>__init__.py</code><br><small style="color:var(--muted)">v2_verification/mcp_tools/__init__.py</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in v2_verification/mcp_tools/__init__.py.</td>
 </tr>
 </table>
 
@@ -1403,6 +2357,12 @@ flowchart LR
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
       <tr><td><code>v1_core/__init__.py</code></td><td>1 nodes</td></tr>
+<tr><td><code>v1_core/agents/__init__.py</code></td><td>1 nodes</td></tr>
+<tr><td><code>v1_core/mcp_tools/__init__.py</code></td><td>1 nodes</td></tr>
+<tr><td><code>v1_core/tests/__init__.py</code></td><td>1 nodes</td></tr>
+<tr><td><code>v2_verification/__init__.py</code></td><td>1 nodes</td></tr>
+<tr><td><code>v2_verification/agents/__init__.py</code></td><td>1 nodes</td></tr>
+<tr><td><code>v2_verification/mcp_tools/__init__.py</code></td><td>1 nodes</td></tr>
     </table>
   </div>
   <div class="card">
@@ -1418,18 +2378,18 @@ flowchart LR
   <div class="card">
     <h4>Graph</h4>
     <table style="width:100%;font-size:0.85rem;">
-      <tr><td>Nodes</td><td>148</td></tr>
-      <tr><td>Edges</td><td>188</td></tr>
+      <tr><td>Nodes</td><td>353</td></tr>
+      <tr><td>Edges</td><td>459</td></tr>
       <tr><td>Hyperedges</td><td>0</td></tr>
-      <tr><td>Communities</td><td>17</td></tr>
-      <tr><td>Documented Sections</td><td>10</td></tr>
+      <tr><td>Communities</td><td>32</td></tr>
+      <tr><td>Documented Sections</td><td>15</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Edge Confidence</h4>
     <table style="width:100%;font-size:0.85rem;">
-      <tr><td>EXTRACTED</td><td>177</td></tr>
-      <tr><td>INFERRED</td><td>11</td></tr>
+      <tr><td>EXTRACTED</td><td>438</td></tr>
+      <tr><td>INFERRED</td><td>21</td></tr>
       <tr><td>AMBIGUOUS</td><td>0</td></tr>
     </table>
   </div>
@@ -1437,7 +2397,7 @@ flowchart LR
 
 <div style="text-align:center; padding:40px 0; color: var(--muted); font-size:0.9rem;">
   <p>rtl2gds-agent — Architecture Documentation</p>
-  <p>Generated: 2026-06-14 07:27 UTC · graphify callflow-html</p>
+  <p>Generated: 2026-06-15 04:54 UTC · graphify callflow-html</p>
 </div>
 
 </div><!-- .container -->
