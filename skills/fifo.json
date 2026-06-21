@@ -540,6 +540,56 @@
       "design_name": "sync_fifo_8x16",
       "success_count": 1,
       "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0054",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "RTL sets full when count == 15 instead of the correct spec value of 16, causing the FIFO to assert full one entry too early.",
+      "fix": "Change the full threshold in the assign statement from count == 5'd15 to count == 5'd16 so the FIFO correctly indicates full at 16 entries.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0055",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The RTL code ignores the rst_n signal entirely, leaving state registers and counters uninitialized, causing simulation to fail on reset tests.",
+      "fix": "Modify all always @(posedge clk) blocks to include an rst_n condition that resets wr_ptr, rd_ptr, count, and output dout to zero.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0056",
+      "category": "fifo",
+      "error_type": "SYNTAX",
+      "pattern": "The Makefile contains a missing separator (likely a line that should use a tab but uses spaces) causing a syntax error that halts the build process.",
+      "fix": "Edit the Makefile to ensure all recipe lines use a tab instead of spaces.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0057",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "The FIFO asserts full when count equals 15 instead of the correct threshold of 16 entries per the specification.",
+      "fix": "Change the full flag comparison from 15 to 16 so that full asserts only when the FIFO has exactly 16 entries.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
+    },
+    {
+      "id": "fifo_0058",
+      "category": "fifo",
+      "error_type": "LOGIC",
+      "pattern": "RTL code does not initialize state registers on reset because rst_n is not used in any always block.",
+      "fix": "Add asynchronous reset logic to all sequential blocks so that wr_ptr, rd_ptr, mem, dout, and count are initialized to zero when rst_n is low.",
+      "design_name": "sync_fifo_8x16",
+      "success_count": 1,
+      "last_seen": "sync_fifo_8x16"
     }
   ]
 }

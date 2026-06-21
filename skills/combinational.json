@@ -570,6 +570,56 @@
       "design_name": "alu_8bit",
       "success_count": 1,
       "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0057",
+      "category": "combinational",
+      "error_type": "LOGIC",
+      "pattern": "The zero_flag output is never assigned in the RTL, always remaining in its initial state (likely 0) instead of being driven high when Y is 0x00.",
+      "fix": "Add the zero_flag assignment logic that sets zero_flag to 1 when Y equals 0 and 0 otherwise.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0058",
+      "category": "combinational",
+      "error_type": "LOGIC",
+      "pattern": "The RTL implements an XNOR for opcode 3'b100 instead of XOR, causing Y to be the bitwise inversion of the correct result.",
+      "fix": "Remove the bitwise NOT operator from the XOR operation line to compute A XOR B instead of A XNOR B.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0059",
+      "category": "combinational",
+      "error_type": "LOGIC",
+      "pattern": "The RTL code implements opcode 3'b100 as XNOR (~(A ^ B)) instead of XOR (A ^ B) as specified.",
+      "fix": "In the RTL code, replace the XNOR operation for opcode 3'b100 with the correct XOR operation.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0060",
+      "category": "combinational",
+      "error_type": "LOGIC",
+      "pattern": "The RTL implements an XNOR operation (~(A ^ B)) for opcode 3'b100 instead of the specified XOR operation (A ^ B).",
+      "fix": "Remove the bitwise NOT operator from the XOR operation on line 17 to match the specification.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0061",
+      "category": "combinational",
+      "error_type": "LOGIC",
+      "pattern": "The RTL declares zero_flag as output reg but never assigns it, leaving it driven as X (unknown) because the always block only assigns Y.",
+      "fix": "Add logic to drive zero_flag, e.g., add \"zero_flag = (Y == 8'b0);\" inside the always block.",
+      "design_name": "alu_8bit",
+      "success_count": 1,
+      "last_seen": "alu_8bit"
     }
   ]
 }

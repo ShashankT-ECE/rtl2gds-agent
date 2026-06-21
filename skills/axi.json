@@ -120,6 +120,46 @@
       "design_name": "apb_slave",
       "success_count": 1,
       "last_seen": "apb_slave"
+    },
+    {
+      "id": "axi_0012",
+      "category": "axi",
+      "error_type": "UNKNOWN",
+      "pattern": "The simulation could not run because the Makefile contains a syntax error (missing separator) which prevents execution of any tests.",
+      "fix": "Correct the Makefile formatting by replacing spaces with a tab character at line 9 where the missing separator error occurs.",
+      "design_name": "apb_slave",
+      "success_count": 1,
+      "last_seen": "apb_slave"
+    },
+    {
+      "id": "axi_0013",
+      "category": "axi",
+      "error_type": "LOGIC",
+      "pattern": "The RTL uses PADDR[4:3] for register selection instead of PADDR[3:2], causing incorrect register mapping for APB addresses 0x00, 0x04, 0x08, 0x0C.",
+      "fix": "Correct the address decode bits to use PADDR[3:2] so registers are properly selected based on the spec's word-aligned addresses.",
+      "design_name": "apb_slave",
+      "success_count": 1,
+      "last_seen": "apb_slave"
+    },
+    {
+      "id": "axi_0014",
+      "category": "axi",
+      "error_type": "LOGIC",
+      "pattern": "Address decode uses PADDR[4:3] instead of PADDR[3:2], causing incorrect register selection for APB word-aligned addresses.",
+      "fix": "Correct the address decode bit range to PADDR[3:2] to map registers reg0\u2013reg3 to APB addresses 0x00, 0x04, 0x08, 0x0C.",
+      "design_name": "apb_slave",
+      "success_count": 1,
+      "last_seen": "apb_slave"
+    },
+    {
+      "id": "axi_0015",
+      "category": "axi",
+      "error_type": "LOGIC",
+      "pattern": "PSLVERR is asserted when addr_valid is true, but spec requires PSLVERR to be asserted only on invalid addresses.",
+      "fix": "Invert the addr_valid signal in the PSLVERR assignment so that PSLVERR is asserted for invalid addresses instead of valid ones.",
+      "design_name": "apb_slave",
+      "success_count": 1,
+      "last_seen": "apb_slave"
     }
   ]
 }

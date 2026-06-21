@@ -840,6 +840,206 @@
       "design_name": "uart_tx",
       "success_count": 1,
       "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0084",
+      "category": "fsm",
+      "error_type": "UNKNOWN",
+      "pattern": "The simulation log shows a Makefile syntax error (missing separator on line 9), which prevents the simulation from running, so no RTL-spec mismatch can be observed from functional behavior.",
+      "fix": "Ensure all recipe lines in the Makefile are indented with a single tab, not spaces.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0085",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL code has swapped state transition targets for GREEN and YELLOW, causing GREEN to transition to RED instead of YELLOW and YELLOW to transition to GREEN instead of RED.",
+      "fix": "Correct the next state logic so GREEN transitions to YELLOW and YELLOW transitions to RED, matching the intended traffic light FSM sequence.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0086",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL is transmitting data MSB-first (outputting shift_reg[7]) instead of LSB-first as specified, and the shift register shifts left instead of right, causing bit-reversal and incorrect tx_busy deassertion.",
+      "fix": "Modify the RTL to shift right (LSB-first) and output the LSB (shift_reg[0]) to match the UART LSB-first specification.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0087",
+      "category": "fsm",
+      "error_type": "SYNTAX",
+      "pattern": "The Makefile contains a missing separator on line 9, likely a tab character needed instead of spaces for a recipe line.",
+      "fix": "Ensure all recipe lines in the Makefile are indented with a single tab character, not spaces.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0088",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The testbench is trying to access `dut.clk`, but the design's top-level module port `clk` is not visible as a child of the instance `apb_slave`.",
+      "fix": "Ensure the testbench references `dut.clk` correctly, which may require adjusting the design hierarchy, for instance, by setting the top module to `fsm_traffic_light` or by accessing `dut.apb_slave.clk`.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0089",
+      "category": "fsm",
+      "error_type": "SYNTAX",
+      "pattern": "Makefile is missing a tab separator on line 9, causing a syntax error that prevents the build from starting.",
+      "fix": "Replace the leading spaces on line 9 of the Makefile with a single tab character.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0090",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL shifts right (>>) instead of left (<<), and outputs shift_reg[0] instead of shift_reg[7], causing MSB-first transmission instead of LSB-first.",
+      "fix": "Change the shift direction from right to left and the output bit from LSB to MSB to transmit data MSB-first as intended by the bug injection.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0091",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL parameter RED_COUNT is set to 10, but the verification plan specifies a RED count of 15 cycles (counter 0 to 14) and the reference model uses 14 as the threshold.",
+      "fix": "Update the RED_COUNT parameter to match the specification value of 15.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0092",
+      "category": "fsm",
+      "error_type": "SYNTAX",
+      "pattern": "The Verilog file contains a syntax error at line 1, likely due to a missing semicolon, incorrect keyword, or invalid character at the start of the file.",
+      "fix": "Open the uart_tx.v file and fix the syntax error at line 1 by ensuring the Verilog syntax is correct (e.g., starting with \"module\" and proper keyword spelling).",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0093",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL shifts left and outputs the MSB (shift_reg[7]), but the spec requires LSB-first transmission, meaning it should output the LSB (shift_reg[0]) and shift right.",
+      "fix": "Change the shift direction from left to right and output bit from shift_reg[0] instead of shift_reg[7] to achieve LSB-first transmission.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0094",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL uses shift_reg[0] (LSB) for the DATA state output, but the bug injection comment indicates the shift register shifts left (MSB-first), requiring shift_reg[7] to output bits in the correct order.",
+      "fix": "Change the tx output in the DATA state to use shift_reg[7] (MSB) instead of shift_reg[0] (LSB) to match the MSB-first shifting direction.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0095",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL shifts right and transmits LSB, but the bit order is reversed compared to spec\u2014errors in test_send_0x55 (expected 0x55 got 0xAA), test_send_0x00 (expected 0x00 got 0x80), and test_tx_busy_behavior (expected 0xA5 got 0xD2) confirm bit reversal, meaning the shift direction or bit selection is inverted.",
+      "fix": "Change the DATA state to shift left (e.g., shift_reg <= {shift_reg[6:0], 1'b0}) and transmit the MSB (shift_reg[7]) instead of LSB, or alternatively keep LSB-first but ensure the shift register and bit ordering match the spec.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0096",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The bit order is incorrect \u2014 the RTL transmits the MSB (shift_reg[7]) first instead of the LSB (shift_reg[0]) first, as required by the spec.",
+      "fix": "Change the output assignment in the DATA state to use the least significant bit (shift_reg[0]) instead of the most significant bit (shift_reg[7]).",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0097",
+      "category": "fsm",
+      "error_type": "SYNTAX",
+      "pattern": "Makefile line 9 has a missing separator (likely spaces instead of a tab).",
+      "fix": "Ensure all recipe lines in the Makefile use tabs instead of spaces.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0098",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL code uses MSB-first shifting (shift_reg[7]) on the tx output but the spec requires LSB-first (shift_reg[0]).",
+      "fix": "Change the shift register direction to shift left (MSB first) and output the MSB (shift_reg[7]) to match the spec's MSB-first transmission order.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0099",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "RTL shifts left and outputs MSB (bit 7) instead of required LSB-first order.",
+      "fix": "Modify the combinational output to use the LSB and change the shift direction to right-shift instead of left-shift.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0100",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL shifts data right (LSB-first) but the combinational output uses `shift_reg[0]` instead of `shift_reg[7]` for MSB-first transmission, causing tx_busy to never de-assert after transmission.",
+      "fix": "Update the DATA state output assignment to use the MSB of the shift register (`shift_reg[7]`) to match the buggy MSB-first shift direction.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0101",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The shift register shifts right but the output takes the MSB (shift_reg[7]) instead of the LSB (shift_reg[0]), causing data bits to be transmitted in MSB-first order instead of the required LSB-first order.",
+      "fix": "Modify the combinational output logic in the DATA state to drive tx from shift_reg[0] (LSB) instead of shift_reg[7] (MSB) to match the LSB-first transmission order specified in the verification plan.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "last_seen": "uart_tx"
+    },
+    {
+      "id": "fsm_0102",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL parameter RED_COUNT is set to 10, but the spec requires 15.",
+      "fix": "Update the RED_COUNT localparam to 15 to match the specification in the verification plan.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0103",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "The RTL code intentionally swaps the transition targets for GREEN and YELLOW states, so GREEN transitions to RED instead of YELLOW and YELLOW transitions to GREEN instead of RED.",
+      "fix": "Correct the next state logic so that GREEN transitions to YELLOW and YELLOW transitions to RED, matching the specification.",
+      "design_name": "fsm_traffic_light",
+      "success_count": 1,
+      "last_seen": "fsm_traffic_light"
     }
   ]
 }
