@@ -21,6 +21,7 @@ def main():
     parser.add_argument("--name", type=str, help="Design name (required with --spec)")
     parser.add_argument("--rtl", type=str, help="Path to existing RTL file (skips RTL generation)")
     parser.add_argument("--v2", action="store_true", help="Run V2 pipeline with synthesis and STA")
+    parser.add_argument("--v3", action="store_true", help="Run V3 pipeline with OpenLane 2 physical design and DRC")
     args = parser.parse_args()
 
     rtl_code = ""
@@ -71,8 +72,19 @@ def main():
             reference_tb_path = str(tb_ref_path.resolve())
             logger.info(f"Using reference testbench for {design_name} — skipping LLM generation")
 
-    # Route to V2 or V1 pipeline
-    if args.v2:
+    # Route to V3, V2, or V1 pipeline
+    if args.v3:
+        try:
+            from v3_physical.pipeline import run_v3_pipeline
+        except ImportError:
+            logger.error("V3 pipeline not available. Check v3_physical/")
+            return
+        final_state = run_v3_pipeline(
+            spec=spec,
+            design_name=design_name,
+            rtl_code=rtl_code,
+        )
+    elif args.v2:
         try:
             from v2_verification.pipeline import run_v2_pipeline
         except ImportError:

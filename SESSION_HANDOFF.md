@@ -1,86 +1,56 @@
 # SESSION_HANDOFF.md
 
 ## Last Updated
-Date: 2026-06-21 | Session: 9 — TRACE2SKILL COMPLETE OVERHAUL
+Date: 2026-06-21 | Session: 4 — V3 PHYSICAL DESIGN SCAFFOLD
 
-## PROJECT STATUS: V2 TRACE2SKILL FIXED — READY FOR V3
+## PROJECT STATUS: V3 SCAFFOLDED — OpenLane 2.3.10 + DRC Pipeline
 
-## Sessions Completed
-- Session 1: Initial pipeline setup
-- Session 2: Bug injection framework, RTL generation, agent architecture
-- Session 3: All 5 benchmarks V1+V2 complete, synthesis/STA data
-- Session 4: V2 robustified, reference RTLs, spec_parser agent
-- Session 5: FSM count fixed, Graphify 353 nodes
-- Session 6: Complete V2 validation campaign (25/25 clean passes)
-- Session 7: V2 reliability testing (25/25, 100%)
-- Session 8: AI pipeline validation — 10 reports, V3 GO decision
-- **Session 9: Trace2Skill complete overhaul — 4 fixes applied, 32 curated skills**
+## Completed This Session
+- [x] V3 folder structure created (`v3_physical/`)
+- [x] OpenLane 2 Docker pulled — `ghcr.io/efabless/openlane2:2.3.10` (7.39 GB)
+- [x] Legacy OpenLane v1 pulled — `efabless/openlane:latest` (5.25 GB)
+- [x] `openlane_server.py` — Docker wrapper for OpenLane 2
+- [x] `drc_server.py` — KLayout DRC wrapper
+- [x] `openlane_agent.py` — LangGraph node for physical design
+- [x] `drc_agent.py` — LangGraph node for design rule checking
+- [x] `pipeline.py` — V3 pipeline: synth → STA → OpenLane → DRC → GDSII
+- [x] PipelineState extended with 4 V3 fields (`gds_path`, `drc_violations`, `drc_passed`, `openlane_log`)
+- [x] `main.py` updated with `--v3` flag
+- [x] All 8 V3 files pass AST validation + import check
 
-## Session 9 Summary — Trace2Skill Overhaul
+## Known Open Issues (acceptable, document in paper)
+- Multi-line coordinated RTL fix: fix agent makes single-line changes only
+- ALU latches: combinational case statement infers latches in Yosys
+- STA WNS clipping: parser sometimes clips negative slack values
+- Fuzzy convergence: stuck_count only detects exact duplicate errors
+- OpenLane 2 pip package requires `python3-tk` (not installed — using Docker CLI directly)
+- DRC uses KLayout directly (not pip-based — may need installation)
+- PDK Sky130 path hardcoded to `pdk/sky130` — needs PDK download
 
-### What Was Fixed
+## Next Session — V3 Physical Design
+Step 1: Install Sky130 PDK (`volare` or manual download to `pdk/sky130`)
+Step 2: Run alu_8bit through full V3: `python main.py --benchmark alu_8bit --v3`
+Step 3: Fix any OpenLane config mismatches
+Step 4: Run DRC on generated GDSII
+Step 5: Iterate on remaining V1/V2 bugs for paper data
 
-1. **Unconditional storage bug** — `store_skill()` was called regardless of fix success. Now uses two-phase:
-   - `store_skill()` → tentative (confirmed_count=0)
-   - `confirm_skill()` → called only if next simulation PASSES
-   - `reject_skill()` → called if next simulation FAILS (deletes the entry)
-   - `pending_skill_id` flows through PipelineState
+## All Benchmark Results
+| Benchmark | V1 | V2 Sim | Synthesis | STA | V3 GDS |
+|-----------|-----|--------|-----------|-----|--------|
+| alu_8bit | PASS | PASS | 131 cells | N/A | PENDING |
+| sync_fifo_8x16 | PASS | PASS | 648 cells | 16.99ns | PENDING |
+| fsm_traffic_light | PASS | PASS | 10 cells | 19.36ns | PENDING |
+| uart_tx | PASS | PASS | 180 cells | MET | PENDING |
+| apb_slave | PASS | PASS | 527 cells | MET | PENDING |
 
-2. **Skill bank curated** — 241 noisy entries reduced to 32 curated+verified:
-   - Removed all SYNTAX/UNKNOWN/COVERAGE entries (duplicate "test not found", "Makefile missing", "cocotb missing" noise)
-   - Kept only genuine LOGIC/TIMING fix patterns
-   - Added 10 hand-curated entries with `curated=True` and `confirmed_count: 3-10`
-
-3. **UART stop bit testbench gap fixed** — Added `test_stop_bit()` that:
-   - Calculates exact stop bit position (9 × BAUD_DIV × 10ns)
-   - Asserts `tx == 1` at stop bit position
-   - Asserts `tx_busy == 0` after stop bit completes
-   - Catches the previously-undetected missing_stop_bit bug
-
-4. **Retrieval improved**:
-   - `retrieve_skills()` now returns only `confirmed_count > 0` entries
-   - `top_k` increased from 3 → 5
-   - `get_curated_skills()` returns curated=True entries for priority placement
-   - Curated entries always appear first in fix prompt (under `=== CURATED FIXES ===`)
-   - Error_type exact match enforced
-
-### Verified
-- All syntax checks pass
-- Full integration test: store → reject (deletion works), store → confirm (count increments)
-- Live pipeline run: curated skills appear in fix agent prompt, skill confirmed after sim pass
-- FIFO bug 001: Pipeline COMPLETE — fix verified by simulation
-
-### Files Modified
-- `v1_core/utils/trace2skill.py` — confirm_skill/reject_skill/get_curated_skills, improved retrieve_skills
-- `v1_core/agents/orchestrator.py` — pending_skill_id field in PipelineState
-- `v1_core/agents/fix_agent.py` — tentative store, curated priority in prompt
-- `v1_core/pipeline.py` — confirm/reject after simulation
-- `skills/*.json` (all 5) — curated from 241→32 entries with schema v2.0
-- `benchmarks/uart_tx/reference_tb.py` — test_stop_bit() added
-
-### Trace2Skill Final Stats
-| Category | Before | After |
-|----------|-------|-------|
-| combinational | 62 | 5 |
-| fifo | 59 | 8 |
-| fsm | 104 | 11 |
-| axi | 16 | 6 |
-| timing | 0 | 2 |
-| **Total** | **241** | **32** |
-
-### Remaining Issues (from V3 GO/NO-GO)
-| # | Issue | Status |
-|---|-------|--------|
-| 1 | Standardize spec format | ❌ Not started |
-| 2 | Audit TB coverage (UART stop bit) | ✅ FIXED |
-| 3 | Remove ALU latches (4 inferred) | ❌ Not started |
-| 4 | Trace2Skill eviction (LRU cap) | ✅ IMPLEMENTED (curation+confirmed_count limits growth) |
-| 5 | Fix STA WNS reporting (clips at 0.0) | ❌ Not started |
-| 6 | Fuzzy convergence detection | ❌ Not started |
-| 7 | Fix storage only on success | ✅ FIXED (two-phase confirm/reject) |
-| 8 | Multi-line coordinated fix | ❌ Not started |
+## Commands
+V1: `python3 main.py --benchmark <name>`
+V2: `python3 main.py --benchmark <name> --v2`
+V3: `python3 main.py --benchmark <name> --v3`
 
 ## Daily Startup
+```bash
 cd ~/projects/rtl2gds-agent
 source .venv/bin/activate
 claude
+```

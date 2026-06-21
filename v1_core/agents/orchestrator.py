@@ -39,6 +39,12 @@ class PipelineState(TypedDict):
     tns: float                   # total negative slack (ns)
     critical_path: str           # critical path description
 
+    # V3 fields — physical design
+    gds_path: str                 # path to generated GDSII file
+    drc_violations: int           # number of DRC violations (-1 if not run)
+    drc_passed: bool              # True if DRC passed clean
+    openlane_log: str             # raw OpenLane 2 log output
+
 
 def get_initial_state(spec: str, design_name: str) -> PipelineState:
     """
@@ -75,5 +81,9 @@ def get_initial_state(spec: str, design_name: str) -> PipelineState:
         timing_met=False,
         wns=0.0,
         tns=0.0,
-        critical_path=[]
+        critical_path=[],
+        gds_path="",
+        drc_violations=-1,
+        drc_passed=False,
+        openlane_log=""
     )
