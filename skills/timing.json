@@ -1,1 +1,28 @@
-{"version": "1.0", "skills": []}
+{
+  "version": "2.0",
+  "skills": [
+    {
+      "id": "timing_curated_001",
+      "category": "timing",
+      "error_type": "TIMING",
+      "pattern": "WNS negative on critical path through adder — setup violation",
+      "fix": "Pipeline the adder: split into two stages with a register in between. Add one pipeline stage.",
+      "confirmed_count": 3,
+      "success_count": 3,
+      "curated": true,
+      "last_seen": "generic"
+    },
+    {
+      "id": "timing_curated_002",
+      "category": "timing",
+      "error_type": "TIMING",
+      "pattern": "Latch inferred in synthesis — missing else clause in always block",
+      "fix": "Add else clause with default assignment, or use always_ff with explicit reset for all outputs",
+      "example": "always @(*) begin if (en) out = in; else out = out; // latch! Fix: else out = 1'b0;",
+      "confirmed_count": 6,
+      "success_count": 6,
+      "curated": true,
+      "last_seen": "generic"
+    }
+  ]
+}

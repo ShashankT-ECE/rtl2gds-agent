@@ -14,6 +14,26 @@ from v1_core.agents.simulation_agent import simulation_agent
 from v1_core.agents.log_analysis_agent import log_analysis_agent
 from v1_core.agents.fix_agent import fix_agent
 from v1_core.utils import logger
+from v1_core.utils.trace2skill import confirm_skill, reject_skill
+from v1_core.agents.log_analysis_agent import _guess_category
+
+
+def _confirm_or_reject_pending(state: PipelineState) -> PipelineState:
+    """After simulation, confirm or reject any pending skill from the last fix."""
+    pending_id = state.get("pending_skill_id", "")
+    if not pending_id:
+        return state
+
+    category = _guess_category(state["design_name"])
+
+    if state["sim_passed"]:
+        confirm_skill(pending_id, category)
+        logger.success(f"Confirmed skill {pending_id} in {category} — fix verified by simulation")
+    else:
+        reject_skill(pending_id, category)
+        logger.info(f"Rejected skill {pending_id} in {category} — fix did not pass simulation")
+
+    return {**state, "pending_skill_id": ""}
 
 
 def should_fix_or_end(state: PipelineState) -> str:
@@ -21,6 +41,9 @@ def should_fix_or_end(state: PipelineState) -> str:
     Router function — decides next step after simulation.
     Returns: "fix" if simulation failed, "end" if passed or max iterations reached.
     """
+    # Confirm or reject any pending skill from the last fix
+    _confirm_or_reject_pending(state)
+
     if state["sim_passed"]:
         logger.success("Simulation passed — pipeline complete")
         return "end"

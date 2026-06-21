@@ -28,6 +28,7 @@ class PipelineState(TypedDict):
     previous_error_analysis: dict  # previous iteration's error_analysis for convergence detection
     stuck_count: int             # number of consecutive identical errors (convergence detector)
     trace2skill_hits: list       # skills retrieved from memory for this error
+    pending_skill_id: str        # skill ID from tentative store_skill, to confirm/reject on next sim
     reference_tb_path: str       # path to reference testbench (skips LLM generation)
 
     # V2 fields — synthesis / physical design
@@ -63,6 +64,7 @@ def get_initial_state(spec: str, design_name: str) -> PipelineState:
         max_iterations=5,
         stage="start",
         trace2skill_hits=[],
+        pending_skill_id="",
         spec_analysis={},
         verification_plan={},
         previous_error_analysis={},

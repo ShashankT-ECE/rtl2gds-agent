@@ -153,3 +153,47 @@ async def test_tx_busy_behavior(dut):
     assert received == 0xA5, f"Expected 0xA5, got 0x{received:02X}"
     assert int(dut.tx_busy.value) == 0, "tx_busy should be 0 after transmission completes"
     assert int(dut.tx.value) == 1, "tx should idle high after transmission"
+
+
+@cocotb.test()
+async def test_stop_bit(dut):
+    """Transmit 0xAA, verify stop bit is high at the correct position."""
+    clock = Clock(dut.clk, 10, unit='ns')
+    cocotb.start_soon(clock.start())
+
+    dut.rst_n.value = 0
+    dut.tx_start.value = 0
+    dut.tx_data.value = 0
+    dut.baud_div.value = BAUD_DIV
+    await RisingEdge(dut.clk)
+    await RisingEdge(dut.clk)
+    await RisingEdge(dut.clk)
+    dut.rst_n.value = 1
+    await RisingEdge(dut.clk)
+
+    # Send 0xAA (LSB first: 0,1,0,1,0,1,0,1)
+    await send_byte(dut, 0xAA)
+
+    # tx_busy should be asserted immediately after start
+    await Timer(1, unit='ps')
+    assert int(dut.tx_busy.value) == 1, "tx_busy should be 1 during transmission"
+
+    # Wait for start bit (1) + 8 data bits = 9 bits * baud_div * clock_period
+    # Clock period is 10ns, so total wait = 9 * BAUD_DIV * 10 ns
+    stop_bit_start_ns = BAUD_DIV * 9 * 10
+    await Timer(stop_bit_start_ns, unit='ns')
+    await Timer(1, unit='ps')  # VPI settling
+
+    # The stop bit should be high (1) at this exact position
+    assert int(dut.tx.value) == 1, \
+        f"Stop bit should be high at {stop_bit_start_ns}ns after start, got tx={int(dut.tx.value)}"
+
+    # Wait for full stop bit duration to complete
+    await Timer(BAUD_DIV * 10, unit='ns')
+    await Timer(1, unit='ps')
+
+    # After stop bit completes, tx_busy should go low and tx should idle high
+    assert int(dut.tx_busy.value) == 0, \
+        f"tx_busy should be 0 after stop bit completes, got {int(dut.tx_busy.value)}"
+    assert int(dut.tx.value) == 1, \
+        f"tx should idle high after stop bit, got {int(dut.tx.value)}"

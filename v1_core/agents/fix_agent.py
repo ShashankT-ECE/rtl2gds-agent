@@ -9,7 +9,7 @@ Fix Agent — LangGraph node.
 
 from v1_core.agents.orchestrator import PipelineState
 from v1_core.utils.model_router import call_llm
-from v1_core.utils.trace2skill import store_skill
+from v1_core.utils.trace2skill import store_skill, get_curated_skills, retrieve_skills
 from v1_core.utils import logger
 from v1_core.utils import strip_code_fences
 import json
@@ -80,17 +80,37 @@ def fix_agent(state: PipelineState) -> PipelineState:
     # Extract precise fix instruction from error analysis
     exact_fix = error_analysis.get("EXACT_FIX", "See FIX_SUGGESTION below")
 
-    # Format known fixes for the prompt — limit to 1 hit for FSM to reduce noise
+    # Format known fixes for the prompt — curated entries first, then Trace2Skill hits
+    curated_hits = get_curated_skills(category, error_type)
+
+    # Build curated hints block
+    curated_text = ""
+    if curated_hits:
+        curated_text = "\n".join([
+            f"[CURATED] Pattern: {h['pattern']} | Fix: {h['fix']}"
+            for h in curated_hits
+        ])
+        logger.info(f"Found {len(curated_hits)} curated skill(s) for {category}/{error_type}")
+
+    # Build Trace2Skill hits block
     if hits:
         if category == "fsm":
             hits = hits[:1]
-        known_fixes_text = "\n".join([
+        hits_text = "\n".join([
             f"- Pattern: {h['pattern']} | Fix: {h['fix']}"
             for h in hits
         ])
         logger.info(f"Using {len(hits)} Trace2Skill hint(s) in prompt")
     else:
-        known_fixes_text = "None available"
+        hits_text = ""
+
+    # Combine curated + hits
+    known_fixes_parts = []
+    if curated_text:
+        known_fixes_parts.append("=== CURATED FIXES (highest confidence) ===\n" + curated_text)
+    if hits_text:
+        known_fixes_parts.append("=== PREVIOUS FIXES ===\n" + hits_text)
+    known_fixes_text = "\n\n".join(known_fixes_parts) if known_fixes_parts else "None available"
 
     # Use thinking mode for complex errors only — UNKNOWN should be simple
     use_thinking = error_type in ["LOGIC", "TIMING"]
@@ -123,10 +143,10 @@ def fix_agent(state: PipelineState) -> PipelineState:
     )
     fixed_rtl = strip_code_fences(fixed_rtl)
 
-    logger.success("Fix generated — storing in Trace2Skill")
+    logger.success("Fix generated — storing tentatively in Trace2Skill")
 
-    # Store this fix in Trace2Skill memory (category already computed above)
-    store_skill(
+    # Store this fix tentatively — confirmed only if next simulation passes
+    skill_id = store_skill(
         category=category,
         error_type=error_type,
         pattern=error_analysis.get("CAUSE", "unknown pattern"),
@@ -139,5 +159,6 @@ def fix_agent(state: PipelineState) -> PipelineState:
         "rtl_code": fixed_rtl,
         "testbench_code": "",  # Force testbench regeneration from fixed RTL
         "iteration": state["iteration"] + 1,
-        "stage": "fix_applied"
+        "stage": "fix_applied",
+        "pending_skill_id": skill_id
     }
