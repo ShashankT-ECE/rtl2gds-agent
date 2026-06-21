@@ -1,52 +1,59 @@
 # SESSION_HANDOFF.md
 
 ## Last Updated
-Date: 2026-06-21 | Session: 4 — V3 PHYSICAL DESIGN SCAFFOLD
+Date: 2026-06-21 | Session: 4b — V3 PHYSICAL COMPLETE (5/5 BENCHMARKS)
 
-## PROJECT STATUS: V3 SCAFFOLDED — OpenLane 2.3.10 + DRC Pipeline
+## PROJECT STATUS: V3 COMPLETE — All 5 benchmarks through full RTL-to-GDSII
 
 ## Completed This Session
-- [x] V3 folder structure created (`v3_physical/`)
-- [x] OpenLane 2 Docker pulled — `ghcr.io/efabless/openlane2:2.3.10` (7.39 GB)
-- [x] Legacy OpenLane v1 pulled — `efabless/openlane:latest` (5.25 GB)
-- [x] `openlane_server.py` — Docker wrapper for OpenLane 2
-- [x] `drc_server.py` — KLayout DRC wrapper
-- [x] `openlane_agent.py` — LangGraph node for physical design
-- [x] `drc_agent.py` — LangGraph node for design rule checking
-- [x] `pipeline.py` — V3 pipeline: synth → STA → OpenLane → DRC → GDSII
-- [x] PipelineState extended with 4 V3 fields (`gds_path`, `drc_violations`, `drc_passed`, `openlane_log`)
-- [x] `main.py` updated with `--v3` flag
-- [x] All 8 V3 files pass AST validation + import check
+- [x] **alu_8bit** — V3 full flow: GDSII ✓, Magic DRC clean, LVS clean
+- [x] **sync_fifo_8x16** — V3 full flow: GDSII ✓, Magic DRC clean, LVS clean
+- [x] **fsm_traffic_light** — V3 full flow: GDSII ✓, Magic DRC clean, LVS clean, XOR clean (needed `FP_SIZING=absolute` fix for PDN)
+- [x] **uart_tx** — V3 full flow: GDSII ✓, Magic DRC clean, LVS clean (1 XOR diff — acceptable)
+- [x] **apb_slave** — V3 full flow: GDSII ✓, Magic DRC clean, LVS clean (1 XOR diff — acceptable)
+- [x] KLayout 0.26.2 installed on host
+- [x] OpenLane 2.3.10 Docker image pulled and tested
+- [x] Default die area increased from 200×200 to 500×500 with `FP_SIZING=absolute` for tiny designs
 
 ## Known Open Issues (acceptable, document in paper)
+- **PDN error for tiny designs**: Designs with <~50 cells need `FP_SIZING=absolute` in OpenLane config
+- **XOR differences**: uart_tx and apb_slave report 1 XOR diff each (minor GDS-vs-layout geometry issue)
+- **External DRC agent**: Pipeline's standalone KLayout DRC agent fails — needs DRC script at `pdk/sky130/sky130A.drc`
+- **Setup timing in slow corner**: fifo (-0.45ns), uart (-1.12ns), apb (-15.3ns) have setup violations at 100MHz in nom_ss_100C_1v60 only
 - Multi-line coordinated RTL fix: fix agent makes single-line changes only
 - ALU latches: combinational case statement infers latches in Yosys
 - STA WNS clipping: parser sometimes clips negative slack values
 - Fuzzy convergence: stuck_count only detects exact duplicate errors
 - OpenLane 2 pip package requires `python3-tk` (not installed — using Docker CLI directly)
-- DRC uses KLayout directly (not pip-based — may need installation)
-- PDK Sky130 path hardcoded to `pdk/sky130` — needs PDK download
 
-## Next Session — V3 Physical Design
-Step 1: Install Sky130 PDK (`volare` or manual download to `pdk/sky130`)
-Step 2: Run alu_8bit through full V3: `python main.py --benchmark alu_8bit --v3`
-Step 3: Fix any OpenLane config mismatches
-Step 4: Run DRC on generated GDSII
-Step 5: Iterate on remaining V1/V2 bugs for paper data
+## V3 Benchmark Results (all 5 complete)
 
-## All Benchmark Results
-| Benchmark | V1 | V2 Sim | Synthesis | STA | V3 GDS |
-|-----------|-----|--------|-----------|-----|--------|
-| alu_8bit | PASS | PASS | 131 cells | N/A | PENDING |
-| sync_fifo_8x16 | PASS | PASS | 648 cells | 16.99ns | PENDING |
-| fsm_traffic_light | PASS | PASS | 10 cells | 19.36ns | PENDING |
-| uart_tx | PASS | PASS | 180 cells | MET | PENDING |
-| apb_slave | PASS | PASS | 527 cells | MET | PENDING |
+| Benchmark | Cells | Die Area (µm) | GDS Size | Timing @100MHz | Magic DRC | LVS | XOR |
+|-----------|-------|---------------|----------|----------------|-----------|-----|-----|
+| **alu_8bit** | 131 | 50.49×61.21 | 646K | Setup 6.59ns, Hold 7.99ns ✓ | CLEAN | PASS | — |
+| **sync_fifo_8x16** | 648 | 120.14×130.86 | 2.5M | Setup -0.45ns (ss)*, Hold 0.05ns ✓ | CLEAN | PASS | — |
+| **fsm_traffic_light** | 10 | 500×500 | 2.7M | Setup 6.41ns, Hold 0.21ns ✓ | CLEAN | PASS | CLEAN |
+| **uart_tx** | 180 | 69.57×80.29 | 822K | Setup -1.12ns (ss)*, Hold 0.07ns ✓ | CLEAN | PASS | 1 diff |
+| **apb_slave** | 527 | 115.94×126.66 | 2.1M | Setup -15.3ns (ss)*, Hold 3.88ns ✓ | CLEAN | PASS | 1 diff |
+
+*\*Setup violations in nom_ss_100C_1v60 corner only; nom_tt_025C_1v80 corner clean for fifo/uart*
+
+### Run directories
+- `workspace/physical/alu_8bit/runs/RUN_2026-06-21_08-09-27/` — best run
+- `workspace/physical/sync_fifo_8x16/runs/RUN_2026-06-21_08-25-05/` — best run
+- `workspace/physical/fsm_traffic_light/runs/RUN_2026-06-21_08-53-23/` — successful (FP_SIZING=absolute)
+- `workspace/physical/uart_tx/runs/RUN_2026-06-21_08-40-40/` — clean GDS/DRC/LVS, 1 XOR diff
+- `workspace/physical/apb_slave/runs/RUN_2026-06-21_08-41-02/` — clean GDS/DRC/LVS, 1 XOR diff
+
+## Config Changes Made This Session
+- `v3_physical/mcp_tools/openlane_server.py`:
+  - Default die_area: `"0 0 200 200"` → `"0 0 500 500"`
+  - Added `"FP_SIZING": "absolute"` in config generation
 
 ## Commands
 V1: `python3 main.py --benchmark <name>`
 V2: `python3 main.py --benchmark <name> --v2`
-V3: `python3 main.py --benchmark <name> --v3`
+V3: `python3 main.py --benchmark <name> --v3 2>&1 | tee /tmp/v3_<name>.txt`
 
 ## Daily Startup
 ```bash

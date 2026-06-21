@@ -24,7 +24,7 @@ def _run_openlane(
     netlist_file: str,
     top_module: str,
     clock_period_ns: float = 20.0,
-    die_area: str = "0 0 200 200",
+    die_area: str = "0 0 500 500",
     target_density: float = 0.5
 ) -> dict:
     """
@@ -56,6 +56,7 @@ def _run_openlane(
         "CLOCK_PERIOD": clock_period_ns,
         "DIE_AREA": die_area,
         "FP_CORE_UTIL": int(target_density * 100),
+        "FP_SIZING": "absolute",
         "PDK": "sky130A",
         "STD_CELL_LIBRARY": "sky130_fd_sc_hd",
     }

@@ -5,7 +5,7 @@
       "id": "fsm_curated_001",
       "category": "fsm",
       "error_type": "LOGIC",
-      "pattern": "FSM state counter threshold wrong — transitions too early or too late",
+      "pattern": "FSM state counter threshold wrong \u2014 transitions too early or too late",
       "fix": "If transition happens N cycles early, increase counter threshold by N. Check: counter == COUNT-1 gives exactly COUNT cycles",
       "example": "For 15 cycles in RED: if (counter == 14) next_state = GREEN;",
       "confirmed_count": 6,
@@ -17,7 +17,7 @@
       "id": "fsm_curated_002",
       "category": "fsm",
       "error_type": "LOGIC",
-      "pattern": "FSM wrong state transition target — GREEN goes to RED instead of YELLOW",
+      "pattern": "FSM wrong state transition target \u2014 GREEN goes to RED instead of YELLOW",
       "fix": "Check next_state assignment in each state case. Correct order: RED->GREEN->YELLOW->RED",
       "confirmed_count": 4,
       "success_count": 4,
@@ -76,7 +76,7 @@
       "id": "fsm_0096",
       "category": "fsm",
       "error_type": "LOGIC",
-      "pattern": "The bit order is incorrect — the RTL transmits the MSB (shift_reg[7]) first instead of the LSB (shift_reg[0]) first, as required by the spec.",
+      "pattern": "The bit order is incorrect \u2014 the RTL transmits the MSB (shift_reg[7]) first instead of the LSB (shift_reg[0]) first, as required by the spec.",
       "fix": "Change the output assignment in the DATA state to use the least significant bit (shift_reg[0]) instead of the most significant bit (shift_reg[7]).",
       "design_name": "uart_tx",
       "success_count": 1,
@@ -131,6 +131,18 @@
       "confirmed_count": 1,
       "curated": false,
       "last_seen": "fsm_traffic_light"
+    },
+    {
+      "id": "fsm_0011",
+      "category": "fsm",
+      "error_type": "LOGIC",
+      "pattern": "In STOP state, tx_busy remains high (set to 1'b1 in combinational output logic) instead of being deasserted when the stop bit period completes and state transitions to IDLE.",
+      "fix": "Update the STOP case in the combinational always block to assign tx_busy = 1'b0 instead of 1'b1, so that tx_busy is deasserted during the stop bit cycle, ensuring it is 0 after transmission completes.",
+      "design_name": "uart_tx",
+      "success_count": 1,
+      "confirmed_count": 0,
+      "curated": false,
+      "last_seen": "uart_tx"
     }
   ]
 }
