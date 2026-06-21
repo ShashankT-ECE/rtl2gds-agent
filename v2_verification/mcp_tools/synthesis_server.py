@@ -141,15 +141,14 @@ stat -liberty {lib_path}
                 seen_warnings.add(msg)
                 warnings.append(msg)
 
-    # Latch inferences
-    m = re.search(r"Inferred\s+(\d+)\s+latche[s]?", raw_log, re.IGNORECASE)
+    # Latch inferences — match only Yosys's explicit latch inference message.
+    # Yosys prints "Inferred N latch(es) in design..." when latches are found,
+    # and "No latch inferred for signal ..." when none are found.  The old
+    # fallback counted any line containing "latch" (pass names, cell names),
+    # producing false positives — removed.
+    m = re.search(r"Inferred\s+(\d+)\s+latche(s)?\s+in\s+design", raw_log, re.IGNORECASE)
     if m:
         latches_inferred = int(m.group(1))
-    else:
-        latch_lines = [
-            line for line in raw_log.splitlines() if "latch" in line.lower()
-        ]
-        latches_inferred = len(latch_lines)
 
     # Check if netlist was actually written
     netlist_exists = netlist_path.exists()

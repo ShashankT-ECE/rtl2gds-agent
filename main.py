@@ -83,6 +83,7 @@ def main():
             spec=spec,
             design_name=design_name,
             rtl_code=rtl_code,
+            reference_tb_path=reference_tb_path,
         )
     elif args.v2:
         try:

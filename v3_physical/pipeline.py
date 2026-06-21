@@ -45,8 +45,22 @@ def should_run_drc(state: PipelineState) -> str:
     return "end"
 
 
-def build_v3_pipeline():
-    """Build and compile the V3 LangGraph pipeline."""
+def build_v3_pipeline(
+    skip_rtl_gen: bool = False,
+    skip_testbench: bool = False,
+) -> StateGraph:
+    """Build and compile the V3 LangGraph pipeline.
+
+    Args:
+        skip_rtl_gen: If True the entry point is ``testbench`` instead of
+            ``rtl_gen`` (used when ``rtl_code`` is supplied directly).
+        skip_testbench: If True, testbench generation is skipped and the
+            pipeline goes straight from rtl_gen (or spec_parser) to
+            simulation (used when ``reference_tb_path`` is supplied).
+
+    Returns:
+        A compiled ``StateGraph`` ready for ``.invoke()``.
+    """
     graph = StateGraph(PipelineState)
 
     graph.add_node("spec_parser", spec_parser_agent)
@@ -63,9 +77,21 @@ def build_v3_pipeline():
 
     graph.set_entry_point("spec_parser")
     graph.add_edge("spec_parser", "verification_planner")
-    graph.add_edge("verification_planner", "rtl_gen")
-    graph.add_edge("rtl_gen", "testbench")
-    graph.add_edge("testbench", "simulation")
+
+    if skip_rtl_gen:
+        if skip_testbench:
+            graph.add_edge("verification_planner", "simulation")
+        else:
+            graph.add_edge("verification_planner", "testbench")
+    else:
+        graph.add_edge("verification_planner", "rtl_gen")
+        if skip_testbench:
+            graph.add_edge("rtl_gen", "simulation")
+        else:
+            graph.add_edge("rtl_gen", "testbench")
+
+    if not skip_testbench:
+        graph.add_edge("testbench", "simulation")
 
     graph.add_conditional_edges("simulation", should_fix_or_proceed, {
         "proceed_to_synthesis": "synthesis",
@@ -74,7 +100,10 @@ def build_v3_pipeline():
     })
 
     graph.add_edge("log_analysis", "fix")
-    graph.add_edge("fix", "testbench")
+    if skip_testbench:
+        graph.add_edge("fix", "simulation")
+    else:
+        graph.add_edge("fix", "testbench")
 
     # Synthesis → STA (no conditional — always attempt STA)
     graph.add_edge("synthesis", "sta")
@@ -95,24 +124,35 @@ def build_v3_pipeline():
     return graph.compile()
 
 
-def run_v3_pipeline(spec: str, design_name: str, rtl_code: str = "") -> PipelineState:
+def run_v3_pipeline(spec: str, design_name: str, rtl_code: str = "",
+                    reference_tb_path: str = "") -> PipelineState:
     """Run the full V3 pipeline (V1 + V2 + OpenLane 2 + DRC) for a given spec.
 
     Args:
         spec: Natural-language hardware specification.
         design_name: Short identifier such as ``alu_8bit`` or ``sync_fifo``.
         rtl_code: Optional pre-existing RTL code (skips LLM generation).
+        reference_tb_path: Optional path to existing testbench (skips LLM gen).
 
     Returns:
         Final ``PipelineState`` as a plain dictionary.
     """
     logger.divider()
     logger.info(f"Starting V3 pipeline for: {design_name}")
+    if rtl_code:
+        logger.info("RTL code provided — skipping RTL generation")
+    if reference_tb_path:
+        logger.info("Reference testbench provided — skipping LLM generation")
     logger.divider()
 
-    pipeline = build_v3_pipeline()
+    pipeline = build_v3_pipeline(
+        skip_rtl_gen=bool(rtl_code),
+        skip_testbench=bool(reference_tb_path),
+    )
     initial_state = get_initial_state(spec=spec, design_name=design_name)
     if rtl_code:
         initial_state["rtl_code"] = rtl_code
+    if reference_tb_path:
+        initial_state["reference_tb_path"] = reference_tb_path
 
     return pipeline.invoke(initial_state)

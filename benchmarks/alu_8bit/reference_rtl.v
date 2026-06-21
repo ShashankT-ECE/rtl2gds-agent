@@ -7,6 +7,8 @@ module alu_8bit (
 );
 
 always @(*) begin
+    Y = 8'b0;
+    zero_flag = 1'b0;
     case (opcode)
         3'b000: Y = A + B;
         3'b001: Y = A - B;
@@ -16,9 +18,7 @@ always @(*) begin
         3'b101: Y = ~A;
         3'b110: Y = A << 1;
         3'b111: Y = A >> 1;
-        default: Y = 8'b0;
     endcase
-
     zero_flag = (Y == 8'b0) ? 1'b1 : 1'b0;
 end
 
