@@ -1,5 +1,23 @@
+# Python
 .venv/
 __pycache__/
 *.pyc
+.env
 workspace/
 logs/
+
+# Node / Frontend (lives in ui/frontend/ only — root-level copies are accidental)
+node_modules/
+pnpm-lock.yaml
+package.json
+.next/
+
+# EDA outputs
+*.vcd
+*.gds
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
