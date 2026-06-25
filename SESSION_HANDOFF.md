@@ -1,11 +1,40 @@
 # SESSION_HANDOFF.md
 
 ## Last Updated
-Date: 2026-06-25 | Session: 8 — Integration Stabilization Complete
+Date: 2026-06-25 | Session: 9 — Real Pipeline Streaming Complete
 
-## PROJECT STATUS: V3 COMPLETE + WEB UI PHASE 2 FRONTEND + INTEGRATION FIXED
+## PROJECT STATUS: V3 COMPLETE + WEB UI PHASE 2 + REAL STREAMING LIVE
 
-## Session 8 — Integration Stabilization (NEW)
+## Session 9 — Real Pipeline Streaming (NEW)
+Replaced the real adapter's coarse event emission (job_started → job_completed) with the same rich per-stage event stream as the mock adapter. The frontend now works identically in mock and real modes — zero frontend changes required.
+
+### Implementation
+- **File modified:** `ui/backend/adapters/pipeline.py` — complete rewrite
+- **Approach:** Uses LangGraph's `graph.stream(stream_mode=["updates", "debug"])` to intercept per-node execution events in real time
+  - `('debug', 'task')` events → STAGE_STARTED (fires when node begins)
+  - `('updates', {node: state})` events → STAGE_COMPLETED + result events (fires when node finishes)
+- **No frozen code modified:** v1_core/, v2_verification/, v3_physical/ untouched
+- **All 3 versions supported:** V1, V2, V3
+
+### Event Stream (matching mock exactly)
+Per stage: stage_started → [result events] → stage_completed → progress
+- simulation: SIMULATION_RESULT with tests_run, tests_passed, coverage_pct
+- synthesis: SYNTHESIS_RESULT with cell_count, area (parsed from synthesis report)
+- sta: STA_RESULT with timing_met, wns, tns, critical_path
+- drc: DRC_RESULT with drc_passed, violations
+- Fix loop: fix_attempt, skill_retrieved, skill_stored (when log_analysis/fix nodes execute)
+- V2/V3 state initialization replicated (netlist_path, synthesis_report, timing_met, etc.)
+
+### Verified
+- ✓ V1 real: 15 events (spec_parser→verification_planner→testbench→simulation→job_completed)
+- ✓ V2 real: 20 events (V1 + synthesis_result + sta_result)
+- ✓ Mock mode: 34 events, no regressions
+- ✓ CLI: `python main.py --benchmark alu_8bit --rtl <path>` works
+- ✓ Backend imports: 10 routes, no errors
+- ✓ Frontend: zero changes needed — event schema preserved
+- ✓ Event types match: stage_started, stage_completed, simulation_result, synthesis_result, sta_result, drc_result, progress, fix_attempt, skill_retrieved, skill_stored, job_started, job_completed
+
+## Session 8 — Integration Stabilization
 Closed all frontend-backend integration gaps. Mock pipeline V1/V2/V3 verified end-to-end.
 
 ### Integration Fixes
