@@ -5,7 +5,7 @@
       "id": "axi_curated_001",
       "category": "axi",
       "error_type": "LOGIC",
-      "pattern": "APB address decode wrong — PADDR bits shifted incorrectly",
+      "pattern": "APB address decode wrong \u2014 PADDR bits shifted incorrectly",
       "fix": "For 4 registers at 0x00,0x04,0x08,0x0C use PADDR[3:2] not PADDR[4:3]",
       "example": "reg_sel = PADDR[3:2]; // selects 0,1,2,3 for byte-aligned 32-bit regs",
       "confirmed_count": 5,
@@ -17,7 +17,7 @@
       "id": "axi_curated_002",
       "category": "axi",
       "error_type": "LOGIC",
-      "pattern": "PSLVERR logic inverted — error asserted for valid addresses",
+      "pattern": "PSLVERR logic inverted \u2014 error asserted for valid addresses",
       "fix": "Change PSLVERR condition: assign PSLVERR = !(PADDR inside valid_addrs); not (PADDR inside valid_addrs)",
       "confirmed_count": 4,
       "success_count": 4,
@@ -71,6 +71,42 @@
       "confirmed_count": 1,
       "curated": false,
       "last_seen": "apb_slave"
+    },
+    {
+      "id": "axi_0006",
+      "category": "axi",
+      "error_type": "LOGIC",
+      "pattern": "RTL does not assert SLVERR on reads/writes to invalid addresses because w_addr_valid and r_addr_valid incorrectly treat addresses beyond 0x1C as valid.",
+      "fix": "Update valid address check to also verify that upper address bits (beyond bit 4) are zero, so addresses like 0x20 are recognized as invalid.",
+      "design_name": "axi4_lite_slave",
+      "success_count": 1,
+      "confirmed_count": 1,
+      "curated": false,
+      "last_seen": "axi4_lite_slave"
+    },
+    {
+      "id": "axi_0007",
+      "category": "axi",
+      "error_type": "LOGIC",
+      "pattern": "Invalid address write/read returns OKAY (BRESP=0) instead of SLVERR (BRESP=2) because the address validity check incorrectly treats out-of-range addresses as valid.",
+      "fix": "Add an additional check to ensure the address is within the valid range of 0x00-0x1C (covering 8 registers) before asserting address validity.",
+      "design_name": "axi4_lite_slave",
+      "success_count": 1,
+      "confirmed_count": 1,
+      "curated": false,
+      "last_seen": "axi4_lite_slave"
+    },
+    {
+      "id": "axi_0008",
+      "category": "axi",
+      "error_type": "LOGIC",
+      "pattern": "The read address validity check `r_addr_valid` omits the upper address range check (bits [31:5]), causing invalid addresses like 0x30 to be incorrectly treated as valid and return OKAY (RRESP=0) instead of SLVERR (RRESP=2).",
+      "fix": "Add the upper address bits check to r_addr_valid, matching the w_addr_valid logic, so that addresses outside 0x00-0x1C return SLVERR.",
+      "design_name": "axi4_lite_slave",
+      "success_count": 1,
+      "confirmed_count": 1,
+      "curated": false,
+      "last_seen": "axi4_lite_slave"
     }
   ]
 }

@@ -1,0 +1,14 @@
+Design: I2C Master Controller
+Module name: i2c_master
+Inputs: clk, rst_n, start (1-bit), rw (1-bit), addr (7-bit), wdata (8-bit), scl_div (16-bit)
+Outputs: scl (1-bit), sda_out (1-bit), sda_oe (1-bit), rdata (8-bit), busy (1-bit), ack_error (1-bit), done (1-bit)
+Behavior:
+  Implements I2C master protocol (standard mode 100kHz, fast mode 400kHz via scl_div)
+  start=1 triggers a transaction: START condition → 7-bit address + R/W → ACK → data → ACK → STOP
+  sda_oe=1 when master drives sda_out, sda_oe=0 when releasing SDA for slave or ACK
+  rw=0: write transaction (send wdata), rw=1: read transaction (receive into rdata)
+  ack_error=1 if slave does not acknowledge address or data
+  done pulses high for 1 cycle on transaction complete
+  busy=1 during transaction
+  rst_n active-low synchronous reset
+  scl_div sets clk cycles per I2C bit period

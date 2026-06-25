@@ -1,0 +1,16 @@
+Design: AXI4-Lite Slave with 8 registers
+Module name: axi4_lite_slave
+Inputs (write channel): ACLK, ARESETn, AWVALID, AWADDR (32-bit), WVALID, WDATA (32-bit), WSTRB (4-bit), BREADY
+Inputs (read channel): ARVALID, ARADDR (32-bit), RREADY
+Outputs (write channel): AWREADY, WREADY, BVALID, BRESP (2-bit)
+Outputs (read channel): ARREADY, RVALID, RDATA (32-bit), RRESP (2-bit)
+Behavior:
+  Implements AXI4-Lite slave protocol (AMBA AXI4-Lite spec)
+  8 internal 32-bit registers at addresses 0x00 to 0x1C (step 0x04)
+  Write: AWVALID+WVALID handshake -> latch address and data -> BVALID response
+  Read: ARVALID handshake -> RVALID with register data
+  BRESP=2'b00 (OKAY) for valid addresses, 2'b10 (SLVERR) for invalid
+  RRESP=2'b00 (OKAY) for valid, 2'b10 (SLVERR) for invalid
+  WSTRB controls which bytes are written (byte enable)
+  ARESETn active-low synchronous reset, all registers clear to 0
+  Write and read channels operate independently

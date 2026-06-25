@@ -60,6 +60,18 @@
       "confirmed_count": 1,
       "curated": false,
       "last_seen": "alu_8bit"
+    },
+    {
+      "id": "combinational_0005",
+      "category": "combinational",
+      "error_type": "LOGIC",
+      "pattern": "In the DATA_ACK state for read mode (read_mode=1), the master drives SDA low to issue an ACK but never releases SDA before transitioning to STOP_S, violating the I2C spec that requires SDA to be released and float before generating a STOP.",
+      "fix": "In the DATA_ACK read branch, release SDA (set sda_oe=0 and sda_out=1) in the bit-done condition before transitioning to STOP_S, so that the STOP condition can be generated correctly.",
+      "design_name": "i2c_master",
+      "success_count": 1,
+      "confirmed_count": 0,
+      "curated": false,
+      "last_seen": "i2c_master"
     }
   ]
 }

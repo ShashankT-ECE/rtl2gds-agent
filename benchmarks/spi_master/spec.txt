@@ -1,0 +1,15 @@
+Design: SPI Master Controller
+Module name: spi_master
+Inputs: clk, rst_n, start (1-bit), mosi_data (8-bit), cpol (1-bit), cpha (1-bit), sclk_div (8-bit), miso (1-bit)
+Outputs: sclk (1-bit), mosi (1-bit), cs_n (1-bit), miso_data (8-bit), busy (1-bit), done (1-bit)
+Behavior:
+  When start=1 and busy=0, begin SPI transaction
+  cs_n asserts low at start of transaction, deasserts high after last bit
+  sclk_div sets number of clk cycles per half-period of sclk
+  cpol=0: sclk idle low. cpol=1: sclk idle high
+  cpha=0: data sampled on first edge. cpha=1: data sampled on second edge
+  Transmit mosi_data MSB first on mosi line
+  Capture miso line into miso_data during transaction
+  done pulses high for 1 cycle when transaction complete
+  busy=1 during transaction, 0 when idle
+  rst_n active-low synchronous reset

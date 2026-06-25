@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RTL2GDS Agent — Web UI</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 4rem auto;
+      padding: 0 1rem;
+      background: #0d1117;
+      color: #c9d1d9;
+    }
+    h1 { color: #58a6ff; font-size: 2rem; }
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    .badge-ok { background: #238636; color: #fff; }
+    .badge-dev { background: #1f6feb; color: #fff; }
+    .endpoints {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .endpoints h2 { margin-top: 0; color: #f0f6fc; }
+    .ep { margin: 0.5rem 0; font-family: monospace; }
+    .method { font-weight: 700; margin-right: 0.5rem; }
+    .get { color: #58a6ff; }
+    .post { color: #3fb950; }
+    .path { color: #f0f6fc; }
+    .desc { color: #8b949e; margin-left: 1rem; font-size: 0.9rem; }
+    a { color: #58a6ff; }
+  </style>
+</head>
+<body>
+  <h1>⚡ RTL2GDS Agent</h1>
+  <p>
+    <span class="badge badge-ok">API v1</span>
+    <span class="badge badge-dev">Phase 1 — Backend</span>
+  </p>
+  <p>
+    AI-Driven Agentic Framework for Automated RTL-to-GDS.<br>
+    Backend infrastructure is live. Frontend coming in Phase 2.
+  </p>
+
+  <div class="endpoints">
+    <h2>REST API</h2>
+    <div class="ep"><span class="method get">GET</span><span class="path">/health</span><span class="desc">Liveness check</span></div>
+    <div class="ep"><span class="method get">GET</span><span class="path">/status</span><span class="desc">System status</span></div>
+    <div class="ep"><span class="method get">GET</span><span class="path">/api/benchmarks</span><span class="desc">List benchmarks</span></div>
+    <div class="ep"><span class="method get">GET</span><span class="path">/api/benchmarks/{name}</span><span class="desc">Benchmark detail</span></div>
+    <div class="ep"><span class="method get">GET</span><span class="path">/api/skills</span><span class="desc">Trace2Skill summary</span></div>
+    <div class="ep"><span class="method get">GET</span><span class="path">/api/skills/{category}</span><span class="desc">Skills by category</span></div>
+    <div class="ep"><span class="method post">POST</span><span class="path">/api/run</span><span class="desc">Start a pipeline job</span></div>
+    <div class="ep"><span class="method get">GET</span><span class="path">/api/run</span><span class="desc">List recent jobs</span></div>
+    <div class="ep"><span class="method get">GET</span><span class="path">/api/run/{job_id}</span><span class="desc">Job status</span></div>
+    <div class="ep"><span class="method post">POST</span><span class="path">/api/run/{job_id}/cancel</span><span class="desc">Cancel job</span></div>
+    <div class="ep"><span class="method get">GET</span><span class="path">/api/run/stream?job_id=</span><span class="desc">SSE event stream</span></div>
+  </div>
+
+  <p>
+    <a href="/docs">Swagger UI</a> &middot;
+    <a href="/redoc">ReDoc</a>
+  </p>
+  <p style="color: #484f58; font-size: 0.8rem;">
+    RTL2GDS Agent &copy; 2026 &middot; Shashank Tumuluri, CBIT Hyderabad ECE
+  </p>
+</body>
+</html>
