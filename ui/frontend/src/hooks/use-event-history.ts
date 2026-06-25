@@ -8,6 +8,10 @@ import { useMemo } from 'react';
 import { useJobStore } from '@/stores/job-store';
 import type { PipelineEvent, Severity, EventType } from '@/lib/types';
 
+// Stable reference — never changes, so Zustand's Object.is check
+// sees equality and doesn't trigger re-renders when there's no data.
+const EMPTY_EVENTS: readonly PipelineEvent[] = Object.freeze([]);
+
 interface EventFilter {
   severity?: Severity;
   eventType?: EventType;
@@ -15,10 +19,10 @@ interface EventFilter {
 }
 
 export function useEventHistory(jobId: string | null, filter?: EventFilter) {
-  const events = useJobStore((state) => {
-    if (!jobId) return [];
+  const events = useJobStore((state): readonly PipelineEvent[] => {
+    if (!jobId) return EMPTY_EVENTS;
     const job = state.jobs[jobId];
-    return job?.events ?? [];
+    return job?.events ?? EMPTY_EVENTS;
   });
 
   const filtered = useMemo(() => {
