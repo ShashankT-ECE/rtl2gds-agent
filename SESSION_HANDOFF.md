@@ -25,7 +25,19 @@ Per stage: stage_started → [result events] → stage_completed → progress
 - Fix loop: fix_attempt, skill_retrieved, skill_stored (when log_analysis/fix nodes execute)
 - V2/V3 state initialization replicated (netlist_path, synthesis_report, timing_met, etc.)
 
-### Verified
+### End-to-End Verification (Session 9.5)
+Full integration verification completed:
+- ✓ V1 real (ref RTL+TB): 12 events, 3 stages, all types present
+- ✓ V1 real (full, no refs): 18 events, 5 stages (spec_parser→verification_planner→rtl_gen→testbench→simulation), RTL gen 25 lines, TB gen 25 tests
+- ✓ V2 real (ref RTL+TB): 20 events, 5 stages (spec_parser→verification_planner→simulation→synthesis→sta), synthesis cell_count=131 area=778.25 sq µm, STA timing_met=True
+- ✓ Mock V1: 31 events, 9 stages including full fix loop (fix_attempt, skill_retrieved, skill_stored)
+- ✓ Frontend: Next.js 16.2.9 serving on :3000
+- ✓ Backend: FastAPI on :8000, mock mode (default)
+- ✓ SSE replay mechanism works (after=<seq> recovers dropped events)
+- ✓ CLI: `python main.py --benchmark alu_8bit --rtl <path>` works
+- ✓ No frozen code modified
+
+### Verified (Session 9)
 - ✓ V1 real: 15 events (spec_parser→verification_planner→testbench→simulation→job_completed)
 - ✓ V2 real: 20 events (V1 + synthesis_result + sta_result)
 - ✓ Mock mode: 34 events, no regressions
