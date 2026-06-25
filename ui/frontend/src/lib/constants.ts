@@ -31,14 +31,12 @@ export const V1_STAGES = [
 
 export const V2_STAGES = [
   'spec_parser', 'verification_planner', 'rtl_gen', 'testbench',
-  'simulation', 'log_analysis', 'fix', 'testbench_re', 'simulation_re',
-  'synthesis', 'sta',
+  'simulation', 'synthesis', 'sta',
 ] as const;
 
 export const V3_STAGES = [
   'spec_parser', 'verification_planner', 'rtl_gen', 'testbench',
-  'simulation', 'log_analysis', 'fix', 'testbench_re', 'simulation_re',
-  'synthesis', 'sta', 'openlane', 'drc',
+  'simulation', 'synthesis', 'sta', 'openlane', 'drc',
 ] as const;
 
 export const STAGES_BY_VERSION: Record<PipelineVersion, readonly string[]> = {

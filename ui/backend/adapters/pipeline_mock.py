@@ -34,8 +34,8 @@ _MOCK_STAGES: dict[str, list[tuple[str, float]]] = {
         ("simulation", 1.2),
         ("log_analysis", 0.3),
         ("fix", 0.5),
-        ("testbench", 0.6),
-        ("simulation", 0.4),
+        ("testbench_re", 0.6),
+        ("simulation_re", 0.4),
     ],
     "v2": [
         ("spec_parser", 0.3),
@@ -65,9 +65,11 @@ _MOCK_PAYLOADS: dict[str, dict[str, Any]] = {
     "verification_planner": {"test_cases": 6, "corner_cases": 2},
     "rtl_gen": {"lines": 45, "module_name": "mock_design"},
     "testbench": {"test_count": 12, "framework": "cocotb"},
-    "simulation": {"passed": True, "tests_run": 12, "tests_passed": 12},
+    "testbench_re": {"test_count": 12, "framework": "cocotb", "re_run": True},
+    "simulation": {"passed": True, "tests_run": 12, "tests_passed": 12, "coverage_pct": 98.2},
+    "simulation_re": {"passed": True, "tests_run": 12, "tests_passed": 12, "coverage_pct": 98.2, "re_run": True},
     "log_analysis": {"error_type": "NONE", "analysis_complete": True},
-    "fix": {"skill_hits": 0, "changes_made": 0},
+    "fix": {"skill_hits": 2, "changes_made": 1},
     "synthesis": {"cell_count": 142, "area": "450 sq µm", "frequency": "100 MHz"},
     "sta": {"timing_met": True, "wns": 6.59, "tns": 0.0, "critical_path": "Y[7] via ALU logic"},
     "openlane": {"gds_path": "workspace/physical/mock/runs/run_01/final/gds/mock.gds"},
@@ -119,6 +121,9 @@ class MockPipelineAdapter:
         drc_passed = False
         iteration = 0
 
+        # Track which stages are in the fix loop for event emission
+        _FIX_LOOP_STAGES = {"log_analysis", "fix", "testbench_re", "simulation_re"}
+
         for stage_name, delay in stages:
             if self._check_cancelled():
                 seq += 1
@@ -153,8 +158,53 @@ class MockPipelineAdapter:
             payload = _MOCK_PAYLOADS.get(stage_name, {}).copy()
             seq += 1
 
+            # Emit fix_attempt at the start of each fix-loop cycle
+            if stage_name in _FIX_LOOP_STAGES and stage_name == "log_analysis":
+                iteration += 1
+                seq += 1
+                self._event_bus.publish(PipelineEvent(
+                    job_id=job_id,
+                    event_type=EventType.FIX_ATTEMPT,
+                    stage=stage_name,
+                    message=f"Fix attempt {iteration} — simulation failed, analysing logs",
+                    severity=Severity.WARNING,
+                    iteration=iteration,
+                    elapsed_time=time.time() - start_time,
+                    sequence_num=seq,
+                ))
+
+            # Emit skill_retrieved during log_analysis
+            if stage_name == "log_analysis":
+                seq += 1
+                self._event_bus.publish(PipelineEvent(
+                    job_id=job_id,
+                    event_type=EventType.SKILL_RETRIEVED,
+                    stage=stage_name,
+                    message="Retrieved 2 matching skills from Trace2Skill",
+                    severity=Severity.INFO,
+                    payload={"skill_ids": ["comb_curated_001", "comb_0003"], "match_count": 2},
+                    iteration=iteration,
+                    elapsed_time=time.time() - start_time,
+                    sequence_num=seq,
+                ))
+
+            # Emit skill_stored after fix
+            if stage_name == "fix":
+                seq += 1
+                self._event_bus.publish(PipelineEvent(
+                    job_id=job_id,
+                    event_type=EventType.SKILL_STORED,
+                    stage=stage_name,
+                    message="Stored fix attempt in Trace2Skill (tentative)",
+                    severity=Severity.INFO,
+                    payload={"skill_id": f"comb_{iteration:04d}", "tentative": True},
+                    iteration=iteration,
+                    elapsed_time=time.time() - start_time,
+                    sequence_num=seq,
+                ))
+
             # Simulate potential fix loop (V1 only)
-            if stage_name == "simulation" and pipeline_version == "v1" and "sim" in str(iteration):
+            if stage_name == "simulation" and iteration == 0:
                 # First simulation always passes in mock
                 sim_passed = True
                 seq += 1
@@ -164,23 +214,24 @@ class MockPipelineAdapter:
                     stage=stage_name,
                     message="Simulation passed — all tests pass",
                     severity=Severity.SUCCESS,
-                    payload={"passed": True, "tests_run": 12, "tests_passed": 12},
+                    payload={"passed": True, "tests_run": 12, "tests_passed": 12, "coverage_pct": 98.2},
                     elapsed_time=time.time() - start_time,
                     sequence_num=seq,
                 ))
 
-            elif stage_name == "simulation":
+            elif stage_name in ("simulation", "simulation_re"):
                 sim_passed = True
                 seq += 1
                 self._event_bus.publish(PipelineEvent(
                     job_id=job_id,
                     event_type=EventType.SIMULATION_RESULT,
                     stage=stage_name,
-                    message="Simulation passed",
+                    message="Simulation passed — all tests pass" if stage_name == "simulation_re" else "Simulation passed",
                     severity=Severity.SUCCESS,
-                    payload={"passed": True},
+                    payload={"passed": True, "tests_run": 12, "tests_passed": 12, "coverage_pct": 98.2},
                     elapsed_time=time.time() - start_time,
                     sequence_num=seq,
+                    iteration=iteration if stage_name == "simulation_re" else None,
                 ))
 
             if stage_name == "synthesis":
