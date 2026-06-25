@@ -1,0 +1,13 @@
+GitHub repo topics to add (Settings → General → Topics):
+rtl-design
+vlsi
+eda
+langgraph
+agentic-ai
+verilog
+gdsii
+chip-design
+autonomous-agents
+amd
+fireworks-ai
+sky130

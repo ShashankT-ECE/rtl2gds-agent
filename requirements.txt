@@ -1,0 +1,42 @@
+# RTL2GDS Agent — Python Dependencies
+# Python 3.10+ required
+#
+# System dependencies (not pip-installable):
+#   - iverilog     (apt install iverilog)
+#   - yosys        (apt install yosys)
+#   - opensta      (apt install opensta)
+#   - klayout      (apt install klayout)
+#   - Docker       (for OpenLane 2 physical design — get.docker.com)
+#   - Sky130 PDK   (see README for setup instructions)
+#
+# ============================================================================
+# Core agent framework
+# ============================================================================
+langgraph==1.2.5
+langgraph-checkpoint==4.1.1
+langgraph-sdk==0.4.2
+
+# ============================================================================
+# LLM provider SDKs (you only need the one matching your LLM_PROVIDER)
+# ============================================================================
+# Default (DeepSeek API) — via OpenAI-compatible endpoint
+openai==2.44.0
+# Optional: Anthropic (set LLM_PROVIDER=anthropic)
+# anthropic  # uncomment if using Claude as your LLM backend
+
+# ============================================================================
+# EDA / Hardware simulation
+# ============================================================================
+cocotb==2.0.1
+openlane==2.3.10           # pip package provides config parsing + version; actual run uses Docker
+
+# ============================================================================
+# CLI formatting
+# ============================================================================
+rich==13.9.4
+
+# ============================================================================
+# Optional: interactive clustering / graph tools
+# ============================================================================
+# graphify  # uncomment if using the knowledge-graph feature
+# mcp       # uncomment if running synthesis/STA via MCP stdio server
