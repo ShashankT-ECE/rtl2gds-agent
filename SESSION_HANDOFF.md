@@ -1,9 +1,31 @@
 # SESSION_HANDOFF.md
 
 ## Last Updated
-Date: 2026-06-25 | Session: 7 — Web UI Phase 2 Frontend Complete
+Date: 2026-06-25 | Session: 8 — Integration Stabilization Complete
 
-## PROJECT STATUS: V3 COMPLETE + WEB UI PHASE 2 FRONTEND
+## PROJECT STATUS: V3 COMPLETE + WEB UI PHASE 2 FRONTEND + INTEGRATION FIXED
+
+## Session 8 — Integration Stabilization (NEW)
+Closed all frontend-backend integration gaps. Mock pipeline V1/V2/V3 verified end-to-end.
+
+### Integration Fixes
+- Backend mock now emits distinct stage names for fix loop (testbench_re, simulation_re)
+- Backend mock emits fix_attempt, skill_retrieved, skill_stored events
+- simulation_result payloads include coverage_pct
+- Frontend V2/V3 stage lists aligned with backend (no fix-loop stages)
+- Root-level package artifacts cleaned; .gitignore expanded
+- 32 SSE events verified for V1 mock run, all 9 stages with correct status
+
+### How to Run
+```bash
+# Backend
+cd ~/projects/rtl2gds-agent
+PYTHONPATH=. .venv/bin/python -m ui.backend.main    # port 8000
+
+# Frontend
+cd ~/projects/rtl2gds-agent/ui/frontend
+pnpm dev    # port 3000
+```
 
 ## V3 Results — All 5 Benchmarks
 Same as session 4 — all DRC clean, LVS clean, timing met.
