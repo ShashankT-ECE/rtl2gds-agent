@@ -1,0 +1,244 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/* ============================================================
+   Silicon Design System — Dark Theme for RTL2GDS Agent
+   ============================================================ */
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* Base */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-sans);
+
+  /* Silicon palette — substrate (grays) */
+  --color-silicon-950: #09090b;
+  --color-silicon-900: #0f1117;
+  --color-silicon-850: #161922;
+  --color-silicon-800: #1c2030;
+  --color-silicon-700: #262d3d;
+  --color-silicon-600: #374055;
+  --color-silicon-500: #4f5b73;
+  --color-silicon-400: #6b7a94;
+  --color-silicon-300: #8e9cb4;
+  --color-silicon-200: #b8c4d6;
+  --color-silicon-100: #dce4f0;
+  --color-silicon-50: #f0f4fa;
+
+  /* Accent — copper (polysilicon / interconnect) */
+  --color-copper-500: #f09837;
+  --color-copper-400: #f5b764;
+  --color-copper-600: #c47a2b;
+
+  /* Status — photoresist green (pass/success) */
+  --color-photo-green: #2ea86c;
+
+  /* Status — etch red (fail/error) */
+  --color-etch-red: #e05045;
+
+  /* Status — plasma blue (AI / LLM / in progress) */
+  --color-plasma-blue: #4e9cf5;
+  --color-plasma-blue-dim: #2e6ab0;
+
+  /* Status — mask yellow (warning) */
+  --color-mask-yellow: #e0b030;
+
+  /* shadcn overrides mapped to silicon palette */
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+
+  /* Radii */
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* ============================================================
+   Dark theme (the ONLY theme — dark mode is mandatory for EDA)
+   ============================================================ */
+:root {
+  --background: #09090b;
+  --foreground: #dce4f0;
+  --card: #161922;
+  --card-foreground: #dce4f0;
+  --popover: #161922;
+  --popover-foreground: #dce4f0;
+  --primary: #f09837;
+  --primary-foreground: #09090b;
+  --secondary: #1c2030;
+  --secondary-foreground: #dce4f0;
+  --muted: #1c2030;
+  --muted-foreground: #6b7a94;
+  --accent: #1c2030;
+  --accent-foreground: #dce4f0;
+  --destructive: #e05045;
+  --border: #262d3d;
+  --input: #262d3d;
+  --ring: #f09837;
+  --chart-1: #f09837;
+  --chart-2: #4e9cf5;
+  --chart-3: #2ea86c;
+  --chart-4: #e0b030;
+  --chart-5: #e05045;
+  --radius: 0.5rem;
+  --sidebar: #0f1117;
+  --sidebar-foreground: #b8c4d6;
+  --sidebar-primary: #f09837;
+  --sidebar-primary-foreground: #09090b;
+  --sidebar-accent: #161922;
+  --sidebar-accent-foreground: #dce4f0;
+  --sidebar-border: #262d3d;
+  --sidebar-ring: #f09837;
+}
+
+.dark {
+  --background: #09090b;
+  --foreground: #dce4f0;
+  --card: #161922;
+  --card-foreground: #dce4f0;
+  --popover: #161922;
+  --popover-foreground: #dce4f0;
+  --primary: #f09837;
+  --primary-foreground: #09090b;
+  --secondary: #1c2030;
+  --secondary-foreground: #dce4f0;
+  --muted: #1c2030;
+  --muted-foreground: #6b7a94;
+  --accent: #1c2030;
+  --accent-foreground: #dce4f0;
+  --destructive: #e05045;
+  --border: #262d3d;
+  --input: #262d3d;
+  --ring: #f09837;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  html {
+    @apply font-sans h-full antialiased;
+  }
+}
+
+/* ============================================================
+   Custom animations
+   ============================================================ */
+
+@keyframes pulse-copper {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(240, 152, 55, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(240, 152, 55, 0); }
+}
+
+@keyframes pulse-blue {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(78, 156, 245, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(78, 156, 245, 0); }
+}
+
+@keyframes pulse-green {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes flow-particle {
+  0% { transform: translateX(0); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+@keyframes progress-indeterminate {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scan-line {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* ============================================================
+   Scrollbar styling
+   ============================================================ */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--silicon-950);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--silicon-700);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--silicon-600);
+}
+
+/* ============================================================
+   Reduced motion
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
