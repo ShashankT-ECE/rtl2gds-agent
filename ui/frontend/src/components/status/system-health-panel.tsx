@@ -15,19 +15,19 @@ export function SystemHealthPanel() {
   return (
     <div className={cn(
       'rounded-lg border p-4',
-      healthy ? 'border-photo-green/30 bg-photo-green/5' : 'border-etch-red/30 bg-etch-red/5'
+      healthy ? 'border-emerald-500/30 bg-emerald-500/5' : 'border-destructive/30 bg-destructive/5'
     )}>
       <div className="flex items-center gap-3">
         {healthy ? (
-          <CheckCircle className="h-8 w-8 text-photo-green" />
+          <CheckCircle className="h-8 w-8 text-emerald-500" />
         ) : (
-          <XCircle className="h-8 w-8 text-etch-red" />
+          <XCircle className="h-8 w-8 text-destructive" />
         )}
         <div>
-          <h3 className="text-lg font-semibold text-silicon-100">
+          <h3 className="text-lg font-semibold text-foreground">
             {healthy ? 'System Operational' : 'System Degraded'}
           </h3>
-          <p className="text-sm text-silicon-400">
+          <p className="text-sm text-muted-foreground">
             {healthy
               ? `API v${data?.api_version || '1'} — Version ${data?.version || 'unknown'}`
               : 'Backend is unreachable'}

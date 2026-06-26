@@ -20,7 +20,7 @@ interface JobTimelineProps {
 export function JobTimeline({ events, stages, totalDurationMs }: JobTimelineProps) {
   if (events.length === 0) {
     return (
-      <div className="text-sm text-silicon-500 text-center py-12">
+      <div className="text-sm text-muted-foreground text-center py-12">
         No events recorded for this job.
       </div>
     );
@@ -34,7 +34,7 @@ export function JobTimeline({ events, stages, totalDurationMs }: JobTimelineProp
     <TooltipProvider>
       <div className="space-y-2">
         {/* Stage bars */}
-        <div className="flex h-8 rounded-lg overflow-hidden bg-silicon-900 border border-silicon-700">
+        <div className="flex h-8 rounded-lg overflow-hidden bg-card border border-border">
           {stages.map((stage) => {
             if (!stage.started_at) return null;
             const startMs = new Date(stage.started_at).getTime() - firstTime;
@@ -61,9 +61,9 @@ export function JobTimeline({ events, stages, totalDurationMs }: JobTimelineProp
                     }}
                   />
                 </TooltipTrigger>
-                <TooltipContent className="bg-silicon-800 border-silicon-600 text-xs">
+                <TooltipContent className="bg-accent border-border text-xs">
                   <p className="font-semibold">{stage.name}</p>
-                  <p className="text-silicon-400">{stage.status} — {formatMs(stage.elapsed_ms)}</p>
+                  <p className="text-muted-foreground">{stage.status} — {formatMs(stage.elapsed_ms)}</p>
                 </TooltipContent>
               </Tooltip>
             );
@@ -87,8 +87,8 @@ export function JobTimeline({ events, stages, totalDurationMs }: JobTimelineProp
                     }}
                   />
                 </TooltipTrigger>
-                <TooltipContent className="bg-silicon-800 border-silicon-600 max-w-xs">
-                  <p className="text-xs text-silicon-400">{formatEventTimestamp(event.timestamp)}</p>
+                <TooltipContent className="bg-accent border-border max-w-xs">
+                  <p className="text-xs text-muted-foreground">{formatEventTimestamp(event.timestamp)}</p>
                   <p className="text-sm">{event.message}</p>
                 </TooltipContent>
               </Tooltip>
@@ -97,7 +97,7 @@ export function JobTimeline({ events, stages, totalDurationMs }: JobTimelineProp
         </div>
 
         {/* Time labels */}
-        <div className="flex justify-between text-2xs text-silicon-600 font-mono">
+        <div className="flex justify-between text-2xs text-muted-foreground font-mono">
           <span>{formatEventTimestamp(events[0].timestamp)}</span>
           <span>{formatEventTimestamp(events[events.length - 1].timestamp)}</span>
         </div>

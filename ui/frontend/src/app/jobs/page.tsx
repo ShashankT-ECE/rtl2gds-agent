@@ -39,8 +39,8 @@ export default function JobsPage() {
               className={cn(
                 'px-3 py-1.5 text-xs font-medium rounded-full border transition-all',
                 statusFilter === tab.value
-                  ? 'bg-silicon-800 text-silicon-200 border-silicon-600'
-                  : 'text-silicon-500 border-transparent hover:text-silicon-300 hover:border-silicon-700'
+                  ? 'bg-accent text-foreground border-border'
+                  : 'text-muted-foreground border-transparent hover:text-foreground hover:border-border'
               )}
             >
               {tab.label}

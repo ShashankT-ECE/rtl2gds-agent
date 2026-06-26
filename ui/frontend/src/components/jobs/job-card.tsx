@@ -14,12 +14,12 @@ interface JobCardProps {
 
 function ResultIcon({ passed, label }: { passed: boolean | null | undefined; label: string }) {
   if (passed === null || passed === undefined) {
-    return <span title={`${label}: not run`}><Minus className="h-3 w-3 text-silicon-600" /></span>;
+    return <span title={`${label}: not run`}><Minus className="h-3 w-3 text-muted-foreground" /></span>;
   }
   return passed ? (
-    <span title={`${label}: passed`}><Check className="h-3 w-3 text-photo-green" /></span>
+    <span title={`${label}: passed`}><Check className="h-3 w-3 text-emerald-500" /></span>
   ) : (
-    <span title={`${label}: failed`}><X className="h-3 w-3 text-etch-red" /></span>
+    <span title={`${label}: failed`}><X className="h-3 w-3 text-destructive" /></span>
   );
 }
 
@@ -32,7 +32,7 @@ export function JobCard({ job }: JobCardProps) {
   return (
     <Link
       href={`/jobs/${job.job_id}`}
-      className="block rounded-lg border border-silicon-700 bg-silicon-850 hover:border-silicon-600 hover:bg-silicon-800 transition-all p-4"
+      className="block rounded-lg border border-border bg-card hover:border-border hover:bg-accent transition-all p-4"
     >
       <div className="flex items-center gap-4">
         {/* Status icon */}
@@ -46,9 +46,9 @@ export function JobCard({ job }: JobCardProps) {
         {/* Info */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-3">
-            <span className="font-mono text-sm text-silicon-200">{job.job_id}</span>
-            <span className="text-sm text-silicon-400">{job.benchmark}</span>
-            <Badge variant="outline" className="text-xs border-silicon-600 text-silicon-400">
+            <span className="font-mono text-sm text-foreground">{job.job_id}</span>
+            <span className="text-sm text-muted-foreground">{job.benchmark}</span>
+            <Badge variant="outline" className="text-xs border-border text-muted-foreground">
               {job.pipeline_version.toUpperCase()}
             </Badge>
             <Badge
@@ -64,22 +64,22 @@ export function JobCard({ job }: JobCardProps) {
           </div>
 
           <div className="flex items-center gap-4 mt-2">
-            <span className="text-xs text-silicon-500">{formatRelativeTime(job.created_at)}</span>
+            <span className="text-xs text-muted-foreground">{formatRelativeTime(job.created_at)}</span>
             {job.elapsed_seconds != null && (
-              <span className="text-xs text-silicon-500 font-mono">{formatDuration(job.elapsed_seconds)}</span>
+              <span className="text-xs text-muted-foreground font-mono">{formatDuration(job.elapsed_seconds)}</span>
             )}
           </div>
         </div>
 
         {/* Stage bar */}
         <div className="hidden md:block w-32">
-          <div className="h-1.5 rounded-full bg-silicon-700 overflow-hidden">
+          <div className="h-1.5 rounded-full bg-muted overflow-hidden">
             <div
-              className="h-full rounded-full bg-copper-500 transition-all"
+              className="h-full rounded-full bg-primary transition-all"
               style={{ width: `${stagePct}%` }}
             />
           </div>
-          <div className="text-2xs text-silicon-600 font-mono mt-1 text-right">
+          <div className="text-2xs text-muted-foreground font-mono mt-1 text-right">
             {completedStages}/{totalStages}
           </div>
         </div>

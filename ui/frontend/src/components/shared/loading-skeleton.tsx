@@ -13,13 +13,13 @@ export function LoadingSkeleton({ className, lines = 3, variant = 'text' }: Load
     return (
       <div
         className={cn(
-          'rounded-lg bg-silicon-850 border border-silicon-700 p-4 animate-pulse',
+          'rounded-lg bg-card border border-border p-4 animate-pulse',
           className
         )}
       >
-        <div className="h-4 w-3/4 bg-silicon-700 rounded mb-3" />
-        <div className="h-3 w-full bg-silicon-700 rounded mb-2" />
-        <div className="h-3 w-5/6 bg-silicon-700 rounded" />
+        <div className="h-4 w-3/4 bg-muted rounded mb-3" />
+        <div className="h-3 w-full bg-muted rounded mb-2" />
+        <div className="h-3 w-5/6 bg-muted rounded" />
       </div>
     );
   }
@@ -28,7 +28,7 @@ export function LoadingSkeleton({ className, lines = 3, variant = 'text' }: Load
     return (
       <div
         className={cn(
-          'animate-pulse bg-silicon-800 rounded-lg border border-silicon-700',
+          'animate-pulse bg-accent rounded-lg border border-border',
           className
         )}
       />
@@ -40,7 +40,7 @@ export function LoadingSkeleton({ className, lines = 3, variant = 'text' }: Load
       {Array.from({ length: lines }).map((_, i) => (
         <div
           key={i}
-          className="h-3 bg-silicon-700 rounded"
+          className="h-3 bg-muted rounded"
           style={{ width: `${85 - i * 10}%` }}
         />
       ))}

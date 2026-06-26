@@ -25,12 +25,12 @@ export function FlowConnector({
         <div
           className={cn(
             'w-0.5 h-6 relative overflow-hidden',
-            isLoopback ? 'border-l-2 border-dashed border-silicon-600' : 'bg-silicon-700',
-            isActive && !isLoopback && 'bg-copper-500/50'
+            isLoopback ? 'border-l-2 border-dashed border-border' : 'bg-muted',
+            isActive && !isLoopback && 'bg-primary/50'
           )}
         >
           {isFlow && !isLoopback && (
-            <div className="absolute top-0 left-0 w-full h-2 bg-copper-500 rounded-full animate-[flow-particle_1.5s_ease-in-out_infinite]" />
+            <div className="absolute top-0 left-0 w-full h-2 bg-primary rounded-full animate-[flow-particle_1.5s_ease-in-out_infinite]" />
           )}
         </div>
       </div>
@@ -43,8 +43,8 @@ export function FlowConnector({
       <div
         className={cn(
           'relative w-8 h-0.5',
-          isLoopback ? 'border-t-2 border-dashed border-silicon-600' : 'bg-silicon-700',
-          isActive && !isLoopback && 'bg-copper-500/50'
+          isLoopback ? 'border-t-2 border-dashed border-border' : 'bg-muted',
+          isActive && !isLoopback && 'bg-primary/50'
         )}
       >
         {/* Arrow head */}
@@ -54,14 +54,14 @@ export function FlowConnector({
             'border-t-[4px] border-t-transparent',
             'border-b-[4px] border-b-transparent',
             'border-l-[6px]',
-            isActive && !isLoopback ? 'border-l-copper-500' : 'border-l-silicon-600'
+            isActive && !isLoopback ? 'border-l-primary' : 'border-l-border'
           )}
         />
         {/* Data flow particles */}
         {isFlow && !isLoopback && (
           <>
-            <div className="absolute top-0 left-0 w-1.5 h-1.5 rounded-full bg-copper-500 animate-[flow-particle_1.5s_ease-in-out_infinite]" />
-            <div className="absolute top-0 left-0 w-1.5 h-1.5 rounded-full bg-copper-500 animate-[flow-particle_1.5s_ease-in-out_0.5s_infinite]" />
+            <div className="absolute top-0 left-0 w-1.5 h-1.5 rounded-full bg-primary animate-[flow-particle_1.5s_ease-in-out_infinite]" />
+            <div className="absolute top-0 left-0 w-1.5 h-1.5 rounded-full bg-primary animate-[flow-particle_1.5s_ease-in-out_0.5s_infinite]" />
           </>
         )}
       </div>

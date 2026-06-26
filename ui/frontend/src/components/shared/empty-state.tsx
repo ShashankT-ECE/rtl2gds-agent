@@ -30,18 +30,18 @@ export function EmptyState({
       )}
     >
       {Icon && (
-        <div className="mb-4 rounded-full bg-silicon-800 p-4">
-          <Icon className="h-10 w-10 text-silicon-500" />
+        <div className="mb-4 rounded-full bg-accent p-4">
+          <Icon className="h-10 w-10 text-muted-foreground" />
         </div>
       )}
-      <h3 className="text-lg font-semibold text-silicon-200">{title}</h3>
+      <h3 className="text-lg font-semibold text-foreground">{title}</h3>
       {description && (
-        <p className="mt-2 max-w-md text-sm text-silicon-400">{description}</p>
+        <p className="mt-2 max-w-md text-sm text-muted-foreground">{description}</p>
       )}
       {action && (
         <Button
           variant="outline"
-          className="mt-6 border-copper-500 text-copper-500 hover:bg-copper-500/10"
+          className="mt-6 border-primary text-primary hover:bg-primary/10"
           onClick={action.onClick}
         >
           {action.label}

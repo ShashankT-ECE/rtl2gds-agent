@@ -63,7 +63,7 @@ export default function JobDetailPage() {
       <PageContainer
         title={
           <div className="flex items-center gap-3">
-            <span className="font-mono text-silicon-400">{displayJob.job_id}</span>
+            <span className="font-mono text-muted-foreground">{displayJob.job_id}</span>
             <Badge
               style={{
                 backgroundColor: `${statusColor}15`,
@@ -83,7 +83,7 @@ export default function JobDetailPage() {
       >
         <Button
           variant="ghost"
-          className="text-silicon-400 hover:text-silicon-200"
+          className="text-muted-foreground hover:text-foreground"
           onClick={() => router.push('/jobs')}
         >
           <ArrowLeft className="h-4 w-4 mr-1" />
@@ -92,28 +92,28 @@ export default function JobDetailPage() {
 
         {/* Quick stats */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <div className="rounded-lg border border-silicon-700 bg-silicon-850 p-4">
-            <div className="text-xs text-silicon-500">Benchmark</div>
-            <div className="text-sm font-semibold text-silicon-200 mt-1">{displayJob.benchmark}</div>
+          <div className="rounded-lg border border-border bg-card p-4">
+            <div className="text-xs text-muted-foreground">Benchmark</div>
+            <div className="text-sm font-semibold text-foreground mt-1">{displayJob.benchmark}</div>
           </div>
-          <div className="rounded-lg border border-silicon-700 bg-silicon-850 p-4">
-            <div className="text-xs text-silicon-500">Version</div>
-            <div className="text-sm font-semibold text-silicon-200 mt-1">{displayJob.pipeline_version.toUpperCase()}</div>
+          <div className="rounded-lg border border-border bg-card p-4">
+            <div className="text-xs text-muted-foreground">Version</div>
+            <div className="text-sm font-semibold text-foreground mt-1">{displayJob.pipeline_version.toUpperCase()}</div>
           </div>
-          <div className="rounded-lg border border-silicon-700 bg-silicon-850 p-4">
-            <div className="text-xs text-silicon-500">Created</div>
-            <div className="text-sm font-semibold text-silicon-200 mt-1">{formatRelativeTime(displayJob.created_at)}</div>
+          <div className="rounded-lg border border-border bg-card p-4">
+            <div className="text-xs text-muted-foreground">Created</div>
+            <div className="text-sm font-semibold text-foreground mt-1">{formatRelativeTime(displayJob.created_at)}</div>
           </div>
-          <div className="rounded-lg border border-silicon-700 bg-silicon-850 p-4">
-            <div className="text-xs text-silicon-500">Elapsed</div>
-            <div className="text-sm font-semibold text-silicon-200 mt-1">
+          <div className="rounded-lg border border-border bg-card p-4">
+            <div className="text-xs text-muted-foreground">Elapsed</div>
+            <div className="text-sm font-semibold text-foreground mt-1">
               <ElapsedTimer startedAt={displayJob.started_at} isRunning={isRunning} />
             </div>
           </div>
         </div>
 
         {/* Progress */}
-        <div className="rounded-lg border border-silicon-700 bg-silicon-850 p-4">
+        <div className="rounded-lg border border-border bg-card p-4">
           <ProgressBar
             value={displayJob.progress_pct || 0}
             variant={displayJob.status === 'failed' ? 'error' : displayJob.status === 'completed' ? 'success' : 'default'}
@@ -121,16 +121,16 @@ export default function JobDetailPage() {
             showLabel
           />
           {displayJob.error_message && (
-            <p className="text-sm text-etch-red mt-2">{displayJob.error_message}</p>
+            <p className="text-sm text-destructive mt-2">{displayJob.error_message}</p>
           )}
         </div>
 
         {/* Stages + Timeline grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Stage breakdown */}
-          <div className="rounded-lg border border-silicon-700 bg-silicon-850">
-            <div className="px-4 py-3 border-b border-silicon-700">
-              <h3 className="text-sm font-semibold text-silicon-200">Stage Breakdown</h3>
+          <div className="rounded-lg border border-border bg-card">
+            <div className="px-4 py-3 border-b border-border">
+              <h3 className="text-sm font-semibold text-foreground">Stage Breakdown</h3>
             </div>
             <div className="p-4">
               <JobStageList stages={displayJob.stages} />
@@ -138,11 +138,11 @@ export default function JobDetailPage() {
           </div>
 
           {/* Event timeline */}
-          <div className="rounded-lg border border-silicon-700 bg-silicon-850">
-            <div className="px-4 py-3 border-b border-silicon-700">
-              <h3 className="text-sm font-semibold text-silicon-200">
+          <div className="rounded-lg border border-border bg-card">
+            <div className="px-4 py-3 border-b border-border">
+              <h3 className="text-sm font-semibold text-foreground">
                 Event Timeline
-                <span className="ml-2 text-xs text-silicon-500 font-normal">
+                <span className="ml-2 text-xs text-muted-foreground font-normal">
                   {displayJob.event_count} events
                 </span>
               </h3>

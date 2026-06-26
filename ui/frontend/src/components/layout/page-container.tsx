@@ -12,16 +12,20 @@ export function PageContainer({ children, title, description, className, actions
   return (
     <div className={cn('space-y-6', className)}>
       {(title || actions) && (
-        <div className="flex items-start justify-between">
+        <div className="flex items-end justify-between">
           <div>
             {title && (
-              <h1 className="text-2xl font-semibold text-silicon-100">{title}</h1>
+              <h1 className="text-2xl font-semibold text-foreground tracking-tight">
+                {title}
+              </h1>
             )}
             {description && (
-              <p className="mt-1 text-sm text-silicon-400">{description}</p>
+              <p className="text-[13px] text-muted-foreground mt-1">
+                {description}
+              </p>
             )}
           </div>
-          {actions && <div className="flex items-center gap-3">{actions}</div>}
+          {actions && <div className="flex items-center gap-2">{actions}</div>}
         </div>
       )}
       {children}

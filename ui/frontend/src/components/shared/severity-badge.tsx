@@ -18,11 +18,11 @@ const SEVERITY_LABELS: Record<Severity, string> = {
 };
 
 const SEVERITY_BG: Record<Severity, string> = {
-  debug: 'bg-silicon-700/30 text-silicon-400',
-  info: 'bg-silicon-700/30 text-silicon-200',
-  success: 'bg-photo-green/10 text-photo-green',
-  warning: 'bg-mask-yellow/10 text-mask-yellow',
-  error: 'bg-etch-red/10 text-etch-red',
+  debug: 'bg-muted text-muted-foreground',
+  info: 'bg-muted text-foreground',
+  success: 'bg-emerald-500/10 text-emerald-500',
+  warning: 'bg-yellow-400/10 text-yellow-400',
+  error: 'bg-destructive/10 text-destructive',
 };
 
 export function SeverityBadge({ severity, className }: SeverityBadgeProps) {

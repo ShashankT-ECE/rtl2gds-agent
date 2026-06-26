@@ -53,7 +53,7 @@ export default function BenchmarkDetailPage() {
         title={benchmark.name}
         description={benchmark.category_guess ? `${benchmark.category_guess} design` : undefined}
         actions={
-          <Button onClick={handleRun} className="bg-copper-500 hover:bg-copper-400 text-silicon-950 font-semibold">
+          <Button onClick={handleRun} className="bg-primary hover:bg-primary/90 text-white font-semibold">
             <Play className="h-4 w-4 mr-2" />
             Run This Benchmark
           </Button>
@@ -61,7 +61,7 @@ export default function BenchmarkDetailPage() {
       >
         <Button
           variant="ghost"
-          className="text-silicon-400 hover:text-silicon-200 -mt-2"
+          className="text-muted-foreground hover:text-foreground -mt-2"
           onClick={() => router.push('/benchmarks')}
         >
           <ArrowLeft className="h-4 w-4 mr-1" />
@@ -72,7 +72,7 @@ export default function BenchmarkDetailPage() {
           {/* Spec */}
           <div className="lg:col-span-2 space-y-6">
             <div>
-              <h2 className="text-lg font-semibold text-silicon-200 mb-3">Specification</h2>
+              <h2 className="text-lg font-semibold text-foreground mb-3">Specification</h2>
               <CodeBlock
                 code={benchmark.spec_preview || 'No specification available.'}
                 language="text"
@@ -83,30 +83,30 @@ export default function BenchmarkDetailPage() {
 
           {/* Sidebar info */}
           <div className="space-y-4">
-            <div className="rounded-lg border border-silicon-700 bg-silicon-850 p-4">
-              <h3 className="text-sm font-semibold text-silicon-300 mb-3">Design Info</h3>
+            <div className="rounded-lg border border-border bg-card p-4">
+              <h3 className="text-sm font-semibold text-foreground/80 mb-3">Design Info</h3>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-silicon-400">Category</span>
+                  <span className="text-sm text-muted-foreground">Category</span>
                   <CategoryBadge category={benchmark.category_guess} />
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-silicon-400">Reference RTL</span>
-                  <span className={benchmark.has_reference_rtl ? 'text-photo-green' : 'text-silicon-600'}>
+                  <span className="text-sm text-muted-foreground">Reference RTL</span>
+                  <span className={benchmark.has_reference_rtl ? 'text-emerald-500' : 'text-muted-foreground'}>
                     <FileCode className="h-4 w-4 inline" />
                     {benchmark.has_reference_rtl ? ' Available' : ' N/A'}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-silicon-400">Reference TB</span>
-                  <span className={benchmark.has_reference_tb ? 'text-photo-green' : 'text-silicon-600'}>
+                  <span className="text-sm text-muted-foreground">Reference TB</span>
+                  <span className={benchmark.has_reference_tb ? 'text-emerald-500' : 'text-muted-foreground'}>
                     <FlaskConical className="h-4 w-4 inline" />
                     {benchmark.has_reference_tb ? ' Available' : ' N/A'}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-silicon-400">Bug Variants</span>
-                  <span className={benchmark.bug_count > 0 ? 'text-mask-yellow' : 'text-silicon-600'}>
+                  <span className="text-sm text-muted-foreground">Bug Variants</span>
+                  <span className={benchmark.bug_count > 0 ? 'text-yellow-400' : 'text-muted-foreground'}>
                     <Bug className="h-4 w-4 inline" />
                     {' '}{benchmark.bug_count}
                   </span>
@@ -116,13 +116,13 @@ export default function BenchmarkDetailPage() {
 
             {/* Bugs list */}
             {benchmark.bugs && benchmark.bugs.length > 0 && (
-              <div className="rounded-lg border border-silicon-700 bg-silicon-850 p-4">
-                <h3 className="text-sm font-semibold text-silicon-300 mb-3">Injected Bugs</h3>
+              <div className="rounded-lg border border-border bg-card p-4">
+                <h3 className="text-sm font-semibold text-foreground/80 mb-3">Injected Bugs</h3>
                 <div className="space-y-2">
                   {benchmark.bugs.map((bug) => (
                     <div key={bug.bug_id} className="text-sm">
-                      <span className="font-mono text-xs text-mask-yellow">{bug.bug_id}</span>
-                      <p className="text-silicon-400 text-xs mt-0.5">{bug.description || 'No description'}</p>
+                      <span className="font-mono text-xs text-yellow-400">{bug.bug_id}</span>
+                      <p className="text-muted-foreground text-xs mt-0.5">{bug.description || 'No description'}</p>
                     </div>
                   ))}
                 </div>

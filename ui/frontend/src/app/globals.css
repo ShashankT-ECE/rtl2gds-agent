@@ -3,52 +3,93 @@
 @import "shadcn/tailwind.css";
 
 /* ============================================================
-   Silicon Design System — Dark Theme for RTL2GDS Agent
+   Precision Engineering System — Stitch Dark Theme (default)
+   Foundry Engineering System — Stitch Light Theme (.light)
    ============================================================ */
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  /* Base */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* --- Fonts --- */
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
   --font-heading: var(--font-sans);
 
-  /* Silicon palette — substrate (grays) */
-  --color-silicon-950: #09090b;
-  --color-silicon-900: #0f1117;
-  --color-silicon-850: #161922;
-  --color-silicon-800: #1c2030;
-  --color-silicon-700: #262d3d;
-  --color-silicon-600: #374055;
-  --color-silicon-500: #4f5b73;
-  --color-silicon-400: #6b7a94;
-  --color-silicon-300: #8e9cb4;
-  --color-silicon-200: #b8c4d6;
-  --color-silicon-100: #dce4f0;
-  --color-silicon-50: #f0f4fa;
+  /* --- Surface hierarchy (dark default) --- */
+  --color-surface: #131315;
+  --color-surface-dim: #131315;
+  --color-surface-bright: #39393b;
+  --color-surface-container-lowest: #0e0e10;
+  --color-surface-container-low: #1c1b1d;
+  --color-surface-container: #201f22;
+  --color-surface-container-high: #2a2a2c;
+  --color-surface-container-highest: #353437;
 
-  /* Accent — copper (polysilicon / interconnect) */
-  --color-copper-500: #f09837;
-  --color-copper-400: #f5b764;
-  --color-copper-600: #c47a2b;
+  /* --- On-surface text --- */
+  --color-on-surface: #e5e1e4;
+  --color-on-surface-variant: #c3c5d9;
 
-  /* Status — photoresist green (pass/success) */
-  --color-photo-green: #2ea86c;
+  /* --- Primary: Industrial Blue --- */
+  --color-primary: #b7c4ff;
+  --color-on-primary: #002682;
+  --color-primary-container: #0052ff;
+  --color-on-primary-container: #dfe3ff;
+  --color-inverse-primary: #004ced;
 
-  /* Status — etch red (fail/error) */
-  --color-etch-red: #e05045;
+  /* --- Secondary --- */
+  --color-secondary: #c6c5cf;
+  --color-on-secondary: #2f3038;
+  --color-secondary-container: #4a4b53;
+  --color-on-secondary-container: #bcbbc5;
 
-  /* Status — plasma blue (AI / LLM / in progress) */
-  --color-plasma-blue: #4e9cf5;
-  --color-plasma-blue-dim: #2e6ab0;
+  /* --- Tertiary (warm accent) --- */
+  --color-tertiary: #ffb4a1;
+  --color-on-tertiary: #611300;
+  --color-tertiary-container: #bf3003;
+  --color-on-tertiary-container: #ffddd5;
 
-  /* Status — mask yellow (warning) */
-  --color-mask-yellow: #e0b030;
+  /* --- Error --- */
+  --color-error: #ffb4ab;
+  --color-on-error: #690005;
+  --color-error-container: #93000a;
+  --color-on-error-container: #ffdad6;
 
-  /* shadcn overrides mapped to silicon palette */
+  /* --- Outline / Border --- */
+  --color-outline: #8d90a2;
+  --color-outline-variant: #434656;
+
+  /* --- Inverse --- */
+  --color-inverse-surface: #e5e1e4;
+  --color-inverse-on-surface: #313032;
+
+  /* --- Fixed (tonal) --- */
+  --color-primary-fixed: #dde1ff;
+  --color-primary-fixed-dim: #b7c4ff;
+  --color-on-primary-fixed: #001452;
+  --color-on-primary-fixed-variant: #0038b6;
+  --color-secondary-fixed: #e3e1ec;
+  --color-secondary-fixed-dim: #c6c5cf;
+  --color-on-secondary-fixed: #1a1b22;
+  --color-on-secondary-fixed-variant: #46464e;
+  --color-tertiary-fixed: #ffdbd2;
+  --color-tertiary-fixed-dim: #ffb4a1;
+  --color-on-tertiary-fixed: #3c0800;
+  --color-on-tertiary-fixed-variant: #891e00;
+
+  /* --- Radii (Stitch defaults) --- */
+  --radius: 0.25rem;
+  --radius-sm: 0.125rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+
+  /* --- shadcn radius calc vars --- */
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* --- shadcn overrides mapped to Stitch tokens --- */
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -78,74 +119,99 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-
-  /* Radii */
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
 }
 
 /* ============================================================
-   Dark theme (the ONLY theme — dark mode is mandatory for EDA)
+   Dark theme (default — EDA tools are dark by convention)
    ============================================================ */
 :root {
-  --background: #09090b;
-  --foreground: #dce4f0;
-  --card: #161922;
-  --card-foreground: #dce4f0;
-  --popover: #161922;
-  --popover-foreground: #dce4f0;
-  --primary: #f09837;
-  --primary-foreground: #09090b;
-  --secondary: #1c2030;
-  --secondary-foreground: #dce4f0;
-  --muted: #1c2030;
-  --muted-foreground: #6b7a94;
-  --accent: #1c2030;
-  --accent-foreground: #dce4f0;
-  --destructive: #e05045;
-  --border: #262d3d;
-  --input: #262d3d;
-  --ring: #f09837;
-  --chart-1: #f09837;
-  --chart-2: #4e9cf5;
-  --chart-3: #2ea86c;
-  --chart-4: #e0b030;
-  --chart-5: #e05045;
-  --radius: 0.5rem;
-  --sidebar: #0f1117;
-  --sidebar-foreground: #b8c4d6;
-  --sidebar-primary: #f09837;
-  --sidebar-primary-foreground: #09090b;
-  --sidebar-accent: #161922;
-  --sidebar-accent-foreground: #dce4f0;
-  --sidebar-border: #262d3d;
-  --sidebar-ring: #f09837;
+  --background: #131315;
+  --foreground: #e5e1e4;
+  --card: #1c1b1d;
+  --card-foreground: #e5e1e4;
+  --popover: #2a2a2c;
+  --popover-foreground: #e5e1e4;
+  --primary: #0052ff;
+  --primary-foreground: #ffffff;
+  --secondary: #201f22;
+  --secondary-foreground: #e5e1e4;
+  --muted: #201f22;
+  --muted-foreground: #c3c5d9;
+  --accent: #2a2a2c;
+  --accent-foreground: #e5e1e4;
+  --destructive: #ffb4ab;
+  --border: #434656;
+  --input: #434656;
+  --ring: #0052ff;
+  --chart-1: #0052ff;
+  --chart-2: #10b981;
+  --chart-3: #10b981;
+  --chart-4: #facc15;
+  --chart-5: #ffb4ab;
+  --radius: 0.25rem;
+  --sidebar: #1c1b1d;
+  --sidebar-foreground: #e5e1e4;
+  --sidebar-primary: #b7c4ff;
+  --sidebar-primary-foreground: #002682;
+  --sidebar-accent: #2a2a2c;
+  --sidebar-accent-foreground: #e5e1e4;
+  --sidebar-border: #434656;
+  --sidebar-ring: #0052ff;
 }
 
 .dark {
-  --background: #09090b;
-  --foreground: #dce4f0;
-  --card: #161922;
-  --card-foreground: #dce4f0;
-  --popover: #161922;
-  --popover-foreground: #dce4f0;
-  --primary: #f09837;
-  --primary-foreground: #09090b;
-  --secondary: #1c2030;
-  --secondary-foreground: #dce4f0;
-  --muted: #1c2030;
-  --muted-foreground: #6b7a94;
-  --accent: #1c2030;
-  --accent-foreground: #dce4f0;
-  --destructive: #e05045;
-  --border: #262d3d;
-  --input: #262d3d;
-  --ring: #f09837;
+  --background: #131315;
+  --foreground: #e5e1e4;
+  --card: #1c1b1d;
+  --card-foreground: #e5e1e4;
+  --popover: #2a2a2c;
+  --popover-foreground: #e5e1e4;
+  --primary: #0052ff;
+  --primary-foreground: #ffffff;
+  --secondary: #201f22;
+  --secondary-foreground: #e5e1e4;
+  --muted: #201f22;
+  --muted-foreground: #c3c5d9;
+  --accent: #2a2a2c;
+  --accent-foreground: #e5e1e4;
+  --destructive: #ffb4ab;
+  --border: #434656;
+  --input: #434656;
+  --ring: #0052ff;
+}
+
+/* ============================================================
+   Light theme (.light class override)
+   ============================================================ */
+.light {
+  --background: #fbf8ff;
+  --foreground: #191b25;
+  --card: #ffffff;
+  --card-foreground: #191b25;
+  --popover: #ffffff;
+  --popover-foreground: #191b25;
+  --primary: #003ec7;
+  --primary-foreground: #ffffff;
+  --secondary: #dae2fd;
+  --secondary-foreground: #191b25;
+  --muted: #f3f2ff;
+  --muted-foreground: #434656;
+  --accent: #e7e7f5;
+  --accent-foreground: #191b25;
+  --destructive: #ba1a1a;
+  --border: #c3c5d9;
+  --input: #c3c5d9;
+  --ring: #003ec7;
+  --sidebar: #ededfb;
+  --sidebar-foreground: #191b25;
+  --sidebar-primary: #003ec7;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e7e7f5;
+  --sidebar-accent-foreground: #191b25;
+  --sidebar-border: #c3c5d9;
+  --sidebar-ring: #003ec7;
 }
 
 @layer base {
@@ -162,24 +228,42 @@
 }
 
 /* ============================================================
+   Material Symbols global defaults
+   ============================================================ */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+.icon-fill {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* ============================================================
    Custom animations
    ============================================================ */
 
-@keyframes pulse-copper {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(240, 152, 55, 0.4); }
-  50% { box-shadow: 0 0 0 6px rgba(240, 152, 55, 0); }
+/* Pipeline active node pulse (Stitch pattern) */
+@keyframes pulse-border {
+  0% { border-color: rgba(0, 82, 255, 0.5); box-shadow: 0 0 0 0 rgba(0, 82, 255, 0.2); }
+  50% { border-color: rgba(0, 82, 255, 1); box-shadow: 0 0 8px 0 rgba(0, 82, 255, 0.4); }
+  100% { border-color: rgba(0, 82, 255, 0.5); box-shadow: 0 0 0 0 rgba(0, 82, 255, 0); }
+}
+.animate-pulse-border {
+  animation: pulse-border 2s infinite ease-in-out;
 }
 
+/* Blue pulse (ring glow) */
 @keyframes pulse-blue {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(78, 156, 245, 0.4); }
-  50% { box-shadow: 0 0 0 6px rgba(78, 156, 245, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 82, 255, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(0, 82, 255, 0); }
 }
 
+/* Green pulse (success) */
 @keyframes pulse-green {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
 }
 
+/* Flow particle animation */
 @keyframes flow-particle {
   0% { transform: translateX(0); opacity: 0; }
   20% { opacity: 1; }
@@ -187,6 +271,7 @@
   100% { transform: translateX(100%); opacity: 0; }
 }
 
+/* Shake (error) */
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   20% { transform: translateX(-4px); }
@@ -195,47 +280,149 @@
   80% { transform: translateX(4px); }
 }
 
+/* Indeterminate progress */
 @keyframes progress-indeterminate {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(400%); }
 }
 
+/* Fade in */
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes scan-line {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100%); }
+/* Shimmer for skeleton loaders */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.03) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Page transition */
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-page-enter {
+  animation: page-enter 0.3s ease-out;
+}
+
+/* Card hover lift */
+@keyframes card-hover {
+  from { transform: translateY(0); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  to { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+}
+.card-hover-lift {
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+.card-hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+
+/* Number tick — subtle scale on value change */
+@keyframes number-tick {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+.number-tick {
+  animation: number-tick 0.3s ease-out;
+}
+
+/* Pulse dot — for live indicators */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(0.8); }
+}
+.pulse-dot {
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+/* Slide in from right (drawers, panels) */
+@keyframes slide-in-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* Slide out to right */
+@keyframes slide-out-right {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(100%); opacity: 0; }
+}
+
+/* Skeleton loading pulse */
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+.animate-skeleton-pulse {
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+/* Typing cursor */
+@keyframes blink-cursor {
+  0%, 100% { border-color: transparent; }
+  50% { border-color: currentColor; }
+}
+.typing-cursor {
+  border-right: 2px solid currentColor;
+  animation: blink-cursor 0.8s step-end infinite;
+}
+
+/* Gradient flow (for status indicators) */
+@keyframes gradient-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.gradient-flow {
+  background-size: 200% 200%;
+  animation: gradient-flow 3s ease infinite;
 }
 
 /* ============================================================
-   Scrollbar styling
+   Scrollbar styling (Stitch: 4px, minimal)
    ============================================================ */
-
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 4px;
+  height: 4px;
 }
-
 ::-webkit-scrollbar-track {
-  background: var(--silicon-950);
+  background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: var(--silicon-700);
-  border-radius: 3px;
+  background-color: #434656;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #8d90a2;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--silicon-600);
+/* Terminal scrollbar variant (always visible, darker) */
+.terminal-scroll::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+.terminal-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.terminal-scroll::-webkit-scrollbar-thumb {
+  background-color: #3f3f46;
+  border-radius: 2px;
+}
+.terminal-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: #52525b;
 }
 
 /* ============================================================
    Reduced motion
    ============================================================ */
-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

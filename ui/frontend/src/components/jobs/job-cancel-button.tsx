@@ -18,7 +18,7 @@ export function JobCancelButton({ jobId, isRunning }: JobCancelButtonProps) {
     <Button
       variant="outline"
       size="sm"
-      className="border-etch-red/30 text-etch-red hover:bg-etch-red/10 hover:text-etch-red"
+      className="border-destructive/30 text-destructive hover:bg-destructive/10 hover:text-destructive"
       onClick={() => cancelJob.mutate(jobId)}
       disabled={cancelJob.isPending}
     >

@@ -1,13 +1,12 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { AgentLogEntry } from './agent-log-entry';
 import { EmptyState } from '@/components/shared/empty-state';
 import { useEventHistory } from '@/hooks/use-event-history';
 import { Radio } from 'lucide-react';
-import type { PipelineEvent, Severity, EventType } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
 interface AgentActivityFeedProps {
@@ -42,9 +41,12 @@ export function AgentActivityFeed({ jobId, isLive = false, className }: AgentAct
 
   if (!jobId) {
     return (
-      <div className={cn('rounded-lg border border-silicon-700 bg-silicon-850', className)}>
-        <div className="px-4 py-3 border-b border-silicon-700">
-          <h3 className="text-sm font-semibold text-silicon-200">AGENT ACTIVITY FEED</h3>
+      <div className={cn('rounded-lg border border-border bg-card', className)}>
+        <div className="px-4 py-3 border-b border-border bg-surface-container-highest">
+          <div className="flex items-center gap-2">
+            <span className="material-symbols-outlined text-[16px] text-muted-foreground">terminal</span>
+            <h3 className="text-sm font-semibold text-foreground">Live Execution Log</h3>
+          </div>
         </div>
         <EmptyState
           icon={Radio}
@@ -56,26 +58,27 @@ export function AgentActivityFeed({ jobId, isLive = false, className }: AgentAct
   }
 
   return (
-    <div className={cn('rounded-lg border border-silicon-700 bg-silicon-850 flex flex-col', className)}>
+    <div className={cn('rounded-lg border border-border bg-card flex flex-col', className)}>
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-silicon-700 shrink-0">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-surface-container-highest shrink-0">
         <div className="flex items-center gap-2">
-          <h3 className="text-sm font-semibold text-silicon-200">AGENT ACTIVITY FEED</h3>
+          <span className="material-symbols-outlined text-[16px] text-muted-foreground">terminal</span>
+          <h3 className="text-sm font-semibold text-foreground">Live Execution Log</h3>
           {isLive && (
-            <span className="flex items-center gap-1 text-2xs text-photo-green">
-              <span className="h-1.5 w-1.5 rounded-full bg-photo-green animate-pulse" />
+            <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-emerald-500">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse-green" />
               LIVE
             </span>
           )}
         </div>
-        <span className="text-xs text-silicon-500 font-mono">{events.length} events</span>
+        <span className="text-xs text-muted-foreground font-mono">{events.length} events</span>
       </div>
 
       {/* Event list */}
       <div
         ref={containerRef}
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto max-h-[400px]"
+        className="flex-1 overflow-y-auto max-h-[400px] terminal-scroll bg-black"
       >
         {events.length === 0 ? (
           <div className="py-12">
@@ -97,18 +100,6 @@ export function AgentActivityFeed({ jobId, isLive = false, className }: AgentAct
                 }
               />
             ))}
-            {/* Expanded payload view */}
-            {expandedId && (() => {
-              const event = events.find((e) => e.event_id === expandedId);
-              if (!event || Object.keys(event.payload).length === 0) return null;
-              return (
-                <div className="mx-4 my-2 p-3 rounded bg-silicon-950 border border-silicon-700">
-                  <pre className="text-xs font-mono text-silicon-400 overflow-x-auto whitespace-pre-wrap">
-                    {JSON.stringify(event.payload, null, 2)}
-                  </pre>
-                </div>
-              );
-            })()}
             <div ref={bottomRef} />
           </div>
         )}
@@ -120,7 +111,7 @@ export function AgentActivityFeed({ jobId, isLive = false, className }: AgentAct
           <Button
             variant="secondary"
             size="sm"
-            className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full shadow-lg border-silicon-600"
+            className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full shadow-lg border-border"
             onClick={scrollToBottom}
           >
             <ArrowDown className="h-3.5 w-3.5 mr-1" />

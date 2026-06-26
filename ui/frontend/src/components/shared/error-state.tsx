@@ -24,15 +24,15 @@ export function ErrorState({
         className
       )}
     >
-      <div className="mb-4 rounded-full bg-etch-red/10 p-4">
-        <XCircle className="h-10 w-10 text-etch-red" />
+      <div className="mb-4 rounded-full bg-destructive/10 p-4">
+        <XCircle className="h-10 w-10 text-destructive" />
       </div>
-      <h3 className="text-lg font-semibold text-silicon-200">{title}</h3>
-      <p className="mt-2 max-w-md text-sm text-silicon-400">{message}</p>
+      <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+      <p className="mt-2 max-w-md text-sm text-muted-foreground">{message}</p>
       {onRetry && (
         <Button
           variant="outline"
-          className="mt-6 border-silicon-600 text-silicon-300 hover:bg-silicon-800"
+          className="mt-6 border-border text-foreground/80 hover:bg-accent"
           onClick={onRetry}
         >
           <RefreshCw className="mr-2 h-4 w-4" />

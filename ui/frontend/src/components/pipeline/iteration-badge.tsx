@@ -19,8 +19,8 @@ export function IterationBadge({ iteration, maxIterations, className }: Iteratio
       className={cn(
         'inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-mono font-semibold',
         isWarning
-          ? 'bg-mask-yellow/15 text-mask-yellow border border-mask-yellow/30'
-          : 'bg-copper-500/10 text-copper-500 border border-copper-500/30',
+          ? 'bg-yellow-400/15 text-yellow-400 border border-yellow-400/30'
+          : 'bg-primary/10 text-primary border border-primary/30',
         className
       )}
     >

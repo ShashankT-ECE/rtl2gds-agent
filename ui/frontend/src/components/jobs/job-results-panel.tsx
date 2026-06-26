@@ -14,16 +14,16 @@ interface ResultCardProps {
 
 function ResultCard({ title, status, children, placeholder }: ResultCardProps) {
   return (
-    <div className="rounded-lg border border-silicon-700 bg-silicon-850 overflow-hidden">
-      <div className="flex items-center justify-between px-4 py-3 border-b border-silicon-700">
-        <h4 className="text-xs font-semibold text-silicon-300 uppercase tracking-wider">{title}</h4>
-        {status === 'pass' && <Check className="h-4 w-4 text-photo-green" />}
-        {status === 'fail' && <X className="h-4 w-4 text-etch-red" />}
-        {status === 'pending' && <span className="text-2xs text-silicon-600">PENDING</span>}
+    <div className="rounded-lg border border-border bg-card overflow-hidden">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-border">
+        <h4 className="text-xs font-semibold text-foreground uppercase tracking-wider">{title}</h4>
+        {status === 'pass' && <Check className="h-4 w-4 text-emerald-500" />}
+        {status === 'fail' && <X className="h-4 w-4 text-destructive" />}
+        {status === 'pending' && <span className="text-2xs text-muted-foreground">PENDING</span>}
       </div>
       <div className="p-4">
         {status === 'pending' && placeholder ? (
-          <p className="text-xs text-silicon-500">{placeholder}</p>
+          <p className="text-xs text-muted-foreground">{placeholder}</p>
         ) : (
           children
         )}
@@ -37,9 +37,9 @@ export function JobResultsPanel() {
 
   if (!activeJob) {
     return (
-      <div className="rounded-lg border border-silicon-700 bg-silicon-850">
-        <div className="px-4 py-3 border-b border-silicon-700">
-          <h3 className="text-sm font-semibold text-silicon-200">RESULTS</h3>
+      <div className="rounded-lg border border-border bg-card">
+        <div className="px-4 py-3 border-b border-border">
+          <h3 className="text-sm font-semibold text-foreground">RESULTS</h3>
         </div>
         <EmptyState
           icon={Activity}
@@ -61,9 +61,9 @@ export function JobResultsPanel() {
   const drcEvent = [...activeJob.events].reverse().find(e => e.event_type === 'drc_result');
 
   return (
-    <div className="rounded-lg border border-silicon-700 bg-silicon-850">
-      <div className="px-4 py-3 border-b border-silicon-700">
-        <h3 className="text-sm font-semibold text-silicon-200">RESULTS</h3>
+    <div className="rounded-lg border border-border bg-card">
+      <div className="px-4 py-3 border-b border-border">
+        <h3 className="text-sm font-semibold text-foreground">RESULTS</h3>
       </div>
       <div className="p-4 space-y-3">
         {/* Simulation */}
@@ -71,23 +71,23 @@ export function JobResultsPanel() {
           {simEvent && (
             <div className="space-y-1 text-sm">
               <div className="flex justify-between">
-                <span className="text-silicon-400">Status</span>
-                <span className={activeJob.sim_passed ? 'text-photo-green' : 'text-etch-red'}>
+                <span className="text-muted-foreground">Status</span>
+                <span className={activeJob.sim_passed ? 'text-emerald-500' : 'text-destructive'}>
                   {activeJob.sim_passed ? 'PASSED' : 'FAILED'}
                 </span>
               </div>
               {simEvent.payload?.coverage_pct != null && (
                 <div className="flex justify-between">
-                  <span className="text-silicon-400">Coverage</span>
-                  <span className="text-silicon-200 font-mono">{String(simEvent.payload.coverage_pct)}%</span>
+                  <span className="text-muted-foreground">Coverage</span>
+                  <span className="text-foreground font-mono">{String(simEvent.payload.coverage_pct)}%</span>
                 </div>
               )}
               <div className="flex justify-between">
-                <span className="text-silicon-400">Iteration</span>
-                <span className="text-silicon-200 font-mono">{activeJob.iteration}</span>
+                <span className="text-muted-foreground">Iteration</span>
+                <span className="text-foreground font-mono">{activeJob.iteration}</span>
               </div>
               {/* Waveform placeholder */}
-              <div className="mt-3 rounded bg-silicon-950 border border-silicon-700 p-4">
+              <div className="mt-3 rounded bg-background border border-border p-4">
                 <svg width="100%" height="60" viewBox="0 0 300 60" className="opacity-30">
                   <rect width="300" height="60" fill="#09090b" />
                   {[15, 25, 35, 45].map((y, i) => (
@@ -104,7 +104,7 @@ export function JobResultsPanel() {
                     </g>
                   ))}
                 </svg>
-                <p className="text-2xs text-silicon-600 text-center mt-2">Interactive waveform viewer — Phase 3</p>
+                <p className="text-2xs text-muted-foreground text-center mt-2">Interactive waveform viewer — Phase 3</p>
               </div>
             </div>
           )}
@@ -116,20 +116,20 @@ export function JobResultsPanel() {
             <div className="space-y-1 text-sm">
               {synthEvent.payload?.cell_count != null && (
                 <div className="flex justify-between">
-                  <span className="text-silicon-400">Cell Count</span>
-                  <span className="text-silicon-200 font-mono">{String(synthEvent.payload.cell_count)}</span>
+                  <span className="text-muted-foreground">Cell Count</span>
+                  <span className="text-foreground font-mono">{String(synthEvent.payload.cell_count)}</span>
                 </div>
               )}
               {synthEvent.payload?.area != null && (
                 <div className="flex justify-between">
-                  <span className="text-silicon-400">Area</span>
-                  <span className="text-silicon-200 font-mono">{String(synthEvent.payload.area)}</span>
+                  <span className="text-muted-foreground">Area</span>
+                  <span className="text-foreground font-mono">{String(synthEvent.payload.area)}</span>
                 </div>
               )}
               {synthEvent.payload?.frequency != null && (
                 <div className="flex justify-between">
-                  <span className="text-silicon-400">Frequency</span>
-                  <span className="text-silicon-200 font-mono">{String(synthEvent.payload.frequency)}</span>
+                  <span className="text-muted-foreground">Frequency</span>
+                  <span className="text-foreground font-mono">{String(synthEvent.payload.frequency)}</span>
                 </div>
               )}
             </div>
@@ -141,29 +141,29 @@ export function JobResultsPanel() {
           {staEvent && (
             <div className="space-y-1 text-sm">
               <div className="flex justify-between">
-                <span className="text-silicon-400">Timing</span>
-                <span className={activeJob.timing_met ? 'text-photo-green font-semibold' : 'text-etch-red font-semibold'}>
+                <span className="text-muted-foreground">Timing</span>
+                <span className={activeJob.timing_met ? 'text-emerald-500 font-semibold' : 'text-destructive font-semibold'}>
                   {activeJob.timing_met ? 'MET' : 'VIOLATED'}
                 </span>
               </div>
               {staEvent.payload?.wns != null && (
                 <div className="flex justify-between">
-                  <span className="text-silicon-400">WNS</span>
-                  <span className={cn('font-mono', Number(staEvent.payload.wns) >= 0 ? 'text-photo-green' : 'text-etch-red')}>
+                  <span className="text-muted-foreground">WNS</span>
+                  <span className={cn('font-mono', Number(staEvent.payload.wns) >= 0 ? 'text-emerald-500' : 'text-destructive')}>
                     {String(staEvent.payload.wns)} ns
                   </span>
                 </div>
               )}
               {staEvent.payload?.tns != null && (
                 <div className="flex justify-between">
-                  <span className="text-silicon-400">TNS</span>
-                  <span className="text-silicon-200 font-mono">{String(staEvent.payload.tns)} ns</span>
+                  <span className="text-muted-foreground">TNS</span>
+                  <span className="text-foreground font-mono">{String(staEvent.payload.tns)} ns</span>
                 </div>
               )}
               {staEvent.payload?.critical_path != null && (
                 <div className="flex justify-between">
-                  <span className="text-silicon-400">Critical Path</span>
-                  <span className="text-silicon-200 font-mono text-xs truncate max-w-[140px]">
+                  <span className="text-muted-foreground">Critical Path</span>
+                  <span className="text-foreground font-mono text-xs truncate max-w-[140px]">
                     {String(staEvent.payload.critical_path)}
                   </span>
                 </div>
@@ -177,21 +177,21 @@ export function JobResultsPanel() {
           {drcEvent && (
             <div className="space-y-1 text-sm">
               <div className="flex justify-between">
-                <span className="text-silicon-400">DRC Status</span>
-                <span className={activeJob.drc_passed ? 'text-photo-green font-semibold' : 'text-etch-red font-semibold'}>
+                <span className="text-muted-foreground">DRC Status</span>
+                <span className={activeJob.drc_passed ? 'text-emerald-500 font-semibold' : 'text-destructive font-semibold'}>
                   {activeJob.drc_passed ? 'CLEAN' : 'VIOLATIONS'}
                 </span>
               </div>
               {drcEvent.payload?.violations != null && (
                 <div className="flex justify-between">
-                  <span className="text-silicon-400">Violations</span>
-                  <span className={cn('font-mono', Number(drcEvent.payload.violations) === 0 ? 'text-photo-green' : 'text-etch-red')}>
+                  <span className="text-muted-foreground">Violations</span>
+                  <span className={cn('font-mono', Number(drcEvent.payload.violations) === 0 ? 'text-emerald-500' : 'text-destructive')}>
                     {String(drcEvent.payload.violations)}
                   </span>
                 </div>
               )}
               {/* Layout placeholder */}
-              <div className="mt-3 rounded bg-silicon-950 border border-silicon-700 p-4">
+              <div className="mt-3 rounded bg-background border border-border p-4">
                 <svg width="100%" height="60" viewBox="0 0 300 60" className="opacity-30">
                   <rect width="300" height="60" fill="#09090b" />
                   <rect x="80" y="10" width="140" height="40" fill="none" stroke="#4f5b73" strokeWidth="1" />
@@ -201,7 +201,7 @@ export function JobResultsPanel() {
                   <line x1="130" y1="25" x2="140" y2="25" stroke="#4e9cf5" strokeWidth="0.5" opacity="0.5" />
                   <line x1="170" y1="25" x2="180" y2="25" stroke="#4e9cf5" strokeWidth="0.5" opacity="0.5" />
                 </svg>
-                <p className="text-2xs text-silicon-600 text-center mt-2">GDSII layout viewer — Phase 3</p>
+                <p className="text-2xs text-muted-foreground text-center mt-2">GDSII layout viewer — Phase 3</p>
               </div>
             </div>
           )}

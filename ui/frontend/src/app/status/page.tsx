@@ -33,18 +33,18 @@ export default function StatusPage() {
           <VersionAvailability />
 
           {/* Job statistics */}
-          <div className="rounded-lg border border-silicon-700 bg-silicon-850 p-4">
-            <h3 className="text-sm font-semibold text-silicon-200 mb-4">Job Statistics</h3>
+          <div className="rounded-lg border border-border bg-card p-4">
+            <h3 className="text-sm font-semibold text-foreground mb-4">Job Statistics</h3>
             <div className="grid grid-cols-4 gap-3">
               {[
-                { label: 'Active', value: activeCount, color: 'text-plasma-blue' },
-                { label: 'Completed', value: completedCount, color: 'text-photo-green' },
-                { label: 'Failed', value: failedCount, color: 'text-etch-red' },
-                { label: 'Queued', value: queuedCount, color: 'text-silicon-400' },
+                { label: 'Active', value: activeCount, color: 'text-primary' },
+                { label: 'Completed', value: completedCount, color: 'text-emerald-500' },
+                { label: 'Failed', value: failedCount, color: 'text-destructive' },
+                { label: 'Queued', value: queuedCount, color: 'text-muted-foreground' },
               ].map((stat) => (
                 <div key={stat.label} className="text-center">
                   <div className={`text-2xl font-bold font-mono ${stat.color}`}>{stat.value}</div>
-                  <div className="text-xs text-silicon-500 mt-1">{stat.label}</div>
+                  <div className="text-xs text-muted-foreground mt-1">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -52,26 +52,26 @@ export default function StatusPage() {
 
           {/* Provider & Skills */}
           <div className="space-y-6">
-            <div className="rounded-lg border border-silicon-700 bg-silicon-850 p-4">
-              <h3 className="text-sm font-semibold text-silicon-200 mb-3">Configuration</h3>
+            <div className="rounded-lg border border-border bg-card p-4">
+              <h3 className="text-sm font-semibold text-foreground mb-3">Configuration</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-silicon-400">LLM Provider</span>
-                  <span className="text-silicon-200">{status?.provider || '—'}</span>
+                  <span className="text-muted-foreground">LLM Provider</span>
+                  <span className="text-foreground">{status?.provider || '—'}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-silicon-400">Pipeline Mode</span>
-                  <span className={status?.pipeline_mode === 'real' ? 'text-copper-500' : 'text-mask-yellow'}>
+                  <span className="text-muted-foreground">Pipeline Mode</span>
+                  <span className={status?.pipeline_mode === 'real' ? 'text-primary' : 'text-yellow-400'}>
                     {status?.pipeline_mode || '—'}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-silicon-400">Benchmarks</span>
-                  <span className="text-silicon-200 font-mono">{status?.benchmark_count || '—'}</span>
+                  <span className="text-muted-foreground">Benchmarks</span>
+                  <span className="text-foreground font-mono">{status?.benchmark_count || '—'}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-silicon-400">Trace2Skill Total</span>
-                  <span className="text-silicon-200 font-mono">{skillData?.total_skills || '—'}</span>
+                  <span className="text-muted-foreground">Trace2Skill Total</span>
+                  <span className="text-foreground font-mono">{skillData?.total_skills || '—'}</span>
                 </div>
               </div>
             </div>

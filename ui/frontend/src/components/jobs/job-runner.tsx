@@ -61,29 +61,31 @@ export function JobRunner() {
   };
 
   return (
-    <div className="rounded-lg border border-silicon-700 bg-silicon-850 p-4">
+    <div className="rounded-lg border border-border bg-card p-4">
       <div className="flex flex-wrap items-end gap-4">
         {/* Benchmark selector */}
         <div className="flex-1 min-w-[200px]">
-          <Label className="text-xs text-silicon-500 mb-1.5 block">Benchmark</Label>
+          <Label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5 block">
+            Benchmark
+          </Label>
           <Select
             value={selectedBenchmark || ''}
             onValueChange={setSelectedBenchmark}
             disabled={isRunning}
           >
-            <SelectTrigger className="bg-silicon-900 border-silicon-700 text-silicon-200 h-9">
+            <SelectTrigger className="bg-surface-container-lowest border-border text-foreground h-9">
               <SelectValue placeholder="Select benchmark..." />
             </SelectTrigger>
-            <SelectContent className="bg-silicon-850 border-silicon-700">
-              <div className="text-xs text-silicon-500 px-2 py-1 font-semibold">Complete (GDSII Verified)</div>
+            <SelectContent className="bg-card border-border">
+              <div className="text-xs text-muted-foreground px-2 py-1 font-semibold">Complete (GDSII Verified)</div>
               {benchmarks.filter(b => ['alu_8bit','sync_fifo_8x16','fsm_traffic_light','uart_tx','apb_slave'].includes(b.name)).map((b) => (
-                <SelectItem key={b.name} value={b.name} className="text-silicon-300 focus:bg-silicon-700 focus:text-silicon-100">
+                <SelectItem key={b.name} value={b.name} className="text-foreground focus:bg-accent focus:text-foreground">
                   {b.name}
                 </SelectItem>
               ))}
-              <div className="text-xs text-silicon-500 px-2 py-1 font-semibold mt-1">In Progress</div>
+              <div className="text-xs text-muted-foreground px-2 py-1 font-semibold mt-1">In Progress</div>
               {benchmarks.filter(b => !['alu_8bit','sync_fifo_8x16','fsm_traffic_light','uart_tx','apb_slave'].includes(b.name)).map((b) => (
-                <SelectItem key={b.name} value={b.name} className="text-silicon-300 focus:bg-silicon-700 focus:text-silicon-100">
+                <SelectItem key={b.name} value={b.name} className="text-foreground focus:bg-accent focus:text-foreground">
                   {b.name}
                 </SelectItem>
               ))}
@@ -93,7 +95,9 @@ export function JobRunner() {
 
         {/* Version selector */}
         <div>
-          <Label className="text-xs text-silicon-500 mb-1.5 block">Version</Label>
+          <Label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5 block">
+            Version
+          </Label>
           <div className="flex gap-1">
             {versions.map((v) => (
               <button
@@ -101,10 +105,10 @@ export function JobRunner() {
                 onClick={() => setSelectedVersion(v)}
                 disabled={isRunning}
                 className={cn(
-                  'px-3 py-1.5 text-xs font-semibold rounded-md border transition-all',
+                  'px-3 py-1.5 text-xs font-semibold rounded border transition-all',
                   selectedVersion === v
-                    ? 'bg-copper-500/20 text-copper-500 border-copper-500/30'
-                    : 'text-silicon-500 border-silicon-700 hover:border-silicon-600 hover:text-silicon-300'
+                    ? 'bg-primary/10 text-primary border-primary/30'
+                    : 'text-muted-foreground border-border hover:border-muted-foreground hover:text-foreground'
                 )}
                 title={VERSION_INFO[v].description}
               >
@@ -116,7 +120,9 @@ export function JobRunner() {
 
         {/* Max iterations */}
         <div className="w-20">
-          <Label className="text-xs text-silicon-500 mb-1.5 block">Iterations</Label>
+          <Label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1.5 block">
+            Iterations
+          </Label>
           <Input
             type="number"
             min={1}
@@ -124,7 +130,7 @@ export function JobRunner() {
             value={maxIterations}
             onChange={(e) => setMaxIterations(Number(e.target.value))}
             disabled={isRunning}
-            className="bg-silicon-900 border-silicon-700 text-silicon-200 h-9 w-20 text-center font-mono"
+            className="bg-surface-container-lowest border-border text-foreground h-9 w-20 text-center font-mono"
           />
         </div>
 
@@ -135,9 +141,8 @@ export function JobRunner() {
               checked={useRefRTL}
               onCheckedChange={setUseRefRTL}
               disabled={isRunning}
-              className="data-[state=checked]:bg-copper-500"
             />
-            <Label className="text-xs text-silicon-400 cursor-pointer" onClick={() => setUseRefRTL(!useRefRTL)}>
+            <Label className="text-xs text-muted-foreground cursor-pointer" onClick={() => setUseRefRTL(!useRefRTL)}>
               Ref RTL
             </Label>
           </div>
@@ -146,9 +151,8 @@ export function JobRunner() {
               checked={useRefTB}
               onCheckedChange={setUseRefTB}
               disabled={isRunning}
-              className="data-[state=checked]:bg-copper-500"
             />
-            <Label className="text-xs text-silicon-400 cursor-pointer" onClick={() => setUseRefTB(!useRefTB)}>
+            <Label className="text-xs text-muted-foreground cursor-pointer" onClick={() => setUseRefTB(!useRefTB)}>
               Ref TB
             </Label>
           </div>
@@ -158,19 +162,19 @@ export function JobRunner() {
         <Button
           onClick={handleSubmit}
           disabled={!selectedBenchmark || isRunning || submitJob.isPending}
-          className="bg-copper-500 hover:bg-copper-400 text-silicon-950 font-semibold h-9 px-5"
+          className="bg-primary text-white hover:bg-primary/90 font-semibold h-9 px-5"
         >
           {submitJob.isPending ? (
             <Loader2 className="h-4 w-4 animate-spin mr-2" />
           ) : (
-            <Play className="h-4 w-4 mr-2" />
+            <span className="material-symbols-outlined text-[16px] mr-1">play_arrow</span>
           )}
           Run Pipeline
         </Button>
       </div>
 
       {submitJob.isError && (
-        <p className="text-xs text-etch-red mt-3">
+        <p className="text-xs text-destructive mt-3">
           {(submitJob.error as Error)?.message || 'Failed to start job'}
         </p>
       )}

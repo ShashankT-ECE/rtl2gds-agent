@@ -33,7 +33,7 @@ export default function SkillCategoryPage() {
       >
         <Button
           variant="ghost"
-          className="text-silicon-400 hover:text-silicon-200"
+          className="text-muted-foreground hover:text-foreground"
           onClick={() => router.push('/skills')}
         >
           <ArrowLeft className="h-4 w-4 mr-1" />

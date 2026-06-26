@@ -18,25 +18,25 @@ export function VersionAvailability() {
   ];
 
   return (
-    <div className="rounded-lg border border-silicon-700 bg-silicon-850 p-4">
-      <h3 className="text-sm font-semibold text-silicon-200 mb-3">Pipeline Versions</h3>
+    <div className="rounded-lg border border-border bg-card p-4">
+      <h3 className="text-sm font-semibold text-foreground mb-3">Pipeline Versions</h3>
       <div className="space-y-2">
         {versionInfo.map((v) => (
           <div key={v.label} className="flex items-center gap-3">
             {v.available ? (
-              <Check className="h-4 w-4 text-photo-green" />
+              <Check className="h-4 w-4 text-emerald-500" />
             ) : (
-              <X className="h-4 w-4 text-silicon-600" />
+              <X className="h-4 w-4 text-muted-foreground" />
             )}
-            <span className={cn('text-sm', v.available ? 'text-silicon-300' : 'text-silicon-600')}>
+            <span className={cn('text-sm', v.available ? 'text-foreground' : 'text-muted-foreground')}>
               {v.label}
             </span>
           </div>
         ))}
       </div>
       {data?.pipeline_mode === 'mock' && (
-        <div className="mt-3 pt-3 border-t border-silicon-700">
-          <p className="text-xs text-mask-yellow">
+        <div className="mt-3 pt-3 border-t border-border">
+          <p className="text-xs text-yellow-400">
             ⚠ Running in mock mode — pipeline stages are simulated. Set PIPELINE_MODE=real for live EDA tool execution.
           </p>
         </div>

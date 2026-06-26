@@ -15,14 +15,14 @@ export function ConvergenceWarning({
   return (
     <div
       className={cn(
-        'flex items-start gap-3 rounded-lg border border-mask-yellow/30 bg-mask-yellow/5 p-4',
+        'flex items-start gap-3 rounded-lg border border-yellow-400/30 bg-yellow-400/5 p-4',
         className
       )}
     >
-      <AlertTriangle className="h-5 w-5 text-mask-yellow shrink-0 mt-0.5" />
+      <AlertTriangle className="h-5 w-5 text-yellow-400 shrink-0 mt-0.5" />
       <div>
-        <h4 className="text-sm font-semibold text-mask-yellow">Convergence Warning</h4>
-        <p className="text-sm text-silicon-400 mt-1">{message}</p>
+        <h4 className="text-sm font-semibold text-yellow-400">Convergence Warning</h4>
+        <p className="text-sm text-muted-foreground mt-1">{message}</p>
       </div>
     </div>
   );

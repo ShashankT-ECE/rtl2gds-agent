@@ -12,10 +12,10 @@ interface ProgressBarProps {
 }
 
 const variantStyles = {
-  default: 'bg-copper-500',
-  success: 'bg-photo-green',
-  warning: 'bg-mask-yellow',
-  error: 'bg-etch-red',
+  default: 'bg-primary',
+  success: 'bg-emerald-500',
+  warning: 'bg-yellow-400',
+  error: 'bg-destructive',
 };
 
 const sizeStyles = {
@@ -38,7 +38,7 @@ export function ProgressBar({
     <div className={cn('flex items-center gap-3', className)}>
       <div
         className={cn(
-          'flex-1 rounded-full bg-silicon-700 overflow-hidden',
+          'flex-1 rounded-full bg-surface-container-high overflow-hidden',
           sizeStyles[size]
         )}
         role="progressbar"
@@ -57,7 +57,7 @@ export function ProgressBar({
         />
       </div>
       {showLabel && (
-        <span className="font-mono text-xs text-silicon-400 tabular-nums min-w-[3.5rem] text-right">
+        <span className="font-mono text-xs text-muted-foreground tabular-nums min-w-[3.5rem] text-right">
           {indeterminate ? '--' : `${Math.round(pct)}%`}
         </span>
       )}

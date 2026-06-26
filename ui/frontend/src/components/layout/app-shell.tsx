@@ -14,10 +14,8 @@ export function AppShell({ children }: AppShellProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const sidebarExpanded = useUIStore((s) => s.sidebarExpanded);
   const sidebarCollapsed = useUIStore((s) => s.sidebarCollapsed);
-  const setSidebarCollapsed = useUIStore((s) => s.setSidebarCollapsed);
-  const toggleSidebar = useUIStore((s) => s.toggleSidebar);
 
-  const sidebarWidth = sidebarExpanded && !sidebarCollapsed ? 'ml-56' : 'ml-16';
+  const sidebarWidth = sidebarExpanded && !sidebarCollapsed ? 'ml-[280px]' : 'ml-16';
 
   // Close mobile menu on larger screens
   useEffect(() => {
@@ -35,7 +33,7 @@ export function AppShell({ children }: AppShellProps) {
   }, []);
 
   return (
-    <div className="min-h-screen bg-silicon-950">
+    <div className="min-h-screen bg-background">
       <Topbar onMenuClick={() => setMobileMenuOpen((v) => !v)} />
 
       {/* Desktop sidebar */}
@@ -57,7 +55,7 @@ export function AppShell({ children }: AppShellProps) {
       {/* Main content */}
       <main
         className={cn(
-          'pt-12 transition-all duration-300',
+          'pt-14 transition-all duration-300',
           sidebarWidth
         )}
       >

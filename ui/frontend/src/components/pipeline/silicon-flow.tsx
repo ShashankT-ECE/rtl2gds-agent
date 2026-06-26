@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { FlowStage } from './flow-stage';
 import { FlowConnector } from './flow-connector';
@@ -10,12 +9,15 @@ import { ProgressBar } from '@/components/shared/progress-bar';
 import { ElapsedTimer } from '@/components/shared/elapsed-timer';
 import { useJobStore } from '@/stores/job-store';
 import { useUIStore } from '@/stores/ui-store';
-import { STAGES_BY_VERSION, VERSION_INFO, FIX_LOOP_STAGES } from '@/lib/constants';
+import { STAGES_BY_VERSION, VERSION_INFO } from '@/lib/constants';
 import { getStageRow } from '@/lib/pipeline-utils';
 import type { PipelineVersion, StageStatus } from '@/lib/types';
-import { Badge } from '@/components/ui/badge';
 
-export function SiliconFlow() {
+interface SiliconFlowProps {
+  onStageClick?: (stageName: string) => void;
+}
+
+export function SiliconFlow({ onStageClick }: SiliconFlowProps) {
   const activeJobId = useJobStore((s) => s.activeJobId);
   const activeJob = useJobStore((s) => (s.activeJobId ? s.jobs[s.activeJobId] : null));
   const selectedVersion = useUIStore((s) => s.selectedVersion);
@@ -25,14 +27,19 @@ export function SiliconFlow() {
   const stages = STAGES_BY_VERSION[version];
   const jobStages = activeJob?.stages || [];
 
-  // Build stage status map
+  // Build stage status map + elapsed map
   const stageStatusMap = new Map<string, StageStatus>();
+  const stageElapsedMap = new Map<string, number | null>();
   for (const s of jobStages) {
     stageStatusMap.set(s.name, s.status);
+    stageElapsedMap.set(s.name, s.elapsed_ms || null);
   }
 
   const getStatus = (stageName: string): StageStatus =>
     stageStatusMap.get(stageName) || 'pending';
+
+  const getElapsed = (stageName: string): number | null =>
+    stageElapsedMap.get(stageName) || null;
 
   // Separate stages by row
   const row0 = stages.filter((s) => getStageRow(s, version) === 0);
@@ -42,18 +49,26 @@ export function SiliconFlow() {
   // Version tabs
   const versions: PipelineVersion[] = ['v3', 'v2', 'v1'];
 
-  const isRunning = activeJob?.status === 'running';
+  // Shared FlowStage props
+  const buildStageProps = (stageName: string, idx: number, baseNum: number, isLoop = false) => ({
+    name: stageName,
+    status: getStatus(stageName),
+    stageNumber: baseNum + idx + 1,
+    isInFixLoop: isLoop,
+    onClick: onStageClick,
+    elapsedMs: getElapsed(stageName),
+  });
 
   return (
-    <div className="rounded-lg border border-silicon-700 bg-silicon-850 overflow-hidden">
+    <div className="rounded-lg border border-border bg-card overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between px-5 py-4 border-b border-silicon-700">
+      <div className="flex items-center justify-between px-5 py-4 border-b border-border">
         <div className="flex items-center gap-3">
-          <h2 className="text-sm font-semibold text-silicon-200 tracking-wider">
+          <h2 className="text-sm font-semibold text-foreground tracking-wider">
             SILICON DESIGN FLOW
           </h2>
           {activeJobId && (
-            <span className="text-xs font-mono text-silicon-500">{activeJobId}</span>
+            <span className="text-xs font-mono text-muted-foreground">{activeJobId}</span>
           )}
         </div>
         <div className="flex items-center gap-1">
@@ -62,10 +77,10 @@ export function SiliconFlow() {
               key={v}
               onClick={() => setSelectedVersion(v)}
               className={cn(
-                'px-3 py-1 text-xs font-semibold rounded-full transition-all',
+                'px-3 py-1 text-xs font-semibold rounded transition-all',
                 version === v
-                  ? 'bg-copper-500/20 text-copper-500 border border-copper-500/30'
-                  : 'text-silicon-500 hover:text-silicon-300 hover:bg-silicon-800 border border-transparent'
+                  ? 'bg-primary/10 text-primary border border-primary/30'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-accent border border-transparent'
               )}
             >
               {v.toUpperCase()}
@@ -78,7 +93,7 @@ export function SiliconFlow() {
       <div className="p-6 space-y-6">
         {/* Version description */}
         {!activeJob && (
-          <p className="text-xs text-silicon-500 text-center">
+          <p className="text-xs text-muted-foreground text-center">
             {VERSION_INFO[version].description}
           </p>
         )}
@@ -87,11 +102,7 @@ export function SiliconFlow() {
         <div className="flex items-center justify-center flex-wrap gap-0">
           {row0.map((stageName, idx) => (
             <div key={stageName} className="flex items-center">
-              <FlowStage
-                name={stageName}
-                status={getStatus(stageName)}
-                stageNumber={idx + 1}
-              />
+              <FlowStage {...buildStageProps(stageName, idx, 0)} />
               {idx < row0.length - 1 && (
                 <FlowConnector
                   sourceStatus={getStatus(stageName)}
@@ -106,22 +117,17 @@ export function SiliconFlow() {
         {row1.length > 0 && version !== 'v1' && (
           <div className="flex items-center justify-center">
             <div className="flex items-center gap-2">
-              <span className="text-2xs text-silicon-600 font-mono">─ fix loop ─</span>
+              <span className="text-2xs text-muted-foreground font-mono">─ fix loop ─</span>
             </div>
           </div>
         )}
 
-        {/* Row 1: Fix loop stages (v1 shows these inline) */}
+        {/* Row 1: Fix loop stages */}
         {version === 'v1' ? (
           <div className="flex items-center justify-center flex-wrap gap-0">
             {row1.map((stageName, idx) => (
               <div key={stageName} className="flex items-center">
-                <FlowStage
-                  name={stageName}
-                  status={getStatus(stageName)}
-                  isInFixLoop
-                  stageNumber={row0.length + idx + 1}
-                />
+                <FlowStage {...buildStageProps(stageName, idx, row0.length, true)} />
                 {idx < row1.length - 1 && (
                   <FlowConnector
                     sourceStatus={getStatus(stageName)}
@@ -137,12 +143,7 @@ export function SiliconFlow() {
             <div className="flex items-center justify-center flex-wrap gap-0">
               {row1.map((stageName, idx) => (
                 <div key={stageName} className="flex items-center">
-                  <FlowStage
-                    name={stageName}
-                    status={getStatus(stageName)}
-                    isInFixLoop
-                    stageNumber={row0.length + idx + 1}
-                  />
+                  <FlowStage {...buildStageProps(stageName, idx, row0.length, true)} />
                   {idx < row1.length - 1 && (
                     <FlowConnector
                       sourceStatus={getStatus(stageName)}
@@ -161,17 +162,13 @@ export function SiliconFlow() {
           <>
             <div className="flex items-center justify-center">
               <div className="flex items-center gap-2">
-                <span className="text-2xs text-silicon-600 font-mono">─ physical flow ─</span>
+                <span className="text-2xs text-muted-foreground font-mono">─ physical flow ─</span>
               </div>
             </div>
             <div className="flex items-center justify-center flex-wrap gap-0">
               {row2.map((stageName, idx) => (
                 <div key={stageName} className="flex items-center">
-                  <FlowStage
-                    name={stageName}
-                    status={getStatus(stageName)}
-                    stageNumber={row0.length + row1.length + idx + 1}
-                  />
+                  <FlowStage {...buildStageProps(stageName, idx, row0.length + row1.length)} />
                   {idx < row2.length - 1 && (
                     <FlowConnector
                       sourceStatus={getStatus(stageName)}
@@ -191,7 +188,7 @@ export function SiliconFlow() {
       </div>
 
       {/* Footer with progress */}
-      <div className="px-5 py-3 border-t border-silicon-700 bg-silicon-900/50 flex items-center gap-6">
+      <div className="px-5 py-3 border-t border-border bg-muted/30 flex items-center gap-6">
         {/* Progress bar */}
         <div className="flex-1">
           <ProgressBar
@@ -212,12 +209,12 @@ export function SiliconFlow() {
 
         {/* Elapsed timer */}
         {activeJob?.started_at && (
-          <div className="flex items-center gap-2 text-sm text-silicon-400">
-            <span className="text-xs text-silicon-500">Elapsed:</span>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <span className="text-xs text-muted-foreground">Elapsed:</span>
             <ElapsedTimer
               startedAt={activeJob.started_at}
               isRunning={activeJob.status === 'running'}
-              className="text-silicon-200"
+              className="text-foreground"
             />
           </div>
         )}

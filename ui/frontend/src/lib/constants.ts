@@ -113,10 +113,10 @@ export const CATEGORY_INFO: Record<string, { label: string; icon: string }> = {
 // --- Job Status Display ---
 
 export const JOB_STATUS_COLORS: Record<string, string> = {
-  queued: '#4f5b73',
-  running: '#4e9cf5',
-  completed: '#2ea86c',
-  failed: '#e05045',
+  queued: '#8d90a2',
+  running: '#0052ff',
+  completed: '#10b981',
+  failed: '#ef4444',
   cancelled: '#6b7a94',
 };
 
@@ -131,22 +131,22 @@ export const JOB_STATUS_LABELS: Record<string, string> = {
 // --- Severity Colors ---
 
 export const SEVERITY_COLORS: Record<string, string> = {
-  debug: '#4f5b73',
-  info: '#b8c4d6',
-  success: '#2ea86c',
-  warning: '#e0b030',
-  error: '#e05045',
+  debug: '#8d90a2',
+  info: '#c3c5d9',
+  success: '#10b981',
+  warning: '#facc15',
+  error: '#ef4444',
 };
 
 // --- Error Type Colors ---
 
 export const ERROR_TYPE_COLORS: Record<string, string> = {
-  SYNTAX: '#e05045',
-  WIDTH: '#e0b030',
-  LOGIC: '#f09837',
+  SYNTAX: '#ef4444',
+  WIDTH: '#facc15',
+  LOGIC: '#0052ff',
   TIMING: '#4e9cf5',
-  COVERAGE: '#6b7a94',
-  UNKNOWN: '#4f5b73',
+  COVERAGE: '#8d90a2',
+  UNKNOWN: '#8d90a2',
 };
 
 // --- SSE ---

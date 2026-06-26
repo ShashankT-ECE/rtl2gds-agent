@@ -18,8 +18,8 @@ export function ModeIndicator({ className }: ModeIndicatorProps) {
       className={cn(
         'inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold',
         isMock
-          ? 'bg-mask-yellow/15 text-mask-yellow'
-          : 'bg-copper-500/15 text-copper-500',
+          ? 'bg-yellow-400/15 text-yellow-400'
+          : 'bg-primary/15 text-primary',
         className
       )}
       title={isMock ? 'Simulated pipeline — no EDA tools running' : 'Live pipeline with EDA tools'}

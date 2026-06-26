@@ -16,7 +16,7 @@ export function CategoryBadge({ category, className }: CategoryBadgeProps) {
     <span
       className={cn(
         'inline-flex items-center rounded-full px-2.5 py-0.5 text-2xs font-semibold uppercase tracking-wider',
-        'bg-silicon-800 text-silicon-400 border border-silicon-700',
+        'bg-accent text-muted-foreground border border-border',
         className
       )}
     >

@@ -17,39 +17,39 @@ export function BenchmarkCard({ benchmark, isComplete = false }: BenchmarkCardPr
     <Link
       href={`/benchmarks/${benchmark.name}`}
       className={cn(
-        'block rounded-lg border border-silicon-700 bg-silicon-850 p-5 transition-all duration-200',
-        'hover:border-copper-500/30 hover:bg-silicon-800 hover:-translate-y-0.5',
+        'block rounded-lg border border-border bg-card p-5 transition-all duration-200',
+        'hover:border-primary/30 hover:bg-accent hover:-translate-y-0.5',
         'hover:shadow-[0_4px_20px_rgba(240,152,55,0.08)]',
-        isComplete && 'border-copper-500/20 shadow-[0_0_20px_rgba(240,152,55,0.05)]'
+        isComplete && 'border-primary/20 shadow-[0_0_20px_rgba(240,152,55,0.05)]'
       )}
     >
       <div className="flex items-start justify-between mb-3">
         <CategoryBadge category={benchmark.category_guess} />
         {isComplete && (
-          <span className="inline-flex items-center rounded-full bg-copper-500/15 text-copper-500 px-2 py-0.5 text-2xs font-semibold border border-copper-500/20">
+          <span className="inline-flex items-center rounded-full bg-primary/15 text-primary px-2 py-0.5 text-2xs font-semibold border border-primary/20">
             GDSII ✓
           </span>
         )}
       </div>
 
-      <h3 className="text-lg font-semibold text-silicon-100 mb-2 font-mono">
+      <h3 className="text-lg font-semibold text-foreground mb-2 font-mono">
         {benchmark.name}
       </h3>
 
-      <p className="text-sm text-silicon-400 mb-4 line-clamp-2">
+      <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
         {truncate(benchmark.spec_preview || 'No specification available', 120)}
       </p>
 
-      <div className="flex items-center gap-4 text-xs text-silicon-500">
-        <span className={cn('flex items-center gap-1', benchmark.has_reference_rtl && 'text-photo-green')}>
+      <div className="flex items-center gap-4 text-xs text-muted-foreground">
+        <span className={cn('flex items-center gap-1', benchmark.has_reference_rtl && 'text-emerald-500')}>
           <FileCode className="h-3.5 w-3.5" />
           RTL
         </span>
-        <span className={cn('flex items-center gap-1', benchmark.has_reference_tb && 'text-photo-green')}>
+        <span className={cn('flex items-center gap-1', benchmark.has_reference_tb && 'text-emerald-500')}>
           <FlaskConical className="h-3.5 w-3.5" />
           TB
         </span>
-        <span className={cn('flex items-center gap-1', benchmark.bug_count > 0 && 'text-mask-yellow')}>
+        <span className={cn('flex items-center gap-1', benchmark.bug_count > 0 && 'text-yellow-400')}>
           <Bug className="h-3.5 w-3.5" />
           {benchmark.bug_count} {benchmark.bug_count === 1 ? 'bug' : 'bugs'}
         </span>
