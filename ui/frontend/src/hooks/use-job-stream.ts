@@ -45,6 +45,8 @@ export function useJobStream(jobId: string | null): UseJobStreamReturn {
     const connection = new SSEConnection({
       jobId,
       onEvent: (event) => {
+        console.log('[SSE-DEBUG] onEvent → dispatchEvent:',
+          'type=', event.event_type, 'seq=', event.sequence_num);
         dispatchEvent(event);
         sseStore.updateLastEvent(jobId, event.timestamp);
         sseStore.incrementEventCount(jobId);

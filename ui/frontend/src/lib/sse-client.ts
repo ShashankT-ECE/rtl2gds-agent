@@ -46,9 +46,15 @@ export class SSEConnection {
       try {
         const data = JSON.parse(event.data) as PipelineEvent;
         this.lastSequenceNum = Math.max(this.lastSequenceNum, data.sequence_num);
+        console.log('[SSE-DEBUG] pipeline_event received:',
+          'seq=', data.sequence_num,
+          'type=', data.event_type,
+          'stage=', data.stage,
+          'payload=', JSON.stringify(data.payload).substring(0, 80));
         this.options.onEvent(data);
-      } catch {
-        console.warn('Failed to parse SSE pipeline_event:', event.data);
+      } catch (e) {
+        console.warn('[SSE-DEBUG] PARSE FAILED for pipeline_event:',
+          'raw=', event.data?.substring(0, 120), 'error=', e);
       }
     });
 
@@ -69,15 +75,25 @@ export class SSEConnection {
     this.eventSource.addEventListener('done', (event: MessageEvent) => {
       try {
         const data = JSON.parse(event.data) as SSEDoneEvent;
+        console.log('[SSE-DEBUG] done event received:',
+          'status=', data.status,
+          'total_events=', data.total_events,
+          'lastSequenceNum=', this.lastSequenceNum);
         this.options.onDone(data);
+        console.log('[SSE-DEBUG] calling close() after done');
         this.close();
-      } catch {
-        console.warn('Failed to parse SSE done event:', event.data);
+      } catch (e) {
+        console.warn('[SSE-DEBUG] PARSE FAILED for done event:',
+          'raw=', event.data?.substring(0, 120), 'error=', e);
       }
     });
 
     // Handle error
     this.eventSource.addEventListener('error', (event: MessageEvent) => {
+      console.log('[SSE-DEBUG] error event:',
+        'readyState=', this.eventSource?.readyState,
+        'hasData=', !!event.data,
+        'isDisposed=', this.isDisposed);
       if (event.data) {
         try {
           const data = JSON.parse(event.data);
@@ -90,12 +106,16 @@ export class SSEConnection {
 
     // Connection opened
     this.eventSource.onopen = () => {
+      console.log('[SSE-DEBUG] EventSource onopen — connection established');
       this.options.onStatusChange('connected');
       this.reconnectAttempt = 0;
     };
 
     // Connection error (lost)
     this.eventSource.onerror = () => {
+      console.log('[SSE-DEBUG] EventSource onerror:',
+        'readyState=', this.eventSource?.readyState,
+        'isDisposed=', this.isDisposed);
       this.options.onStatusChange('disconnected');
       this.eventSource?.close();
       this.eventSource = null;

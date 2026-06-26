@@ -34,6 +34,12 @@ export function SiliconFlow({ onStageClick }: SiliconFlowProps) {
   const stages = STAGES_BY_VERSION[version];
   const jobStages = activeJob?.stages || [];
 
+  console.log('[SSE-DEBUG] SiliconFlow render:',
+    'progress_pct=', activeJob?.progress_pct,
+    'status=', activeJob?.status,
+    'stageCount=', jobStages.length,
+    'activeJobId=', activeJobId?.substring(0, 8));
+
   // Build stage status map + elapsed map
   const stageStatusMap = new Map<string, StageStatus>();
   const stageElapsedMap = new Map<string, number | null>();

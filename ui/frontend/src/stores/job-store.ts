@@ -64,11 +64,26 @@ export const useJobStore = create<JobStoreState>()(
       updateJob: (jobId, patch) =>
         set((state) => {
           const existing = state.jobs[jobId];
-          if (!existing) return state;
+          if (!existing) {
+            console.warn('[SSE-DEBUG] updateJob: job NOT FOUND in store!',
+              'jobId=', jobId,
+              'patch=', JSON.stringify(patch),
+              'knownJobs=', Object.keys(state.jobs));
+            return state;
+          }
+          console.log('[SSE-DEBUG] updateJob:',
+            'jobId=', jobId,
+            'patch=', JSON.stringify(patch),
+            'before.progress_pct=', existing.progress_pct,
+            'before.status=', existing.status);
+          const merged = { ...existing, ...patch };
+          console.log('[SSE-DEBUG] updateJob result:',
+            'progress_pct=', merged.progress_pct,
+            'status=', merged.status);
           return {
             jobs: {
               ...state.jobs,
-              [jobId]: { ...existing, ...patch },
+              [jobId]: merged,
             },
           };
         }, false, 'updateJob'),
