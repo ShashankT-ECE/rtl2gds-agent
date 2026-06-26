@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RTL-to-GDS Platform - Project Setup</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;450&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#ffb4a1",
+                        "on-surface-variant": "#434656",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#c3c5d9",
+                        "surface-dim": "#d9d9e7",
+                        "surface-tint": "#004ced",
+                        "surface-variant": "#e1e1ef",
+                        "surface-bright": "#fbf8ff",
+                        "tertiary-container": "#bf3003",
+                        "inverse-primary": "#b7c4ff",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#0052ff",
+                        "surface-container-low": "#f3f2ff",
+                        "on-primary-fixed-variant": "#0038b6",
+                        "primary-fixed-dim": "#b7c4ff",
+                        "on-background": "#191b25",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "primary-fixed": "#dde1ff",
+                        "on-secondary-container": "#5c647a",
+                        "secondary-fixed": "#dae2fd",
+                        "inverse-surface": "#2e303a",
+                        "outline": "#737688",
+                        "tertiary": "#952200",
+                        "tertiary-fixed": "#ffdbd2",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "primary": "#003ec7",
+                        "inverse-on-surface": "#f0effe",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#001452",
+                        "secondary": "#565e74",
+                        "surface-container": "#ededfb",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#dfe3ff",
+                        "error-container": "#ffdad6",
+                        "surface": "#fbf8ff",
+                        "on-tertiary-container": "#ffddd5",
+                        "on-tertiary-fixed": "#3c0800",
+                        "on-secondary-fixed": "#131b2e",
+                        "surface-container-highest": "#e1e1ef",
+                        "on-surface": "#191b25",
+                        "on-tertiary-fixed-variant": "#891e00",
+                        "secondary-container": "#dae2fd",
+                        "background": "#fbf8ff",
+                        "surface-container-high": "#e7e7f5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "density-md": "12px",
+                        "container-margin": "24px",
+                        "gutter": "16px",
+                        "density-xs": "4px",
+                        "density-sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "code-md": ["JetBrains Mono"],
+                        "code-sm": ["JetBrains Mono"],
+                        "label-caps": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["18px", { "lineHeight": "26px", "fontWeight": "600" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "code-md": ["13px", { "lineHeight": "20px", "fontWeight": "450" }],
+                        "code-sm": ["12px", { "lineHeight": "16px", "fontWeight": "450" }],
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+            font-size: 20px;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md h-screen w-screen overflow-hidden flex">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-lowest border-r border-outline-variant flex flex-col h-full py-4 fixed left-0 top-0 h-screen w-64 z-50">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary text-on-primary flex items-center justify-center font-bold text-lg">F</div>
+<div>
+<div class="font-headline-md text-headline-md font-bold text-primary">Foundry AI</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant">V-0.8.2-Beta</div>
+</div>
+</div>
+<div class="px-4 mb-6">
+<button class="w-full bg-primary text-on-primary rounded flex items-center justify-center py-2 px-4 gap-2 hover:bg-primary-container hover:text-on-primary-container transition-colors duration-150 ease-in-out font-headline-sm text-headline-sm">
+<span class="material-symbols-outlined">add</span>
+                New Run
+            </button>
+</div>
+<div class="flex-1 overflow-y-auto px-4 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-sm text-body-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-primary font-bold border-r-2 border-primary bg-surface-container-low" href="#">
+<span class="material-symbols-outlined filled" style="font-variation-settings: 'FILL' 1;">account_tree</span>
+<span class="font-body-sm text-body-sm">Projects</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined">smart_toy</span>
+<span class="font-body-sm text-body-sm">Agents</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined">account_tree</span>
+<span class="font-body-sm text-body-sm">Workflow</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-body-sm text-body-sm">History</span>
+</a>
+</div>
+<div class="px-4 mt-auto border-t border-outline-variant pt-4 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-sm text-body-sm">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body-sm text-body-sm">Support</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 ml-64 flex flex-col h-full overflow-hidden">
+<!-- TopAppBar -->
+<header class="bg-surface docked full-width top-0 sticky z-40 border-b border-outline-variant flex justify-between items-center h-16 px-6">
+<div class="flex items-center gap-6">
+<h1 class="font-headline-sm text-headline-sm font-bold text-on-surface">RTL-to-GDS Platform</h1>
+<nav class="hidden md:flex items-center gap-4 h-full">
+<a class="text-on-surface-variant hover:text-primary transition-all duration-200 h-full flex items-center font-body-md text-body-md" href="#">Docs</a>
+<a class="text-on-surface-variant hover:text-primary transition-all duration-200 h-full flex items-center font-body-md text-body-md" href="#">Specs</a>
+<a class="text-on-surface-variant hover:text-primary transition-all duration-200 h-full flex items-center font-body-md text-body-md" href="#">Assets</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="pl-8 pr-3 py-1.5 rounded bg-surface-container-lowest border border-outline-variant text-body-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none w-48" placeholder="Search..." type="text"/>
+</div>
+<div class="flex items-center gap-2 border-l border-outline-variant pl-4">
+<button class="w-8 h-8 flex items-center justify-center rounded text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="flex items-center gap-3 border-l border-outline-variant pl-4">
+<button class="bg-surface-container-lowest text-on-surface border border-outline-variant px-3 py-1.5 rounded font-headline-sm text-headline-sm text-sm hover:bg-surface-container-low transition-colors">Stop</button>
+<button class="bg-primary text-on-primary px-3 py-1.5 rounded font-headline-sm text-headline-sm text-sm hover:bg-primary-container transition-colors">Execute Run</button>
+<img alt="User Profile" class="w-8 h-8 rounded-full border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGy_F_pjukMrIhn81IkN8v_iEOoF903ITRFA-Srs2l47UQE9ltpFRd2O2tnBbIGkpCriAkLvGhZdu1faqDO9GaC1ZvtT0BxGUZGoDEovxQ_Vl5491d-eqjf39SbyBuULc6p5wPxYSkhQUIBJkGqyW7NaeARvKUvPyNS2Q9Z1qnaPCwonLkqun2IHruoVljwjcq_2JFiMd2i1PXc7KBQBlj01CfHVakaYJaW6esU1x32me8d52VQo6mbg"/>
+</div>
+</div>
+</header>
+<!-- Page Canvas -->
+<main class="flex-1 overflow-y-auto p-container-margin bg-background flex gap-container-margin">
+<!-- Left Column: Setup & Upload -->
+<div class="flex-1 flex flex-col gap-6">
+<!-- Header -->
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Project Setup</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Configure your environment and upload source files for RTL analysis.</p>
+</div>
+<!-- Environment Configuration -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-6">
+<h3 class="font-headline-sm text-headline-sm text-on-surface border-b border-outline-variant pb-2 mb-4">Environment Configuration</h3>
+<div class="grid grid-cols-2 gap-6">
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">Target PDK</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface border border-outline-variant rounded px-3 py-2 text-body-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none">
+<option>SkyWater 130nm (sky130A)</option>
+<option>ASAP7 7nm Predictive</option>
+<option>GF 180nm MCU</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-sm">expand_more</span>
+</div>
+</div>
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2">Tool Flow</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface border border-outline-variant rounded px-3 py-2 text-body-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none">
+<option>OpenLane 2.0</option>
+<option>Hammer (UC Berkeley)</option>
+<option>Custom Flow</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-outline pointer-events-none text-sm">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<!-- File Upload Area -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-6 flex-1 flex flex-col">
+<div class="flex justify-between items-center border-b border-outline-variant pb-2 mb-4">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">Source Files</h3>
+<span class="font-label-caps text-label-caps text-on-surface-variant">.v, .sdc, .tb</span>
+</div>
+<!-- Drag & Drop Zone -->
+<div class="border-2 border-dashed border-outline-variant rounded-lg bg-surface flex flex-col items-center justify-center p-8 mb-6 hover:bg-surface-container-low hover:border-primary transition-colors cursor-pointer group">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center mb-4 group-hover:bg-primary-fixed transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary text-2xl">cloud_upload</span>
+</div>
+<p class="font-headline-sm text-headline-sm text-on-surface mb-1">Click to upload or drag and drop</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Verilog (RTL), Synopsys Design Constraints (SDC), and Testbenches</p>
+</div>
+<!-- Uploaded Files List -->
+<div class="flex flex-col gap-2">
+<!-- File Item 1 -->
+<div class="flex items-center justify-between p-3 border border-outline-variant rounded bg-surface">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">description</span>
+<div>
+<div class="font-code-md text-code-md text-on-surface">core_top.v</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant text-[11px]">124 KB • Verilog RTL</div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1 text-green-600">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+<span class="font-body-sm text-body-sm text-xs">Uploaded</span>
+</div>
+<button class="text-outline hover:text-error transition-colors"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</div>
+<!-- File Item 2 -->
+<div class="flex items-center justify-between p-3 border border-outline-variant rounded bg-surface">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">tune</span>
+<div>
+<div class="font-code-md text-code-md text-on-surface">constraints.sdc</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant text-[11px]">12 KB • SDC</div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1 text-green-600">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+<span class="font-body-sm text-body-sm text-xs">Uploaded</span>
+</div>
+<button class="text-outline hover:text-error transition-colors"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Pipeline Summary & Actions -->
+<div class="w-80 flex flex-col gap-6">
+<!-- Pipeline Summary -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-5">
+<h3 class="font-headline-sm text-headline-sm text-on-surface border-b border-outline-variant pb-2 mb-4">Pipeline Summary</h3>
+<div class="flex flex-col gap-4 relative before:absolute before:inset-y-2 before:left-[11px] before:w-[2px] before:bg-surface-container-high">
+<!-- Step 1 -->
+<div class="flex gap-3 relative z-10">
+<div class="w-6 h-6 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 border-2 border-surface-container-lowest">
+<span class="material-symbols-outlined text-[14px]">check</span>
+</div>
+<div class="pt-0.5">
+<div class="font-headline-sm text-headline-sm text-sm text-on-surface">Project Init</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant text-xs">Workspace created</div>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="flex gap-3 relative z-10">
+<div class="w-6 h-6 rounded-full bg-surface border-2 border-primary shrink-0 flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+</div>
+<div class="pt-0.5">
+<div class="font-headline-sm text-headline-sm text-sm text-primary font-bold">Source Upload</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant text-xs">2 files ready</div>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex gap-3 relative z-10 opacity-50">
+<div class="w-6 h-6 rounded-full bg-surface border-2 border-outline-variant shrink-0"></div>
+<div class="pt-0.5">
+<div class="font-headline-sm text-headline-sm text-sm text-on-surface">RTL Analysis</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant text-xs">Pending execution</div>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="flex gap-3 relative z-10 opacity-50">
+<div class="w-6 h-6 rounded-full bg-surface border-2 border-outline-variant shrink-0"></div>
+<div class="pt-0.5">
+<div class="font-headline-sm text-headline-sm text-sm text-on-surface">Synthesis</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant text-xs">Pending execution</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Actions -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-5 mt-auto">
+<div class="flex items-center justify-between mb-4">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Readiness</span>
+<span class="font-label-caps text-label-caps text-green-600 bg-green-50 px-2 py-0.5 rounded border border-green-200">OK TO PROCEED</span>
+</div>
+<button class="w-full bg-primary text-on-primary rounded py-3 font-headline-sm text-headline-sm hover:bg-primary-container transition-colors shadow-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">play_arrow</span>
+                        Ready for RTL Analysis
+                    </button>
+<p class="font-body-sm text-body-sm text-center text-on-surface-variant text-xs mt-3">This will trigger Linter and initial Elaboration.</p>
+</div>
+</div>
+</main>
+</div>
+</body></html>

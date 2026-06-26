@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VLSI Architect - Project Alpha-7</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed-variant": "#0038b6",
+                    "surface-container-highest": "#353437",
+                    "on-tertiary-fixed": "#3c0800",
+                    "outline-variant": "#434656",
+                    "primary": "#b7c4ff",
+                    "inverse-on-surface": "#313032",
+                    "surface-container-low": "#1c1b1d",
+                    "primary-fixed": "#dde1ff",
+                    "secondary-fixed-dim": "#c6c5cf",
+                    "background": "#131315",
+                    "primary-fixed-dim": "#b7c4ff",
+                    "on-primary-fixed": "#001452",
+                    "tertiary-fixed-dim": "#ffb4a1",
+                    "tertiary": "#ffb4a1",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#46464e",
+                    "tertiary-fixed": "#ffdbd2",
+                    "on-surface": "#e5e1e4",
+                    "on-tertiary-container": "#ffddd5",
+                    "on-primary-container": "#dfe3ff",
+                    "on-background": "#e5e1e4",
+                    "on-secondary-fixed": "#1a1b22",
+                    "on-tertiary": "#611300",
+                    "outline": "#8d90a2",
+                    "surface-tint": "#b7c4ff",
+                    "surface-bright": "#39393b",
+                    "primary-container": "#0052ff",
+                    "surface-container": "#201f22",
+                    "on-tertiary-fixed-variant": "#891e00",
+                    "surface-dim": "#131315",
+                    "on-secondary-container": "#bcbbc5",
+                    "secondary-fixed": "#e3e1ec",
+                    "secondary-container": "#4a4b53",
+                    "secondary": "#c6c5cf",
+                    "on-error": "#690005",
+                    "inverse-surface": "#e5e1e4",
+                    "tertiary-container": "#bf3003",
+                    "surface-variant": "#353437",
+                    "on-secondary": "#2f3038",
+                    "surface-container-lowest": "#0e0e10",
+                    "on-primary": "#002682",
+                    "inverse-primary": "#004ced",
+                    "error": "#ffb4ab",
+                    "surface-container-high": "#2a2a2c",
+                    "surface": "#131315",
+                    "on-surface-variant": "#c3c5d9",
+                    "error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "margin-safe": "24px",
+                    "panel-sidebar": "280px",
+                    "panel-inspector": "320px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "code-md": ["JetBrains Mono"],
+                    "code-sm": ["JetBrains Mono"],
+                    "headline-md": ["Inter"],
+                    "headline-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                    "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                    "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+                    "code-md": ["13px", { "lineHeight": "20px", "fontWeight": "450" }],
+                    "code-sm": ["12px", { "lineHeight": "16px", "fontWeight": "450" }],
+                    "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                    "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Terminal Scrollbar Styling */
+        .terminal-scroll::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        .terminal-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .terminal-scroll::-webkit-scrollbar-thumb {
+            background-color: #3f3f46; /* Zinc-700 approximation */
+            border-radius: 2px;
+        }
+        .terminal-scroll:hover::-webkit-scrollbar-thumb {
+            background-color: #52525b; 
+        }
+
+        /* Subtle pulsing for active nodes */
+        @keyframes pulse-border {
+            0% { border-color: rgba(0, 82, 255, 0.5); box-shadow: 0 0 0 0 rgba(0, 82, 255, 0.2); }
+            50% { border-color: rgba(0, 82, 255, 1); box-shadow: 0 0 8px 0 rgba(0, 82, 255, 0.4); }
+            100% { border-color: rgba(0, 82, 255, 0.5); box-shadow: 0 0 0 0 rgba(0, 82, 255, 0); }
+        }
+        .active-node {
+            animation: pulse-border 2s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface h-screen w-full overflow-hidden flex font-body-md text-body-md selection:bg-primary-container selection:text-white">
+<!-- SideNavBar -->
+<aside class="bg-surface-container-low dark:bg-surface-container-low w-panel-sidebar h-screen flex-shrink-0 border-r border-outline-variant dark:border-outline-variant flex flex-col h-full py-margin-safe hidden md:flex z-20">
+<div class="px-gutter mb-8 flex flex-col gap-1">
+<h1 class="font-headline-md text-headline-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined icon-fill">memory</span>
+                Core Engine
+            </h1>
+<span class="font-code-sm text-code-sm text-on-surface-variant opacity-70">v2.4.1-stable</span>
+</div>
+<div class="px-gutter mb-6">
+<button class="w-full bg-primary-container text-white py-2 px-4 rounded-DEFAULT font-label-caps text-label-caps flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[16px]">add</span>
+                New Project
+            </button>
+</div>
+<nav class="flex-1 overflow-y-auto flex flex-col gap-1 px-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-primary bg-primary-container/10 border-r-2 border-primary group" href="#">
+<span class="material-symbols-outlined icon-fill group-hover:scale-110 transition-transform">dashboard</span>
+<span class="font-body-sm text-body-sm font-semibold">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-secondary-container hover:bg-surface-container-high transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">inventory_2</span>
+<span class="font-body-sm text-body-sm">Projects</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-secondary-container hover:bg-surface-container-high transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">memory</span>
+<span class="font-body-sm text-body-sm">Agents</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-secondary-container hover:bg-surface-container-high transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">account_tree</span>
+<span class="font-body-sm text-body-sm">Workflow</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-secondary-container hover:bg-surface-container-high transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">history</span>
+<span class="font-body-sm text-body-sm">History</span>
+</a>
+</nav>
+<div class="mt-auto px-2 pt-4 border-t border-outline-variant/50 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-secondary-container hover:bg-surface-container-high transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">terminal</span>
+<span class="font-body-sm text-body-sm">Diagnostics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-DEFAULT text-on-secondary-container hover:bg-surface-container-high transition-all duration-200 ease-in-out group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">help</span>
+<span class="font-body-sm text-body-sm">Help</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col min-w-0 bg-background relative">
+<!-- TopNavBar -->
+<header class="bg-surface-container dark:bg-surface-container w-full h-14 border-b border-outline-variant dark:border-outline-variant flex justify-between items-center px-gutter flex-shrink-0 z-10">
+<div class="flex items-center gap-4">
+<div class="md:hidden flex items-center">
+<button class="text-on-surface hover:bg-surface-container-highest p-1 rounded transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="bg-surface-container-lowest border border-outline-variant rounded-DEFAULT py-1 pl-9 pr-3 text-body-sm font-body-sm text-on-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container w-64 transition-colors placeholder:text-on-surface-variant/50" placeholder="Search resources..." type="text"/>
+<div class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+<kbd class="font-code-sm text-[10px] text-on-surface-variant border border-outline-variant rounded px-1">⌘</kbd>
+<kbd class="font-code-sm text-[10px] text-on-surface-variant border border-outline-variant rounded px-1">K</kbd>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex items-center gap-6 h-full">
+<a class="text-on-surface-variant hover:bg-surface-container-highest transition-colors font-body-sm text-body-sm py-1 px-2 rounded cursor-pointer active:opacity-80" href="#">Docs</a>
+<a class="text-on-surface-variant hover:bg-surface-container-highest transition-colors font-body-sm text-body-sm py-1 px-2 rounded cursor-pointer active:opacity-80" href="#">Support</a>
+</nav>
+<div class="h-6 w-px bg-outline-variant hidden md:block"></div>
+<div class="flex items-center gap-3">
+<button class="text-on-surface-variant hover:text-on-surface transition-colors relative">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-primary-container rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+<button class="bg-surface-container-highest text-on-surface border border-outline-variant hover:bg-surface-bright py-1 px-3 rounded-DEFAULT font-body-sm text-body-sm ml-2 hidden sm:block transition-colors">
+                        Deploy
+                    </button>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant overflow-hidden ml-2 flex items-center justify-center cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">person</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Workspace Canvas -->
+<main class="flex-1 overflow-y-auto terminal-scroll p-margin-safe flex flex-col gap-6">
+<!-- Page Header -->
+<div class="flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-1">Project Alpha-7</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+                        Pipeline Execution: <span class="font-code-sm text-primary">RUNNING_SYNTHESIS</span>
+</p>
+</div>
+<div class="flex items-center gap-2">
+<button class="border border-outline-variant bg-surface hover:bg-surface-container px-3 py-1.5 rounded text-body-sm flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[16px]">stop_circle</span> Abort
+                    </button>
+<button class="bg-primary-container text-white px-3 py-1.5 rounded text-body-sm flex items-center gap-1 hover:opacity-90 transition-opacity border border-transparent">
+<span class="material-symbols-outlined text-[16px]">refresh</span> Force Sync
+                    </button>
+</div>
+</div>
+<!-- Pipeline Visualization -->
+<div class="bg-surface-container-low border border-outline-variant rounded-DEFAULT p-6 w-full flex items-center justify-between relative overflow-x-auto">
+<!-- Connecting Line Base -->
+<div class="absolute left-10 right-10 top-1/2 h-0.5 bg-outline-variant -translate-y-1/2 z-0"></div>
+<!-- Connecting Line Progress -->
+<div class="absolute left-10 w-[45%] top-1/2 h-0.5 bg-primary-container -translate-y-1/2 z-0"></div>
+<!-- Nodes -->
+<div class="relative z-10 flex flex-col items-center gap-2 bg-surface-container-low px-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-secondary">check</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">RTL Upload</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2 bg-surface-container-low px-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-[16px] text-secondary">check</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Analysis</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2 bg-surface-container-low px-2">
+<div class="w-10 h-10 rounded-full bg-[#1e293b] border-2 border-primary-container active-node flex items-center justify-center text-primary shadow-[0_0_12px_rgba(0,82,255,0.3)]">
+<span class="material-symbols-outlined text-[20px] animate-spin">progress_activity</span>
+</div>
+<span class="font-label-caps text-label-caps text-primary">Synthesis</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2 bg-surface-container-low px-2 opacity-50">
+<div class="w-8 h-8 rounded-full bg-surface border border-outline-variant flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Timing</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2 bg-surface-container-low px-2 opacity-50">
+<div class="w-8 h-8 rounded-full bg-surface border border-outline-variant flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">grid_view</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Floorplan</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2 bg-surface-container-low px-2 opacity-50">
+<div class="w-8 h-8 rounded-full bg-surface border border-outline-variant flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">download</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">GDSII</span>
+</div>
+</div>
+<!-- Two Column Layout: Logs & Metrics -->
+<div class="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-gutter flex-1 min-h-[400px]">
+<!-- Left: Terminal Log -->
+<div class="bg-surface-container-low border border-outline-variant rounded-DEFAULT flex flex-col overflow-hidden">
+<div class="bg-surface-container-highest border-b border-outline-variant px-4 py-2 flex justify-between items-center flex-shrink-0">
+<div class="flex items-center gap-2 text-on-surface font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px]">terminal</span>
+                            Live Execution Log
+                        </div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+<span class="font-code-sm text-[10px] text-on-surface-variant">TAIL</span>
+</div>
+</div>
+<div class="bg-[#000000] flex-1 p-4 overflow-y-auto terminal-scroll font-code-sm text-code-sm leading-relaxed">
+<div class="text-on-surface-variant">
+<span class="text-secondary opacity-60">14:02:11</span> <span class="text-primary-fixed-dim">[INFO]</span> Initializing environment mapping...
+                        </div>
+<div class="text-on-surface-variant">
+<span class="text-secondary opacity-60">14:02:12</span> <span class="text-primary-fixed-dim">[INFO]</span> Loading tech library 'tsmc_7nm_std_v2'... <span class="text-primary">OK (234ms)</span>
+</div>
+<div class="text-on-surface-variant">
+<span class="text-secondary opacity-60">14:02:15</span> <span class="text-primary-fixed-dim">[INFO]</span> Parsing elaborate design 'ALU_core_top'...
+                        </div>
+<div class="text-on-surface-variant">
+<span class="text-secondary opacity-60">14:02:18</span> <span class="text-[#facc15]">[WARN]</span> Unmapped latch inferred in module 'branch_predict_unit' at line 442.
+                        </div>
+<div class="text-on-surface-variant">
+<span class="text-secondary opacity-60">14:02:22</span> <span class="text-primary-fixed-dim">[INFO]</span> Starting logic optimization pass 1...
+                        </div>
+<div class="text-on-surface-variant">
+<span class="text-secondary opacity-60">14:02:45</span> <span class="text-primary-fixed-dim">[INFO]</span> Pass 1 complete. Reduced gate count by 4.2%.
+                        </div>
+<div class="text-on-surface-variant">
+<span class="text-secondary opacity-60">14:03:01</span> <span class="text-primary-fixed-dim">[INFO]</span> Starting logic optimization pass 2 (timing driven)...
+                        </div>
+<div class="text-on-surface-variant">
+<span class="text-secondary opacity-60">14:03:10</span> <span class="text-[#ef4444]">[ERROR]</span> Timing violation on path 'decode_stage -&gt; execute_stage_reg'. Slack: -0.14ns.
+                        </div>
+<div class="text-on-surface-variant">
+<span class="text-secondary opacity-60">14:03:12</span> <span class="text-primary-fixed-dim">[INFO]</span> Attempting buffer insertion on critical path...
+                        </div>
+<div class="text-on-surface-variant">
+<span class="text-secondary opacity-60">14:03:20</span> <span class="text-primary-fixed-dim">[INFO]</span> Resynthesizing affected sub-modules... <span class="text-primary animate-pulse">_</span>
+</div>
+<!-- Empty space to simulate scrolling -->
+<div class="h-10"></div>
+</div>
+</div>
+<!-- Right: Key Metrics Panel -->
+<div class="flex flex-col gap-gutter">
+<div class="bg-surface-container-low border border-outline-variant rounded-DEFAULT p-4 flex flex-col gap-1 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-6xl">schedule</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Worst Negative Slack (WNS)</span>
+<div class="flex items-end gap-2">
+<span class="font-code-md text-3xl font-bold text-error">-0.14</span>
+<span class="font-code-sm text-on-surface-variant mb-1">ns</span>
+</div>
+<div class="h-1 w-full bg-surface-container-highest mt-2 rounded-full overflow-hidden">
+<div class="h-full bg-error w-[85%]"></div>
+</div>
+<span class="font-body-sm text-[10px] text-error mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">warning</span> Critical path violation detected
+                        </span>
+</div>
+<div class="bg-surface-container-low border border-outline-variant rounded-DEFAULT p-4 flex flex-col gap-1 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-6xl">aspect_ratio</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Total Cell Area</span>
+<div class="flex items-end gap-2">
+<span class="font-code-md text-3xl font-bold text-on-surface">1.24</span>
+<span class="font-code-sm text-on-surface-variant mb-1">mm²</span>
+</div>
+<div class="flex items-center gap-2 mt-2">
+<span class="bg-surface-container-highest border border-outline-variant rounded px-2 py-0.5 font-code-sm text-[10px] text-on-surface-variant">Gate Count: 420K</span>
+<span class="text-[#10b981] font-code-sm text-[10px] flex items-center">
+<span class="material-symbols-outlined text-[12px]">arrow_downward</span> 4.2%
+                            </span>
+</div>
+</div>
+<div class="bg-surface-container-low border border-outline-variant rounded-DEFAULT p-4 flex flex-col gap-1 relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-6xl">bolt</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Estimated Power</span>
+<div class="flex items-end gap-2">
+<span class="font-code-md text-3xl font-bold text-on-surface">84.5</span>
+<span class="font-code-sm text-on-surface-variant mb-1">mW</span>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-3">
+<div class="bg-surface px-2 py-1 border border-outline-variant/50 rounded flex flex-col">
+<span class="font-code-sm text-[10px] text-on-surface-variant">Dynamic</span>
+<span class="font-code-sm text-sm text-on-surface">62.1 mW</span>
+</div>
+<div class="bg-surface px-2 py-1 border border-outline-variant/50 rounded flex flex-col">
+<span class="font-code-sm text-[10px] text-on-surface-variant">Leakage</span>
+<span class="font-code-sm text-sm text-on-surface">22.4 mW</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,11 +1,42 @@
 # SESSION_HANDOFF.md
 
 ## Last Updated
-Date: 2026-06-25 | Session: 9 — Real Pipeline Streaming Complete
+Date: 2026-06-26 | Session: 11 — SSE Terminal Event Race Fix
 
-## PROJECT STATUS: V3 COMPLETE + WEB UI PHASE 2 + REAL STREAMING LIVE
+## PROJECT STATUS: V3 COMPLETE + WEB UI PHASE 2 + REAL STREAMING + STITCH UI + SSE FIX
 
-## Session 9 — Real Pipeline Streaming (NEW)
+## Session 11 — SSE Terminal Event Queue Race Fix (NEW)
+Fixed the Sim(re) spinner never stopping after pipeline completion and elapsed timer freezing at 00:06, caused by an asyncio event-loop ordering race in the SSE endpoint.
+
+### Root Cause
+When `EventBus.publish(JOB_COMPLETED)` fires, it schedules two subscribers on the event loop in FIFO order: `JobManager._on_event` (first) then `SSEManager._on_event` (second). The SSE generator's terminal-status check (`status.is_terminal`) runs interleaved — it sees the terminal flag that JobManager just set, but SSEManager hasn't yet queued the `JOB_COMPLETED` PipelineEvent. The queue drain finds nothing, so the generator yields the `done` event without the terminal pipeline_event. The frontend never fires the compound state transition that closes running stages.
+
+### Fix
+In `ui/backend/routers/events.py`, added a 1-second `asyncio.wait_for(queue.get())` before the queue drain when terminal status is detected. This yields control back to the event loop, giving SSEManager a chance to enqueue the terminal event before `done` is sent. Also uses `wait_for` instead of `get_nowait()` to avoid busy-waiting.
+
+### File Modified
+- `ui/backend/routers/events.py` — 1 file, ~20 lines added
+
+### Build Status
+✓ Backend imports clean — no regressions
+Integrated Google Stitch export (`./stitch_ui/`) as the visual design system for the frontend. Migrated from custom "Silicon" design (copper accent) to Stitch "Precision Engineering System" (dark, industrial blue #0052ff + Material 3 tokens).
+
+### Changes Summary
+- **Design tokens:** Replaced all `silicon-*`, `copper-*`, `etch-*`, `photo-*`, `plasma-*`, `mask-*` color classes with semantic CSS variables mapped to Stitch tokens
+- **Fonts:** Geist → Inter (sans), Geist Mono → JetBrains Mono (mono), added Material Symbols icon font
+- **Layout:** Sidebar 280px (was 224px), Topbar 56px (was 48px), Material Symbols icons in nav
+- **UI Primitives:** Buttons/cards/badges use Stitch radius (4px, was 8px/round), cards use border (was ring shadow)
+- **New route:** `/projects/new` — 3-step project setup wizard based on `stitch_ui/new_project_configuration`
+- **0 backend changes** — v1_core/, v2_verification/, v3_physical/, ui/backend/ untouched
+
+### Files Modified: ~55 frontend files
+### Files NOT Modified: All backend, stores, hooks, lib/api, lib/sse-client, lib/event-handlers, lib/pipeline-utils
+
+### Build Status
+✓ TypeScript: 0 errors   ✓ Next.js build: Compiled successfully
+✓ All 10 routes working (7 static + 3 dynamic, including new /projects/new)
+
+## Session 9 — Real Pipeline Streaming
 Replaced the real adapter's coarse event emission (job_started → job_completed) with the same rich per-stage event stream as the mock adapter. The frontend now works identically in mock and real modes — zero frontend changes required.
 
 ### Implementation

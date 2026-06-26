@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VLSI Architect - Run Report #482</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;450&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-fixed-variant": "#0038b6",
+                      "surface-container-highest": "#353437",
+                      "on-tertiary-fixed": "#3c0800",
+                      "outline-variant": "#434656",
+                      "primary": "#b7c4ff",
+                      "inverse-on-surface": "#313032",
+                      "surface-container-low": "#1c1b1d",
+                      "primary-fixed": "#dde1ff",
+                      "secondary-fixed-dim": "#c6c5cf",
+                      "background": "#131315",
+                      "primary-fixed-dim": "#b7c4ff",
+                      "on-primary-fixed": "#001452",
+                      "tertiary-fixed-dim": "#ffb4a1",
+                      "tertiary": "#ffb4a1",
+                      "on-error-container": "#ffdad6",
+                      "on-secondary-fixed-variant": "#46464e",
+                      "tertiary-fixed": "#ffdbd2",
+                      "on-surface": "#e5e1e4",
+                      "on-tertiary-container": "#ffddd5",
+                      "on-primary-container": "#dfe3ff",
+                      "on-background": "#e5e1e4",
+                      "on-secondary-fixed": "#1a1b22",
+                      "on-tertiary": "#611300",
+                      "outline": "#8d90a2",
+                      "surface-tint": "#b7c4ff",
+                      "surface-bright": "#39393b",
+                      "primary-container": "#0052ff",
+                      "surface-container": "#201f22",
+                      "on-tertiary-fixed-variant": "#891e00",
+                      "surface-dim": "#131315",
+                      "on-secondary-container": "#bcbbc5",
+                      "secondary-fixed": "#e3e1ec",
+                      "secondary-container": "#4a4b53",
+                      "secondary": "#c6c5cf",
+                      "on-error": "#690005",
+                      "inverse-surface": "#e5e1e4",
+                      "tertiary-container": "#bf3003",
+                      "surface-variant": "#353437",
+                      "on-secondary": "#2f3038",
+                      "surface-container-lowest": "#0e0e10",
+                      "on-primary": "#002682",
+                      "inverse-primary": "#004ced",
+                      "error": "#ffb4ab",
+                      "surface-container-high": "#2a2a2c",
+                      "surface": "#131315",
+                      "on-surface-variant": "#c3c5d9",
+                      "error-container": "#93000a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "margin-safe": "24px",
+                      "panel-sidebar": "280px",
+                      "panel-inspector": "320px",
+                      "gutter": "16px"
+              },
+              "fontFamily": {
+                      "body-md": ["Inter"],
+                      "label-caps": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "code-md": ["JetBrains Mono"],
+                      "code-sm": ["JetBrains Mono"],
+                      "headline-md": ["Inter"],
+                      "headline-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                      "code-md": ["13px", {"lineHeight": "20px", "fontWeight": "450"}],
+                      "code-sm": ["12px", {"lineHeight": "16px", "fontWeight": "450"}],
+                      "headline-md": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        body { background-color: #09090b; color: #e5e1e4; }
+        .bg-level-1 { background-color: #18181b; }
+        .border-level-1 { border-color: #27272a; }
+        .shimmer {
+            background: linear-gradient(90deg, #18181b 0%, #27272a 50%, #18181b 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .data-grid-cell { height: 28px; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #52525b; }
+    </style>
+</head>
+<body class="flex flex-col h-screen overflow-hidden font-body-md text-body-md">
+<!-- TopNavBar -->
+<header class="bg-surface-container dark:bg-surface-container w-full h-14 border-b border-outline-variant dark:border-outline-variant flex justify-between items-center px-gutter shrink-0">
+<div class="flex items-center gap-6">
+<div class="font-headline-md text-headline-md text-on-surface dark:text-on-surface">VLSI Architect</div>
+<nav class="hidden md:flex items-center gap-4 h-full">
+<a class="text-on-surface-variant h-full flex items-center cursor-pointer hover:bg-surface-container-highest transition-colors active:opacity-80 px-2" href="#">Docs</a>
+<a class="text-on-surface-variant h-full flex items-center cursor-pointer hover:bg-surface-container-highest transition-colors active:opacity-80 px-2" href="#">Support</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary-container text-white px-4 py-1.5 rounded font-body-md text-body-md hover:opacity-90 transition-opacity">Deploy</button>
+<div class="flex items-center gap-2">
+<button class="text-on-surface-variant hover:text-on-surface transition-colors p-1"><span class="material-symbols-outlined">notifications</span></button>
+<button class="text-on-surface-variant hover:text-on-surface transition-colors p-1"><span class="material-symbols-outlined">settings</span></button>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A macro shot of a sleek, dark metallic silicon wafer forming an abstract avatar shape. The lighting is moody, with subtle blue and purple edge highlights reflecting off the complex micro-structures. The mood is highly technical and precise, fitting a modern corporate engineering tool." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAottIoxzZQazKBQDtBeUvIYuLuOxeeNfde5vO0oQkEf1N28HuCuKSTzEYlopyFPKNd3rvQpn-xKQZdVjKUP6jD9-JZS1G6HVvkhgY_C8Qm-_ZuFiLrHXhi7Sj51PKW6vswaqEiTFPy22dvRgTJNCALm0staatlWWiyFOYpQLJc-yCpS53nBvFyyh31wjTO-TZhyRBiOCvBEoAAJc2PHDxhqJOZrteGrCsUVRd_G0cD8j7gTcqBONDIXw"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar -->
+<aside class="bg-surface-container-low dark:bg-surface-container-low w-panel-sidebar h-full flex-shrink-0 border-r border-outline-variant dark:border-outline-variant flex flex-col py-margin-safe hidden md:flex">
+<div class="px-gutter mb-6 flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-level-1 border border-level-1 flex items-center justify-center overflow-hidden">
+<img alt="System Status" class="w-full h-full object-cover" data-alt="A stylized geometric icon representing a glowing artificial intelligence core. The icon features sharp, monospaced lines and an intense electric blue center against a pure black background, reflecting an expert utility aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlBH_XQ7UeY6r6mbEDBUj0Oohi5sBnWu90438YaY0hRCwh8rTCwPIbDG1gv9Bt6OVhERMZeIYukebspqyd_kKumweogeE8qNIZEa09IITEmWGTTJYS4HPBMHuVmdwmnYXKk0MVaMqn5yX8_yP775G_0em7tDyYC6WvmoYvj-_ZwlIhNF5IiRvZUkadcbtFtFkRFueRE7lTeRcBzwQ2hVnV9JPfgs7BDL9cxs_Ncjh0pJuMwTxpaUOgsw"/>
+</div>
+<div>
+<div class="font-headline-md text-headline-md text-primary">Core Engine</div>
+<div class="font-code-sm text-code-sm text-on-surface-variant mt-0.5">v2.4.1-stable</div>
+</div>
+</div>
+<div class="px-gutter mb-4">
+<button class="w-full bg-primary-container text-white py-2 rounded font-body-md text-body-md hover:opacity-90 transition-opacity">New Project</button>
+</div>
+<nav class="flex-1 overflow-y-auto font-label-caps text-label-caps mt-2">
+<a class="flex items-center gap-3 px-gutter py-2 text-on-secondary-container hover:bg-surface-container-high transition-all duration-200 ease-in-out cursor-pointer group" href="#">
+<span class="material-symbols-outlined text-lg group-hover:text-primary transition-colors">dashboard</span>
+                    Dashboard
+                </a>
+<a class="flex items-center gap-3 px-gutter py-2 text-on-secondary-container hover:bg-surface-container-high transition-all duration-200 ease-in-out cursor-pointer group" href="#">
+<span class="material-symbols-outlined text-lg group-hover:text-primary transition-colors">inventory_2</span>
+                    Projects
+                </a>
+<a class="flex items-center gap-3 px-gutter py-2 text-on-secondary-container hover:bg-surface-container-high transition-all duration-200 ease-in-out cursor-pointer group" href="#">
+<span class="material-symbols-outlined text-lg group-hover:text-primary transition-colors">memory</span>
+                    Agents
+                </a>
+<a class="flex items-center gap-3 px-gutter py-2 text-on-secondary-container hover:bg-surface-container-high transition-all duration-200 ease-in-out cursor-pointer group" href="#">
+<span class="material-symbols-outlined text-lg group-hover:text-primary transition-colors">account_tree</span>
+                    Workflow
+                </a>
+<a class="flex items-center gap-3 px-gutter py-2 text-primary bg-primary-container/10 border-r-2 border-primary cursor-pointer" href="#">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">history</span>
+                    History
+                </a>
+</nav>
+<div class="mt-auto pt-4 border-t border-outline-variant/50 font-label-caps text-label-caps">
+<a class="flex items-center gap-3 px-gutter py-2 text-on-secondary-container hover:bg-surface-container-high transition-all duration-200 ease-in-out cursor-pointer group" href="#">
+<span class="material-symbols-outlined text-lg group-hover:text-primary transition-colors">terminal</span>
+                    Diagnostics
+                </a>
+<a class="flex items-center gap-3 px-gutter py-2 text-on-secondary-container hover:bg-surface-container-high transition-all duration-200 ease-in-out cursor-pointer group" href="#">
+<span class="material-symbols-outlined text-lg group-hover:text-primary transition-colors">help</span>
+                    Help
+                </a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full bg-background overflow-hidden relative">
+<div class="absolute inset-0 z-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(#27272a 1px, transparent 1px); background-size: 24px 24px;"></div>
+<div class="flex-1 overflow-y-auto p-margin-safe z-10 flex flex-col gap-6">
+<!-- Hero Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-level-1 pb-6">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="font-code-sm text-code-sm text-emerald-500 uppercase tracking-wider">Run Complete</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-1">Synthesis Workflow #482</h1>
+<p class="text-on-surface-variant font-code-sm text-code-sm">Started: 2023-10-27 14:32:01 UTC  |  Duration: 4h 12m 05s</p>
+</div>
+<div class="flex flex-wrap gap-3">
+<div class="bg-level-1 border border-level-1 rounded px-3 py-1.5 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">description</span>
+<span class="font-code-md text-code-md">GDSII</span>
+<span class="text-on-surface-variant font-code-sm text-code-sm ml-2">4.2GB</span>
+</div>
+<div class="bg-level-1 border border-level-1 rounded px-3 py-1.5 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">account_tree</span>
+<span class="font-code-md text-code-md">Netlist</span>
+<span class="text-on-surface-variant font-code-sm text-code-sm ml-2">12M gates</span>
+</div>
+<div class="bg-level-1 border border-level-1 rounded px-3 py-1.5 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">grid_4x4</span>
+<span class="font-code-md text-code-md">DEF</span>
+<span class="text-on-surface-variant font-code-sm text-code-sm ml-2">Ready</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col lg:flex-row gap-6">
+<!-- Insights Canvas -->
+<div class="flex-1 flex flex-col gap-6">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant border-b border-level-1 pb-2">Optimization Insights</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Insight Card 1 -->
+<div class="bg-level-1 border border-level-1 rounded p-4 flex flex-col hover:border-outline-variant transition-colors group relative overflow-hidden">
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+<div class="flex justify-between items-start mb-3 relative z-10">
+<div class="flex items-center gap-2 text-emerald-400">
+<span class="material-symbols-outlined text-base">aspect_ratio</span>
+<span class="font-headline-md text-headline-md">Area Reduction</span>
+</div>
+<span class="font-code-sm text-code-sm bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20">-12.4%</span>
+</div>
+<p class="text-on-surface-variant text-sm mb-4 flex-1 relative z-10">Restructuring of generic logic blocks identified redundant macros. Applying this transformation will optimize standard cell placement density.</p>
+<div class="flex justify-between items-center relative z-10 mt-auto border-t border-level-1 pt-3">
+<span class="font-code-sm text-code-sm text-on-surface-variant">Est. Savings: 0.4 mm²</span>
+<button class="bg-transparent border border-zinc-700 text-on-surface px-3 py-1 rounded text-sm hover:bg-zinc-800 transition-colors">Apply</button>
+</div>
+</div>
+<!-- Insight Card 2 -->
+<div class="bg-level-1 border border-level-1 rounded p-4 flex flex-col hover:border-outline-variant transition-colors group relative overflow-hidden">
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+<div class="flex justify-between items-start mb-3 relative z-10">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-base">bolt</span>
+<span class="font-headline-md text-headline-md">Power Optimization</span>
+</div>
+<span class="font-code-sm text-code-sm bg-primary/10 text-primary px-2 py-0.5 rounded border border-primary/20">-8.2%</span>
+</div>
+<p class="text-on-surface-variant text-sm mb-4 flex-1 relative z-10">Clock gating efficiency can be improved on module <code class="font-code-sm text-code-sm bg-black px-1 py-0.5 rounded">ALU_CORE_04</code>. High switching activity detected during idle cycles.</p>
+<div class="flex justify-between items-center relative z-10 mt-auto border-t border-level-1 pt-3">
+<span class="font-code-sm text-code-sm text-on-surface-variant">Est. Savings: 12 mW</span>
+<button class="bg-transparent border border-zinc-700 text-on-surface px-3 py-1 rounded text-sm hover:bg-zinc-800 transition-colors">Apply</button>
+</div>
+</div>
+</div>
+<!-- Trend Graph Container -->
+<div class="bg-level-1 border border-level-1 rounded p-4 mt-2 flex-1 min-h-[300px] flex flex-col">
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant">Area vs Power Synthesis Trend</h3>
+<div class="flex gap-4">
+<div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-primary"></span><span class="font-code-sm text-code-sm text-on-surface-variant">Area</span></div>
+<div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-500"></span><span class="font-code-sm text-code-sm text-on-surface-variant">Power</span></div>
+</div>
+</div>
+<!-- Minimalist CSS Graph representation -->
+<div class="flex-1 relative border-l border-b border-level-1/50 ml-6 mb-6">
+<div class="absolute bottom-0 left-0 w-full h-[2px] bg-level-1/50"></div>
+<div class="absolute bottom-0 left-0 w-[2px] h-full bg-level-1/50"></div>
+<!-- Decorative Data Lines (SVG via base classes/styles to mimic Recharts) -->
+<svg class="w-full h-full absolute inset-0 overflow-visible" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0,80 Q20,75 40,50 T80,30 T100,20" fill="none" stroke="#b7c4ff" stroke-width="1.5" vector-effect="non-scaling-stroke"></path>
+<path d="M0,60 Q30,55 50,45 T70,40 T100,10" fill="none" stroke="#10b981" stroke-dasharray="4" stroke-width="1.5" vector-effect="non-scaling-stroke"></path>
+<!-- Data Points -->
+<circle cx="40" cy="50" fill="#09090b" r="3" stroke="#b7c4ff" stroke-width="1.5"></circle>
+<circle cx="80" cy="30" fill="#09090b" r="3" stroke="#b7c4ff" stroke-width="1.5"></circle>
+<circle cx="50" cy="45" fill="#09090b" r="3" stroke="#10b981" stroke-width="1.5"></circle>
+<circle cx="70" cy="40" fill="#09090b" r="3" stroke="#10b981" stroke-width="1.5"></circle>
+</svg>
+<!-- Axes labels -->
+<div class="absolute -left-8 bottom-0 font-code-sm text-code-sm text-on-surface-variant/50">0</div>
+<div class="absolute -left-10 top-0 font-code-sm text-code-sm text-on-surface-variant/50">100</div>
+<div class="absolute right-0 -bottom-6 font-code-sm text-code-sm text-on-surface-variant/50">Itr 5</div>
+</div>
+</div>
+</div>
+<!-- Right Sidebar: Timeline -->
+<div class="w-full lg:w-panel-inspector shrink-0 border-l border-level-1 pl-6 flex flex-col h-full bg-background/50">
+<h2 class="font-label-caps text-label-caps text-on-surface-variant border-b border-level-1 pb-2 mb-6">Design History</h2>
+<div class="flex-1 overflow-y-auto pr-2 relative">
+<!-- Vertical Line -->
+<div class="absolute left-[11px] top-2 bottom-2 w-px bg-level-1"></div>
+<div class="flex flex-col gap-6">
+<!-- Timeline Item 1 -->
+<div class="relative pl-8 group">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-level-1 border border-emerald-500 flex items-center justify-center z-10 shadow-[0_0_8px_rgba(16,185,129,0.2)]">
+<span class="material-symbols-outlined text-[12px] text-emerald-500">check</span>
+</div>
+<div class="font-headline-md text-body-md text-on-surface mb-0.5 group-hover:text-primary transition-colors">Physical Verification</div>
+<div class="font-code-sm text-code-sm text-on-surface-variant mb-2">14:32:01 - DRC &amp; LVS Clean</div>
+<div class="bg-black/50 border border-level-1 rounded p-2 font-code-sm text-code-sm text-on-surface-variant">
+                                        0 violations found across all layers.
+                                    </div>
+</div>
+<!-- Timeline Item 2 -->
+<div class="relative pl-8 group">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-level-1 border border-primary flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-[12px] text-primary">check</span>
+</div>
+<div class="font-headline-md text-body-md text-on-surface mb-0.5 group-hover:text-primary transition-colors">Routing Optimization</div>
+<div class="font-code-sm text-code-sm text-on-surface-variant mb-2">13:15:44 - M1-M6 Detailed Route</div>
+<div class="flex gap-2">
+<span class="px-2 py-0.5 bg-level-1 border border-level-1 rounded font-code-sm text-code-sm text-on-surface-variant">Congestion: 0.8%</span>
+</div>
+</div>
+<!-- Timeline Item 3 -->
+<div class="relative pl-8 group">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-level-1 border border-outline-variant flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-[12px] text-outline-variant">check</span>
+</div>
+<div class="font-headline-md text-body-md text-on-surface mb-0.5 group-hover:text-primary transition-colors">Clock Tree Synthesis</div>
+<div class="font-code-sm text-code-sm text-on-surface-variant">11:45:10 - Skew balanced to 12ps</div>
+</div>
+<!-- Timeline Item 4 -->
+<div class="relative pl-8 group">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-level-1 border border-outline-variant flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-[12px] text-outline-variant">check</span>
+</div>
+<div class="font-headline-md text-body-md text-on-surface mb-0.5 group-hover:text-primary transition-colors">Placement</div>
+<div class="font-code-sm text-code-sm text-on-surface-variant">09:30:05 - Initial Placement</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Agents &amp; Knowledge Base - RTL-to-GDS Platform</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@450&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed-dim": "#ffb4a1",
+                      "on-surface-variant": "#434656",
+                      "secondary-fixed-dim": "#bec6e0",
+                      "error": "#ba1a1a",
+                      "outline-variant": "#c3c5d9",
+                      "surface-dim": "#d9d9e7",
+                      "surface-tint": "#004ced",
+                      "surface-variant": "#e1e1ef",
+                      "surface-bright": "#fbf8ff",
+                      "tertiary-container": "#bf3003",
+                      "inverse-primary": "#b7c4ff",
+                      "on-error-container": "#93000a",
+                      "primary-container": "#0052ff",
+                      "surface-container-low": "#f3f2ff",
+                      "on-primary-fixed-variant": "#0038b6",
+                      "primary-fixed-dim": "#b7c4ff",
+                      "on-background": "#191b25",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary-fixed-variant": "#3f465c",
+                      "primary-fixed": "#dde1ff",
+                      "on-secondary-container": "#5c647a",
+                      "secondary-fixed": "#dae2fd",
+                      "inverse-surface": "#2e303a",
+                      "outline": "#737688",
+                      "tertiary": "#952200",
+                      "tertiary-fixed": "#ffdbd2",
+                      "on-error": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "primary": "#003ec7",
+                      "inverse-on-surface": "#f0effe",
+                      "on-secondary": "#ffffff",
+                      "on-primary-fixed": "#001452",
+                      "secondary": "#565e74",
+                      "surface-container": "#ededfb",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary-container": "#dfe3ff",
+                      "error-container": "#ffdad6",
+                      "surface": "#fbf8ff",
+                      "on-tertiary-container": "#ffddd5",
+                      "on-tertiary-fixed": "#3c0800",
+                      "on-secondary-fixed": "#131b2e",
+                      "surface-container-highest": "#e1e1ef",
+                      "on-surface": "#191b25",
+                      "on-tertiary-fixed-variant": "#891e00",
+                      "secondary-container": "#dae2fd",
+                      "background": "#fbf8ff",
+                      "surface-container-high": "#e7e7f5"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "density-md": "12px",
+                      "container-margin": "24px",
+                      "gutter": "16px",
+                      "density-xs": "4px",
+                      "density-sm": "8px"
+              },
+              "fontFamily": {
+                      "headline-sm": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "code-md": ["JetBrains Mono"],
+                      "code-sm": ["JetBrains Mono"],
+                      "label-caps": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-sm": ["18px", {"lineHeight": "26px", "fontWeight": "600"}],
+                      "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "code-md": ["13px", {"lineHeight": "20px", "fontWeight": "450"}],
+                      "code-sm": ["12px", {"lineHeight": "16px", "fontWeight": "450"}],
+                      "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body {
+            background-color: #F8FAFC;
+        }
+        /* Custom scrollbar for high density */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F8FAFC; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8; 
+        }
+        
+        .card-shadow {
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        }
+        
+        .pulse-border {
+            animation: pulse-border-anim 2s infinite;
+        }
+        
+        @keyframes pulse-border-anim {
+            0% { border-color: rgba(0, 76, 237, 0.4); }
+            50% { border-color: rgba(0, 76, 237, 1); }
+            100% { border-color: rgba(0, 76, 237, 0.4); }
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface bg-background overflow-hidden h-screen flex">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-lowest border-r border-outline-variant fixed left-0 top-0 h-screen w-64 flex flex-col py-4 z-50">
+<div class="px-6 mb-8 flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[20px]">memory</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Foundry AI</h1>
+<p class="font-body-sm text-body-sm text-outline">V-0.8.2-Beta</p>
+</div>
+</div>
+<div class="px-4 mb-6">
+<button class="w-full bg-primary text-on-primary font-headline-sm text-headline-sm rounded py-2 flex items-center justify-center gap-2 hover:bg-on-primary-fixed-variant transition-colors duration-150 ease-in-out">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                New Run
+            </button>
+</div>
+<div class="flex-1 overflow-y-auto px-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-body-sm text-body-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[20px]">account_tree</span>
+<span class="font-body-sm text-body-sm">Projects</span>
+</a>
+<!-- Active Tab -->
+<a class="flex items-center gap-3 px-3 py-2 rounded bg-surface-container-low text-primary font-bold border-r-2 border-primary transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<span class="font-body-sm text-body-sm">Agents</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[20px]">account_tree</span>
+<span class="font-body-sm text-body-sm">Workflow</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[20px]">history</span>
+<span class="font-body-sm text-body-sm">History</span>
+</a>
+</div>
+<div class="px-4 mt-auto space-y-1 pt-4 border-t border-outline-variant/30">
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-body-sm text-body-sm">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+<span class="font-body-sm text-body-sm">Support</span>
+</a>
+<div class="mt-4 px-3 flex items-center gap-3">
+<img alt="Engineer Workspace" class="w-8 h-8 rounded-full border border-outline-variant object-cover" data-alt="A small, professional headshot of an engineer in a clean, brightly lit modern office environment, corporate aesthetic, subtle neutral background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyCjsUlZ2SiwRhbli1YL0sUBDiM1mC0RQ0O4Wpbx5SNXgBzPfVHECYdof1D3WGbV6aWXLVzBfvwhQ4RuO7_OAIPd2CPXdWnAgKKQxUjbyemEaamS8dXL_BrcRpq_1UQf3rhMg8F5CEmRgqcejZMS_vTEMWW_uY0oOGndlB5lcLa6b4fskc2P8dyQ_COPZqQhGgHVIG-q2q4agxE-d8WK4_M-Co_6LLc7Qm5wE1BF9d9WFrRgjerzBk7w"/>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm font-semibold">Engineer Workspace</span>
+<span class="font-label-caps text-label-caps text-outline">admin</span>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="ml-64 flex-1 flex flex-col h-screen overflow-hidden bg-[#F8FAFC]">
+<!-- TopAppBar (Modified for context) -->
+<header class="bg-surface border-b border-outline-variant h-16 px-6 flex justify-between items-center shrink-0 z-40">
+<div class="flex items-center gap-6">
+<h2 class="font-headline-sm text-headline-sm font-bold text-on-surface">Agents &amp; Knowledge Base</h2>
+<!-- Navigation Links from TopAppBar JSON conceptually merged -->
+<nav class="hidden md:flex gap-4">
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Docs</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Specs</a>
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Assets</a>
+</nav>
+</div>
+<div class="flex-1 max-w-xl mx-8">
+<!-- Memory Agent Search Bar -->
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-full py-2 pl-10 pr-4 font-body-sm text-body-sm text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all shadow-sm group-hover:border-outline" placeholder="Query Knowledge Base (e.g., 'routing congestion in Gamma-12')" type="text"/>
+<button class="absolute right-1 top-1/2 -translate-y-1/2 bg-surface-container-low hover:bg-surface-variant text-primary rounded-full p-1.5 transition-colors">
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<button class="text-on-surface-variant hover:text-primary transition-colors p-1 relative">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full border border-surface"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-1">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+</div>
+<div class="h-6 w-px bg-outline-variant"></div>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 border border-outline-variant rounded bg-surface-container-lowest text-on-surface-variant font-body-sm text-body-sm hover:bg-surface-container-low transition-colors">Stop</button>
+<button class="px-3 py-1.5 bg-primary text-on-primary rounded font-body-sm text-body-sm hover:bg-on-primary-fixed-variant transition-colors">Execute Run</button>
+</div>
+</div>
+</header>
+<!-- Main Workspace -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Center Canvas (Agent Grid & Activity) -->
+<div class="flex-1 flex flex-col overflow-y-auto p-6">
+<div class="mb-6 flex justify-between items-end">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-1">Active Agents</h3>
+<p class="font-body-sm text-body-sm text-secondary">8 specialized agents currently deployed across 3 active projects.</p>
+</div>
+<div class="flex gap-2">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded bg-surface-container-highest border border-outline-variant font-code-sm text-code-sm text-on-surface-variant">
+<span class="w-2 h-2 bg-primary rounded-sm"></span> System Load: 42%
+                        </span>
+</div>
+</div>
+<!-- Agent Grid (Bento-style layout) -->
+<div class="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-4 gap-4 mb-8">
+<!-- Synthesis Agent -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 card-shadow flex flex-col hover:border-primary/50 transition-colors cursor-pointer relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-full h-1 bg-primary pulse-border"></div>
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-primary-container text-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined">memory</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Synthesis</h4>
+<span class="font-label-caps text-label-caps text-primary">Advanced</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline text-[16px] group-hover:text-primary transition-colors">open_in_new</span>
+</div>
+<div class="flex-1 mb-4">
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">Optimizing RTL compilation for Project-Alpha. Current target: 800MHz.</p>
+</div>
+<div class="border-t border-outline-variant pt-3 mt-auto flex justify-between items-center">
+<div class="flex items-center gap-1 font-code-sm text-code-sm text-secondary">
+<span class="material-symbols-outlined text-[14px]">storage</span>
+                                12.4 GB
+                            </div>
+<span class="font-label-caps text-label-caps text-outline">ID: SYN-01</span>
+</div>
+</div>
+<!-- Physical Design Agent -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 card-shadow flex flex-col hover:border-primary/50 transition-colors cursor-pointer">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-secondary-container text-on-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined">layers</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Physical Design</h4>
+<span class="font-label-caps text-label-caps text-secondary">Specialist</span>
+</div>
+</div>
+<div class="w-2 h-2 bg-[#16A34A] rounded-sm" title="Active"></div>
+</div>
+<div class="flex-1 mb-4">
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">Floorplanning iteration 4. Addressing macro placement congestion.</p>
+</div>
+<div class="border-t border-outline-variant pt-3 mt-auto flex justify-between items-center">
+<div class="flex items-center gap-1 font-code-sm text-code-sm text-secondary">
+<span class="material-symbols-outlined text-[14px]">storage</span>
+                                34.1 GB
+                            </div>
+<span class="font-label-caps text-label-caps text-outline">ID: PD-02</span>
+</div>
+</div>
+<!-- Verification Agent -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 card-shadow flex flex-col hover:border-primary/50 transition-colors cursor-pointer">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-tertiary-container text-on-tertiary-container flex items-center justify-center">
+<span class="material-symbols-outlined">fact_check</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Verification</h4>
+<span class="font-label-caps text-label-caps text-tertiary">Specialist</span>
+</div>
+</div>
+<div class="w-2 h-2 bg-[#16A34A] rounded-sm" title="Active"></div>
+</div>
+<div class="flex-1 mb-4">
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">Running UVM regression suite. 94% coverage achieved.</p>
+</div>
+<div class="border-t border-outline-variant pt-3 mt-auto flex justify-between items-center">
+<div class="flex items-center gap-1 font-code-sm text-code-sm text-secondary">
+<span class="material-symbols-outlined text-[14px]">storage</span>
+                                8.2 GB
+                            </div>
+<span class="font-label-caps text-label-caps text-outline">ID: VER-03</span>
+</div>
+</div>
+<!-- Memory Agent -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 card-shadow flex flex-col hover:border-primary/50 transition-colors cursor-pointer bg-surface-container-low/50">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-inverse-surface text-inverse-on-surface flex items-center justify-center">
+<span class="material-symbols-outlined">psychology</span>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Knowledge Base</h4>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Core</span>
+</div>
+</div>
+<div class="w-2 h-2 bg-[#16A34A] rounded-sm" title="Active"></div>
+</div>
+<div class="flex-1 mb-4">
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">Indexing historical design patterns. Providing real-time context.</p>
+</div>
+<div class="border-t border-outline-variant pt-3 mt-auto flex justify-between items-center">
+<div class="flex items-center gap-1 font-code-sm text-code-sm text-secondary">
+<span class="material-symbols-outlined text-[14px]">storage</span>
+                                142.5 GB
+                            </div>
+<span class="font-label-caps text-label-caps text-outline">ID: MEM-00</span>
+</div>
+</div>
+</div>
+<!-- Activity Feed -->
+<div class="flex-1 bg-surface-container-lowest border border-outline-variant rounded-lg flex flex-col card-shadow">
+<div class="px-4 py-3 border-b border-outline-variant flex justify-between items-center bg-surface-bright rounded-t-lg">
+<h4 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+                            Agent Activity Log
+                        </h4>
+<div class="flex gap-2">
+<button class="p-1 hover:bg-surface-container-low rounded text-on-surface-variant"><span class="material-symbols-outlined text-[16px]">filter_list</span></button>
+<button class="p-1 hover:bg-surface-container-low rounded text-on-surface-variant"><span class="material-symbols-outlined text-[16px]">more_vert</span></button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-0">
+<!-- High Density Table Structure -->
+<div class="w-full text-left font-body-sm text-body-sm">
+<div class="grid grid-cols-[120px_1fr_150px_100px] gap-4 px-4 py-2 border-b border-outline-variant bg-surface-container-lowest font-label-caps text-label-caps text-secondary sticky top-0 z-10">
+<div>Timestamp</div>
+<div>Event / Log Entry</div>
+<div>Agent</div>
+<div>Project</div>
+</div>
+<!-- Rows -->
+<div class="grid grid-cols-[120px_1fr_150px_100px] gap-4 px-4 py-[8px] border-b border-outline-variant hover:bg-surface-container-low transition-colors items-start">
+<div class="font-code-sm text-code-sm text-secondary pt-0.5">14:23:41.002</div>
+<div class="font-code-md text-code-md text-on-surface">Successfully resolved DRC violation M4_spacing_02. Cell padded by 0.05um.</div>
+<div class="flex items-center gap-1 text-secondary"><span class="material-symbols-outlined text-[14px]">layers</span> PD-02</div>
+<div class="text-on-surface-variant">Prj-Alpha</div>
+</div>
+<div class="grid grid-cols-[120px_1fr_150px_100px] gap-4 px-4 py-[8px] border-b border-outline-variant bg-surface-container-low/30 hover:bg-surface-container-low transition-colors items-start">
+<div class="font-code-sm text-code-sm text-secondary pt-0.5">14:22:10.941</div>
+<div class="font-code-md text-code-md text-on-surface">
+<span class="text-tertiary-container font-semibold">[WARN]</span> Timing closure gap detected on path group CLK_DOMAIN_A (-0.4ns). Requesting synthesis retry.
+                                </div>
+<div class="flex items-center gap-1 text-secondary"><span class="material-symbols-outlined text-[14px]">timer</span> STA-01</div>
+<div class="text-on-surface-variant">Prj-Beta</div>
+</div>
+<div class="grid grid-cols-[120px_1fr_150px_100px] gap-4 px-4 py-[8px] border-b border-outline-variant hover:bg-surface-container-low transition-colors items-start">
+<div class="font-code-sm text-code-sm text-secondary pt-0.5">14:20:05.112</div>
+<div class="font-code-md text-code-md text-on-surface">Retrieving historical context for 'clock tree synthesis buffer insertion' from MEM-00.</div>
+<div class="flex items-center gap-1 text-secondary"><span class="material-symbols-outlined text-[14px]">memory</span> SYN-01</div>
+<div class="text-on-surface-variant">Prj-Alpha</div>
+</div>
+<div class="grid grid-cols-[120px_1fr_150px_100px] gap-4 px-4 py-[8px] border-b border-outline-variant hover:bg-surface-container-low transition-colors items-start">
+<div class="font-code-sm text-code-sm text-secondary pt-0.5">14:18:55.330</div>
+<div class="font-code-md text-code-md text-on-surface">Memory Agent successfully indexed recent layout iterations from Prj-Gamma.</div>
+<div class="flex items-center gap-1 text-secondary"><span class="material-symbols-outlined text-[14px]">psychology</span> MEM-00</div>
+<div class="text-on-surface-variant">System</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Properties / Recommendations Sidebar -->
+<aside class="w-[320px] bg-surface-container-lowest border-l border-outline-variant flex flex-col shrink-0">
+<div class="h-14 border-b border-outline-variant px-4 flex items-center justify-between bg-surface-bright">
+<h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">lightbulb</span>
+                        Contextual Insights
+                    </h3>
+</div>
+<div class="p-4 overflow-y-auto space-y-4">
+<!-- Memory Insight Card -->
+<div class="bg-[#F8FAFC] border border-primary/30 rounded-lg p-3 shadow-sm relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-[16px] text-primary">psychology</span>
+<span class="font-label-caps text-label-caps text-primary">Memory Agent Match</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface mb-3">
+<strong class="font-semibold">Insight:</strong> Found a similar routing congestion issue in <span class="font-code-sm text-code-sm bg-surface-variant px-1 rounded">Project-Gamma-12</span>. Applying similar cell-padding constraints might resolve current bottleneck in region X:450, Y:820.
+                        </p>
+<div class="flex gap-2">
+<button class="flex-1 bg-primary text-on-primary font-body-sm text-body-sm py-1.5 rounded hover:bg-on-primary-fixed-variant transition-colors">Apply Config</button>
+<button class="flex-1 bg-surface-container-lowest border border-outline-variant text-on-surface-variant font-body-sm text-body-sm py-1.5 rounded hover:bg-surface-container-low transition-colors">View Diff</button>
+</div>
+</div>
+<!-- Another Insight -->
+<div class="border border-outline-variant rounded-lg p-3">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-[16px] text-secondary">history</span>
+<span class="font-label-caps text-label-caps text-secondary">Historical Pattern</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-2">
+                            High density pin count detected on Macro block <span class="font-code-sm text-code-sm">MEM_CTRL_01</span>. Previous designs successfully utilized a staggered pin assignment strategy.
+                        </p>
+<a class="font-body-sm text-body-sm text-primary hover:underline flex items-center gap-1" href="#">
+                            Read case study <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</aside>
+</main>
+</div>
+</body></html>

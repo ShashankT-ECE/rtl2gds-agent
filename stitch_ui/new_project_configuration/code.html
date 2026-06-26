@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VLSI Architect - New Project Setup</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;450&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-fixed-variant": "#0038b6",
+                      "surface-container-highest": "#353437",
+                      "on-tertiary-fixed": "#3c0800",
+                      "outline-variant": "#434656",
+                      "primary": "#b7c4ff",
+                      "inverse-on-surface": "#313032",
+                      "surface-container-low": "#1c1b1d",
+                      "primary-fixed": "#dde1ff",
+                      "secondary-fixed-dim": "#c6c5cf",
+                      "background": "#131315",
+                      "primary-fixed-dim": "#b7c4ff",
+                      "on-primary-fixed": "#001452",
+                      "tertiary-fixed-dim": "#ffb4a1",
+                      "tertiary": "#ffb4a1",
+                      "on-error-container": "#ffdad6",
+                      "on-secondary-fixed-variant": "#46464e",
+                      "tertiary-fixed": "#ffdbd2",
+                      "on-surface": "#e5e1e4",
+                      "on-tertiary-container": "#ffddd5",
+                      "on-primary-container": "#dfe3ff",
+                      "on-background": "#e5e1e4",
+                      "on-secondary-fixed": "#1a1b22",
+                      "on-tertiary": "#611300",
+                      "outline": "#8d90a2",
+                      "surface-tint": "#b7c4ff",
+                      "surface-bright": "#39393b",
+                      "primary-container": "#0052ff",
+                      "surface-container": "#201f22",
+                      "on-tertiary-fixed-variant": "#891e00",
+                      "surface-dim": "#131315",
+                      "on-secondary-container": "#bcbbc5",
+                      "secondary-fixed": "#e3e1ec",
+                      "secondary-container": "#4a4b53",
+                      "secondary": "#c6c5cf",
+                      "on-error": "#690005",
+                      "inverse-surface": "#e5e1e4",
+                      "tertiary-container": "#bf3003",
+                      "surface-variant": "#353437",
+                      "on-secondary": "#2f3038",
+                      "surface-container-lowest": "#0e0e10",
+                      "on-primary": "#002682",
+                      "inverse-primary": "#004ced",
+                      "error": "#ffb4ab",
+                      "surface-container-high": "#2a2a2c",
+                      "surface": "#131315",
+                      "on-surface-variant": "#c3c5d9",
+                      "error-container": "#93000a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "margin-safe": "24px",
+                      "panel-sidebar": "280px",
+                      "panel-inspector": "320px",
+                      "gutter": "16px"
+              },
+              "fontFamily": {
+                      "body-md": ["Inter"],
+                      "label-caps": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "code-md": ["JetBrains Mono"],
+                      "code-sm": ["JetBrains Mono"],
+                      "headline-md": ["Inter"],
+                      "headline-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-caps": ["11px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "body-sm": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                      "code-md": ["13px", {"lineHeight": "20px", "fontWeight": "450"}],
+                      "code-sm": ["12px", {"lineHeight": "16px", "fontWeight": "450"}],
+                      "headline-md": ["18px", {"lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body { background-color: #09090b; color: #e5e1e4; font-family: 'Inter', sans-serif; }
+        .bg-level-0 { background-color: #09090b; }
+        .bg-level-1 { background-color: #18181b; }
+        .bg-level-2 { background-color: #27272a; }
+        .border-level { border-color: #27272a; }
+        .input-focus:focus { outline: none; border-color: #0052ff; box-shadow: none; }
+    </style>
+</head>
+<body class="bg-level-0 text-on-surface h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation (Shell logic: Suppressed on transactional/setup screen, replaced with minimal setup header) -->
+<header class="bg-surface-container w-full h-14 border-b border-outline-variant flex justify-between items-center px-gutter flex-shrink-0">
+<div class="flex items-center space-x-4">
+<span class="font-headline-md text-headline-md text-on-surface">VLSI Architect</span>
+<span class="text-on-surface-variant">/</span>
+<span class="font-body-md text-body-md text-primary font-bold">New Project Setup</span>
+</div>
+<div class="flex items-center space-x-4">
+<button class="text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer active:opacity-80 flex items-center">
+<span class="material-symbols-outlined mr-2" data-icon="close">close</span>
+<span class="font-body-sm text-body-sm">Cancel</span>
+</button>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto p-margin-safe bg-level-0 relative">
+<div class="max-w-4xl mx-auto flex gap-6">
+<!-- Left Column: Form -->
+<div class="flex-1 space-y-6">
+<!-- Section 1: Environment Configuration -->
+<div class="bg-level-1 border border-level rounded p-6">
+<div class="border-b border-level pb-4 mb-4 flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center">
+<span class="bg-surface-container-high rounded-full w-6 h-6 flex items-center justify-center text-xs mr-3">1</span>
+                                Environment Configuration
+                            </h2>
+</div>
+<div class="space-y-4">
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase">Project Name</label>
+<input class="w-full bg-level-0 border border-level rounded px-3 py-2 font-code-md text-code-md text-on-surface input-focus" type="text" value="core_processor_v4"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase">Target PDK</label>
+<select class="w-full bg-level-0 border border-level rounded px-3 py-2 font-code-md text-code-md text-on-surface input-focus appearance-none">
+<option>TSMC 7nm (N7)</option>
+<option>TSMC 5nm (N5)</option>
+<option>Intel 18A</option>
+<option>GlobalFoundries 22FDX</option>
+</select>
+</div>
+<div>
+<label class="block font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase">Tool Flow Preset</label>
+<select class="w-full bg-level-0 border border-level rounded px-3 py-2 font-code-md text-code-md text-on-surface input-focus appearance-none">
+<option>Standard Logic Synthesis</option>
+<option>High-Performance / Low Power</option>
+<option>Custom Physical Design</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 2: Source Upload -->
+<div class="bg-level-1 border border-level rounded p-6">
+<div class="border-b border-level pb-4 mb-4">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center">
+<span class="bg-surface-container-high rounded-full w-6 h-6 flex items-center justify-center text-xs mr-3">2</span>
+                                Source Upload
+                            </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-2">Upload your Verilog (.v, .sv) and constraint (.sdc) files.</p>
+</div>
+<div class="border-2 border-dashed border-level rounded bg-level-0 p-8 flex flex-col items-center justify-center cursor-pointer hover:border-outline-variant transition-colors group">
+<span class="material-symbols-outlined text-4xl text-on-surface-variant mb-4 group-hover:text-primary transition-colors" data-icon="upload_file">upload_file</span>
+<span class="font-body-md text-body-md text-on-surface font-semibold">Drag &amp; Drop files here</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1">or click to browse</span>
+</div>
+<div class="mt-4 space-y-2">
+<div class="flex items-center justify-between p-2 bg-surface-container-lowest border border-level rounded">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-primary text-sm mr-2" data-icon="description">description</span>
+<span class="font-code-sm text-code-sm text-on-surface">alu_core.v</span>
+</div>
+<span class="font-code-sm text-code-sm text-on-surface-variant">14KB</span>
+</div>
+<div class="flex items-center justify-between p-2 bg-surface-container-lowest border border-level rounded">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-primary text-sm mr-2" data-icon="description">description</span>
+<span class="font-code-sm text-code-sm text-on-surface">top_constraints.sdc</span>
+</div>
+<span class="font-code-sm text-code-sm text-on-surface-variant">2KB</span>
+</div>
+</div>
+</div>
+<!-- Section 3: Readiness Check (Automated) -->
+<div class="bg-level-1 border border-level rounded p-6">
+<div class="border-b border-level pb-4 mb-4">
+<h2 class="font-headline-md text-headline-md text-on-surface flex items-center">
+<span class="bg-surface-container-high rounded-full w-6 h-6 flex items-center justify-center text-xs mr-3">3</span>
+                                Pre-flight Checks
+                            </h2>
+</div>
+<ul class="space-y-3">
+<li class="flex items-center text-on-surface">
+<span class="material-symbols-outlined text-primary mr-3 text-sm" data-icon="check_circle">check_circle</span>
+<span class="font-body-md text-body-md">Syntax check passed (alu_core.v)</span>
+</li>
+<li class="flex items-center text-on-surface">
+<span class="material-symbols-outlined text-primary mr-3 text-sm" data-icon="check_circle">check_circle</span>
+<span class="font-body-md text-body-md">PDK availability confirmed (TSMC 7nm)</span>
+</li>
+<li class="flex items-center text-on-surface-variant">
+<span class="material-symbols-outlined mr-3 text-sm animate-pulse" data-icon="pending">pending</span>
+<span class="font-body-md text-body-md">Validating constraints (.sdc)...</span>
+</li>
+</ul>
+</div>
+</div>
+<!-- Right Column: Inspector/Summary (Sticky) -->
+<div class="w-panel-inspector flex-shrink-0">
+<div class="sticky top-6 bg-level-1 border border-level rounded flex flex-col h-[calc(100vh-8rem)]">
+<div class="p-4 border-b border-level bg-level-2">
+<h3 class="font-label-caps text-label-caps text-on-surface uppercase tracking-widest">Pipeline Summary</h3>
+</div>
+<div class="p-4 flex-1 overflow-y-auto">
+<div class="mb-6">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">PROJECT</div>
+<div class="font-code-md text-code-md text-on-surface">core_processor_v4</div>
+</div>
+<div class="mb-6">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">TARGET</div>
+<div class="font-body-md text-body-md text-on-surface">TSMC 7nm (N7)</div>
+</div>
+<div class="mb-6">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-2">FLOW</div>
+<div class="font-body-md text-body-md text-on-surface">Standard Logic Synthesis</div>
+</div>
+<div class="mt-8 border-t border-level pt-4">
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-3">RESOURCE ESTIMATION</div>
+<div class="space-y-2">
+<div class="flex justify-between font-code-sm text-code-sm">
+<span class="text-on-surface-variant">Est. Gate Count:</span>
+<span class="text-on-surface">~120K</span>
+</div>
+<div class="flex justify-between font-code-sm text-code-sm">
+<span class="text-on-surface-variant">Est. Memory:</span>
+<span class="text-on-surface">32KB</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-4 border-t border-level bg-level-0">
+<button class="w-full bg-primary-container text-white hover:bg-inverse-primary transition-colors py-3 px-4 rounded font-headline-md text-body-md font-semibold flex items-center justify-center">
+<span class="material-symbols-outlined mr-2 text-sm" data-icon="play_arrow">play_arrow</span>
+                                Ready for RTL Analysis
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

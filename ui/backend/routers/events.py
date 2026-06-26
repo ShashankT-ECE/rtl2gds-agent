@@ -77,11 +77,31 @@ async def stream_events(
                 # Check if job is already done
                 current = await job_manager.get_job_optional(job_id)
                 if current and current.status.is_terminal:
-                    # --- Drain remaining events from queue before sending done ---
-                    # Fixes: pipeline stuck at 93%.  The JOB_COMPLETED
-                    # pipeline_event may still be sitting in the queue when
-                    # the status flips to terminal.  We MUST yield it before
-                    # the ``done`` event so the frontend sees progress→100%.
+                    # --- Wait + drain: terminal event queue race ---
+                    #
+                    # EventBus.publish() schedules JobManager._on_event
+                    # before SSEManager._on_event on the same event loop.
+                    # When the SSE generator wakes and finds is_terminal
+                    # from JobManager, the queue may still be empty because
+                    # SSEManager hasn't run yet.  Without a brief wait the
+                    # generator yields the ``done`` event without the
+                    # terminal pipeline_event (JOB_COMPLETED / JOB_FAILED),
+                    # so the frontend never fires the compound state
+                    # transition that closes still-running stages.
+                    #
+                    # Fixed: contend with the event loop once before
+                    # sending done so SSEManager can enqueue the event.
+                    try:
+                        event = await asyncio.wait_for(
+                            queue.get(), timeout=1.0,
+                        )
+                        yield _sse_event(
+                            "pipeline_event", event.model_dump_json(),
+                        )
+                    except asyncio.TimeoutError:
+                        pass
+
+                    # Drain any remaining events
                     while not queue.empty():
                         try:
                             event = queue.get_nowait()

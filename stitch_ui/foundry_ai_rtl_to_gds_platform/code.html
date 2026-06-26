@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Engineering Dashboard - RTL-to-GDS Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@450&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#ffb4a1",
+                        "on-surface-variant": "#434656",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#c3c5d9",
+                        "surface-dim": "#d9d9e7",
+                        "surface-tint": "#004ced",
+                        "surface-variant": "#e1e1ef",
+                        "surface-bright": "#fbf8ff",
+                        "tertiary-container": "#bf3003",
+                        "inverse-primary": "#b7c4ff",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#0052ff",
+                        "surface-container-low": "#f3f2ff",
+                        "on-primary-fixed-variant": "#0038b6",
+                        "primary-fixed-dim": "#b7c4ff",
+                        "on-background": "#191b25",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "primary-fixed": "#dde1ff",
+                        "on-secondary-container": "#5c647a",
+                        "secondary-fixed": "#dae2fd",
+                        "inverse-surface": "#2e303a",
+                        "outline": "#737688",
+                        "tertiary": "#952200",
+                        "tertiary-fixed": "#ffdbd2",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "primary": "#003ec7",
+                        "inverse-on-surface": "#f0effe",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#001452",
+                        "secondary": "#565e74",
+                        "surface-container": "#ededfb",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#dfe3ff",
+                        "error-container": "#ffdad6",
+                        "surface": "#fbf8ff",
+                        "on-tertiary-container": "#ffddd5",
+                        "on-tertiary-fixed": "#3c0800",
+                        "on-secondary-fixed": "#131b2e",
+                        "surface-container-highest": "#e1e1ef",
+                        "on-surface": "#191b25",
+                        "on-tertiary-fixed-variant": "#891e00",
+                        "secondary-container": "#dae2fd",
+                        "background": "#fbf8ff",
+                        "surface-container-high": "#e7e7f5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "density-md": "12px",
+                        "container-margin": "24px",
+                        "gutter": "16px",
+                        "density-xs": "4px",
+                        "density-sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "code-md": ["JetBrains Mono"],
+                        "code-sm": ["JetBrains Mono"],
+                        "label-caps": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["18px", { "lineHeight": "26px", "fontWeight": "600" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "code-md": ["13px", { "lineHeight": "20px", "fontWeight": "450" }],
+                        "code-sm": ["12px", { "lineHeight": "16px", "fontWeight": "450" }],
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface h-full flex overflow-hidden font-body-md text-body-md">
+<!-- SideNavBar -->
+<nav class="bg-surface-container-lowest border-r border-outline-variant fixed left-0 top-0 h-screen w-64 flex flex-col py-4 z-50">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary-container text-on-primary-container flex items-center justify-center font-bold">FA</div>
+<div>
+<h1 class="font-headline-sm text-headline-sm text-on-surface">Foundry AI</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">V-0.8.2-Beta</p>
+</div>
+</div>
+</div>
+<button class="mx-6 mb-6 bg-primary text-on-primary px-4 py-2 rounded flex items-center justify-center gap-2 font-headline-sm text-body-sm hover:bg-primary-container transition-colors duration-150">
+<span class="material-symbols-outlined text-[18px]">add</span>
+            New Run
+        </button>
+<div class="flex-1 overflow-y-auto">
+<ul class="space-y-1 px-4">
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-primary font-bold border-l-2 border-primary bg-surface-container-low transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-headline-sm text-body-sm">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[20px]">account_tree</span>
+<span class="font-body-sm text-body-sm">Projects</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[20px]">smart_toy</span>
+<span class="font-body-sm text-body-sm">Agents</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[20px]">account_tree</span>
+<span class="font-body-sm text-body-sm">Workflow</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[20px]">history</span>
+<span class="font-body-sm text-body-sm">History</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="mt-auto px-4 pt-4 border-t border-outline-variant">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-body-sm text-body-sm">Settings</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-150 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+<span class="font-body-sm text-body-sm">Support</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col ml-64 bg-background min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-surface border-b border-outline-variant h-16 px-6 flex justify-between items-center sticky top-0 z-40">
+<div class="flex items-center gap-6">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">RTL-to-GDS Platform</span>
+<span class="text-outline">|</span>
+<span class="font-headline-sm text-body-md text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">folder</span>
+                    Project-Alpha-7
+                </span>
+</div>
+<div class="flex items-center gap-6">
+<nav class="flex gap-4">
+<a class="text-on-surface-variant hover:text-primary transition-all duration-200 font-body-sm text-body-sm" href="#">Docs</a>
+<a class="text-on-surface-variant hover:text-primary transition-all duration-200 font-body-sm text-body-sm" href="#">Specs</a>
+<a class="text-on-surface-variant hover:text-primary transition-all duration-200 font-body-sm text-body-sm" href="#">Assets</a>
+</nav>
+<div class="flex items-center gap-2">
+<button class="bg-surface-container-highest border border-outline-variant text-on-surface px-3 py-1.5 rounded font-body-sm text-body-sm hover:bg-surface-variant transition-colors">Stop</button>
+<button class="bg-primary text-on-primary px-3 py-1.5 rounded font-body-sm text-body-sm hover:bg-primary-container transition-colors">Execute Run</button>
+</div>
+<div class="flex items-center gap-3 border-l border-outline-variant pl-6">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+<img alt="User Profile" class="w-8 h-8 rounded-full border border-outline-variant object-cover" data-alt="A small, professional headshot of an engineer in a clean, brightly lit modern office environment. High contrast, sharp focus, corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx5-YcGdotR9lS6QfRCnsTn0dCZALinSlT7INRj0IdsHX5ASQZeExGcnUUUqaktPsskHsCxUumy81yY1UeuAQB2H9RW9tX6DDl_ynzu6ud5R5hokutuvtuPdgukxNGo5Z3f0iRXIkQHABthvn4MKqVOloZSgiYUEQYyICirnytmyWXvOJnbhByoJX3vs2o8VL-L0wS3nzogNj7mdYMd9E8GXcGIFn0eMaA7KI5YcRZRHF92DPZakXUCw"/>
+</div>
+</div>
+</header>
+<!-- Scrollable Dashboard Content -->
+<main class="flex-1 overflow-y-auto p-container-margin flex flex-col gap-container-margin">
+<!-- Pipeline Visualization -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-lg p-6">
+<div class="flex justify-between items-center mb-6 border-b border-outline-variant pb-2">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">RTL-to-GDS Pipeline Visualization</h2>
+<span class="font-label-caps text-label-caps bg-primary-container text-on-primary-container px-2 py-1 rounded">RUNNING</span>
+</div>
+<div class="relative flex justify-between items-center mt-8 px-4">
+<!-- Progress Line -->
+<div class="absolute top-1/2 left-4 right-4 h-[2px] bg-outline-variant -translate-y-1/2 z-0"></div>
+<div class="absolute top-1/2 left-4 w-1/2 h-[2px] bg-primary -translate-y-1/2 z-0"></div>
+<!-- Nodes -->
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center border-2 border-surface-container-lowest">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface">RTL Upload</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center border-2 border-surface-container-lowest">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface">Code Analysis</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center border-2 border-surface-container-lowest">
+<span class="material-symbols-outlined text-[16px]">check</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface">Design Understanding</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-lowest border-2 border-primary text-primary flex items-center justify-center shadow-[0_0_0_2px_rgba(0,62,199,0.2)] animate-pulse">
+<span class="material-symbols-outlined text-[16px]">autorenew</span>
+</div>
+<span class="font-headline-sm text-body-sm text-primary">Synthesis</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-lowest border-2 border-outline-variant text-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Timing Analysis</span>
+</div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-lowest border-2 border-outline-variant text-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Floorplanning</span>
+</div>
+</div>
+</section>
+<!-- Active AI Agents -->
+<section class="flex flex-col gap-4">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Active AI Agents</h2>
+<div class="grid grid-cols-4 gap-4">
+<!-- Agent Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">analytics</span>
+<span class="font-headline-sm text-body-md text-on-surface">RTL Analysis</span>
+</div>
+<div class="w-2 h-2 rounded-full bg-green-500"></div>
+</div>
+<div class="font-code-sm text-code-sm text-on-surface-variant bg-surface-container px-2 py-1 rounded">
+                            Status: Completed
+                        </div>
+</div>
+<!-- Agent Card 2 -->
+<div class="bg-surface-container-lowest border border-primary rounded-lg p-4 flex flex-col gap-3 relative shadow-[0_0_0_1px_#003ec7]">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">verified</span>
+<span class="font-headline-sm text-body-md text-primary">Verification</span>
+</div>
+<div class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
+</div>
+<div class="font-code-sm text-code-sm text-on-surface-variant bg-surface-container px-2 py-1 rounded">
+                            Running simulation...
+                        </div>
+</div>
+<!-- Agent Card 3 -->
+<div class="bg-surface-container-lowest border border-primary rounded-lg p-4 flex flex-col gap-3 relative shadow-[0_0_0_1px_#003ec7]">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">memory</span>
+<span class="font-headline-sm text-body-md text-primary">Synthesis</span>
+</div>
+<div class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
+</div>
+<div class="font-code-sm text-code-sm text-on-surface-variant bg-surface-container px-2 py-1 rounded">
+                            Executing Yosys...
+                        </div>
+</div>
+<!-- Agent Card 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 flex flex-col gap-3 opacity-70">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline-variant text-[20px]">timer</span>
+<span class="font-headline-sm text-body-md text-on-surface-variant">Timing</span>
+</div>
+<div class="w-2 h-2 rounded-full bg-outline-variant"></div>
+</div>
+<div class="font-code-sm text-code-sm text-outline bg-surface-container px-2 py-1 rounded">
+                            Waiting...
+                        </div>
+</div>
+</div>
+</section>
+<!-- Bottom Section: Logs and Metrics -->
+<div class="grid grid-cols-3 gap-6 flex-1">
+<!-- Live Execution Log -->
+<section class="col-span-2 bg-[#1E1E1E] border border-outline-variant rounded-lg flex flex-col overflow-hidden min-h-[300px]">
+<div class="bg-surface-container-lowest border-b border-outline-variant px-4 py-2 flex justify-between items-center">
+<h2 class="font-headline-sm text-body-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">terminal</span>
+                            Live Execution Log
+                        </h2>
+<div class="flex gap-2">
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[16px]">filter_list</span></button>
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-[16px]">download</span></button>
+</div>
+</div>
+<div class="p-4 font-code-sm text-code-sm text-gray-300 overflow-y-auto flex-1 space-y-1">
+<div class="flex"><span class="text-gray-500 w-16 inline-block">10:42:01</span><span class="text-green-400">[INFO]</span> <span class="ml-2">RTL Analysis completed successfully. No critical errors.</span></div>
+<div class="flex"><span class="text-gray-500 w-16 inline-block">10:42:05</span><span class="text-blue-400">[EXEC]</span> <span class="ml-2">Starting Verification Agent simulation run...</span></div>
+<div class="flex"><span class="text-gray-500 w-16 inline-block">10:42:12</span><span class="text-blue-400">[EXEC]</span> <span class="ml-2">Initializing Yosys synthesis script.</span></div>
+<div class="flex"><span class="text-gray-500 w-16 inline-block">10:42:15</span><span class="text-gray-300">[LOG]</span> <span class="ml-2">Parsing design hierarchy...</span></div>
+<div class="flex"><span class="text-gray-500 w-16 inline-block">10:42:28</span><span class="text-yellow-400">[WARN]</span> <span class="ml-2">Optimization pass 1: Unused nets detected in module 'alu_core'.</span></div>
+<div class="flex"><span class="text-gray-500 w-16 inline-block">10:43:02</span><span class="text-gray-300">[LOG]</span> <span class="ml-2">Mapping to standard cells...</span></div>
+<div class="flex items-center mt-2 text-primary">
+<span class="material-symbols-outlined text-[14px] animate-spin mr-2">autorenew</span>
+                            Processing logic optimization...
+                        </div>
+</div>
+</section>
+<!-- Key Metrics -->
+<section class="col-span-1 bg-surface-container-lowest border border-outline-variant rounded-lg p-6 flex flex-col">
+<h2 class="font-headline-sm text-headline-sm text-on-surface border-b border-outline-variant pb-2 mb-4">Key Metrics (Est.)</h2>
+<div class="space-y-4 flex-1">
+<div class="flex justify-between items-end border-b border-surface-container pb-2">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Area</span>
+<span class="font-code-md text-code-md font-bold text-on-surface">4.2 mm²</span>
+</div>
+<div class="flex justify-between items-end border-b border-surface-container pb-2">
+<span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+                                WNS 
+                                <span class="material-symbols-outlined text-[14px] text-error cursor-help" title="Worst Negative Slack">info</span>
+</span>
+<span class="font-code-md text-code-md font-bold text-error">-0.042 ns</span>
+</div>
+<div class="flex justify-between items-end border-b border-surface-container pb-2">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Power</span>
+<span class="font-code-md text-code-md font-bold text-on-surface">124 mW</span>
+</div>
+<div class="flex justify-between items-end pb-2">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Cell Count</span>
+<span class="font-code-md text-code-md font-bold text-on-surface">142k</span>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-outline-variant">
+<button class="w-full bg-surface-container-highest border border-outline-variant text-on-surface px-4 py-2 rounded font-headline-sm text-body-sm hover:bg-surface-variant transition-colors">
+                            View Detailed Report
+                        </button>
+</div>
+</section>
+</div>
+</main>
+</div>
+</body></html>
