@@ -52,6 +52,22 @@ _TIMING_LOOP_NODES: set[str] = {"synthesis", "sta", "timing_opt"}
 _ESTIMATED_TOTAL: dict[str, int] = {"v1": 9, "v2": 9, "v3": 11}
 
 
+# Agent log messages for each stage (emitted as agent_log events during execution)
+_AGENT_LOG_MESSAGES: dict[str, str] = {
+    "spec_parser": "Analyzing specification — extracting interfaces, clocks, and constraints",
+    "verification_planner": "Planning verification strategy — coverage goals, test plan, corner cases",
+    "rtl_gen": "Generating synthesizable RTL with DeepSeek LLM",
+    "testbench": "Writing cocotb testbench with directed and random test vectors",
+    "simulation": "Launching Icarus Verilog simulation — checking functional correctness",
+    "log_analysis": "Analyzing simulation failures — identifying root cause and error type",
+    "fix": "Applying fix from Trace2Skill memory — retrying with correction",
+    "synthesis": "Running Yosys synthesis with sky130 — optimizing netlist",
+    "sta": "Running OpenSTA static timing analysis — checking setup/hold",
+    "openlane": "Launching OpenLane physical design flow — macro placement, CTS, routing",
+    "drc": "Running KLayout DRC — verifying manufacturability",
+}
+
+
 # ===================================================================
 # PipelineAdapter
 # ===================================================================
@@ -205,6 +221,20 @@ class PipelineAdapter:
                         event_type=EventType.STAGE_STARTED,
                         stage=display,
                         message=f"Starting {display}",
+                        severity=Severity.INFO,
+                        elapsed_time=time.time() - start_time,
+                        sequence_num=seq,
+                        iteration=iteration if node_name in ("log_analysis", "fix") else None,
+                    ))
+
+                    # --- Agent log: what this stage is doing ---
+                    seq += 1
+                    agent_msg = _AGENT_LOG_MESSAGES.get(node_name, f"Executing {display}")
+                    self._event_bus.publish(PipelineEvent(
+                        job_id=job_id,
+                        event_type=EventType.AGENT_LOG,
+                        stage=display,
+                        message=agent_msg,
                         severity=Severity.INFO,
                         elapsed_time=time.time() - start_time,
                         sequence_num=seq,

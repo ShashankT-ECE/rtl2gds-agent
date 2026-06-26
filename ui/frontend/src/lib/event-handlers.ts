@@ -63,6 +63,11 @@ export function dispatchEvent(event: PipelineEvent): void {
       });
       break;
 
+    case 'synthesis_result':
+      // Synthesis results are captured in job.events — no dedicated job field yet
+      // The frontend reads synthesis data from event payloads directly
+      break;
+
     case 'sta_result':
       store.updateJob(jobId, {
         timing_met: event.payload?.timing_met as boolean | null,

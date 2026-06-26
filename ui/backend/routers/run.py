@@ -11,8 +11,10 @@ import asyncio
 import concurrent.futures
 import logging
 from datetime import datetime, timezone
+from pathlib import Path as FilePath
 
-from fastapi import APIRouter, BackgroundTasks, Depends, Query
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query
+from fastapi.responses import FileResponse
 
 from ui.backend.config import settings
 from ui.backend.dependencies import get_job_manager
@@ -21,6 +23,9 @@ from ui.backend.schemas.run import RunRequest, RunListResponse, RunResponse, Sta
 from ui.backend.services.job_manager import JobManager
 
 logger = logging.getLogger(__name__)
+
+from fastapi.responses import FileResponse
+from pathlib import Path as FilePath
 
 router = APIRouter(prefix="/api/run", tags=["run"])
 
@@ -138,6 +143,59 @@ async def cancel_run(
         "success": True,
         "data": _job_to_response(job).model_dump(),
     }
+
+
+@router.get("/{job_id}/artifacts/{filename:path}")
+async def download_artifact(
+    job_id: str,
+    filename: str,
+    job_manager: JobManager = Depends(get_job_manager),
+):
+    """Download a generated artifact from a job's workspace directory."""
+    job = await job_manager.get_job(job_id)
+
+    # Look for artifacts in workspace/<benchmark>/
+    workspace_dir = settings.WORKSPACE_DIR / job.benchmark
+    file_path = workspace_dir / filename
+
+    # Also check for files directly in workspace root
+    if not file_path.exists():
+        file_path = settings.WORKSPACE_DIR / filename
+
+    if not file_path.exists() or not file_path.is_file():
+        raise HTTPException(status_code=404, detail=f"Artifact '{filename}' not found for job {job_id}")
+
+    # Security: only allow files within the workspace
+    if not str(file_path.resolve()).startswith(str(settings.WORKSPACE_DIR.resolve())):
+        raise HTTPException(status_code=403, detail="Access denied")
+
+    return FileResponse(
+        path=str(file_path),
+        filename=filename,
+        media_type="application/octet-stream",
+    )
+
+
+@router.get("/{job_id}/artifacts")
+async def list_artifacts(
+    job_id: str,
+    job_manager: JobManager = Depends(get_job_manager),
+):
+    """List generated artifacts for a job."""
+    job = await job_manager.get_job(job_id)
+
+    workspace_dir = settings.WORKSPACE_DIR / job.benchmark
+    artifacts = []
+    if workspace_dir.exists():
+        for f in workspace_dir.rglob("*"):
+            if f.is_file():
+                artifacts.append({
+                    "name": f.name,
+                    "path": str(f.relative_to(workspace_dir)),
+                    "size": f.stat().st_size,
+                })
+
+    return {"success": True, "data": {"job_id": job_id, "artifacts": artifacts}}
 
 
 async def _execute_pipeline_in_background(job_id: str, job_manager: JobManager) -> None:

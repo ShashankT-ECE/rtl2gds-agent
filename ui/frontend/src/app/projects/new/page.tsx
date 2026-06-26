@@ -8,21 +8,23 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useSubmitJob } from '@/hooks/use-job-list';
+import { useBenchmarks } from '@/hooks/use-benchmarks';
 import { useJobStore } from '@/stores/job-store';
 import { useUIStore } from '@/stores/ui-store';
 import type { PipelineVersion } from '@/lib/types';
+import { VERSION_INFO } from '@/lib/constants';
 
 const PDK_OPTIONS = [
-  'TSMC 7nm (N7)',
-  'TSMC 5nm (N5)',
-  'Intel 18A',
-  'GlobalFoundries 22FDX',
+  { label: 'sky130 (Open Source)', value: 'sky130' },
+  { label: 'TSMC 7nm (N7)', value: 'tsmc7' },
+  { label: 'Intel 18A', value: 'intel18a' },
+  { label: 'GlobalFoundries 22FDX', value: 'gf22fdx' },
 ];
 
 const FLOW_OPTIONS = [
-  'Standard Logic Synthesis',
-  'High-Performance / Low Power',
-  'Custom Physical Design',
+  { label: 'Standard Logic Synthesis', value: 'standard' },
+  { label: 'High-Performance / Low Power', value: 'hp_lp' },
+  { label: 'Custom Physical Design', value: 'custom' },
 ];
 
 const VERSIONS: { value: PipelineVersion; label: string }[] = [
@@ -36,22 +38,22 @@ export default function NewProjectPage() {
   const submitJob = useSubmitJob();
   const setActiveJob = useJobStore((s) => s.setActiveJob);
   const setSelectedBenchmark = useUIStore((s) => s.setSelectedBenchmark);
+  const { data: benchmarkData } = useBenchmarks();
+  const benchmarks = benchmarkData?.benchmarks || [];
 
-  const [projectName, setProjectName] = useState('core_processor_v4');
-  const [pdk, setPdk] = useState(PDK_OPTIONS[0]);
-  const [flow, setFlow] = useState(FLOW_OPTIONS[0]);
-  const [version, setVersion] = useState<PipelineVersion>('v3');
+  const [benchmark, setBenchmark] = useState('alu_8bit');
+  const [projectName, setProjectName] = useState('ALU 8-Bit Processor');
+  const [pdk, setPdk] = useState('sky130');
+  const [flow, setFlow] = useState('standard');
+  const [version, setVersion] = useState<PipelineVersion>('v1');
   const [maxIterations, setMaxIterations] = useState(5);
-  const [files, setFiles] = useState<string[]>(['alu_core.v', 'top_constraints.sdc']);
-  const [isDragging, setIsDragging] = useState(false);
 
   const handleSubmit = async () => {
-    // Use the first file name as the benchmark identifier
-    setSelectedBenchmark(projectName);
+    setSelectedBenchmark(benchmark);
 
     try {
       const result = await submitJob.mutateAsync({
-        benchmark: projectName,
+        benchmark,
         pipeline_version: version,
         max_iterations: maxIterations,
         use_reference_rtl: false,
@@ -64,25 +66,49 @@ export default function NewProjectPage() {
     }
   };
 
+  const pdkLabel = PDK_OPTIONS.find(p => p.value === pdk)?.label || pdk;
+  const flowLabel = FLOW_OPTIONS.find(f => f.value === flow)?.label || flow;
+
   return (
     <AppShell>
       <div className="flex flex-1 overflow-hidden">
-        {/* Main Content */}
         <main className="flex-1 overflow-y-auto p-6">
           <div className="max-w-4xl mx-auto flex gap-6">
             {/* Left Column: Form */}
             <div className="flex-1 space-y-6">
-              {/* Section 1: Environment Configuration */}
+              {/* Section 1: Design Selection */}
               <div className="bg-card border border-border rounded-lg p-6">
                 <div className="border-b border-border pb-4 mb-4 flex items-center justify-between">
                   <h2 className="text-lg font-semibold text-foreground flex items-center gap-3">
                     <span className="bg-accent rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
                       1
                     </span>
-                    Environment Configuration
+                    Design Selection
                   </h2>
                 </div>
                 <div className="space-y-4">
+                  <div>
+                    <Label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-2 block">
+                      Benchmark Design
+                    </Label>
+                    <select
+                      className="w-full bg-surface-container-lowest border border-border rounded px-3 py-2 font-mono text-sm text-foreground focus:outline-none focus:border-primary"
+                      value={benchmark}
+                      onChange={(e) => {
+                        setBenchmark(e.target.value);
+                        setProjectName(e.target.value.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()));
+                      }}
+                    >
+                      {benchmarks.map((b) => (
+                        <option key={b.name} value={b.name}>
+                          {b.name} {b.has_bugs ? `(${b.bug_count} bugs)` : '(reference)'}
+                        </option>
+                      ))}
+                    </select>
+                    <p className="text-[11px] text-muted-foreground mt-1">
+                      Select an existing benchmark design. Upload support for custom RTL is in development.
+                    </p>
+                  </div>
                   <div>
                     <Label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-2 block">
                       Project Name
@@ -94,6 +120,20 @@ export default function NewProjectPage() {
                       onChange={(e) => setProjectName(e.target.value)}
                     />
                   </div>
+                </div>
+              </div>
+
+              {/* Section 2: Environment Configuration */}
+              <div className="bg-card border border-border rounded-lg p-6">
+                <div className="border-b border-border pb-4 mb-4">
+                  <h2 className="text-lg font-semibold text-foreground flex items-center gap-3">
+                    <span className="bg-accent rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
+                      2
+                    </span>
+                    Environment Configuration
+                  </h2>
+                </div>
+                <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <Label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-2 block">
@@ -105,7 +145,7 @@ export default function NewProjectPage() {
                         onChange={(e) => setPdk(e.target.value)}
                       >
                         {PDK_OPTIONS.map((p) => (
-                          <option key={p}>{p}</option>
+                          <option key={p.value} value={p.value}>{p.label}</option>
                         ))}
                       </select>
                     </div>
@@ -119,7 +159,7 @@ export default function NewProjectPage() {
                         onChange={(e) => setFlow(e.target.value)}
                       >
                         {FLOW_OPTIONS.map((f) => (
-                          <option key={f}>{f}</option>
+                          <option key={f.value} value={f.value}>{f.label}</option>
                         ))}
                       </select>
                     </div>
@@ -138,6 +178,7 @@ export default function NewProjectPage() {
                               ? 'bg-primary/10 text-primary border-primary/30'
                               : 'text-muted-foreground border-border hover:text-foreground hover:border-muted-foreground'
                           }`}
+                          title={VERSION_INFO[v.value]?.description}
                         >
                           {v.label}
                         </button>
@@ -160,59 +201,6 @@ export default function NewProjectPage() {
                 </div>
               </div>
 
-              {/* Section 2: Source Upload */}
-              <div className="bg-card border border-border rounded-lg p-6">
-                <div className="border-b border-border pb-4 mb-4">
-                  <h2 className="text-lg font-semibold text-foreground flex items-center gap-3">
-                    <span className="bg-accent rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
-                      2
-                    </span>
-                    Source Upload
-                  </h2>
-                  <p className="text-[13px] text-muted-foreground mt-2">
-                    Upload your Verilog (.v, .sv) and constraint (.sdc) files.
-                  </p>
-                </div>
-                <div
-                  className={`border-2 border-dashed rounded-lg bg-surface-container-lowest p-8 flex flex-col items-center justify-center cursor-pointer transition-colors ${
-                    isDragging ? 'border-primary bg-primary/5' : 'border-border hover:border-muted-foreground'
-                  }`}
-                  onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
-                  onDragLeave={() => setIsDragging(false)}
-                  onDrop={(e) => { e.preventDefault(); setIsDragging(false); }}
-                >
-                  <span className="material-symbols-outlined text-4xl text-muted-foreground mb-4">upload_file</span>
-                  <span className="text-sm text-foreground font-semibold">Drag & Drop files here</span>
-                  <span className="text-[13px] text-muted-foreground mt-1">or click to browse</span>
-                </div>
-                {files.length > 0 && (
-                  <div className="mt-4 space-y-2">
-                    {files.map((f, i) => (
-                      <div
-                        key={f}
-                        className="flex items-center justify-between p-2 bg-surface-container-lowest border border-border rounded"
-                      >
-                        <div className="flex items-center gap-2">
-                          <span className="material-symbols-outlined text-primary text-sm">description</span>
-                          <span className="font-mono text-xs text-foreground">{f}</span>
-                          {i === 0 && (
-                            <span className="text-[10px] font-bold uppercase text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded">
-                              Uploaded
-                            </span>
-                          )}
-                        </div>
-                        <button
-                          className="text-muted-foreground hover:text-destructive transition-colors"
-                          onClick={() => setFiles(files.filter((_, idx) => idx !== i))}
-                        >
-                          <span className="material-symbols-outlined text-[16px]">delete</span>
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
               {/* Section 3: Pre-flight Checks */}
               <div className="bg-card border border-border rounded-lg p-6">
                 <div className="border-b border-border pb-4 mb-4">
@@ -226,21 +214,21 @@ export default function NewProjectPage() {
                 <ul className="space-y-3">
                   <li className="flex items-center text-foreground">
                     <span className="material-symbols-outlined text-emerald-500 mr-3 text-sm">check_circle</span>
-                    <span className="text-sm">Syntax check passed (alu_core.v)</span>
+                    <span className="text-sm">Benchmark design available ({benchmark})</span>
                   </li>
                   <li className="flex items-center text-foreground">
                     <span className="material-symbols-outlined text-emerald-500 mr-3 text-sm">check_circle</span>
-                    <span className="text-sm">PDK availability confirmed ({pdk})</span>
+                    <span className="text-sm">PDK configuration: {pdkLabel}</span>
                   </li>
-                  <li className="flex items-center text-muted-foreground">
-                    <span className="material-symbols-outlined mr-3 text-sm animate-pulse">pending</span>
-                    <span className="text-sm">Validating constraints (.sdc)...</span>
+                  <li className="flex items-center text-foreground">
+                    <span className="material-symbols-outlined text-emerald-500 mr-3 text-sm">check_circle</span>
+                    <span className="text-sm">Pipeline ready: {version.toUpperCase()} ({VERSION_INFO[version]?.description})</span>
                   </li>
                 </ul>
               </div>
             </div>
 
-            {/* Right Column: Inspector / Summary */}
+            {/* Right Column: Summary */}
             <div className="w-[320px] flex-shrink-0">
               <div className="sticky top-6 bg-card border border-border rounded-lg flex flex-col">
                 <div className="p-4 border-b border-border bg-accent">
@@ -257,32 +245,38 @@ export default function NewProjectPage() {
                   </div>
                   <div>
                     <div className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
-                      TARGET
+                      BENCHMARK
                     </div>
-                    <div className="text-sm text-foreground">{pdk}</div>
+                    <div className="font-mono text-sm text-foreground">{benchmark}</div>
+                  </div>
+                  <div>
+                    <div className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
+                      PDK
+                    </div>
+                    <div className="text-sm text-foreground">{pdkLabel}</div>
                   </div>
                   <div>
                     <div className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-1">
                       FLOW
                     </div>
-                    <div className="text-sm text-foreground">{flow}</div>
+                    <div className="text-sm text-foreground">{flowLabel}</div>
                   </div>
                   <div className="border-t border-border pt-4">
                     <div className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-3">
-                      RESOURCE ESTIMATION
+                      PIPELINE
                     </div>
                     <div className="space-y-2">
                       <div className="flex justify-between font-mono text-xs">
-                        <span className="text-muted-foreground">Est. Gate Count:</span>
-                        <span className="text-foreground">~120K</span>
-                      </div>
-                      <div className="flex justify-between font-mono text-xs">
-                        <span className="text-muted-foreground">Est. Memory:</span>
-                        <span className="text-foreground">32KB</span>
-                      </div>
-                      <div className="flex justify-between font-mono text-xs">
                         <span className="text-muted-foreground">Version:</span>
                         <span className="text-primary font-semibold">{version.toUpperCase()}</span>
+                      </div>
+                      <div className="flex justify-between font-mono text-xs">
+                        <span className="text-muted-foreground">Max Iterations:</span>
+                        <span className="text-foreground">{maxIterations}</span>
+                      </div>
+                      <div className="flex justify-between font-mono text-xs">
+                        <span className="text-muted-foreground">Est. Runtime:</span>
+                        <span className="text-foreground">{version === 'v1' ? '20-30s' : version === 'v2' ? '30-60s' : '20-45m'}</span>
                       </div>
                     </div>
                   </div>
@@ -291,11 +285,16 @@ export default function NewProjectPage() {
                   <Button
                     className="w-full bg-primary text-white hover:bg-primary/90 py-3 font-semibold"
                     onClick={handleSubmit}
-                    disabled={submitJob.isPending}
+                    disabled={submitJob.isPending || !benchmark}
                   >
                     <span className="material-symbols-outlined mr-2 text-sm">play_arrow</span>
-                    Ready for RTL Analysis
+                    {submitJob.isPending ? 'Starting Pipeline...' : 'Launch Pipeline'}
                   </Button>
+                  {submitJob.isError && (
+                    <p className="text-xs text-destructive mt-2 text-center">
+                      {(submitJob.error as Error)?.message || 'Failed to start job'}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>

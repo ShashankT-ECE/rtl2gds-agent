@@ -19,10 +19,10 @@ import { useJobStore } from '@/stores/job-store';
 import { useJobStream } from '@/hooks/use-job-stream';
 import { useUIStore } from '@/stores/ui-store';
 import { useDemoStore } from '@/stores/demo-store';
+import { useLiveAgents, useLiveMetrics, useLiveStageDetails } from '@/hooks/use-live-data';
 import { STAGE_LABELS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
-// Tabs for the bottom panel
 type BottomTab = 'terminal' | 'collaboration' | 'timeline' | 'metrics';
 
 export default function DashboardPage() {
@@ -41,6 +41,11 @@ export default function DashboardPage() {
   const demoMetrics = useDemoStore((s) => s.metrics);
   const demoStageDetails = useDemoStore((s) => s.stageDetails);
   const demoTimelineEvents = useDemoStore((s) => s.timelineEvents);
+
+  // Live data (derived from job store events — works in both live and demo modes)
+  const liveAgents = useLiveAgents(activeJobId);
+  const liveMetrics = useLiveMetrics(activeJobId);
+  const liveStageDetails = useLiveStageDetails(activeJobId);
 
   const { addToast } = useToast();
 
@@ -66,21 +71,40 @@ export default function DashboardPage() {
     setTimeout(() => setSelectedStage(null), 300);
   }, []);
 
+  // --- Unified data: prefer demo when simulating, otherwise use live ---
+
+  // Agents: demoAgents while simulating, liveAgents from job store otherwise
+  const agents = useMemo(() => {
+    if (demoEnabled && isSimulating) return demoAgents;
+    return liveAgents;
+  }, [demoEnabled, isSimulating, demoAgents, liveAgents]);
+
+  // Metrics: demoMetrics while simulating, liveMetrics from job events otherwise
+  const metrics = useMemo(() => {
+    if (demoEnabled && isSimulating) return demoMetrics;
+    return liveMetrics;
+  }, [demoEnabled, isSimulating, demoMetrics, liveMetrics]);
+
+  // Stage details for drawer
+  const stageDetails = useMemo(() => {
+    if (demoEnabled && isSimulating) return demoStageDetails;
+    return liveStageDetails;
+  }, [demoEnabled, isSimulating, demoStageDetails, liveStageDetails]);
+
   // Build terminal log lines from events
   const terminalLines = useMemo((): LogLine[] => {
     if (demoEnabled && isSimulating) {
-      // Convert demo stage detail logs to terminal lines
       return demoStageDetails.flatMap((stage) =>
         stage.logs.map((log) => {
           const match = log.match(/^\[([^\]]+)\]\s+(.*)/);
           const timestamp = match ? match[1] : new Date().toLocaleTimeString('en-US', { hour12: false });
           const message = match ? match[2] : log;
           let level: LogLine['level'] = 'INFO';
-          const lowerMsg = message.toLowerCase();
-          if (lowerMsg.includes('success') || lowerMsg.includes('passed') || lowerMsg.includes('clean')) level = 'SUCCESS';
-          else if (lowerMsg.includes('error') || lowerMsg.includes('fail') || lowerMsg.includes('violation')) level = 'ERROR';
-          else if (lowerMsg.includes('warning')) level = 'WARNING';
-          else if (lowerMsg.includes('debug') || lowerMsg.includes('Tool:')) level = 'DEBUG';
+          const msg = message.toLowerCase();
+          if (msg.includes('success') || msg.includes('passed') || msg.includes('clean')) level = 'SUCCESS';
+          else if (msg.includes('error') || msg.includes('fail') || msg.includes('violation')) level = 'ERROR';
+          else if (msg.includes('warning')) level = 'WARNING';
+          else if (msg.includes('debug') || msg.includes('Tool:')) level = 'DEBUG';
           return { timestamp, level, message, stage: STAGE_LABELS[stage.stageName] || stage.stageName };
         })
       );
@@ -126,7 +150,7 @@ export default function DashboardPage() {
       });
   }, [activeJob, demoEnabled, isSimulating, demoTimelineEvents]);
 
-  // Notify on simulation start/stop
+  // Notify on demo enable or live job start
   useEffect(() => {
     if (demoEnabled && isSimulating) {
       addToast({
@@ -138,12 +162,30 @@ export default function DashboardPage() {
     }
   }, [demoEnabled, isSimulating, addToast]);
 
+  // Notify when a live job starts
+  useEffect(() => {
+    if (!demoEnabled && activeJob?.status === 'running') {
+      addToast({
+        type: 'success',
+        title: 'Pipeline Running',
+        message: `Job ${activeJob.job_id} executing ${activeJob.benchmark} on ${activeJob.pipeline_version}`,
+        duration: 5000,
+      });
+    }
+  }, [activeJob?.status, activeJob?.job_id, demoEnabled, addToast]);
+
   const tabLabels: { key: BottomTab; label: string; icon: string }[] = [
     { key: 'terminal', label: 'Terminal', icon: 'terminal' },
     { key: 'collaboration', label: 'AI Agents', icon: 'groups' },
     { key: 'timeline', label: 'Timeline', icon: 'timeline' },
     { key: 'metrics', label: 'Metrics', icon: 'monitoring' },
   ];
+
+  // Which stage detail to show in the drawer
+  const selectedStageDetail = useMemo(() => {
+    if (!selectedStage) return null;
+    return stageDetails.find((s) => s.stageName === selectedStage) || null;
+  }, [selectedStage, stageDetails]);
 
   return (
     <AppShell>
@@ -182,13 +224,13 @@ export default function DashboardPage() {
           )}>
             {demoEnabled ? 'Demo Mode' : 'Live Mode'}
           </span>
-          {demoEnabled && isSimulating && (
+          {isLive && (
             <span className="flex items-center gap-1 text-[10px] text-emerald-500 font-mono">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
               </span>
-              Running simulation
+              {demoEnabled ? 'Running simulation' : 'Live pipeline'}
             </span>
           )}
         </div>
@@ -255,7 +297,7 @@ export default function DashboardPage() {
           ))}
         </div>
 
-        {/* Tab content */}
+        {/* Tab content — all four tabs now work in both demo and live mode */}
         <div className="animate-[fade-in_0.2s_ease-out]">
           {activeTab === 'terminal' && (
             <LiveTerminal
@@ -267,7 +309,7 @@ export default function DashboardPage() {
 
           {activeTab === 'collaboration' && (
             <AgentCollaborationView
-              agents={demoAgents}
+              agents={agents}
               className="min-h-[300px]"
             />
           )}
@@ -286,7 +328,7 @@ export default function DashboardPage() {
 
           {activeTab === 'metrics' && (
             <MetricsDashboard
-              metrics={demoMetrics}
+              metrics={metrics}
               isLive={isLive}
               className="min-h-[300px]"
             />
@@ -294,13 +336,9 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Stage Detail Drawer */}
+      {/* Stage Detail Drawer — now works with both demo and live data */}
       <StageDetailDrawer
-        stage={
-          selectedStage
-            ? demoStageDetails.find((s) => s.stageName === selectedStage) || null
-            : null
-        }
+        stage={selectedStageDetail}
         isOpen={drawerOpen}
         onClose={closeStageDrawer}
       />
