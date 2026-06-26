@@ -73,27 +73,27 @@ export default function DashboardPage() {
 
   // --- Unified data: prefer demo when simulating, otherwise use live ---
 
-  // Agents: demoAgents while simulating, liveAgents from job store otherwise
+  // Agents: demo data when demo mode is on, live data otherwise
   const agents = useMemo(() => {
-    if (demoEnabled && isSimulating) return demoAgents;
+    if (demoEnabled) return demoAgents;
     return liveAgents;
-  }, [demoEnabled, isSimulating, demoAgents, liveAgents]);
+  }, [demoEnabled, demoAgents, liveAgents]);
 
-  // Metrics: demoMetrics while simulating, liveMetrics from job events otherwise
+  // Metrics: demo data when demo mode is on, live data otherwise
   const metrics = useMemo(() => {
-    if (demoEnabled && isSimulating) return demoMetrics;
+    if (demoEnabled) return demoMetrics;
     return liveMetrics;
-  }, [demoEnabled, isSimulating, demoMetrics, liveMetrics]);
+  }, [demoEnabled, demoMetrics, liveMetrics]);
 
   // Stage details for drawer
   const stageDetails = useMemo(() => {
-    if (demoEnabled && isSimulating) return demoStageDetails;
+    if (demoEnabled) return demoStageDetails;
     return liveStageDetails;
-  }, [demoEnabled, isSimulating, demoStageDetails, liveStageDetails]);
+  }, [demoEnabled, demoStageDetails, liveStageDetails]);
 
   // Build terminal log lines from events
   const terminalLines = useMemo((): LogLine[] => {
-    if (demoEnabled && isSimulating) {
+    if (demoEnabled) {
       return demoStageDetails.flatMap((stage) =>
         stage.logs.map((log) => {
           const match = log.match(/^\[([^\]]+)\]\s+(.*)/);
@@ -125,11 +125,11 @@ export default function DashboardPage() {
         stage: e.stage ? (STAGE_LABELS[e.stage] || e.stage) : undefined,
       };
     });
-  }, [activeJob, demoEnabled, isSimulating, demoStageDetails]);
+  }, [activeJob, demoEnabled, demoStageDetails]);
 
   // Build timeline events from active job
   const timelineEvents = useMemo(() => {
-    if (demoEnabled && isSimulating) return demoTimelineEvents;
+    if (demoEnabled) return demoTimelineEvents;
     if (!activeJob) return [];
     return activeJob.events
       .filter((e) =>
@@ -148,7 +148,7 @@ export default function DashboardPage() {
           status,
         };
       });
-  }, [activeJob, demoEnabled, isSimulating, demoTimelineEvents]);
+  }, [activeJob, demoEnabled, demoTimelineEvents]);
 
   // Notify on demo enable or live job start
   useEffect(() => {

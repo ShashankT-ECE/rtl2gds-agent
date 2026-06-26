@@ -439,14 +439,21 @@ export const useDemoStore = create<DemoStoreState>()(
           const stageIdx = state.simStageIndex;
           if (stageIdx >= stages.length) {
             // All stages complete — finish simulation
-            get().stopSimulation();
+            // Clear the interval timer but keep state coherent so the UI
+            // sees the final snapshot (isSimulating→false + 100% in one set).
+            const currentState = get();
+            if (currentState.simTimer) {
+              clearInterval(currentState.simTimer);
+            }
             const now = new Date().toLocaleTimeString('en-US', { hour12: false });
             set((s) => ({
+              isSimulating: false,
+              simTimer: null,
               metrics: { ...s.metrics, successProbability: 100 },
               timelineEvents: [...s.timelineEvents, {
                 time: now,
-                event: 'GDSII Exported',
-                detail: 'Design is DRC-clean and ready for tapeout',
+                event: 'Pipeline Completed',
+                detail: 'All stages passed — design ready for tapeout',
                 stage: 'complete',
                 status: 'completed' as const,
               }],

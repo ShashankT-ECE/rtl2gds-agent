@@ -2,6 +2,7 @@
 
 import { Check, X, Activity } from 'lucide-react';
 import { useJobStore } from '@/stores/job-store';
+import { useDemoStore } from '@/stores/demo-store';
 import { EmptyState } from '@/components/shared/empty-state';
 import { cn } from '@/lib/utils';
 
@@ -34,8 +35,26 @@ function ResultCard({ title, status, children, placeholder }: ResultCardProps) {
 
 export function JobResultsPanel() {
   const activeJob = useJobStore((s) => (s.activeJobId ? s.jobs[s.activeJobId] : null));
+  const demoEnabled = useDemoStore((s) => s.demoEnabled);
+  const demoStageDetails = useDemoStore((s) => s.stageDetails);
+  const demoMetrics = useDemoStore((s) => s.metrics);
 
-  if (!activeJob) {
+  // Build demo result status from stage completions
+  const demoSimComplete = demoStageDetails.some(
+    (s) => (s.stageName === 'simulation' || s.stageName === 'simulation_re') && s.status === 'completed'
+  );
+  const demoSynthComplete = demoStageDetails.some(
+    (s) => s.stageName === 'synthesis' && s.status === 'completed'
+  );
+  const demoStaComplete = demoStageDetails.some(
+    (s) => s.stageName === 'sta' && s.status === 'completed'
+  );
+  const demoDrcComplete = demoStageDetails.some(
+    (s) => s.stageName === 'drc' && s.status === 'completed'
+  );
+  const showDemoResults = demoEnabled && (demoSimComplete || demoSynthComplete || demoStaComplete || demoDrcComplete);
+
+  if (!activeJob && !showDemoResults) {
     return (
       <div className="rounded-lg border border-border bg-card">
         <div className="px-4 py-3 border-b border-border">
@@ -50,15 +69,21 @@ export function JobResultsPanel() {
     );
   }
 
-  const simStatus = activeJob.sim_passed === true ? 'pass' : activeJob.sim_passed === false ? 'fail' : 'pending';
-  const staStatus = activeJob.timing_met === true ? 'pass' : activeJob.timing_met === false ? 'fail' : 'pending';
-  const drcStatus = activeJob.drc_passed === true ? 'pass' : activeJob.drc_passed === false ? 'fail' : 'pending';
+  const simStatus: 'pass' | 'fail' | 'pending' = activeJob
+    ? (activeJob.sim_passed === true ? 'pass' : activeJob.sim_passed === false ? 'fail' : 'pending')
+    : (demoSimComplete ? 'pass' : 'pending');
+  const staStatus: 'pass' | 'fail' | 'pending' = activeJob
+    ? (activeJob.timing_met === true ? 'pass' : activeJob.timing_met === false ? 'fail' : 'pending')
+    : (demoStaComplete ? 'pass' : 'pending');
+  const drcStatus: 'pass' | 'fail' | 'pending' = activeJob
+    ? (activeJob.drc_passed === true ? 'pass' : activeJob.drc_passed === false ? 'fail' : 'pending')
+    : (demoDrcComplete ? 'pass' : 'pending');
 
   // Get latest result payloads from events
-  const simEvent = [...activeJob.events].reverse().find(e => e.event_type === 'simulation_result');
-  const synthEvent = [...activeJob.events].reverse().find(e => e.event_type === 'synthesis_result');
-  const staEvent = [...activeJob.events].reverse().find(e => e.event_type === 'sta_result');
-  const drcEvent = [...activeJob.events].reverse().find(e => e.event_type === 'drc_result');
+  const simEvent = activeJob ? [...activeJob.events].reverse().find(e => e.event_type === 'simulation_result') : null;
+  const synthEvent = activeJob ? [...activeJob.events].reverse().find(e => e.event_type === 'synthesis_result') : null;
+  const staEvent = activeJob ? [...activeJob.events].reverse().find(e => e.event_type === 'sta_result') : null;
+  const drcEvent = activeJob ? [...activeJob.events].reverse().find(e => e.event_type === 'drc_result') : null;
 
   return (
     <div className="rounded-lg border border-border bg-card">
@@ -68,23 +93,25 @@ export function JobResultsPanel() {
       <div className="p-4 space-y-3">
         {/* Simulation */}
         <ResultCard title="Simulation" status={simStatus} placeholder="Awaiting simulation results...">
-          {simEvent && (
+          {(simEvent || demoSimComplete) && (
             <div className="space-y-1 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Status</span>
-                <span className={activeJob.sim_passed ? 'text-emerald-500' : 'text-destructive'}>
-                  {activeJob.sim_passed ? 'PASSED' : 'FAILED'}
+                <span className={simStatus === 'pass' ? 'text-emerald-500' : 'text-destructive'}>
+                  {simStatus === 'pass' ? 'PASSED' : simStatus === 'fail' ? 'FAILED' : 'PENDING'}
                 </span>
               </div>
-              {simEvent.payload?.coverage_pct != null && (
+              {(simEvent?.payload?.coverage_pct != null || demoSimComplete) && (
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Coverage</span>
-                  <span className="text-foreground font-mono">{String(simEvent.payload.coverage_pct)}%</span>
+                  <span className="text-foreground font-mono">
+                    {simEvent?.payload?.coverage_pct != null ? `${String(simEvent.payload.coverage_pct)}%` : '87.5%'}
+                  </span>
                 </div>
               )}
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Iteration</span>
-                <span className="text-foreground font-mono">{activeJob.iteration}</span>
+                <span className="text-foreground font-mono">{activeJob?.iteration ?? demoMetrics.iterations}</span>
               </div>
               {/* Waveform placeholder */}
               <div className="mt-3 rounded bg-background border border-border p-4">
@@ -111,61 +138,51 @@ export function JobResultsPanel() {
         </ResultCard>
 
         {/* Synthesis */}
-        <ResultCard title="Synthesis" status={synthEvent ? 'pass' : 'pending'} placeholder="Awaiting synthesis results...">
-          {synthEvent && (
+        <ResultCard title="Synthesis" status={synthEvent || demoSynthComplete ? 'pass' : 'pending'} placeholder="Awaiting synthesis results...">
+          {(synthEvent || demoSynthComplete) && (
             <div className="space-y-1 text-sm">
-              {synthEvent.payload?.cell_count != null && (
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Cell Count</span>
-                  <span className="text-foreground font-mono">{String(synthEvent.payload.cell_count)}</span>
-                </div>
-              )}
-              {synthEvent.payload?.area != null && (
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Area</span>
-                  <span className="text-foreground font-mono">{String(synthEvent.payload.area)}</span>
-                </div>
-              )}
-              {synthEvent.payload?.frequency != null && (
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Frequency</span>
-                  <span className="text-foreground font-mono">{String(synthEvent.payload.frequency)}</span>
-                </div>
-              )}
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Cell Count</span>
+                <span className="text-foreground font-mono">
+                  {synthEvent?.payload?.cell_count != null ? String(synthEvent.payload.cell_count) : demoMetrics.cellCount}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Area</span>
+                <span className="text-foreground font-mono">
+                  {synthEvent?.payload?.area != null ? String(synthEvent.payload.area) : `${(demoMetrics.area / 1000000).toFixed(4)}`}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Frequency</span>
+                <span className="text-foreground font-mono">
+                  {synthEvent?.payload?.frequency != null ? String(synthEvent.payload.frequency) : `${demoMetrics.frequency}`}
+                </span>
+              </div>
             </div>
           )}
         </ResultCard>
 
         {/* STA */}
         <ResultCard title="STA" status={staStatus} placeholder="Awaiting timing analysis...">
-          {staEvent && (
+          {(staEvent || demoStaComplete) && (
             <div className="space-y-1 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Timing</span>
-                <span className={activeJob.timing_met ? 'text-emerald-500 font-semibold' : 'text-destructive font-semibold'}>
-                  {activeJob.timing_met ? 'MET' : 'VIOLATED'}
+                <span className={staStatus === 'pass' ? 'text-emerald-500 font-semibold' : 'text-destructive font-semibold'}>
+                  {staStatus === 'pass' ? 'MET' : 'VIOLATED'}
                 </span>
               </div>
-              {staEvent.payload?.wns != null && (
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">WNS</span>
-                  <span className={cn('font-mono', Number(staEvent.payload.wns) >= 0 ? 'text-emerald-500' : 'text-destructive')}>
-                    {String(staEvent.payload.wns)} ns
-                  </span>
-                </div>
-              )}
-              {staEvent.payload?.tns != null && (
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">WNS</span>
+                <span className="text-emerald-500 font-mono">
+                  {staEvent?.payload?.wns != null ? `${String(staEvent.payload.wns)} ns` : `${demoMetrics.timingSlack} ns`}
+                </span>
+              </div>
+              {staEvent?.payload?.tns != null && (
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">TNS</span>
                   <span className="text-foreground font-mono">{String(staEvent.payload.tns)} ns</span>
-                </div>
-              )}
-              {staEvent.payload?.critical_path != null && (
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Critical Path</span>
-                  <span className="text-foreground font-mono text-xs truncate max-w-[140px]">
-                    {String(staEvent.payload.critical_path)}
-                  </span>
                 </div>
               )}
             </div>
@@ -174,22 +191,20 @@ export function JobResultsPanel() {
 
         {/* DRC */}
         <ResultCard title="DRC" status={drcStatus} placeholder="Awaiting DRC results...">
-          {drcEvent && (
+          {(drcEvent || demoDrcComplete) && (
             <div className="space-y-1 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">DRC Status</span>
-                <span className={activeJob.drc_passed ? 'text-emerald-500 font-semibold' : 'text-destructive font-semibold'}>
-                  {activeJob.drc_passed ? 'CLEAN' : 'VIOLATIONS'}
+                <span className={drcStatus === 'pass' ? 'text-emerald-500 font-semibold' : 'text-destructive font-semibold'}>
+                  {drcStatus === 'pass' ? 'CLEAN' : 'VIOLATIONS'}
                 </span>
               </div>
-              {drcEvent.payload?.violations != null && (
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Violations</span>
-                  <span className={cn('font-mono', Number(drcEvent.payload.violations) === 0 ? 'text-emerald-500' : 'text-destructive')}>
-                    {String(drcEvent.payload.violations)}
-                  </span>
-                </div>
-              )}
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Violations</span>
+                <span className="text-emerald-500 font-mono">
+                  {drcEvent?.payload?.violations != null ? String(drcEvent.payload.violations) : demoMetrics.violations}
+                </span>
+              </div>
               {/* Layout placeholder */}
               <div className="mt-3 rounded bg-background border border-border p-4">
                 <svg width="100%" height="60" viewBox="0 0 300 60" className="opacity-30">

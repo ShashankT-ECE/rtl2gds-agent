@@ -9,6 +9,7 @@ import { ProgressBar } from '@/components/shared/progress-bar';
 import { ElapsedTimer } from '@/components/shared/elapsed-timer';
 import { useJobStore } from '@/stores/job-store';
 import { useUIStore } from '@/stores/ui-store';
+import { useDemoStore } from '@/stores/demo-store';
 import { STAGES_BY_VERSION, VERSION_INFO } from '@/lib/constants';
 import { getStageRow } from '@/lib/pipeline-utils';
 import type { PipelineVersion, StageStatus } from '@/lib/types';
@@ -23,6 +24,12 @@ export function SiliconFlow({ onStageClick }: SiliconFlowProps) {
   const selectedVersion = useUIStore((s) => s.selectedVersion);
   const setSelectedVersion = useUIStore((s) => s.setSelectedVersion);
 
+  // Demo mode: read stage status from the demo store so the flow visualization
+  // reflects the simulated pipeline, not the (empty) job store.
+  const demoEnabled = useDemoStore((s) => s.demoEnabled);
+  const demoStageDetails = useDemoStore((s) => s.stageDetails);
+  const demoMetrics = useDemoStore((s) => s.metrics);
+
   const version: PipelineVersion = (activeJob?.pipeline_version as PipelineVersion) || selectedVersion;
   const stages = STAGES_BY_VERSION[version];
   const jobStages = activeJob?.stages || [];
@@ -33,6 +40,16 @@ export function SiliconFlow({ onStageClick }: SiliconFlowProps) {
   for (const s of jobStages) {
     stageStatusMap.set(s.name, s.status);
     stageElapsedMap.set(s.name, s.elapsed_ms || null);
+  }
+
+  // When demo is active, overlay demo stage statuses so the flow shows real progress
+  if (demoEnabled) {
+    for (const ds of demoStageDetails) {
+      // Only set if we don't already have a live status (demo should not clobber real data)
+      if (!stageStatusMap.has(ds.stageName) || stageStatusMap.get(ds.stageName) === 'pending') {
+        stageStatusMap.set(ds.stageName, ds.status);
+      }
+    }
   }
 
   const getStatus = (stageName: string): StageStatus =>
@@ -192,10 +209,14 @@ export function SiliconFlow({ onStageClick }: SiliconFlowProps) {
         {/* Progress bar */}
         <div className="flex-1">
           <ProgressBar
-            value={activeJob?.progress_pct || 0}
+            value={
+              demoEnabled
+                ? demoMetrics.successProbability
+                : (activeJob?.progress_pct || 0)
+            }
             variant={activeJob?.status === 'failed' ? 'error' : 'default'}
             showLabel
-            indeterminate={!activeJob}
+            indeterminate={!activeJob && !demoEnabled}
           />
         </div>
 
