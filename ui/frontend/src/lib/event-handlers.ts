@@ -37,6 +37,15 @@ export function dispatchEvent(event: PipelineEvent): void {
 
     case 'stage_started':
       if (event.stage) {
+        // Guard: do not start a stage on a job that has already finished.
+        // Late-arriving stage_started events (e.g. from an SSE replay
+        // during reconnect) would otherwise resurrect a completed stage
+        // back to "running" with no subsequent event to complete it,
+        // leaving a perpetual spinner in the silicon-flow diagram.
+        const currentJob = useJobStore.getState().jobs[jobId];
+        if (currentJob && (currentJob.status === 'completed' || currentJob.status === 'failed' || currentJob.status === 'cancelled')) {
+          break;
+        }
         store.updateStage(jobId, event.stage, {
           status: 'running',
           started_at: event.timestamp,
@@ -99,14 +108,15 @@ export function dispatchEvent(event: PipelineEvent): void {
       break;
 
     case 'job_completed':
-      traceStages('stages BEFORE job_completed', jobId);
       store.updateJob(jobId, {
         status: 'completed',
         completed_at: event.timestamp,
         progress_pct: 100,
       });
-      // Force every still-running stage to completed so the silicon-flow
-      // diagram doesn't leave a node spinning forever.
+      // Compound state transition: when the job enters a terminal state,
+      // close every stage still marked "running".  A dropped stage_completed
+      // event (queue race, edge-proxy truncation, buffer flush) would
+      // otherwise leave the last stage node spinning forever.
       {
         const job = useJobStore.getState().jobs[jobId];
         if (job) {
@@ -120,7 +130,6 @@ export function dispatchEvent(event: PipelineEvent): void {
           }
         }
       }
-      traceStages('stages AFTER  job_completed', jobId);
       break;
 
     case 'job_failed':
@@ -129,6 +138,20 @@ export function dispatchEvent(event: PipelineEvent): void {
         completed_at: event.timestamp,
         error_message: event.message,
       });
+      // Same compound-state invariant: close still-running stages.
+      {
+        const job = useJobStore.getState().jobs[jobId];
+        if (job) {
+          for (const s of job.stages) {
+            if (s.status === 'running') {
+              store.updateStage(jobId, s.name, {
+                status: 'failed',
+                completed_at: event.timestamp,
+              });
+            }
+          }
+        }
+      }
       break;
 
     case 'job_cancelled':
@@ -136,6 +159,20 @@ export function dispatchEvent(event: PipelineEvent): void {
         status: 'cancelled',
         completed_at: event.timestamp,
       });
+      // Same compound-state invariant: close still-running stages.
+      {
+        const job = useJobStore.getState().jobs[jobId];
+        if (job) {
+          for (const s of job.stages) {
+            if (s.status === 'running') {
+              store.updateStage(jobId, s.name, {
+                status: 'skipped',
+                completed_at: event.timestamp,
+              });
+            }
+          }
+        }
+      }
       break;
 
     // These event types are informational only — they're captured by addEvent above
