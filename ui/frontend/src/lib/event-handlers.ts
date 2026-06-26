@@ -116,6 +116,22 @@ export function dispatchEvent(event: PipelineEvent): void {
         completed_at: event.timestamp,
         progress_pct: 100,
       });
+      // Mark every still-running stage as completed so no node spins forever.
+      // If the stage_completed event was dropped (queue race, edge-proxy
+      // truncation, etc.) the UI would otherwise leave the last stage animating.
+      const finalJob = useJobStore.getState().jobs[jobId];
+      if (finalJob) {
+        for (const s of finalJob.stages) {
+          if (s.status === 'running') {
+            console.log('[SSE-DEBUG] job_completed → closing still-running stage:',
+              s.name);
+            store.updateStage(jobId, s.name, {
+              status: 'completed',
+              completed_at: event.timestamp,
+            });
+          }
+        }
+      }
       console.log('[SSE-DEBUG] job_completed → AFTER updateJob, new state=',
         'progress_pct=', useJobStore.getState().jobs[jobId]?.progress_pct,
         'status=', useJobStore.getState().jobs[jobId]?.status);
