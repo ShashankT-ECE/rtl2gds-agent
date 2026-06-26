@@ -39,6 +39,22 @@ export function SiliconFlow({ onStageClick }: SiliconFlowProps) {
     'status=', activeJob?.status,
     'stageCount=', jobStages.length,
     'activeJobId=', activeJobId?.substring(0, 8));
+  // Extra logging specifically for the problematic stage
+  const simRe = jobStages.find((s: any) => s.name === 'simulation_re' || s.name === 'Sim(re)');
+  if (simRe) {
+    console.log('[SSE-DEBUG] SiliconFlow → simulation_re stage:',
+      'name=', JSON.stringify(simRe.name),
+      'status=', simRe.status,
+      'started_at=', simRe.started_at,
+      'completed_at=', simRe.completed_at);
+  } else {
+    console.log('[SSE-DEBUG] SiliconFlow → simulation_re stage NOT FOUND in jobStages');
+  }
+  // Also log all stages if simulation_re is still running
+  if (activeJob?.status === 'completed' && simRe?.status === 'running') {
+    console.warn('[SSE-DEBUG] BUG: simulation_re still running after job completed!',
+      'allStages=', JSON.stringify(jobStages.map((s: any) => ({ n: s.name, st: s.status }))));
+  }
 
   // Build stage status map + elapsed map
   const stageStatusMap = new Map<string, StageStatus>();
