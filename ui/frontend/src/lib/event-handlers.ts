@@ -7,6 +7,13 @@ import { useJobStore } from '@/stores/job-store';
 
 type EventHandler = (event: PipelineEvent) => void;
 
+/** Helper: dump every stage name+status from the store for tracing. */
+function traceStages(label: string, jobId: string): void {
+  const job = useJobStore.getState().jobs[jobId];
+  if (!job) { console.log(`[TRACE] ${label}: job not found`); return; }
+  console.log(`[TRACE] ${label}:`, job.stages.map(s => `${s.name}=${s.status}`));
+}
+
 /**
  * Dispatch a PipelineEvent to the appropriate store actions.
  * Each event type updates specific job state fields.
@@ -14,12 +21,6 @@ type EventHandler = (event: PipelineEvent) => void;
 export function dispatchEvent(event: PipelineEvent): void {
   const store = useJobStore.getState();
   const { job_id: jobId, event_type: eventType } = event;
-
-  console.log('[SSE-DEBUG] dispatchEvent:',
-    'type=', eventType,
-    'seq=', event.sequence_num,
-    'stage=', event.stage,
-    'payload.percent=', (event.payload as any)?.percent);
 
   // Always add the event to the job's event buffer
   store.addEvent(event);
@@ -51,6 +52,7 @@ export function dispatchEvent(event: PipelineEvent): void {
           completed_at: event.timestamp,
           elapsed_ms: event.elapsed_time ? event.elapsed_time * 1000 : undefined,
         });
+        traceStages(`stages after stage_completed(${event.stage})`, jobId);
       }
       break;
 
@@ -70,8 +72,6 @@ export function dispatchEvent(event: PipelineEvent): void {
       break;
 
     case 'synthesis_result':
-      // Synthesis results are captured in job.events — no dedicated job field yet
-      // The frontend reads synthesis data from event payloads directly
       break;
 
     case 'sta_result':
@@ -94,61 +94,33 @@ export function dispatchEvent(event: PipelineEvent): void {
 
     case 'progress':
       if (typeof event.payload?.percent === 'number') {
-        console.log('[SSE-DEBUG] progress → updateJob progress_pct=',
-          event.payload.percent,
-          'jobId=', jobId);
         store.updateJob(jobId, { progress_pct: event.payload.percent as number });
-        const after = useJobStore.getState().jobs[jobId]?.progress_pct;
-        console.log('[SSE-DEBUG] progress → store after update: progress_pct=', after);
-      } else {
-        console.log('[SSE-DEBUG] progress → SKIPPED: no percent in payload, payload=',
-          JSON.stringify(event.payload));
       }
       break;
 
     case 'job_completed':
-      console.log('[SSE-DEBUG] job_completed → BEFORE updateJob, current state=',
-        'progress_pct=', store.jobs[jobId]?.progress_pct,
-        'status=', store.jobs[jobId]?.status,
-        'jobId=', jobId,
-        'stagesCount=', store.jobs[jobId]?.stages?.length);
+      traceStages('stages BEFORE job_completed', jobId);
       store.updateJob(jobId, {
         status: 'completed',
         completed_at: event.timestamp,
         progress_pct: 100,
       });
-      // Mark every still-running stage as completed so no node spins forever.
-      const finalJob = useJobStore.getState().jobs[jobId];
-      if (finalJob) {
-        console.log('[SSE-DEBUG] job_completed → stages before force-close:',
-          finalJob.stages.map((s: any) => ({ name: s.name, status: s.status })));
-        let closedCount = 0;
-        for (const s of finalJob.stages) {
-          if (s.status === 'running') {
-            console.log('[SSE-DEBUG] job_completed → force-closing stage:',
-              'name=', JSON.stringify(s.name),
-              'type=', typeof s.name,
-              'jobId=', jobId);
-            store.updateStage(jobId, s.name, {
-              status: 'completed',
-              completed_at: event.timestamp,
-            });
-            closedCount++;
+      // Force every still-running stage to completed so the silicon-flow
+      // diagram doesn't leave a node spinning forever.
+      {
+        const job = useJobStore.getState().jobs[jobId];
+        if (job) {
+          for (const s of job.stages) {
+            if (s.status === 'running') {
+              store.updateStage(jobId, s.name, {
+                status: 'completed',
+                completed_at: event.timestamp,
+              });
+            }
           }
         }
-        if (closedCount === 0) {
-          console.log('[SSE-DEBUG] job_completed → NO running stages found to close');
-        }
-        // Read back to confirm
-        const afterJob = useJobStore.getState().jobs[jobId];
-        console.log('[SSE-DEBUG] job_completed → stages after force-close:',
-          afterJob?.stages.map((s: any) => ({ name: s.name, status: s.status })));
-      } else {
-        console.warn('[SSE-DEBUG] job_completed → finalJob is NULL — job not in store!');
       }
-      console.log('[SSE-DEBUG] job_completed → AFTER all, new state=',
-        'progress_pct=', useJobStore.getState().jobs[jobId]?.progress_pct,
-        'status=', useJobStore.getState().jobs[jobId]?.status);
+      traceStages('stages AFTER  job_completed', jobId);
       break;
 
     case 'job_failed':

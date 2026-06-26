@@ -34,27 +34,24 @@ export function SiliconFlow({ onStageClick }: SiliconFlowProps) {
   const stages = STAGES_BY_VERSION[version];
   const jobStages = activeJob?.stages || [];
 
-  console.log('[SSE-DEBUG] SiliconFlow render:',
+  console.log('[TRACE] SiliconFlow render:',
     'progress_pct=', activeJob?.progress_pct,
     'status=', activeJob?.status,
-    'stageCount=', jobStages.length,
-    'activeJobId=', activeJobId?.substring(0, 8));
-  // Extra logging specifically for the problematic stage
-  const simRe = jobStages.find((s: any) => s.name === 'simulation_re' || s.name === 'Sim(re)');
-  if (simRe) {
-    console.log('[SSE-DEBUG] SiliconFlow → simulation_re stage:',
-      'name=', JSON.stringify(simRe.name),
-      'status=', simRe.status,
-      'started_at=', simRe.started_at,
-      'completed_at=', simRe.completed_at);
-  } else {
-    console.log('[SSE-DEBUG] SiliconFlow → simulation_re stage NOT FOUND in jobStages');
-  }
-  // Also log all stages if simulation_re is still running
-  if (activeJob?.status === 'completed' && simRe?.status === 'running') {
-    console.warn('[SSE-DEBUG] BUG: simulation_re still running after job completed!',
-      'allStages=', JSON.stringify(jobStages.map((s: any) => ({ n: s.name, st: s.status }))));
-  }
+    'demoEnabled=', demoEnabled,
+    'jobStages.length=', jobStages.length);
+
+  // ---- Trace exactly what the Sim(re) node will show ----
+  const simReFromStore = jobStages.find((s) => s.name === 'simulation_re');
+  console.log('[TRACE] SiliconFlow simulation_re:',
+    'foundInStore=', !!simReFromStore,
+    simReFromStore ? `name="${simReFromStore.name}" status=${simReFromStore.status}` : '');
+  // Also check all stage names to detect name mismatches
+  console.log('[TRACE] SiliconFlow all stage names:',
+    jobStages.map(s => `${s.name}=${s.status}`));
+  // What getStatus would return
+  const fromMap = new Map(jobStages.map(s => [s.name, s.status]));
+  console.log('[TRACE] SiliconFlow stageStatusMap:',
+    [...fromMap.entries()].map(([k,v]) => `${k}=${v}`));
 
   // Build stage status map + elapsed map
   const stageStatusMap = new Map<string, StageStatus>();
