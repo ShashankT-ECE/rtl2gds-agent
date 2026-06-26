@@ -156,7 +156,6 @@ class MockPipelineAdapter:
 
             # Stage completed (or failed randomly for realism in simulation)
             payload = _MOCK_PAYLOADS.get(stage_name, {}).copy()
-            seq += 1
 
             # Emit fix_attempt at the start of each fix-loop cycle
             if stage_name in _FIX_LOOP_STAGES and stage_name == "log_analysis":
@@ -275,6 +274,7 @@ class MockPipelineAdapter:
                     sequence_num=seq,
                 ))
 
+            seq += 1
             self._event_bus.publish(PipelineEvent(
                 job_id=job_id,
                 event_type=EventType.STAGE_COMPLETED,
