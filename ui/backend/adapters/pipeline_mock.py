@@ -290,7 +290,8 @@ class MockPipelineAdapter:
             # Progress update
             elapsed = time.time() - start_time
             total_estimate = sum(d for _, d in stages)
-            pct = min(95, int(100 * elapsed / total_estimate))
+            # Cap at 99 — only JOB_COMPLETED pushes to 100
+            pct = min(99, int(100 * elapsed / total_estimate))
             seq += 1
             self._event_bus.publish(PipelineEvent(
                 job_id=job_id,

@@ -77,10 +77,32 @@ async def stream_events(
                 # Check if job is already done
                 current = await job_manager.get_job_optional(job_id)
                 if current and current.status.is_terminal:
+                    # --- Drain remaining events from queue before sending done ---
+                    # Fixes: pipeline stuck at 93%.  The JOB_COMPLETED
+                    # pipeline_event may still be sitting in the queue when
+                    # the status flips to terminal.  We MUST yield it before
+                    # the ``done`` event so the frontend sees progress→100%.
+                    while not queue.empty():
+                        try:
+                            event = queue.get_nowait()
+                            yield _sse_event("pipeline_event", event.model_dump_json())
+                        except asyncio.QueueEmpty:
+                            break
+
+                    # --- Done ---
                     yield _sse_event("done", json.dumps({
                         "job_id": job_id,
                         "status": current.status.value,
                         "total_events": current.event_count,
+                    }))
+
+                    # --- Sentinel flush ---
+                    # Force edge proxies (Railway, Vercel) to flush their
+                    # buffer so the client receives the ``done`` chunk.
+                    await asyncio.sleep(0.2)
+                    yield _sse_event("stream_end", json.dumps({
+                        "job_id": job_id,
+                        "reason": "stream_closed",
                     }))
                     break
 

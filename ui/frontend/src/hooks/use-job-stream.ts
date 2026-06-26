@@ -8,6 +8,7 @@ import { useEffect, useRef, useCallback, useState } from 'react';
 import { SSEConnection } from '@/lib/sse-client';
 import { dispatchEvent } from '@/lib/event-handlers';
 import { useSSEStore } from '@/stores/sse-store';
+import { useJobStore } from '@/stores/job-store';
 import type { SSEConnectionStatus } from '@/lib/types';
 
 interface UseJobStreamReturn {
@@ -49,6 +50,13 @@ export function useJobStream(jobId: string | null): UseJobStreamReturn {
         sseStore.incrementEventCount(jobId);
       },
       onDone: (data) => {
+        // Defense-in-depth: if the JOB_COMPLETED pipeline_event was
+        // missed (race between queue drain and terminal-status check),
+        // the ``done`` SSE event still carries the terminal status.
+        useJobStore.getState().updateJob(jobId, {
+          status: data.status,
+          progress_pct: 100,
+        });
         sseStore.updateConnectionStatus(jobId, 'disconnected');
       },
       onError: (error) => {

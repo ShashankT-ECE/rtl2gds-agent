@@ -407,7 +407,8 @@ class PipelineAdapter:
                     ))
 
                     # --- Progress update --------------------------------
-                    pct = min(95, int(100 * completed / total_estimate))
+                    # Cap at 99 — only JOB_COMPLETED pushes to 100
+                    pct = min(99, int(100 * completed / total_estimate))
                     seq += 1
                     self._event_bus.publish(PipelineEvent(
                         job_id=job_id,
