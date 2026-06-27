@@ -1,0 +1,1275 @@
+{
+  "meta": {
+    "version": "1.0",
+    "description": "RTL-to-GDS demo data \u2014 alu_8bit benchmark (real EDA execution)",
+    "benchmark": "alu_8bit",
+    "pipeline_version": "v3",
+    "captured_at": "2026-06-27T08:55:23Z",
+    "mode": "PIPELINE_MODE=real",
+    "total_events": 74,
+    "total_real_seconds": 308.184,
+    "replay_compressed_seconds": 30,
+    "note": "Replayed at ~10x speed. Real execution took 308s (OpenLane: 287s)."
+  },
+  "events": [
+    {
+      "event_id": "81f592df-6a1b-46cd-865a-27d025418060",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:15.208171+00:00",
+      "event_type": "job_started",
+      "stage": "start",
+      "message": "Pipeline v3 started for alu_8bit",
+      "severity": "info",
+      "payload": {
+        "benchmark": "alu_8bit",
+        "pipeline_version": "v3",
+        "max_iterations": 5,
+        "use_reference_rtl": true,
+        "use_reference_tb": true,
+        "mode": "real"
+      },
+      "elapsed_time": null,
+      "iteration": null,
+      "sequence_num": 1
+    },
+    {
+      "event_id": "5ba873aa-db0b-49a0-b72f-ef1d088f57cb",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:15.228543+00:00",
+      "event_type": "stage_started",
+      "stage": "spec_parser",
+      "message": "Starting spec_parser",
+      "severity": "info",
+      "payload": {},
+      "elapsed_time": 0.0204012393951416,
+      "iteration": null,
+      "sequence_num": 2
+    },
+    {
+      "event_id": "7dadb458-326e-46cf-aeb7-632600d83108",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:15.228572+00:00",
+      "event_type": "agent_log",
+      "stage": "spec_parser",
+      "message": "Analyzing specification \u2014 extracting interfaces, clocks, and constraints",
+      "severity": "info",
+      "payload": {},
+      "elapsed_time": 0.02044057846069336,
+      "iteration": null,
+      "sequence_num": 3
+    },
+    {
+      "event_id": "515a01f8-005e-4e17-bb3d-dd7deb28aa16",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:19.083058+00:00",
+      "event_type": "stage_completed",
+      "stage": "spec_parser",
+      "message": "Completed spec_parser",
+      "severity": "success",
+      "payload": {
+        "parsed_operations": 9,
+        "confidence": 0.95,
+        "module_name": "alu_8bit"
+      },
+      "elapsed_time": 3.874887466430664,
+      "iteration": null,
+      "sequence_num": 4
+    },
+    {
+      "event_id": "216a0847-45ea-4fef-86dc-49e822c154d4",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:19.083150+00:00",
+      "event_type": "progress",
+      "stage": null,
+      "message": "Progress: 9%",
+      "severity": "info",
+      "payload": {
+        "percent": 9
+      },
+      "elapsed_time": 3.874887466430664,
+      "iteration": null,
+      "sequence_num": 5
+    },
+    {
+      "event_id": "9c20d70e-532c-4799-bf47-d802fa9d4f28",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:19.083224+00:00",
+      "event_type": "stage_started",
+      "stage": "verification_planner",
+      "message": "Starting verification_planner",
+      "severity": "info",
+      "payload": {},
+      "elapsed_time": 3.875081777572632,
+      "iteration": null,
+      "sequence_num": 6
+    },
+    {
+      "event_id": "f4e7a243-bd9d-4658-8360-885156d0ae72",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:19.083267+00:00",
+      "event_type": "agent_log",
+      "stage": "verification_planner",
+      "message": "Planning verification strategy \u2014 coverage goals, test plan, corner cases",
+      "severity": "info",
+      "payload": {},
+      "elapsed_time": 3.875126600265503,
+      "iteration": null,
+      "sequence_num": 7
+    },
+    {
+      "event_id": "f7f18964-973e-48b4-a6a1-efc4de0a0caf",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:33.606460+00:00",
+      "event_type": "stage_completed",
+      "stage": "verification_planner",
+      "message": "Completed verification_planner",
+      "severity": "success",
+      "payload": {
+        "test_cases": 14,
+        "corner_cases": 0
+      },
+      "elapsed_time": 18.39827847480774,
+      "iteration": null,
+      "sequence_num": 8
+    },
+    {
+      "event_id": "87d624a0-100b-47d2-9a1d-dfb5b36f1e80",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:33.606572+00:00",
+      "event_type": "progress",
+      "stage": null,
+      "message": "Progress: 18%",
+      "severity": "info",
+      "payload": {
+        "percent": 18
+      },
+      "elapsed_time": 18.39827847480774,
+      "iteration": null,
+      "sequence_num": 9
+    },
+    {
+      "event_id": "7d4cbb91-8b93-497f-ad40-43e6f953ab9d",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:33.606667+00:00",
+      "event_type": "stage_started",
+      "stage": "simulation",
+      "message": "Starting simulation",
+      "severity": "info",
+      "payload": {},
+      "elapsed_time": 18.398520946502686,
+      "iteration": null,
+      "sequence_num": 10
+    },
+    {
+      "event_id": "2ba3a793-8bf2-4a66-b5b1-b34023436b77",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:33.606712+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "Launching Icarus Verilog simulation \u2014 checking functional correctness",
+      "severity": "info",
+      "payload": {},
+      "elapsed_time": 18.398571968078613,
+      "iteration": null,
+      "sequence_num": 11
+    },
+    {
+      "event_id": "541fb2cd-6d97-4446-beda-0e9bd2ddc032",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:33.870546+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim] rm -f results.xml",
+      "severity": "info",
+      "payload": {
+        "log_line": "rm -f results.xml",
+        "sim_stream": true
+      },
+      "elapsed_time": 18.66234016418457,
+      "iteration": null,
+      "sequence_num": 12
+    },
+    {
+      "event_id": "7eaa7ba2-508e-4b88-8d13-6dd07e7dc74c",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:33.875139+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim] \"make\" -f /home/shashankt/projects/rtl2gds-agent/workspace/alu_8bit/sim_build/Makefile results.xml",
+      "severity": "info",
+      "payload": {
+        "log_line": "\"make\" -f /home/shashankt/projects/rtl2gds-agent/workspace/alu_8bit/sim_build/Makefile results.xml",
+        "sim_stream": true
+      },
+      "elapsed_time": 18.66697883605957,
+      "iteration": null,
+      "sequence_num": 13
+    },
+    {
+      "event_id": "4e987f03-ed04-4eed-a861-8c7bade1bbcf",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:33.879032+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim] make[1]: Entering directory '/home/shashankt/projects/rtl2gds-agent/workspace/alu_8bit/sim_build'",
+      "severity": "info",
+      "payload": {
+        "log_line": "make[1]: Entering directory '/home/shashankt/projects/rtl2gds-agent/workspace/alu_8bit/sim_build'",
+        "sim_stream": true
+      },
+      "elapsed_time": 18.670861959457397,
+      "iteration": null,
+      "sequence_num": 14
+    },
+    {
+      "event_id": "444c24a3-fbae-40e3-ac31-628ad76c103d",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.042624+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim] /usr/bin/iverilog -o sim_build/sim.vvp -s alu_8bit -g2012 -f sim_build/cmds.f -s cocotb_iverilog_dump  /home/shashankt/projects/rtl2gds-agent/workspace/alu_8bit.v sim_build/cocotb_iverilog_dump.v",
+      "severity": "info",
+      "payload": {
+        "log_line": "/usr/bin/iverilog -o sim_build/sim.vvp -s alu_8bit -g2012 -f sim_build/cmds.f -s cocotb_iverilog_dump  /home/shashankt/projects/rtl2gds-agent/workspace/alu_8bit.v sim_build/cocotb_iverilog_dump.v",
+        "sim_stream": true
+      },
+      "elapsed_time": 18.83443570137024,
+      "iteration": null,
+      "sequence_num": 15
+    },
+    {
+      "event_id": "84a6fcb6-4e67-4d8c-8a10-6fae15d469f4",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.113645+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim] rm -f results.xml",
+      "severity": "info",
+      "payload": {
+        "log_line": "rm -f results.xml",
+        "sim_stream": true
+      },
+      "elapsed_time": 18.905463695526123,
+      "iteration": null,
+      "sequence_num": 16
+    },
+    {
+      "event_id": "32d6c039-1ed9-4cb4-b2aa-37512342d40a",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.116587+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim] COCOTB_TEST_MODULES=reference_tb COCOTB_TESTCASE= COCOTB_TEST_FILTER= COCOTB_TOPLEVEL=alu_8bit TOPLEVEL_LANG=verilog \\",
+      "severity": "info",
+      "payload": {
+        "log_line": "COCOTB_TEST_MODULES=reference_tb COCOTB_TESTCASE= COCOTB_TEST_FILTER= COCOTB_TOPLEVEL=alu_8bit TOPLEVEL_LANG=verilog \\",
+        "sim_stream": true
+      },
+      "elapsed_time": 18.908417224884033,
+      "iteration": null,
+      "sequence_num": 17
+    },
+    {
+      "event_id": "d079dee4-8ecc-4ebf-838b-cd1effb63d93",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.116684+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]          /usr/bin/vvp -M /home/shashankt/projects/rtl2gds-agent/.venv/lib/python3.10/site-packages/cocotb/libs -m libcocotbvpi_icarus   sim_build/sim.vvp -fst  ",
+      "severity": "info",
+      "payload": {
+        "log_line": "         /usr/bin/vvp -M /home/shashankt/projects/rtl2gds-agent/.venv/lib/python3.10/site-packages/cocotb/libs -m libcocotbvpi_icarus   sim_build/sim.vvp -fst  ",
+        "sim_stream": true
+      },
+      "elapsed_time": 18.908538341522217,
+      "iteration": null,
+      "sequence_num": 18
+    },
+    {
+      "event_id": "9b8d00c9-f412-445b-8431-57f70ea5f0b0",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.124171+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]      -.--ns INFO     gpi                                ..mbed/gpi_embed.cpp:93   in _embed_init_python              Using Python 3.10.14 interpreter at /home/shashankt/projects/rtl2gds-agent/.venv/bin/python3",
+      "severity": "info",
+      "payload": {
+        "log_line": "     -.--ns INFO     gpi                                ..mbed/gpi_embed.cpp:93   in _embed_init_python              Using Python 3.10.14 interpreter at /home/shashankt/projects/rtl2gds-agent/.venv/bin/python3",
+        "sim_stream": true
+      },
+      "elapsed_time": 18.91600251197815,
+      "iteration": null,
+      "sequence_num": 19
+    },
+    {
+      "event_id": "c2ee7cb8-220b-47dd-b7ed-94e698c56bca",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.135948+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]      -.--ns INFO     gpi                                ../gpi/GpiCommon.cpp:79   in gpi_print_registered_impl       VPI registered",
+      "severity": "info",
+      "payload": {
+        "log_line": "     -.--ns INFO     gpi                                ../gpi/GpiCommon.cpp:79   in gpi_print_registered_impl       VPI registered",
+        "sim_stream": true
+      },
+      "elapsed_time": 18.927775621414185,
+      "iteration": null,
+      "sequence_num": 20
+    },
+    {
+      "event_id": "7f06c7e8-400f-4f02-aee4-de14bd4e16f5",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.229085+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]      0.00ns INFO     cocotb                             Running on Icarus Verilog version 11.0 (stable)",
+      "severity": "info",
+      "payload": {
+        "log_line": "     0.00ns INFO     cocotb                             Running on Icarus Verilog version 11.0 (stable)",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.02086901664734,
+      "iteration": null,
+      "sequence_num": 21
+    },
+    {
+      "event_id": "299f3355-f749-4845-b78e-b46494d9768c",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.229208+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]      0.00ns WARNING  gpi                                vpi_iterate returned NULL for type vpiInstance for object NULL",
+      "severity": "info",
+      "payload": {
+        "log_line": "     0.00ns WARNING  gpi                                vpi_iterate returned NULL for type vpiInstance for object NULL",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.021065711975098,
+      "iteration": null,
+      "sequence_num": 22
+    },
+    {
+      "event_id": "c5d4b0d7-7ff9-4b0e-88ec-c51d54b3930c",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.229269+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]      0.00ns INFO     cocotb                             Seeding Python random module with 1782550234",
+      "severity": "info",
+      "payload": {
+        "log_line": "     0.00ns INFO     cocotb                             Seeding Python random module with 1782550234",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.02113175392151,
+      "iteration": null,
+      "sequence_num": 23
+    },
+    {
+      "event_id": "e7fd138b-1f07-48a4-a12f-a1bc4f74940c",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.229302+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]      0.00ns INFO     cocotb                             Initialized cocotb v2.0.1 from /home/shashankt/projects/rtl2gds-agent/.venv/lib/python3.10/site-packages/cocotb",
+      "severity": "info",
+      "payload": {
+        "log_line": "     0.00ns INFO     cocotb                             Initialized cocotb v2.0.1 from /home/shashankt/projects/rtl2gds-agent/.venv/lib/python3.10/site-packages/cocotb",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.02116632461548,
+      "iteration": null,
+      "sequence_num": 24
+    },
+    {
+      "event_id": "8b7485ac-46f0-468b-afdd-985fb4c8dd4a",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.865992+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]      0.00ns INFO     cocotb                             Running tests",
+      "severity": "info",
+      "payload": {
+        "log_line": "     0.00ns INFO     cocotb                             Running tests",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.65779137611389,
+      "iteration": null,
+      "sequence_num": 25
+    },
+    {
+      "event_id": "bae64638-0391-4b9d-9234-7cfe4f193471",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.866689+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]      0.00ns INFO     cocotb.regression                  running reference_tb.test_all_opcodes_boundary_values (1/4)",
+      "severity": "info",
+      "payload": {
+        "log_line": "     0.00ns INFO     cocotb.regression                  running reference_tb.test_all_opcodes_boundary_values (1/4)",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.658523321151733,
+      "iteration": null,
+      "sequence_num": 26
+    },
+    {
+      "event_id": "78313dc1-7c28-4eb1-ad1e-71bf2c732c3d",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.866767+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]                                                             Test all 8 opcodes with boundary value combinations.",
+      "severity": "info",
+      "payload": {
+        "log_line": "                                                            Test all 8 opcodes with boundary value combinations.",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.658625602722168,
+      "iteration": null,
+      "sequence_num": 27
+    },
+    {
+      "event_id": "0f5ab731-a4f6-4ff1-9127-73138e41f9eb",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.877873+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]    200.00ns INFO     cocotb.regression                  reference_tb.test_all_opcodes_boundary_values passed",
+      "severity": "info",
+      "payload": {
+        "log_line": "   200.00ns INFO     cocotb.regression                  reference_tb.test_all_opcodes_boundary_values passed",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.669698476791382,
+      "iteration": null,
+      "sequence_num": 28
+    },
+    {
+      "event_id": "82292a71-7ff5-4024-a80b-f5ad41c72de6",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.879561+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]    200.00ns INFO     cocotb.regression                  running reference_tb.test_additional_edge_cases (2/4)",
+      "severity": "info",
+      "payload": {
+        "log_line": "   200.00ns INFO     cocotb.regression                  running reference_tb.test_additional_edge_cases (2/4)",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.67140030860901,
+      "iteration": null,
+      "sequence_num": 29
+    },
+    {
+      "event_id": "4e1e5b25-1ced-4110-a7ce-f9574ae4c54f",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.879637+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]                                                             Test additional edge cases not covered by boundary value matrix:",
+      "severity": "info",
+      "payload": {
+        "log_line": "                                                            Test additional edge cases not covered by boundary value matrix:",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.67149543762207,
+      "iteration": null,
+      "sequence_num": 30
+    },
+    {
+      "event_id": "ccd2619b-c0d8-4c2f-9fc0-213e5410945a",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.880043+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]    213.00ns INFO     cocotb.regression                  reference_tb.test_additional_edge_cases passed",
+      "severity": "info",
+      "payload": {
+        "log_line": "   213.00ns INFO     cocotb.regression                  reference_tb.test_additional_edge_cases passed",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.671879053115845,
+      "iteration": null,
+      "sequence_num": 31
+    },
+    {
+      "event_id": "3dce2306-41ba-4a0f-8f99-ca27b0a7acd1",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.880811+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]    213.00ns INFO     cocotb.regression                  running reference_tb.test_zero_flag_asserts (3/4)",
+      "severity": "info",
+      "payload": {
+        "log_line": "   213.00ns INFO     cocotb.regression                  running reference_tb.test_zero_flag_asserts (3/4)",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.67266583442688,
+      "iteration": null,
+      "sequence_num": 32
+    },
+    {
+      "event_id": "1aea8bdd-f478-488c-9027-2ad010eb5b4c",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.880853+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]                                                             Verify zero_flag=1 for operations that produce Y=0x00.",
+      "severity": "info",
+      "payload": {
+        "log_line": "                                                            Verify zero_flag=1 for operations that produce Y=0x00.",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.67271590232849,
+      "iteration": null,
+      "sequence_num": 33
+    },
+    {
+      "event_id": "e22f158e-16da-4a91-bcee-36553b0d6e41",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.884062+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]    221.00ns INFO     cocotb.regression                  reference_tb.test_zero_flag_asserts passed",
+      "severity": "info",
+      "payload": {
+        "log_line": "   221.00ns INFO     cocotb.regression                  reference_tb.test_zero_flag_asserts passed",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.675901889801025,
+      "iteration": null,
+      "sequence_num": 34
+    },
+    {
+      "event_id": "66cd4a3e-31e9-4209-8ca4-e63909038a24",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.884139+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]    221.00ns INFO     cocotb.regression                  running reference_tb.test_zero_flag_not_asserted (4/4)",
+      "severity": "info",
+      "payload": {
+        "log_line": "   221.00ns INFO     cocotb.regression                  running reference_tb.test_zero_flag_not_asserted (4/4)",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.675996780395508,
+      "iteration": null,
+      "sequence_num": 35
+    },
+    {
+      "event_id": "13fcb09b-4a38-4c79-b296-4e828c4c273c",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.884175+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]                                                             Verify zero_flag=0 for operations that produce Y != 0x00.",
+      "severity": "info",
+      "payload": {
+        "log_line": "                                                            Verify zero_flag=0 for operations that produce Y != 0x00.",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.676039695739746,
+      "iteration": null,
+      "sequence_num": 36
+    },
+    {
+      "event_id": "70e6de4f-5c71-43fb-8ead-260d5fa12f87",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.884203+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]    229.00ns INFO     cocotb.regression                  reference_tb.test_zero_flag_not_asserted passed",
+      "severity": "info",
+      "payload": {
+        "log_line": "   229.00ns INFO     cocotb.regression                  reference_tb.test_zero_flag_not_asserted passed",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.676069021224976,
+      "iteration": null,
+      "sequence_num": 37
+    },
+    {
+      "event_id": "9bcc0697-9411-478c-98a9-85417453c6ed",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.884234+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]    229.00ns INFO     cocotb.regression                  *******************************************************************************************************",
+      "severity": "info",
+      "payload": {
+        "log_line": "   229.00ns INFO     cocotb.regression                  *******************************************************************************************************",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.676097631454468,
+      "iteration": null,
+      "sequence_num": 38
+    },
+    {
+      "event_id": "45127638-37cb-4587-87bd-71dc2d46a2f6",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.884267+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]                                                         ** TEST                                           STATUS  SIM TIME (ns)  REAL TIME (s)  RATIO (ns/s) **",
+      "severity": "info",
+      "payload": {
+        "log_line": "                                                        ** TEST                                           STATUS  SIM TIME (ns)  REAL TIME (s)  RATIO (ns/s) **",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.676132678985596,
+      "iteration": null,
+      "sequence_num": 39
+    },
+    {
+      "event_id": "c33556ef-9ec0-4a73-b6ce-9fd42b733990",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.884296+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]                                                         *******************************************************************************************************",
+      "severity": "info",
+      "payload": {
+        "log_line": "                                                        *******************************************************************************************************",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.67616295814514,
+      "iteration": null,
+      "sequence_num": 40
+    },
+    {
+      "event_id": "760fdeff-a861-42ee-b671-390bfee878a0",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.884325+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]                                                         ** reference_tb.test_all_opcodes_boundary_values   PASS         200.00           0.01      17181.67  **",
+      "severity": "info",
+      "payload": {
+        "log_line": "                                                        ** reference_tb.test_all_opcodes_boundary_values   PASS         200.00           0.01      17181.67  **",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.676190614700317,
+      "iteration": null,
+      "sequence_num": 41
+    },
+    {
+      "event_id": "f55a992f-0360-4cf6-ad31-d737b58911e3",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.884359+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]                                                         ** reference_tb.test_additional_edge_cases         PASS          13.00           0.00      16772.06  **",
+      "severity": "info",
+      "payload": {
+        "log_line": "                                                        ** reference_tb.test_additional_edge_cases         PASS          13.00           0.00      16772.06  **",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.676224946975708,
+      "iteration": null,
+      "sequence_num": 42
+    },
+    {
+      "event_id": "56b66448-71b9-488e-a812-68b10e5f3a5e",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.884384+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]                                                         ** reference_tb.test_zero_flag_asserts             PASS           8.00           0.00      16163.02  **",
+      "severity": "info",
+      "payload": {
+        "log_line": "                                                        ** reference_tb.test_zero_flag_asserts             PASS           8.00           0.00      16163.02  **",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.676250457763672,
+      "iteration": null,
+      "sequence_num": 43
+    },
+    {
+      "event_id": "93845122-0db7-4463-b364-1848ca8f1b1b",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.884408+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]                                                         ** reference_tb.test_zero_flag_not_asserted        PASS           8.00           0.00      16644.06  **",
+      "severity": "info",
+      "payload": {
+        "log_line": "                                                        ** reference_tb.test_zero_flag_not_asserted        PASS           8.00           0.00      16644.06  **",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.67627501487732,
+      "iteration": null,
+      "sequence_num": 44
+    },
+    {
+      "event_id": "f5c7e693-657a-439c-ad8f-a1acfb41be79",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.884437+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]                                                         *******************************************************************************************************",
+      "severity": "info",
+      "payload": {
+        "log_line": "                                                        *******************************************************************************************************",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.67630386352539,
+      "iteration": null,
+      "sequence_num": 45
+    },
+    {
+      "event_id": "78e24420-6b41-4e36-a1e2-2a0ac0acb2b8",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.884463+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]                                                         ** TESTS=4 PASS=4 FAIL=0 SKIP=0                                 229.00           0.02      12995.65  **",
+      "severity": "info",
+      "payload": {
+        "log_line": "                                                        ** TESTS=4 PASS=4 FAIL=0 SKIP=0                                 229.00           0.02      12995.65  **",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.676329612731934,
+      "iteration": null,
+      "sequence_num": 46
+    },
+    {
+      "event_id": "fa4a7554-8b43-4568-8704-a25d22240974",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.884493+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim]                                                         *******************************************************************************************************",
+      "severity": "info",
+      "payload": {
+        "log_line": "                                                        *******************************************************************************************************",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.676355600357056,
+      "iteration": null,
+      "sequence_num": 47
+    },
+    {
+      "event_id": "6d6e11d3-c9ac-47e7-84f3-18eaad5cfac8",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.957525+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim] FST info: dumpfile sim_build/alu_8bit.fst opened for output.",
+      "severity": "info",
+      "payload": {
+        "log_line": "FST info: dumpfile sim_build/alu_8bit.fst opened for output.",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.74931287765503,
+      "iteration": null,
+      "sequence_num": 48
+    },
+    {
+      "event_id": "5882aee6-216f-4c08-99d5-1818f2ceecd3",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:34.997092+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim] make[1]: Leaving directory '/home/shashankt/projects/rtl2gds-agent/workspace/alu_8bit/sim_build'",
+      "severity": "info",
+      "payload": {
+        "log_line": "make[1]: Leaving directory '/home/shashankt/projects/rtl2gds-agent/workspace/alu_8bit/sim_build'",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.788739442825317,
+      "iteration": null,
+      "sequence_num": 49
+    },
+    {
+      "event_id": "e60f31ea-287f-4a99-afbe-95a325ef8b74",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:35.000150+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim] [waveform] /home/shashankt/projects/rtl2gds-agent/workspace/alu_8bit/alu_8bit.vcd",
+      "severity": "info",
+      "payload": {
+        "log_line": "[waveform] /home/shashankt/projects/rtl2gds-agent/workspace/alu_8bit/alu_8bit.vcd",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.791984796524048,
+      "iteration": null,
+      "sequence_num": 50
+    },
+    {
+      "event_id": "6f1d544e-324f-4faf-a288-ae49272092b8",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:35.000790+00:00",
+      "event_type": "agent_log",
+      "stage": "simulation",
+      "message": "[sim] --- Simulation PASSED ---",
+      "severity": "info",
+      "payload": {
+        "log_line": "--- Simulation PASSED ---",
+        "sim_stream": true
+      },
+      "elapsed_time": 19.792629718780518,
+      "iteration": null,
+      "sequence_num": 51
+    },
+    {
+      "event_id": "6a5c3a90-a8d1-4081-9ce9-70f639adbc6d",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:35.007329+00:00",
+      "event_type": "simulation_result",
+      "stage": "simulation",
+      "message": "Simulation passed \u2014 all tests pass",
+      "severity": "success",
+      "payload": {
+        "passed": true,
+        "tests_run": 4,
+        "tests_passed": 4,
+        "coverage_pct": 0.0,
+        "vcd_path": "workspace/alu_8bit/alu_8bit.vcd"
+      },
+      "elapsed_time": 19.794618606567383,
+      "iteration": null,
+      "sequence_num": 52
+    },
+    {
+      "event_id": "efdcf700-fe93-4c05-be5f-bf83d9a824dc",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:35.007544+00:00",
+      "event_type": "stage_completed",
+      "stage": "simulation",
+      "message": "Completed simulation",
+      "severity": "success",
+      "payload": {
+        "passed": true,
+        "tests_run": 4,
+        "tests_passed": 4,
+        "coverage_pct": 0.0
+      },
+      "elapsed_time": 19.794618606567383,
+      "iteration": null,
+      "sequence_num": 53
+    },
+    {
+      "event_id": "e3d9c5bc-d7d1-48d5-afb0-aa7748eb172d",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:35.007630+00:00",
+      "event_type": "progress",
+      "stage": null,
+      "message": "Progress: 27%",
+      "severity": "info",
+      "payload": {
+        "percent": 27
+      },
+      "elapsed_time": 19.794618606567383,
+      "iteration": null,
+      "sequence_num": 54
+    },
+    {
+      "event_id": "9d7071d9-7ca3-4197-8761-818098a46826",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:35.007751+00:00",
+      "event_type": "stage_started",
+      "stage": "synthesis",
+      "message": "Starting synthesis",
+      "severity": "info",
+      "payload": {},
+      "elapsed_time": 19.799604892730713,
+      "iteration": null,
+      "sequence_num": 55
+    },
+    {
+      "event_id": "85b515e9-c356-4d4b-a659-c9450a2a2153",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:35.007791+00:00",
+      "event_type": "agent_log",
+      "stage": "synthesis",
+      "message": "Running Yosys synthesis with sky130 \u2014 optimizing netlist",
+      "severity": "info",
+      "payload": {},
+      "elapsed_time": 19.799655437469482,
+      "iteration": null,
+      "sequence_num": 56
+    },
+    {
+      "event_id": "7b232e41-68aa-4f57-99c7-84d437efe647",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:35.764239+00:00",
+      "event_type": "synthesis_result",
+      "stage": "synthesis",
+      "message": "Synthesis complete \u2014 131 cells",
+      "severity": "success",
+      "payload": {
+        "cell_count": 131,
+        "area": "778.25 sq \u00b5m",
+        "netlist_path": "workspace/synthesis/alu_8bit_netlist.v"
+      },
+      "elapsed_time": 20.556055784225464,
+      "iteration": null,
+      "sequence_num": 57
+    },
+    {
+      "event_id": "307cb9b9-355e-4436-b3d6-73754182f102",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:35.764321+00:00",
+      "event_type": "stage_completed",
+      "stage": "synthesis",
+      "message": "Completed synthesis",
+      "severity": "success",
+      "payload": {
+        "cell_count": 131,
+        "area": "778.25 sq \u00b5m",
+        "netlist_path": "workspace/synthesis/alu_8bit_netlist.v"
+      },
+      "elapsed_time": 20.556055784225464,
+      "iteration": null,
+      "sequence_num": 58
+    },
+    {
+      "event_id": "08201131-a471-400c-96d4-a3d9fc63f3db",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:35.764357+00:00",
+      "event_type": "progress",
+      "stage": null,
+      "message": "Progress: 36%",
+      "severity": "info",
+      "payload": {
+        "percent": 36
+      },
+      "elapsed_time": 20.556055784225464,
+      "iteration": null,
+      "sequence_num": 59
+    },
+    {
+      "event_id": "6aa6126d-bf60-4119-b9d0-b5c9d0755f4f",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:35.764412+00:00",
+      "event_type": "stage_started",
+      "stage": "sta",
+      "message": "Starting sta",
+      "severity": "info",
+      "payload": {},
+      "elapsed_time": 20.556273937225342,
+      "iteration": null,
+      "sequence_num": 60
+    },
+    {
+      "event_id": "f9660164-44d8-4f5a-b1c3-49f7d8dfde52",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:35.764444+00:00",
+      "event_type": "agent_log",
+      "stage": "sta",
+      "message": "Running OpenSTA static timing analysis \u2014 checking setup/hold",
+      "severity": "info",
+      "payload": {},
+      "elapsed_time": 20.556310653686523,
+      "iteration": null,
+      "sequence_num": 61
+    },
+    {
+      "event_id": "61b5ee41-4b33-410e-b933-3ca9404a3acc",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:35.766114+00:00",
+      "event_type": "sta_result",
+      "stage": "sta",
+      "message": "Timing met \u2014 WNS=0.0",
+      "severity": "success",
+      "payload": {
+        "timing_met": true,
+        "wns": 0.0,
+        "tns": 0.0,
+        "critical_path": "STA skipped per verification_plan (combinational or no clock)"
+      },
+      "elapsed_time": 20.557957887649536,
+      "iteration": null,
+      "sequence_num": 62
+    },
+    {
+      "event_id": "e165925e-f52d-49f8-9fc9-963cb2fa0727",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:35.766166+00:00",
+      "event_type": "stage_completed",
+      "stage": "sta",
+      "message": "Completed sta",
+      "severity": "success",
+      "payload": {
+        "timing_met": true,
+        "wns": 0.0,
+        "tns": 0.0,
+        "critical_path": "STA skipped per verification_plan (combinational or no clock)"
+      },
+      "elapsed_time": 20.557957887649536,
+      "iteration": null,
+      "sequence_num": 63
+    },
+    {
+      "event_id": "a0f830be-49e4-4e53-abb2-d9d7f3fbd699",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:35.766203+00:00",
+      "event_type": "progress",
+      "stage": null,
+      "message": "Progress: 45%",
+      "severity": "info",
+      "payload": {
+        "percent": 45
+      },
+      "elapsed_time": 20.557957887649536,
+      "iteration": null,
+      "sequence_num": 64
+    },
+    {
+      "event_id": "fa3d7b8e-6a8f-4654-9f23-5ae99cba013b",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:35.766260+00:00",
+      "event_type": "stage_started",
+      "stage": "openlane",
+      "message": "Starting openlane",
+      "severity": "info",
+      "payload": {},
+      "elapsed_time": 20.558119773864746,
+      "iteration": null,
+      "sequence_num": 65
+    },
+    {
+      "event_id": "8c093d8b-82af-4af3-9fdc-153c40ac99a3",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:50:35.766299+00:00",
+      "event_type": "agent_log",
+      "stage": "openlane",
+      "message": "Launching OpenLane physical design flow \u2014 macro placement, CTS, routing",
+      "severity": "info",
+      "payload": {},
+      "elapsed_time": 20.558162689208984,
+      "iteration": null,
+      "sequence_num": 66
+    },
+    {
+      "event_id": "7ca9fdc6-744a-42ca-adce-7b3f23cbbf95",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:55:22.589215+00:00",
+      "event_type": "stage_completed",
+      "stage": "openlane",
+      "message": "Completed openlane",
+      "severity": "success",
+      "payload": {
+        "gds_path": "workspace/physical/alu_8bit/runs/RUN_2026-06-27_08-53-28/final/gds/alu_8bit.gds"
+      },
+      "elapsed_time": 307.3810465335846,
+      "iteration": null,
+      "sequence_num": 67
+    },
+    {
+      "event_id": "250f988b-5add-4976-bd57-2d00f3ce7e84",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:55:22.589295+00:00",
+      "event_type": "progress",
+      "stage": null,
+      "message": "Progress: 54%",
+      "severity": "info",
+      "payload": {
+        "percent": 54
+      },
+      "elapsed_time": 307.3810465335846,
+      "iteration": null,
+      "sequence_num": 68
+    },
+    {
+      "event_id": "52e9d799-1b6a-4f75-892c-5bdac96708e3",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:55:22.589352+00:00",
+      "event_type": "stage_started",
+      "stage": "drc",
+      "message": "Starting drc",
+      "severity": "info",
+      "payload": {},
+      "elapsed_time": 307.38121509552,
+      "iteration": null,
+      "sequence_num": 69
+    },
+    {
+      "event_id": "2c12982b-b2e4-4d18-9af3-7a507427244d",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:55:22.589386+00:00",
+      "event_type": "agent_log",
+      "stage": "drc",
+      "message": "Running KLayout DRC \u2014 verifying manufacturability",
+      "severity": "info",
+      "payload": {},
+      "elapsed_time": 307.38124990463257,
+      "iteration": null,
+      "sequence_num": 70
+    },
+    {
+      "event_id": "2dd3afbe-0d5b-493d-b42c-111a6eec553e",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:55:23.412382+00:00",
+      "event_type": "drc_result",
+      "stage": "drc",
+      "message": "DRC clean \u2014 0 violations",
+      "severity": "success",
+      "payload": {
+        "drc_passed": true,
+        "violations": 0,
+        "gds_path": "workspace/physical/alu_8bit/runs/RUN_2026-06-27_08-53-28/final/gds/alu_8bit.gds"
+      },
+      "elapsed_time": 308.20421838760376,
+      "iteration": null,
+      "sequence_num": 71
+    },
+    {
+      "event_id": "dee335ee-0d58-48d0-a472-d633b887c479",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:55:23.412462+00:00",
+      "event_type": "stage_completed",
+      "stage": "drc",
+      "message": "Completed drc",
+      "severity": "success",
+      "payload": {
+        "drc_passed": true,
+        "violations": 0
+      },
+      "elapsed_time": 308.20421838760376,
+      "iteration": null,
+      "sequence_num": 72
+    },
+    {
+      "event_id": "30113be3-61cb-4626-9fcc-25f82a774e81",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:55:23.412497+00:00",
+      "event_type": "progress",
+      "stage": null,
+      "message": "Progress: 63%",
+      "severity": "info",
+      "payload": {
+        "percent": 63
+      },
+      "elapsed_time": 308.20421838760376,
+      "iteration": null,
+      "sequence_num": 73
+    },
+    {
+      "event_id": "41d3077a-5000-4d83-a158-505317de1388",
+      "job_id": "16638c27",
+      "timestamp": "2026-06-27T08:55:23.412587+00:00",
+      "event_type": "job_completed",
+      "stage": null,
+      "message": "Pipeline complete. Simulation=PASS, Timing=MET, DRC=CLEAN",
+      "severity": "success",
+      "payload": {
+        "sim_passed": true,
+        "timing_met": true,
+        "drc_passed": true,
+        "total_iterations": 0,
+        "total_elapsed": 308.204
+      },
+      "elapsed_time": 308.20443773269653,
+      "iteration": null,
+      "sequence_num": 74
+    }
+  ],
+  "artifacts": {
+    "sim_passed": true,
+    "timing_met": true,
+    "drc_passed": true,
+    "progress_pct": 100.0,
+    "event_count": 74,
+    "elapsed_seconds": 308.184,
+    "stages": [
+      {
+        "name": "spec_parser",
+        "status": "completed",
+        "started_at": "2026-06-27T08:50:15.233109+00:00",
+        "completed_at": "2026-06-27T08:50:19.084239+00:00",
+        "elapsed_ms": 3851.130485534668
+      },
+      {
+        "name": "verification_planner",
+        "status": "completed",
+        "started_at": "2026-06-27T08:50:19.085546+00:00",
+        "completed_at": "2026-06-27T08:50:33.607858+00:00",
+        "elapsed_ms": 14522.311449050903
+      },
+      {
+        "name": "simulation",
+        "status": "completed",
+        "started_at": "2026-06-27T08:50:33.609927+00:00",
+        "completed_at": "2026-06-27T08:50:35.010576+00:00",
+        "elapsed_ms": 1400.649070739746
+      },
+      {
+        "name": "synthesis",
+        "status": "completed",
+        "started_at": "2026-06-27T08:50:35.011117+00:00",
+        "completed_at": "2026-06-27T08:50:35.767758+00:00",
+        "elapsed_ms": 756.6406726837158
+      },
+      {
+        "name": "sta",
+        "status": "completed",
+        "started_at": "2026-06-27T08:50:35.768288+00:00",
+        "completed_at": "2026-06-27T08:50:35.768657+00:00",
+        "elapsed_ms": 0.36907196044921875
+      },
+      {
+        "name": "openlane",
+        "status": "completed",
+        "started_at": "2026-06-27T08:50:35.768928+00:00",
+        "completed_at": "2026-06-27T08:55:22.590375+00:00",
+        "elapsed_ms": 286821.44689559937
+      },
+      {
+        "name": "drc",
+        "status": "completed",
+        "started_at": "2026-06-27T08:55:22.591800+00:00",
+        "completed_at": "2026-06-27T08:55:23.413298+00:00",
+        "elapsed_ms": 821.4981555938721
+      }
+    ],
+    "artifact_list": [
+      {
+        "name": "alu_8bit.vcd",
+        "path": "alu_8bit.vcd",
+        "size": 1006
+      },
+      {
+        "name": "Makefile",
+        "path": "sim_build/Makefile",
+        "size": 386
+      },
+      {
+        "name": "results.xml",
+        "path": "sim_build/results.xml",
+        "size": 1149
+      },
+      {
+        "name": "cmds.f",
+        "path": "sim_build/sim_build/cmds.f",
+        "size": 19
+      },
+      {
+        "name": "cocotb_iverilog_dump.v",
+        "path": "sim_build/sim_build/cocotb_iverilog_dump.v",
+        "size": 128
+      },
+      {
+        "name": "sim.vvp",
+        "path": "sim_build/sim_build/sim.vvp",
+        "size": 4206
+      },
+      {
+        "name": "alu_8bit.fst",
+        "path": "sim_build/sim_build/alu_8bit.fst",
+        "size": 1006
+      }
+    ],
+    "vcd_path": "workspace/alu_8bit/alu_8bit.vcd",
+    "vcd_size_bytes": 1006,
+    "netlist_path": "workspace/synthesis/alu_8bit_netlist.v",
+    "netlist_size_bytes": 15362,
+    "gds_path": "workspace/physical/alu_8bit/runs/RUN_2026-06-27_08-53-28/final/klayout_gds/alu_8bit.klayout.gds",
+    "gds_size_bytes": 2568458,
+    "synthesis_cell_count": 131,
+    "synthesis_area": 778.25,
+    "sta_wns": 0.0
+  }
+}

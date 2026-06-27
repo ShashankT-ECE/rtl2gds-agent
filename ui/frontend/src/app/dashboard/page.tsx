@@ -19,6 +19,7 @@ import { useJobStore } from '@/stores/job-store';
 import { useJobStream } from '@/hooks/use-job-stream';
 import { useUIStore } from '@/stores/ui-store';
 import { useDemoStore } from '@/stores/demo-store';
+import { useReplayDemo } from '@/hooks/use-replay-demo';
 import { useLiveAgents, useLiveMetrics, useLiveStageDetails } from '@/hooks/use-live-data';
 import { STAGE_LABELS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
@@ -35,24 +36,22 @@ export default function DashboardPage() {
   const demoEnabled = useDemoStore((s) => s.demoEnabled);
   const toggleDemo = useDemoStore((s) => s.toggleDemo);
   const isSimulating = useDemoStore((s) => s.isSimulating);
-  const startSimulation = useDemoStore((s) => s.startSimulation);
-  const stopSimulation = useDemoStore((s) => s.stopSimulation);
-  const demoAgents = useDemoStore((s) => s.agents);
-  const demoMetrics = useDemoStore((s) => s.metrics);
-  const demoStageDetails = useDemoStore((s) => s.stageDetails);
-  const demoTimelineEvents = useDemoStore((s) => s.timelineEvents);
 
-  // Live data (derived from job store events — works in both live and demo modes)
+  // Real demo replay — dispatches saved pipeline events into the job store
+  useReplayDemo();
+
+  // Live data (derived from job store events — fed by the real demo replay
+  // when demo mode is active, or by the SSE stream for live jobs)
   const liveAgents = useLiveAgents(activeJobId);
   const liveMetrics = useLiveMetrics(activeJobId);
   const liveStageDetails = useLiveStageDetails(activeJobId);
 
   const { addToast } = useToast();
 
-  // Connect SSE stream for active job
-  useJobStream(activeJobId);
+  // Connect SSE stream for active job (only when not in demo mode)
+  useJobStream(!demoEnabled ? activeJobId : null);
 
-  const isLive = activeJob?.status === 'running' || (demoEnabled && isSimulating);
+  const isLive = (demoEnabled && isSimulating) || activeJob?.status === 'running';
 
   // Bottom panel tabs
   const [activeTab, setActiveTab] = useState<BottomTab>('terminal');
@@ -71,45 +70,18 @@ export default function DashboardPage() {
     setTimeout(() => setSelectedStage(null), 300);
   }, []);
 
-  // --- Unified data: prefer demo when simulating, otherwise use live ---
+  // --- Unified data: when demo mode is active, the replay hook feeds the
+  // --- job store with real captured events, so we always read from live.
 
-  // Agents: demo data when demo mode is on, live data otherwise
-  const agents = useMemo(() => {
-    if (demoEnabled) return demoAgents;
-    return liveAgents;
-  }, [demoEnabled, demoAgents, liveAgents]);
+  // Agents, metrics, stage details — always from the job store.
+  // In demo mode, the replay dispatches events through dispatchEvent()
+  // which populates the same stores.
+  const agents = liveAgents;
+  const metrics = liveMetrics;
+  const stageDetails = liveStageDetails;
 
-  // Metrics: demo data when demo mode is on, live data otherwise
-  const metrics = useMemo(() => {
-    if (demoEnabled) return demoMetrics;
-    return liveMetrics;
-  }, [demoEnabled, demoMetrics, liveMetrics]);
-
-  // Stage details for drawer
-  const stageDetails = useMemo(() => {
-    if (demoEnabled) return demoStageDetails;
-    return liveStageDetails;
-  }, [demoEnabled, demoStageDetails, liveStageDetails]);
-
-  // Build terminal log lines from events
+  // Build terminal log lines from job store events
   const terminalLines = useMemo((): LogLine[] => {
-    if (demoEnabled) {
-      return demoStageDetails.flatMap((stage) =>
-        stage.logs.map((log) => {
-          const match = log.match(/^\[([^\]]+)\]\s+(.*)/);
-          const timestamp = match ? match[1] : new Date().toLocaleTimeString('en-US', { hour12: false });
-          const message = match ? match[2] : log;
-          let level: LogLine['level'] = 'INFO';
-          const msg = message.toLowerCase();
-          if (msg.includes('success') || msg.includes('passed') || msg.includes('clean')) level = 'SUCCESS';
-          else if (msg.includes('error') || msg.includes('fail') || msg.includes('violation')) level = 'ERROR';
-          else if (msg.includes('warning')) level = 'WARNING';
-          else if (msg.includes('debug') || msg.includes('Tool:')) level = 'DEBUG';
-          return { timestamp, level, message, stage: STAGE_LABELS[stage.stageName] || stage.stageName };
-        })
-      );
-    }
-
     if (!activeJob) return [];
     return activeJob.events.map((e) => {
       const time = new Date(e.timestamp).toLocaleTimeString('en-US', { hour12: false });
@@ -125,11 +97,10 @@ export default function DashboardPage() {
         stage: e.stage ? (STAGE_LABELS[e.stage] || e.stage) : undefined,
       };
     });
-  }, [activeJob, demoEnabled, demoStageDetails]);
+  }, [activeJob]);
 
   // Build timeline events from active job
   const timelineEvents = useMemo(() => {
-    if (demoEnabled) return demoTimelineEvents;
     if (!activeJob) return [];
     return activeJob.events
       .filter((e) =>
@@ -148,7 +119,7 @@ export default function DashboardPage() {
           status,
         };
       });
-  }, [activeJob, demoEnabled, demoTimelineEvents]);
+  }, [activeJob]);
 
   // Notify on demo enable or live job start
   useEffect(() => {
@@ -156,8 +127,8 @@ export default function DashboardPage() {
       addToast({
         type: 'info',
         title: 'Demo Mode Active',
-        message: 'Simulating a realistic RTL-to-GDSII pipeline with AI agents. No real tools are running.',
-        duration: 4000,
+        message: 'Replaying real RTL-to-GDSII pipeline results from local EDA execution (iverilog, Yosys, OpenSTA, OpenLane).',
+        duration: 5000,
       });
     }
   }, [demoEnabled, isSimulating, addToast]);
@@ -224,6 +195,12 @@ export default function DashboardPage() {
           )}>
             {demoEnabled ? 'Demo Mode' : 'Live Mode'}
           </span>
+          {demoEnabled && (
+            <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-[10px] font-medium text-amber-400">
+              <span className="material-symbols-outlined text-[12px]">verified</span>
+              Real results from local EDA execution
+            </span>
+          )}
           {isLive && (
             <span className="flex items-center gap-1 text-[10px] text-emerald-500 font-mono">
               <span className="relative flex h-1.5 w-1.5">
