@@ -85,9 +85,19 @@ def _run_openlane(
     log = result.stdout + result.stderr
     logger.info(f"OpenLane log (last 500 chars): {log[-500:]}")
 
-    # Look for GDSII output
-    gds_files = list(design_dir.rglob("*.gds"))
-    gds_path = str(gds_files[0]) if gds_files else ""
+    # Look for GDSII output — pick from the most recent run's final/gds/
+    # Run dirs are named RUN_<timestamp> so sorting puts the newest last.
+    runs_dir = design_dir / "runs"
+    gds_path = ""
+    if runs_dir.exists():
+        run_dirs = sorted(runs_dir.iterdir()) if runs_dir.exists() else []
+        for run_dir in reversed(run_dirs):  # newest first
+            final_gds = run_dir / "final"
+            if final_gds.exists():
+                gds_files = sorted(final_gds.rglob("*.gds"))
+                if gds_files:
+                    gds_path = str(gds_files[0])
+                    break
 
     # Parse basic metrics from log
     timing_met = "Timing analysis complete" in log or "WNS: 0" in log

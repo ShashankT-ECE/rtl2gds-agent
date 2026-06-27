@@ -1,0 +1,151 @@
+# sky130A DRC rules for KLayout (minimal set)
+# Based on SkyWater sky130 design rules rev 1.0
+# This is a reduced rule set for demo/verification purposes.
+# Full DRC is performed inside OpenLane via Magic DRC.
+
+source "$env(HOME)/.klayout/drc/drc_common.lydrc" 2>/dev/null || true
+
+# --- Layer mapping for sky130 (GDS numbers) ---
+# nwell         = 1
+# pwell          = 67 (5.0)
+# difftap        = 65 (4.1)
+# dnwell         = 64 (4.0)
+# npc            = 73 (5.6)
+# poly           = 30 (3.0)
+# poly.sliced    = 30 (3.0)
+# li            = 32 (3.2)
+# mcon          = 46 (4.6)
+# met1          = 34 (3.4)
+# via1          = 48 (4.8)
+# met2          = 36 (3.6)
+# via2          = 50 (5.0)
+# met3          = 38 (3.8)
+# via3          = 52 (5.2)
+# met4          = 40 (4.0)
+# via4          = 54 (5.4)
+# met5          = 42 (4.2)
+
+INPUT_LAYER "nwell"  = 1
+INPUT_LAYER "poly"   = 30
+INPUT_LAYER "li"     = 32
+INPUT_LAYER "met1"   = 34
+INPUT_LAYER "met2"   = 36
+INPUT_LAYER "met3"   = 38
+INPUT_LAYER "met4"   = 40
+INPUT_LAYER "met5"   = 42
+INPUT_LAYER "mcon"   = 46
+INPUT_LAYER "via1"   = 48
+INPUT_LAYER "via2"   = 50
+INPUT_LAYER "via3"   = 52
+INPUT_LAYER "via4"   = 54
+
+# --- Minimum Width Rules (µm) ---
+poly_min_width  = 0.15
+li_min_width    = 0.17
+met1_min_width  = 0.14
+met2_min_width  = 0.14
+met3_min_width  = 0.14
+met4_min_width  = 0.28
+met5_min_width  = 0.28
+
+# --- Minimum Spacing Rules (µm) ---
+poly_min_spacing       = 0.21
+li_min_spacing         = 0.17
+met1_min_spacing       = 0.14
+met2_min_spacing       = 0.14
+met3_min_spacing       = 0.14
+met4_min_spacing       = 0.28
+met5_min_spacing       = 0.28
+nwell_min_spacing      = 0.42
+
+# --- Minimum Enclosure Rules (µm) ---
+mcon_enclosure_poly    = 0.06
+via1_enclosure_met1    = 0.06
+via2_enclosure_met2    = 0.06
+via3_enclosure_met3    = 0.06
+# mcon over met1 (min edge)
+mcon_enclosure_met1    = 0.05
+
+# --- Via Size Rules ---
+mcon_width  = 0.17
+via1_width  = 0.17
+via2_width  = 0.17
+via3_width  = 0.17
+via4_width  = 0.17
+
+# ============================================================================
+# Width checks
+# ============================================================================
+POLY_WIDTH  { width(poly) < poly_min_width }
+LI_WIDTH    { width(li) < li_min_width }
+MET1_WIDTH  { width(met1) < met1_min_width }
+MET2_WIDTH  { width(met2) < met2_min_width }
+MET3_WIDTH  { width(met3) < met3_min_width }
+MET4_WIDTH  { width(met4) < met4_min_width }
+MET5_WIDTH  { width(met5) < met5_min_width }
+
+# ============================================================================
+# Spacing checks
+# ============================================================================
+POLY_SPACING  { spacing(poly) < poly_min_spacing }
+LI_SPACING    { spacing(li) < li_min_spacing }
+MET1_SPACING  { spacing(met1) < met1_min_spacing }
+MET2_SPACING  { spacing(met2) < met2_min_spacing }
+MET3_SPACING  { spacing(met3) < met3_min_spacing }
+MET4_SPACING  { spacing(met4) < met4_min_spacing }
+MET5_SPACING  { spacing(met5) < met5_min_spacing }
+
+# ============================================================================
+# Via enclosure checks
+# ============================================================================
+# MCON enclosure by poly
+MCON_ENC_POLY  { not(mcon.enc(poly, mcon_enclosure_poly, 0).sized(0.01).output(mcon, 0)) }
+# VIA1 enclosure by met1
+VIA1_ENC_MET1  { not(via1.enc(met1, via1_enclosure_met1, 0).sized(0.01).output(via1, 0)) }
+# VIA2 enclosure by met2
+VIA2_ENC_MET2  { not(via2.enc(met2, via2_enclosure_met2, 0).sized(0.01).output(via2, 0)) }
+# VIA3 enclosure by met3
+VIA3_ENC_MET3  { not(via3.enc(met3, via3_enclosure_met3, 0).sized(0.01).output(via3, 0)) }
+
+# ============================================================================
+# Results
+# ============================================================================
+puts "DRC violations:"
+POLY_WIDTH.sum  { puts "  POLY_WIDTH: #$sum violations" }
+LI_WIDTH.sum    { puts "  LI_WIDTH: #$sum violations" }
+MET1_WIDTH.sum  { puts "  MET1_WIDTH: #$sum violations" }
+MET2_WIDTH.sum  { puts "  MET2_WIDTH: #$sum violations" }
+MET3_WIDTH.sum  { puts "  MET3_WIDTH: #$sum violations" }
+MET4_WIDTH.sum  { puts "  MET4_WIDTH: #$sum violations" }
+MET5_WIDTH.sum  { puts "  MET5_WIDTH: #$sum violations" }
+POLY_SPACING.sum  { puts "  POLY_SPACING: #$sum violations" }
+LI_SPACING.sum    { puts "  LI_SPACING: #$sum violations" }
+MET1_SPACING.sum  { puts "  MET1_SPACING: #$sum violations" }
+MET2_SPACING.sum  { puts "  MET2_SPACING: #$sum violations" }
+MET3_SPACING.sum  { puts "  MET3_SPACING: #$sum violations" }
+MET4_SPACING.sum  { puts "  MET4_SPACING: #$sum violations" }
+MET5_SPACING.sum  { puts "  MET5_SPACING: #$sum violations" }
+
+# Sum all violations
+total = 0
+POLY_WIDTH.count    { total = total + $count }
+LI_WIDTH.count      { total = total + $count }
+MET1_WIDTH.count    { total = total + $count }
+MET2_WIDTH.count    { total = total + $count }
+MET3_WIDTH.count    { total = total + $count }
+MET4_WIDTH.count    { total = total + $count }
+MET5_WIDTH.count    { total = total + $count }
+POLY_SPACING.count  { total = total + $count }
+LI_SPACING.count    { total = total + $count }
+MET1_SPACING.count  { total = total + $count }
+MET2_SPACING.count  { total = total + $count }
+MET3_SPACING.count  { total = total + $count }
+MET4_SPACING.count  { total = total + $count }
+MET5_SPACING.count  { total = total + $count }
+
+puts "Total violations: $total"
+if total > 0
+  puts "DESIGN FAILS DRC"
+else
+  puts "DESIGN PASSES DRC"
+end
