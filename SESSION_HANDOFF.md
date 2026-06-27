@@ -1,9 +1,107 @@
 # SESSION_HANDOFF.md
 
 ## Last Updated
-Date: 2026-06-26 | Session: 11 — SSE Terminal Event Race Fix
+Date: 2026-06-27 | Session 12 — Real Simulation with Log Streaming
 
-## PROJECT STATUS: V3 COMPLETE + WEB UI PHASE 2 + REAL STREAMING + STITCH UI + SSE FIX
+## PROJECT STATUS: REAL SIMULATION + SSE STREAMING COMPLETE
+
+## Session 12 — Replaced Mock Simulation with Real Icarus Verilog Execution
+
+Replaced the pipeline adapter's mocked simulation stage with real-time Icarus Verilog
+execution (iverilog + vvp via cocotb 2.x VPI). The mock adapter is preserved for
+frontend development without EDA tools (default: `PIPELINE_MODE=mock`).
+
+### What Changed
+
+**New file: `ui/backend/services/simulation_executor.py`**
+- Standalone Icarus Verilog simulation runner with real-time log streaming
+- Uses cocotb 2.x Makefile approach (required for Python cocotb testbenches with VPI)
+- `WAVES=1` generates FST waveform files, saved as `.vcd` in workspace/<design_name>/
+- Streaming via `on_log_line` callback — each make/iverilog/vvp line forwarded in real-time
+- Returns `{"passed": bool, "log": str}` — identical shape to the frozen `run_simulation()`
+- Handles `cocotb-config` discovery with venv fallback
+- Appends `results.xml` content for the pipeline adapter's test-count regex parsing
+
+**Modified: `ui/backend/adapters/pipeline.py`**
+- Added monkey-patch section in `PipelineAdapter.run()` that replaces
+  `v1_core.agents.simulation_agent.run_simulation` with a patched version
+- The patched function calls `SimulationExecutor.run_simulation()` with a log callback
+  that publishes `AGENT_LOG` events through the EventBus
+- Uses `nonlocal seq` for monotonic sequence numbers shared between sim log events
+  and pipeline lifecycle events — no offset tricks, no gaps
+- `finally` block restores the original function after pipeline execution
+- VCD path is exposed in the `SIMULATION_RESULT` payload as `vcd_path`
+
+**New file: `YOSYS_INTEGRATION.md`**
+- Architecture plan for integrating Yosys synthesis with the same monkey-patch pattern
+- Identifies existing Yosys infrastructure in `v2_verification/`
+- Notes that V2 is NOT frozen (active development), but recommends monkey-patching
+  for consistency with the simulation approach
+
+### Architecture: Monkey-Patch Pattern (reusable)
+
+```
+PipelineAdapter.run()
+  ├── Monkey-patch simulation_agent.run_simulation → _patched_run_sim
+  │     └── _patched_run_sim → SimulationExecutor.run(rtl, tb, on_log_line)
+  │           └── on_log_line → publishes AGENT_LOG events via EventBus
+  │
+  ├── graph.stream() … executes simulation node using patched function
+  │
+  └── finally: restore original run_simulation
+```
+
+This same pattern should be used for Yosys synthesis (next stage).
+
+### Verified End-to-End
+
+- **Simulation executor (direct)**: alu_8bit, 4/4 cocotb tests PASSED, VCD generated
+- **Full web pipeline**: `PIPELINE_MODE=real`, V1 with reference RTL+TB
+  - Job `08f2b5a4`: spec_parser → verification_planner → simulation → completed (17.7s)
+  - 55 SSE events streamed (vs mock's ~34) — rich sim log lines included
+  - `sim_passed: true`, `tests_run: 4`, `tests_passed: 4`, `coverage_pct: 0.0`
+  - VCD file at `workspace/alu_8bit/alu_8bit.vcd` (1006 bytes, FST format)
+  - All stage transitions correct, no SSE sequence gaps
+
+### Key Design Decisions
+
+1. **Frozen code untouched** — `v1_core/` has zero modifications. Monkey-patch operates
+   on already-imported module references at call time.
+2. **Sequence number monotonicity** — `nonlocal seq` in the log callback shares the
+   pipeline adapter's main counter. No offset constants, no sync points.
+3. **VCD via WAVES=1** — cocotb 2.x uses `WAVES=1` (not `PLUSARGS=-vcd` which is
+   deprecated). Generates FST format internally, exposed as `.vcd` for the frontend.
+4. **Backward compat** — Mock adapter completely unchanged. Default mode remains `mock`.
+5. **No frontend changes** — All event types and payloads preserved; AGENT_LOG events
+   for sim lines are additive.
+
+### Files Modified/Added
+- `ui/backend/services/simulation_executor.py` — NEW (169 lines)
+- `ui/backend/adapters/pipeline.py` — MODIFIED (+85 lines for monkey-patch + cleanup)
+- `YOSYS_INTEGRATION.md` — NEW architecture plan
+
+### Build Status
+✓ `python -c "from ui.backend.main import create_app"` — 0 import errors
+✓ `PIPELINE_MODE=real` — server starts, job runs, simulation executes
+✓ 4/4 ALU tests pass via real iverilog+vvp+cocotb
+
+### How to Run
+
+```bash
+# Backend (real mode — requires iverilog + cocotb)
+PIPELINE_MODE=real python -m ui.backend.main    # port 8000
+
+# Frontend (no changes needed)
+cd ui/frontend && pnpm dev    # port 3000
+
+# CLI (still uses frozen pipeline directly — no monkey-patch)
+python main.py --benchmark alu_8bit --rtl benchmarks/alu_8bit/reference_rtl.v
+```
+
+### Next Phase
+1. Yosys synthesis integration (see `YOSYS_INTEGRATION.md`)
+2. STA integration (same pattern)
+3. Artifact download links in frontend job results panel
 
 ## Session 11 — SSE Terminal Event Queue Race Fix (NEW)
 Fixed the Sim(re) spinner never stopping after pipeline completion and elapsed timer freezing at 00:06, caused by an asyncio event-loop ordering race in the SSE endpoint.

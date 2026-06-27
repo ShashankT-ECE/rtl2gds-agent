@@ -145,6 +145,43 @@ class PipelineAdapter:
         graph, initial_state = self._build(pipeline_version, spec, benchmark,
                                            rtl_code, reference_tb_path)
 
+        # -- Monkey-patch: replace frozen simulation_agent with our      --
+        # -- real-time streaming version.  This runs iverilog+vvp with   --
+        # -- AGENT_LOG events emitted for each output line.              --
+        # ----------------------------------------------------------------
+        import v1_core.agents.simulation_agent as _sim_mod
+        _original_run_sim = getattr(_sim_mod, "run_simulation", None)
+
+        def _publish_sim_log(line: str) -> None:
+            """Called by SimulationExecutor for each line of make output."""
+            nonlocal seq  # share the main sequence counter
+            seq += 1
+            self._event_bus.publish(PipelineEvent(
+                job_id=job_id,
+                event_type=EventType.AGENT_LOG,
+                stage="simulation",
+                message=f"[sim] {line}",
+                severity=Severity.INFO,
+                payload={"log_line": line, "sim_stream": True},
+                elapsed_time=time.time() - start_time,
+                sequence_num=seq,
+            ))
+
+        def _patched_run_simulation(rtl_file: str, tb_file: str) -> dict:
+            """Replacement for run_simulation with real-time log streaming."""
+            # Import here — not at module level — to keep startup order
+            # independent of when the full app stack is loaded.
+            from ui.backend.services.simulation_executor import (  # noqa: C0415
+                run_simulation as real_simulation,
+            )
+            return real_simulation(
+                rtl_file=rtl_file,
+                tb_file=tb_file,
+                on_log_line=_publish_sim_log,
+            )
+
+        _sim_mod.run_simulation = _patched_run_simulation
+
         # -- Streaming state tracking ------------------------------------
         iteration = 0               # current fix-loop iteration
         seen: dict[str, int] = {}   # node_name → execution count
@@ -153,6 +190,7 @@ class PipelineAdapter:
                                               len(_PRIMARY_STAGES.get(pipeline_version, [])))
         completed = 0
 
+        _restore_sim = True  # ensure cleanup in finally below
         try:
             # ============================================================
             # Per-node event loop (real-time streaming)
@@ -302,6 +340,9 @@ class PipelineAdapter:
 
                     # --- Result events ----------------------------------
                     if node_name == "simulation":
+                        # seq already includes all AGENT_LOG events from the
+                        # patched run_simulation (via nonlocal seq in
+                        # _publish_sim_log) — no sync needed.
                         sim_passed = state_update.get("sim_passed", False)
                         sim_log = state_update.get("sim_log", "")
                         tests_run = len(re.findall(r'testcase name=', sim_log))
@@ -309,6 +350,10 @@ class PipelineAdapter:
                             r'<failure', sim_log
                         )) if not sim_passed else 0
                         tests_passed = tests_run - failures_in_log
+
+                        # Check for existing VCD artifact
+                        vcd_path = settings.WORKSPACE_DIR / benchmark / f"{benchmark}.vcd"
+                        vcd_artifact = str(vcd_path) if vcd_path.exists() else ""
 
                         seq += 1
                         self._event_bus.publish(PipelineEvent(
@@ -323,6 +368,7 @@ class PipelineAdapter:
                                 "tests_run": tests_run,
                                 "tests_passed": tests_passed,
                                 "coverage_pct": state_update.get("coverage_pct", 0.0),
+                                "vcd_path": vcd_artifact,
                             },
                             elapsed_time=elapsed,
                             sequence_num=seq,
@@ -433,6 +479,9 @@ class PipelineAdapter:
                 sequence_num=seq,
             ))
             raise
+        finally:
+            if _restore_sim and _original_run_sim is not None:
+                _sim_mod.run_simulation = _original_run_sim
 
         # ================================================================
         # JOB_COMPLETED

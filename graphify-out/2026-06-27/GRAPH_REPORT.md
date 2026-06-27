@@ -1,16 +1,16 @@
-# Graph Report - rtl2gds-agent  (2026-06-27)
+# Graph Report - rtl2gds-agent  (2026-06-25)
 
 ## Corpus Check
-- 242 files · ~220,612 words
+- 225 files · ~128,759 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2216 nodes · 3596 edges · 174 communities (143 shown, 31 thin omitted)
+- 2079 nodes · 3331 edges · 173 communities (141 shown, 32 thin omitted)
 - Extraction: 92% EXTRACTED · 8% INFERRED · 0% AMBIGUOUS · INFERRED: 270 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `5b1e5f0e`
+- Built from commit: `c132623e`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -173,10 +173,9 @@
 - [[_COMMUNITY_Community 165|Community 165]]
 - [[_COMMUNITY_Community 166|Community 166]]
 - [[_COMMUNITY_Community 167|Community 167]]
-- [[_COMMUNITY_Community 173|Community 173]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `cn()` - 154 edges
+1. `cn()` - 133 edges
 2. `EventBus` - 49 edges
 3. `JobManager` - 48 edges
 4. `PipelineState` - 37 edges
@@ -184,12 +183,10 @@
 6. `SkillService` - 31 edges
 7. `Phase 2 Frontend Specification — RTL2GDS Agent Web UI` - 31 edges
 8. `BenchmarkService` - 28 edges
-9. `useJobStore` - 28 edges
-10. `call_llm()` - 24 edges
+9. `call_llm()` - 24 edges
+10. `SSEManager` - 23 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `PipelineState` --uses--> `PipelineState`  [INFERRED]
-  v2_verification/agents/sta_agent.py → v1_core/agents/orchestrator.py
 - `PipelineState` --uses--> `PipelineState`  [INFERRED]
   v2_verification/agents/synthesis_agent.py → v1_core/agents/orchestrator.py
 - `PipelineState` --uses--> `PipelineState`  [INFERRED]
@@ -198,16 +195,18 @@
   v2_verification/pipeline.py → v1_core/agents/orchestrator.py
 - `PipelineState` --uses--> `PipelineState`  [INFERRED]
   v3_physical/agents/openlane_agent.py → v1_core/agents/orchestrator.py
+- `StateGraph` --uses--> `PipelineState`  [INFERRED]
+  v3_physical/pipeline.py → v1_core/agents/orchestrator.py
 
 ## Import Cycles
 - 1-file cycle: `ui/backend/main.py -> ui/backend/main.py`
-- 2-file cycle: `ui/backend/main.py -> ui/backend/routers/skills.py -> ui/backend/main.py`
-- 2-file cycle: `ui/backend/main.py -> ui/backend/routers/events.py -> ui/backend/main.py`
-- 2-file cycle: `ui/backend/main.py -> ui/backend/routers/run.py -> ui/backend/main.py`
-- 2-file cycle: `ui/backend/main.py -> ui/backend/routers/health.py -> ui/backend/main.py`
 - 2-file cycle: `ui/backend/main.py -> ui/backend/routers/benchmarks.py -> ui/backend/main.py`
+- 2-file cycle: `ui/backend/main.py -> ui/backend/routers/run.py -> ui/backend/main.py`
+- 2-file cycle: `ui/backend/main.py -> ui/backend/routers/skills.py -> ui/backend/main.py`
+- 2-file cycle: `ui/backend/main.py -> ui/backend/routers/health.py -> ui/backend/main.py`
+- 2-file cycle: `ui/backend/main.py -> ui/backend/routers/events.py -> ui/backend/main.py`
 
-## Communities (174 total, 31 thin omitted)
+## Communities (173 total, 32 thin omitted)
 
 ### Community 0 - "Error Analysis & Fix"
 Cohesion: 0.18
@@ -215,11 +214,11 @@ Nodes (10): 1. Dependencies Installed, 3. Generated Files, 5. Python Modules Dis
 
 ### Community 1 - "Pipeline Orchestration"
 Cohesion: 0.11
-Nodes (29): fix_agent(), fix_agent.py Fix Agent — LangGraph node. 1. Checks Trace2Skill hits from Log Ana, LangGraph node — fixes RTL based on error analysis.     Input state fields used:, _guess_category(), log_analysis_agent(), log_analysis_agent.py Log Analysis Agent — LangGraph node. Parses simulation log, Guess skill category from design name., LangGraph node — classifies simulation errors.     Input state fields used: sim_ (+21 more)
+Nodes (27): fix_agent(), fix_agent.py Fix Agent — LangGraph node. 1. Checks Trace2Skill hits from Log Ana, LangGraph node — fixes RTL based on error analysis.     Input state fields used:, _guess_category(), log_analysis_agent(), log_analysis_agent.py Log Analysis Agent — LangGraph node. Parses simulation log, Guess skill category from design name., LangGraph node — classifies simulation errors.     Input state fields used: sim_ (+19 more)
 
 ### Community 2 - "RTL & Testbench Generation"
-Cohesion: 0.15
-Nodes (16): rtl_gen_agent.py RTL Generation Agent — LangGraph node. Takes natural language s, LangGraph node — generates Verilog RTL from natural language spec.      Input st, rtl_gen_agent(), testbench_agent.py Testbench Agent — LangGraph node. Takes RTL code from state a, LangGraph node — generates cocotb testbench from RTL code.     Input state field, testbench_agent(), timing_opt_agent.py Timing Optimization Agent — LangGraph node for V2 pipeline., LangGraph node — suggests RTL timing fixes when WNS < 0.      Reads STA results (+8 more)
+Cohesion: 0.13
+Nodes (14): rtl_gen_agent.py RTL Generation Agent — LangGraph node. Takes natural language s, LangGraph node — generates Verilog RTL from natural language spec.      Input st, rtl_gen_agent(), testbench_agent.py Testbench Agent — LangGraph node. Takes RTL code from state a, LangGraph node — generates cocotb testbench from RTL code.     Input state field, testbench_agent(), timing_opt_agent.py Timing Optimization Agent — LangGraph node for V2 pipeline., LangGraph node — suggests RTL timing fixes when WNS < 0.      Reads STA results (+6 more)
 
 ### Community 3 - "Agent Framework Tools"
 Cohesion: 0.13
@@ -230,8 +229,8 @@ Cohesion: 0.14
 Nodes (14): 8-bit ALU, AI-Driven Agentic Framework for Automated RTL-to-GDS, 8-bit ALU, cocotb, DeepSeek API, Icarus Verilog, LangGraph, MCP (+6 more)
 
 ### Community 5 - "Pipeline State & Simulation"
-Cohesion: 0.06
-Nodes (32): Architecture, Build Status, Build Status, Build Status, Changes Summary, Commands, Daily Startup, End-to-End Verification (Session 9.5) (+24 more)
+Cohesion: 0.10
+Nodes (18): Architecture, Build Status, Commands, Daily Startup, File Layout, How to Run, How to Run, Integration Fixes (+10 more)
 
 ### Community 6 - "Simulation Server & Logging"
 Cohesion: 0.25
@@ -286,8 +285,8 @@ Cohesion: 0.23
 Nodes (11): reference_tb.py Hand-written reference testbench for 8-bit ALU. Ground truth — n, Verify zero_flag=1 for operations that produce Y=0x00.     Tests each opcode wit, Pure Python reference model of the ALU.      Args:         A: 8-bit input A, Verify zero_flag=0 for operations that produce Y != 0x00., Test all 8 opcodes with boundary value combinations.     Boundary values: 0x00,, Test additional edge cases not covered by boundary value matrix:     - Alternati, reference_model(), test_additional_edge_cases() (+3 more)
 
 ### Community 21 - "Community 21"
-Cohesion: 0.14
-Nodes (16): sta_agent.py STA (Static Timing Analysis) Agent — LangGraph node. Runs OpenSTA t, LangGraph node — runs OpenSTA static timing analysis on the synthesized netlist., sta_agent(), _generate_tcl_script(), main(), _parse_sta_output(), sta_server.py MCP Tool — runs OpenSTA static timing analysis via TCL scripts. Fo, Run OpenSTA static timing analysis.      Generates a TCL script, executes `sta < (+8 more)
+Cohesion: 0.21
+Nodes (12): _generate_tcl_script(), main(), _parse_sta_output(), sta_server.py MCP Tool — runs OpenSTA static timing analysis via TCL scripts. Fo, Run OpenSTA static timing analysis.      Generates a TCL script, executes `sta <, Run OpenSTA static timing analysis on a synthesized netlist.          This tool, Run the STA MCP server via stdio transport., Generate an OpenSTA TCL script and return its path. (+4 more)
 
 ### Community 32 - "Community 32"
 Cohesion: 0.25
@@ -295,35 +294,35 @@ Nodes (8): 6.1 Orchestrator, 6.2 RTL Generation Agent, 6.3 Testbench Agent, 6.4 
 
 ### Community 33 - "Community 33"
 Cohesion: 0.05
-Nodes (53): cn(), Card(), CardAction(), CardContent(), CardDescription(), CardFooter(), CardHeader(), CardTitle() (+45 more)
+Nodes (54): cn(), Card(), CardAction(), CardContent(), CardDescription(), CardFooter(), CardHeader(), CardTitle() (+46 more)
 
 ### Community 34 - "Community 34"
-Cohesion: 0.10
-Nodes (28): EMPTY_EVENTS, EventFilter, useEventHistory(), JobStageListProps, JobTimeline(), JobTimelineProps, SEVERITY_COLORS, formatEventTimestamp() (+20 more)
+Cohesion: 0.06
+Nodes (47): EMPTY_EVENTS, EventFilter, useEventHistory(), UseJobStreamReturn, useSSEConnection(), JobTimeline(), SEVERITY_COLORS, SSE_RECONNECT_BACKOFF_MS (+39 more)
 
 ### Community 35 - "Community 35"
-Cohesion: 0.08
-Nodes (42): app_error_handler(), AppError, ConflictError, JobNotFoundError, NotFoundError, PipelineError, exceptions.py — Centralized exception handling.  All custom exceptions are defin, Base exception for application-level errors.      All subclasses must provide `s (+34 more)
+Cohesion: 0.07
+Nodes (43): app_error_handler(), AppError, BenchmarkNotFoundError, ConflictError, JobNotFoundError, NotFoundError, PipelineError, exceptions.py — Centralized exception handling.  All custom exceptions are defin (+35 more)
 
 ### Community 36 - "Community 36"
-Cohesion: 0.11
-Nodes (17): JobCard(), JobCardProps, JobStageList(), statusBg, JOB_STATUS_COLORS, JOB_STATUS_LABELS, formatDuration(), formatMs() (+9 more)
+Cohesion: 0.07
+Nodes (30): geistMono, geistSans, metadata, Providers(), useJob(), JobDetailPage(), JobCard(), JobStageList() (+22 more)
 
 ### Community 37 - "Community 37"
 Cohesion: 0.08
-Nodes (31): FIX_LOOP_STAGES, STAGE_AGENTS, STAGES_BY_VERSION, V1_STAGES, V2_STAGES, V3_STAGES, VERSION_INFO, buildStageMap() (+23 more)
+Nodes (31): JobCardProps, FIX_LOOP_STAGES, STAGE_AGENTS, STAGE_LABELS, STAGES_BY_VERSION, V1_STAGES, V2_STAGES, V3_STAGES (+23 more)
 
 ### Community 38 - "Community 38"
-Cohesion: 0.04
-Nodes (51): Register all exception handlers on a FastAPI application instance., register_handlers(), create_app(), Build and return a fully configured FastAPI application., POST /api/run request body — start a pipeline job., RunRequest, app(), client() (+43 more)
+Cohesion: 0.05
+Nodes (41): client(), test_api.py — Integration tests for the RTL2GDS Agent Web UI backend.  Tests ver, GET /api/benchmarks/{name} returns single benchmark., GET /api/benchmarks/{nonexistent} returns 404., GET /api/skills returns category summaries., GET /api/skills/{category} returns full detail., GET /api/skills/{invalid} returns 404., POST /api/run creates a job, GET /api/run/{job_id} retrieves it. (+33 more)
 
 ### Community 39 - "Community 39"
 Cohesion: 0.05
 Nodes (37): 10. What These Ratings Mean, 1. Overall Assessment, 2. Spec Parser — Score: GOOD ⭐⭐⭐⭐, 3. Verification Planner — Score: VERY GOOD ⭐⭐⭐⭐⭐, 4. RTL Generator — Score: GOOD ⭐⭐⭐⭐, 5. TB Generator — Score: GOOD ⭐⭐⭐⭐, 6. Log Analyzer — Score: VERY GOOD ⭐⭐⭐⭐⭐, 7. Fix Agent — Score: VERY GOOD ⭐⭐⭐⭐⭐ (+29 more)
 
 ### Community 40 - "Community 40"
-Cohesion: 0.07
-Nodes (24): AbstractEventLoop, Run the mock pipeline synchronously. Returns final PipelineState-like dict., Queue, PipelineEvent, A single structured event emitted by the pipeline.      Every event must have al, Serialize to JSON string for SSE ``data:`` field., event_bus.py — Publish-subscribe event bus for in-process pipeline events.  This, Bind to a specific event loop (called during FastAPI lifespan startup). (+16 more)
+Cohesion: 0.08
+Nodes (23): AbstractEventLoop, Run the mock pipeline synchronously. Returns final PipelineState-like dict., EventHandler, Queue, PipelineEvent, A single structured event emitted by the pipeline.      Every event must have al, Serialize to JSON string for SSE ``data:`` field., EventBus (+15 more)
 
 ### Community 41 - "Community 41"
 Cohesion: 0.06
@@ -342,48 +341,48 @@ Cohesion: 0.06
 Nodes (32): 1.1 Spec Parser Agent, 1.2 Verification Planner Agent, 1.3 RTL Generation Agent, 1.4 Testbench Generation Agent, 1.5 Simulation Agent, 1.6 Log Analysis Agent, 1.7 Fix Agent, 1.8 Orchestrator (+24 more)
 
 ### Community 45 - "Community 45"
-Cohesion: 0.10
-Nodes (30): Skill category not found., SkillCategoryNotFoundError, get_skill_category(), list_skills(), List all skill categories with summary statistics., Get all skills in a specific category., skill.py — Trace2Skill response schemas., A single skill record from the skill bank. (+22 more)
+Cohesion: 0.12
+Nodes (24): skill.py — Trace2Skill response schemas., A single skill record from the skill bank., Aggregated summary for one skill category., Full detail for one category., Returned by GET /api/skills — all categories summarized., SkillCategoryResponse, SkillCategorySummary, SkillEntry (+16 more)
 
 ### Community 46 - "Community 46"
 Cohesion: 0.09
 Nodes (32): call_spec_parser(), call_verification_planner(), evaluate_benchmark(), evaluate_coverage(), evaluate_forbidden_behaviors(), evaluate_redundancy(), evaluate_redundant_vs_tb(), evaluate_reference_model() (+24 more)
 
 ### Community 47 - "Community 47"
-Cohesion: 0.07
-Nodes (47): MockPipelineAdapter, pipeline_mock.py — Mock pipeline adapter that simulates execution.  Emits realis, Simulates a full pipeline run with structured events.      Call run() from a thr, PipelineAdapter, Wraps the frozen LangGraph pipelines as an event-emitting adapter.      Uses ``g, BackgroundTasks, Enum, Job (+39 more)
+Cohesion: 0.14
+Nodes (28): MockPipelineAdapter, Simulates a full pipeline run with structured events.      Call run() from a thr, PipelineAdapter, Wraps the frozen LangGraph pipelines as an event-emitting adapter.      Uses ``g, BackgroundTasks, Job, Wall-clock duration from start to now (or completion)., Ordered list of expected stages for this pipeline version. (+20 more)
 
 ### Community 48 - "Community 48"
-Cohesion: 0.06
-Nodes (48): BottomTab, DashboardPage(), useBenchmarks(), useSubmitJob(), useJobStream(), AGENT_DEFS, useLiveAgents(), useLiveMetrics() (+40 more)
+Cohesion: 0.14
+Nodes (20): DashboardPage(), useBenchmark(), useSubmitJob(), useJobStream(), JobResultsPanel(), ResultCardProps, JobRunner(), AppShell() (+12 more)
 
 ### Community 49 - "Community 49"
-Cohesion: 0.11
-Nodes (30): BenchmarkGrid(), SkillCategoryPage(), useBenchmark(), useJobList(), useSkillCategory(), useSkills(), JobsPage(), STATUS_TABS (+22 more)
+Cohesion: 0.18
+Nodes (17): BenchmarkGrid(), SkillCategoryPage(), useBenchmarks(), useSkillCategory(), useSkills(), SkillEntry, EmptyState(), EmptyStateProps (+9 more)
 
 ### Community 50 - "Community 50"
 Cohesion: 0.08
 Nodes (25): 1. Executive Summary, 2. Reliability Metrics, 3. Bug Injection Results, 4. Failure Analysis, 5. Readiness Assessment, 6. Conclusion, 7. Raw Data, Aggregate (+17 more)
 
 ### Community 51 - "Community 51"
-Cohesion: 0.26
-Nodes (11): compare_ports(), evaluate_benchmark(), generate_report(), main(), parse_verilog_ports(), Any, Compare spec-parsed ports against reference RTL ports., Evaluate spec parser output against reference RTL for one benchmark. (+3 more)
+Cohesion: 0.11
+Nodes (24): compare_ports(), evaluate_benchmark(), generate_report(), main(), parse_verilog_ports(), Any, Compare spec-parsed ports against reference RTL ports., Evaluate spec parser output against reference RTL for one benchmark. (+16 more)
 
 ### Community 52 - "Community 52"
 Cohesion: 0.10
-Nodes (23): drc_agent(), drc_agent.py DRC Agent — LangGraph node for design rule checking. Runs KLayout D, PipelineState, orchestrator.py LangGraph state definition and pipeline orchestration for V1. Th, Shared state passed between all agents in the LangGraph pipeline.     Every agen, spec_parser_agent.py First agent in the pipeline. Parses natural language spec i, LangGraph node — parses spec into structured format.     Must be the FIRST node, spec_parser_agent() (+15 more)
+Nodes (20): drc_agent(), drc_agent.py DRC Agent — LangGraph node for design rule checking. Runs KLayout D, PipelineState, orchestrator.py LangGraph state definition and pipeline orchestration for V1. Th, Shared state passed between all agents in the LangGraph pipeline.     Every agen, spec_parser_agent.py First agent in the pipeline. Parses natural language spec i, LangGraph node — parses spec into structured format.     Must be the FIRST node, spec_parser_agent() (+12 more)
 
 ### Community 53 - "Community 53"
-Cohesion: 0.07
-Nodes (47): get_benchmark_service(), get_event_bus(), get_job_manager(), _get_service(), get_skill_service(), get_sse_manager(), dependencies.py — FastAPI dependency injection for singleton services.  All serv, Generic getter from app.state. Raises AttributeError if key missing. (+39 more)
+Cohesion: 0.13
+Nodes (19): get_benchmark_service(), get_event_bus(), get_job_manager(), _get_service(), get_skill_service(), get_sse_manager(), dependencies.py — FastAPI dependency injection for singleton services.  All serv, Generic getter from app.state. Raises AttributeError if key missing. (+11 more)
 
 ### Community 54 - "Community 54"
-Cohesion: 0.13
-Nodes (19): Return ``(compiled_graph, initial_state)`` for *version*., get_initial_state(), Returns a fresh PipelineState for a new design run.      Args:         spec: nat, main(), main.py Entry point for the RTL-to-GDS V1 agent pipeline. Usage:   python main.p, get_stats(), Returns skill count per category. Used in SESSION_HANDOFF updates., build_pipeline() (+11 more)
+Cohesion: 0.12
+Nodes (21): Return ``(compiled_graph, initial_state)`` for *version*., get_initial_state(), Returns a fresh PipelineState for a new design run.      Args:         spec: nat, main(), main.py Entry point for the RTL-to-GDS V1 agent pipeline. Usage:   python main.p, build_pipeline(), PipelineState, StateGraph (+13 more)
 
 ### Community 55 - "Community 55"
 Cohesion: 0.15
-Nodes (17): BenchmarkNotFoundError, Benchmark name not found., BenchmarkInfo, BenchmarkListResponse, BenchmarkBug, BenchmarkInfo, BenchmarkListResponse, benchmark.py — Benchmark metadata response schemas.  Data is read from the bench (+9 more)
+Nodes (17): BenchmarkInfo, BenchmarkListResponse, BenchmarkBug, BenchmarkInfo, BenchmarkListResponse, benchmark.py — Benchmark metadata response schemas.  Data is read from the bench, Summary of a single injected bug variant., Metadata for one benchmark design. (+9 more)
 
 ### Community 56 - "Community 56"
 Cohesion: 0.08
@@ -391,43 +390,43 @@ Nodes (23): 1. Key Metrics, 2. Detection Rate Analysis, 3. Repair Rate Analysis,
 
 ### Community 57 - "Community 57"
 Cohesion: 0.13
-Nodes (16): _extract_payload(), _parse_synthesis_report(), pipeline.py — Real pipeline adapter wrapping the frozen RTL2GDS pipeline.  This, Execute the real pipeline synchronously with per-stage events.          Called f, Build a ``stage_completed`` payload from the PipelineState.      Extracts the sa, Extract ``(cell_count, area_str)`` from a synthesis report string., EventType, event.py — Structured pipeline event schemas.  This is the core of the UI archit (+8 more)
+Nodes (17): _extract_payload(), pipeline_mock.py — Mock pipeline adapter that simulates execution.  Emits realis, _parse_synthesis_report(), pipeline.py — Real pipeline adapter wrapping the frozen RTL2GDS pipeline.  This, Build a ``stage_completed`` payload from the PipelineState.      Extracts the sa, Extract ``(cell_count, area_str)`` from a synthesis report string., Execute the real pipeline synchronously with per-stage events.          Called f, EventType (+9 more)
 
 ### Community 58 - "Community 58"
-Cohesion: 0.10
-Nodes (18): ERROR_TYPE_COLORS, SkillCategorySummary, SkillEntry, CodeBlock(), CodeBlockProps, ErrorTypeBadge(), ErrorTypeBadgeProps, SkillCategoryCard() (+10 more)
+Cohesion: 0.12
+Nodes (15): ERROR_TYPE_COLORS, SkillCategorySummary, CodeBlock(), CodeBlockProps, ErrorTypeBadge(), ErrorTypeBadgeProps, SkillCategoryCard(), SkillCategoryCardProps (+7 more)
 
 ### Community 59 - "Community 59"
 Cohesion: 0.09
 Nodes (21): aliases, components, hooks, lib, ui, utils, iconLibrary, menuAccent (+13 more)
 
 ### Community 60 - "Community 60"
-Cohesion: 0.14
-Nodes (12): inter, jetbrainsMono, metadata, Providers(), Toast, TOAST_ICONS, TOAST_STYLES, ToastContext (+4 more)
+Cohesion: 0.11
+Nodes (14): events.py — SSE (Server-Sent Events) streaming endpoint.  GET /api/run/stream?jo, Format a standard SSE message., SSE endpoint — streams pipeline events for a job.      - Replays historical even, _sse_event(), stream_events(), Manages per-job SSE connection pools.      Each active SSE connection has its ow, Create a new SSE connection queue for a job.          Returns an asyncio.Queue t, Remove a client queue (called when SSE connection closes). (+6 more)
 
 ### Community 61 - "Community 61"
-Cohesion: 0.24
-Nodes (13): _check_version_availability(), Detect which pipeline versions are importable., System-wide status — active jobs, skills, version availability., system_status(), status.py — System-wide status response., Returned by GET /status — snapshot of system health., Which pipeline versions are available., SystemStatusResponse (+5 more)
+Cohesion: 0.15
+Nodes (19): _check_version_availability(), health_check(), health.py — Liveness and system-status endpoints., Detect which pipeline versions are importable., Liveness check — returns 200 if the server is running., System-wide status — active jobs, skills, version availability., system_status(), HealthResponse (+11 more)
 
 ### Community 62 - "Community 62"
 Cohesion: 0.10
 Nodes (20): 1. Failure Classification Summary, 2. Failure Mode Details, 3. Failure Cascade Map, 4. Root Cause Prioritization, 5. Conclusions, FIX-001: Multi-Line Fix Ping-Pong, INFRA-001: Campaign Tool Parsing Bugs, INFRA-002: Stuck API Processes (+12 more)
 
 ### Community 63 - "Community 63"
-Cohesion: 0.06
-Nodes (36): useCancelJob(), useJob(), JobCancelButton(), JobCancelButtonProps, api, ApiError, handleResponse(), request() (+28 more)
+Cohesion: 0.13
+Nodes (15): useCancelJob(), useJobList(), JobCancelButton(), JobCancelButtonProps, JobsPage(), STATUS_TABS, api, ApiError (+7 more)
 
 ### Community 64 - "Community 64"
-Cohesion: 0.20
-Nodes (4): Per-stage timing and status within a job., StageRecord, Evict oldest completed/failed/cancelled jobs if over memory limit., React to a pipeline event — update job state.
+Cohesion: 0.12
+Nodes (11): Enum, JobStatus, job.py — Internal Job data model and state machine.  This is a plain dataclass,, Validate state machine transitions., Job lifecycle states.      Transitions:         QUEUED → RUNNING → COMPLETED, True if the job will never transition again., True if the job is consuming resources., Per-stage timing and status within a job. (+3 more)
 
 ### Community 65 - "Community 65"
 Cohesion: 0.10
 Nodes (19): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+11 more)
 
 ### Community 66 - "Community 66"
-Cohesion: 0.15
-Nodes (16): useHealth(), useSystemStatus(), DemoToggle(), TopbarProps, HealthResponse, SystemStatusResponse, ExecutionTimeline(), ExecutionTimelineProps (+8 more)
+Cohesion: 0.23
+Nodes (12): useHealth(), useSystemStatus(), Topbar(), TopbarProps, HealthResponse, SystemStatusResponse, LoadingSkeleton(), LoadingSkeletonProps (+4 more)
 
 ### Community 67 - "Community 67"
 Cohesion: 0.10
@@ -450,16 +449,16 @@ Cohesion: 0.13
 Nodes (8): openlane_agent(), openlane_agent.py OpenLane Agent — LangGraph node for physical design. Takes syn, LangGraph node — runs OpenLane 2 physical design.     Input state: netlist_path,, openlane_server.py MCP Tool — wraps OpenLane 2 physical design flow via Docker., Run OpenLane 2 physical design on a gate-level netlist.     Args:         netlis, _run_openlane(), logger.py Simple logger for the RTL-to-GDS agent pipeline. All agents use this —, PipelineState
 
 ### Community 72 - "Community 72"
-Cohesion: 0.12
-Nodes (15): 1. Current State, 2. Architecture: Same Pattern as Simulation, 3. File Manifest, 4. Dependencies / Prerequisites, 5. Edge Cases & Safety, 6. Testing, 7. Next After Synthesis, Monkey-Patch Target (+7 more)
+Cohesion: 0.16
+Nodes (14): Register all exception handlers on a FastAPI application instance., register_handlers(), create_app(), lifespan(), main.py — FastAPI application factory and entry point.  Creates a FastAPI app wi, Build and return a fully configured FastAPI application., # IMPORTANT: events router must come before run router so that, Startup: create all singleton services and wire them together. (+6 more)
 
 ### Community 73 - "Community 73"
 Cohesion: 0.12
 Nodes (16): Architecture, Citation, Contributing, Expected Output (V3), License, Pipeline Versions, Prerequisites, Project Structure (+8 more)
 
 ### Community 74 - "Community 74"
-Cohesion: 0.08
-Nodes (23): 1.1 What We Are Building, 1.2 Target Audience, 1.3 The One-Sentence Test, 1. Executive Summary, 21.1 Metrics, 21.2 Performance Strategies, 21. Performance Goals & Budget, 27. Out of Scope (Phase 3+) (+15 more)
+Cohesion: 0.12
+Nodes (15): 21.1 Metrics, 21.2 Performance Strategies, 21. Performance Goals & Budget, 27. Out of Scope (Phase 3+), 3.1 Selected Stack, 3.2 Stack Rejections (With Reasons), 3. Technology Stack, 5. Folder Structure (+7 more)
 
 ### Community 75 - "Community 75"
 Cohesion: 0.12
@@ -470,12 +469,12 @@ Cohesion: 0.12
 Nodes (16): 7.1 Color Palette — "Silicon", 7.2 Typography, 7.3 Spacing System, 7.4 Borders & Radii, 7.5 Shadows & Elevation, 7.6 Iconography, 7.7 Motion Tokens, 7. Design System (+8 more)
 
 ### Community 77 - "Community 77"
-Cohesion: 0.14
-Nodes (13): Brand & Style, Buttons, Cards, Colors, Components, Data Grids, Elevation & Depth, Input Fields (+5 more)
+Cohesion: 0.16
+Nodes (12): verification_planner_agent.py Second agent in the pipeline. Takes spec_analysis, LangGraph node — generates a structured verification plan from spec_analysis., verification_planner_agent(), PipelineState, PipelineState, v3_physical/pipeline.py V3 Pipeline — extends V2 with physical design (OpenLane, Router after simulation: proceed to synthesis, enter fix loop, or halt., Router after STA: proceed to OpenLane if timing met or no timing data. (+4 more)
 
 ### Community 78 - "Community 78"
-Cohesion: 0.20
-Nodes (7): EventHandler, Register an async handler to receive all events., Remove a previously registered handler., Thread-safe publish. Called from the pipeline (sync, in a thread).          Sche, Safely invoke one handler — suppress errors so one bad subscriber         cannot, Async publish — awaits all handlers. Useful in tests only., PipelineEvent
+Cohesion: 0.18
+Nodes (12): BaseModel, run.py — Job run request and response schemas., POST /api/run request body — start a pipeline job., Status of one pipeline stage., Job status — returned by POST /api/run, GET /api/run/{job_id}., Returned by GET /api/run — list of recent jobs., RunListResponse, RunRequest (+4 more)
 
 ### Community 79 - "Community 79"
 Cohesion: 0.14
@@ -581,10 +580,6 @@ Nodes (8): 28.1 Base URL, 28.2 Response Envelope, 28.3 Endpoints Quick Reference
 Cohesion: 0.29
 Nodes (6): 2. Data Flow Diagram (ASCII), 6. Visual Trace: Concrete Example, 7. Skill Bank Statistics, 8. Key Design Decisions, Scenario, Trace2Skill Retrieval Flow
 
-### Community 105 - "Community 105"
-Cohesion: 0.15
-Nodes (10): UseJobStreamReturn, useSSEConnection(), dispatchEvent(), EventHandler, traceStages(), SSEConnection, SSEConnectionState, SSEConnectionStatus (+2 more)
-
 ### Community 106 - "Community 106"
 Cohesion: 0.29
 Nodes (7): 11.1 Design Concept, 11.2 Visual Layout, 11.3 Stage States & Visual Treatment, 11.4 Connector Animation, 11.5 Fix Loop Visualization, 11.6 Version Tabs, 11. Silicon Design Flow Visualization
@@ -598,16 +593,16 @@ Cohesion: 0.29
 Nodes (7): 25.1 Overall Page Layout (Desktop, 1440px), 25.2 Dashboard — Three-Column Layout, 25.3 Benchmark Card Design, 25.4 Skill Category Card Design, 25.5 Job Card Design (List View), 25.6 Mobile Layout (375px), 25. Design Mockups
 
 ### Community 109 - "Community 109"
-Cohesion: 0.21
-Nodes (11): _call_anthropic_direct(), _call_openai(), _get_api_key(), model_router.py Single point of contact for all LLM API calls. No agent should c, Return the API key for the current provider, or '' if none required., Call an OpenAI-compatible provider (deepseek, fireworks, ollama)., Call the Anthropic API via the anthropic Python SDK., Return the default model for the current provider. (+3 more)
+Cohesion: 0.33
+Nodes (6): get_benchmark(), list_benchmarks(), benchmarks.py — Benchmark listing and detail endpoints., List all available benchmark designs with metadata., Get detailed metadata for a specific benchmark., BenchmarkService
 
 ### Community 110 - "Community 110"
-Cohesion: 0.25
-Nodes (7): Brand & Style, Colors, Components, Elevation & Depth, Layout & Spacing, Shapes, Typography
+Cohesion: 0.33
+Nodes (6): get_skill_category(), list_skills(), skills.py — Trace2Skill memory endpoints., List all skill categories with summary statistics., Get all skills in a specific category., SkillService
 
 ### Community 111 - "Community 111"
-Cohesion: 0.33
-Nodes (4): registeredShortcuts, SHORTCUT_REGISTRY, ShortcutBinding, ShortcutHandler
+Cohesion: 0.38
+Nodes (5): Flatten a PipelineEvent into a JSON-serializable dict., Handle an event — write to job log and standard logger., Append one JSON line to the per-job log file., _serialize_event(), PipelineEvent
 
 ### Community 112 - "Community 112"
 Cohesion: 0.38
@@ -698,16 +693,16 @@ Cohesion: 0.50
 Nodes (4): 18.1 Environment Variables, 18.2 Feature Flags, 18.3 Mock Mode Indicator, 18. Configuration & Feature Flags
 
 ### Community 134 - "Community 134"
-Cohesion: 0.40
-Nodes (5): _find_klayout(), drc_server.py MCP Tool — runs KLayout DRC on the generated GDSII. Returns violat, Locate a runnable KLayout binary (CLI or pip-based)., Run KLayout DRC on GDSII file using Sky130 rules.     Args:         gds_file: pa, _run_drc()
+Cohesion: 0.50
+Nodes (4): 1.1 What We Are Building, 1.2 Target Audience, 1.3 The One-Sentence Test, 1. Executive Summary
 
 ### Community 135 - "Community 135"
 Cohesion: 0.50
 Nodes (4): 2.1 Core Principles, 2.2 Anti-Principles (What We Reject), 2.3 Visual Metaphor: The Silicon Stack, 2. Design Philosophy
 
 ### Community 136 - "Community 136"
-Cohesion: 0.33
-Nodes (5): health_check(), Liveness check — returns 200 if the server is running., HealthResponse, health.py — Health-check response schemas., Returned by GET /health — indicates server liveness.
+Cohesion: 0.50
+Nodes (4): 4.1 High-Level Architecture, 4.2 Data Flow, 4.3 Key Architectural Decisions, 4. Frontend Architecture
 
 ### Community 137 - "Community 137"
 Cohesion: 0.50
@@ -717,24 +712,20 @@ Nodes (4): 8.1 Page Shell, 8.2 Dashboard Layout (Three-Column), 8.3 Responsive B
 Cohesion: 0.67
 Nodes (3): 10. Recommendations, For Repository Organization, For V2 Development
 
-### Community 173 - "Community 173"
-Cohesion: 0.40
-Nodes (4): LogCallback, simulation_executor.py — Icarus Verilog simulation runner with real-time log str, Run Icarus Verilog simulation with a cocotb testbench.      This function replac, run_simulation()
-
 ## Knowledge Gaps
-- **847 isolated node(s):** `alu_8bit`, `alu_8bit`, `alu_8bit`, `apb_slave`, `apb_slave` (+842 more)
+- **771 isolated node(s):** `alu_8bit`, `alu_8bit`, `alu_8bit`, `apb_slave`, `apb_slave` (+766 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **31 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **32 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `cn()` connect `Community 33` to `Community 34`, `Community 66`, `Community 36`, `Community 37`, `Community 48`, `Community 49`, `Community 58`, `Community 91`, `Community 60`, `Community 63`?**
-  _High betweenness centrality (0.024) - this node is a cross-community bridge._
-- **Why does `get_initial_state()` connect `Community 54` to `Community 57`, `Community 18`, `Community 52`, `Pipeline Orchestration`?**
-  _High betweenness centrality (0.015) - this node is a cross-community bridge._
-- **Why does `PipelineEvent` connect `Community 40` to `Community 35`, `Community 38`, `Community 78`, `Community 47`, `Community 53`, `Community 57`?**
-  _High betweenness centrality (0.012) - this node is a cross-community bridge._
+- **Why does `PipelineEvent` connect `Community 40` to `Community 64`, `Community 35`, `Community 38`, `Community 72`, `Community 78`, `Community 47`, `Community 111`, `Community 53`, `Community 57`, `Community 60`?**
+  _High betweenness centrality (0.014) - this node is a cross-community bridge._
+- **Why does `cn()` connect `Community 33` to `Community 66`, `Community 34`, `Community 36`, `Community 37`, `Community 48`, `Community 49`, `Community 58`, `Community 91`, `Community 63`?**
+  _High betweenness centrality (0.013) - this node is a cross-community bridge._
+- **Why does `get_initial_state()` connect `Community 54` to `Community 57`, `Community 18`, `Community 52`, `Community 77`?**
+  _High betweenness centrality (0.013) - this node is a cross-community bridge._
 - **Are the 30 inferred relationships involving `EventBus` (e.g. with `MockPipelineAdapter` and `PipelineAdapter`) actually correct?**
   _`EventBus` has 30 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 29 inferred relationships involving `JobManager` (e.g. with `BackgroundTasks` and `FastAPI`) actually correct?**
