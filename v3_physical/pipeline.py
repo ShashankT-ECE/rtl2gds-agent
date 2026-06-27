@@ -17,10 +17,14 @@ from v2_verification.agents.sta_agent import sta_agent
 from v3_physical.agents.openlane_agent import openlane_agent
 from v3_physical.agents.drc_agent import drc_agent
 from v1_core.utils import logger
+from v1_core.pipeline import _confirm_or_reject_pending
 
 
 def should_fix_or_proceed(state: PipelineState) -> str:
     """Router after simulation: proceed to synthesis, enter fix loop, or halt."""
+    # Confirm or reject any pending skill from the last fix
+    _confirm_or_reject_pending(state)
+
     if state["sim_passed"]:
         return "proceed_to_synthesis"
     if state["iteration"] >= state["max_iterations"]:

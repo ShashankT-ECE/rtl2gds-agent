@@ -78,9 +78,9 @@ def _run_drc(gds_file: str, top_module: str) -> dict:
             [klayout_bin, "-b", "-r", str(drc_script), "-rd", f"input={gds_file}"],
             capture_output=True,
             text=True,
-            timeout=300
+            timeout=180  # KLayout DRC should complete in seconds
         )
-    except (subprocess.CalledProcessError, OSError) as exc:
+    except (subprocess.TimeoutExpired, subprocess.CalledProcessError, OSError) as exc:
         logger.warning(f"KLayout DRC execution failed: {exc}")
         return {
             "violations": 0,

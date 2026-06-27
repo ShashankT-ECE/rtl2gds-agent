@@ -100,12 +100,24 @@ stat -liberty {lib_path}
     logger.info(f"  Liberty:   {lib_path}")
     logger.info(f"  Netlist:   {netlist_path}")
 
-    result = subprocess.run(
-        ["yosys", "-Q", "-s", str(tcl_path.resolve())],
-        capture_output=True,
-        text=True,
-        cwd=str(WORKSPACE),
-    )
+    try:
+        result = subprocess.run(
+            ["yosys", "-Q", "-s", str(tcl_path.resolve())],
+            capture_output=True,
+            text=True,
+            cwd=str(WORKSPACE),
+            timeout=300,  # prevent hung synthesis from blocking demo
+        )
+    except subprocess.TimeoutExpired:
+        logger.error("Yosys synthesis timed out after 300s — killed")
+        return {
+            "netlist_path": "",
+            "area": 0.0,
+            "cell_count": 0,
+            "warnings": ["Synthesis timed out after 300s"],
+            "latches_inferred": 0,
+            "log": "Yosys timed out after 300s — process killed",
+        }
 
     raw_log = result.stdout + result.stderr
 

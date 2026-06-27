@@ -75,12 +75,22 @@ def _run_openlane(
         "openlane", f"/workspace/{top_module}/config.json"
     ]
 
-    result = subprocess.run(
-        docker_cmd,
-        capture_output=True,
-        text=True,
-        timeout=1800  # 30 min timeout for physical design
-    )
+    try:
+        result = subprocess.run(
+            docker_cmd,
+            capture_output=True,
+            text=True,
+            timeout=3600  # 60 min timeout — OpenLane legitimately takes ~45 min
+        )
+    except subprocess.TimeoutExpired:
+        logger.error("OpenLane 2 timed out after 3600s — killed")
+        return {
+            "gds_path": "",
+            "timing_met": False,
+            "drc_violations": 0,
+            "log": "OpenLane timed out after 3600s — process killed",
+            "success": False,
+        }
 
     log = result.stdout + result.stderr
     logger.info(f"OpenLane log (last 500 chars): {log[-500:]}")

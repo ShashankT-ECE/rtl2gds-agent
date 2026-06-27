@@ -205,6 +205,7 @@ def _run_sta(
             capture_output=True,
             text=True,
             cwd=str(sta_dir),
+            timeout=120,  # prevent hung STA from blocking pipeline
         )
         raw_log = result.stdout + result.stderr
 

@@ -76,13 +76,21 @@ include {makefiles_dir}/Makefile.sim
         "COCOTB_REDUCED_LOG_FMT": "1",
     }
 
-    result = subprocess.run(
-        ["make", "-f", str(makefile.resolve())],
-        capture_output=True,
-        text=True,
-        cwd=str(build_dir),
-        env=env
-    )
+    try:
+        result = subprocess.run(
+            ["make", "-f", str(makefile.resolve())],
+            capture_output=True,
+            text=True,
+            cwd=str(build_dir),
+            env=env,
+            timeout=120  # prevent hung simulation from blocking demo
+        )
+    except subprocess.TimeoutExpired:
+        logger.error("Simulation (make/vvp) timed out after 120s — killed")
+        return {
+            "passed": False,
+            "log": "Simulation timed out after 120s — process killed"
+        }
 
     raw_log = result.stdout + result.stderr
 

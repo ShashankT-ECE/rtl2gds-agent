@@ -30,6 +30,7 @@ from v1_core.agents.simulation_agent import simulation_agent
 from v1_core.agents.log_analysis_agent import log_analysis_agent
 from v1_core.agents.fix_agent import fix_agent
 from v1_core.utils import logger
+from v1_core.pipeline import _confirm_or_reject_pending
 
 
 def _safe_agent_call(state: PipelineState, agent_fn, agent_name: str) -> PipelineState:
@@ -87,6 +88,9 @@ def should_fix_or_synthesize(state: PipelineState) -> str:
       "fix"       -- simulation failed, enter the fix loop.
       "end"       -- max fix iterations exhausted, give up.
     """
+    # Confirm or reject any pending skill from the last fix
+    _confirm_or_reject_pending(state)
+
     if state["sim_passed"]:
         logger.success("Simulation passed -- proceeding to synthesis")
         return "synthesis"
@@ -98,16 +102,17 @@ def should_fix_or_synthesize(state: PipelineState) -> str:
 
     if current_error and previous_error:
         same_type = current_error.get("ERROR_TYPE") == previous_error.get("ERROR_TYPE")
-        same_cause = current_error.get("CAUSE") == previous_error.get("CAUSE")
-        if same_type and same_cause:
+        if same_type:
             stuck_count += 1
             logger.warning(
-                f"Convergence detector: identical error repeated ({stuck_count}x) -- "
+                f"Convergence detector: identical ERROR_TYPE repeated ({stuck_count}x) -- "
                 f"ERROR_TYPE={current_error.get('ERROR_TYPE')}, "
                 f"CAUSE={current_error.get('CAUSE')}"
             )
         else:
-            stuck_count = 0  # different error, reset counter
+            stuck_count = 0  # different ERROR_TYPE, reset counter
+        # Note: same_cause check intentionally removed — ping-pong on CAUSE field
+        # with same ERROR_TYPE is still a stuck condition (fixed June 2026)
     else:
         stuck_count = 0
 

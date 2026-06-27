@@ -55,16 +55,17 @@ def should_fix_or_end(state: PipelineState) -> str:
 
     if current_error and previous_error:
         same_type = current_error.get("ERROR_TYPE") == previous_error.get("ERROR_TYPE")
-        same_cause = current_error.get("CAUSE") == previous_error.get("CAUSE")
-        if same_type and same_cause:
+        if same_type:
             stuck_count += 1
             logger.warning(
-                f"Convergence detector: identical error repeated ({stuck_count}x) — "
+                f"Convergence detector: identical ERROR_TYPE repeated ({stuck_count}x) — "
                 f"ERROR_TYPE={current_error.get('ERROR_TYPE')}, "
                 f"CAUSE={current_error.get('CAUSE')}"
             )
         else:
-            stuck_count = 0  # different error, reset counter
+            stuck_count = 0  # different ERROR_TYPE, reset counter
+        # Note: same_cause check intentionally removed — ping-pong on CAUSE field
+        # with same ERROR_TYPE is still a stuck condition (fixed June 2026)
     else:
         stuck_count = 0
 
